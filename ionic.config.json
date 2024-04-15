@@ -1,0 +1,7 @@
+{
+  "name": "aliencafe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
