@@ -1,5 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useApi } from '../hooks/useApi';
+// import Editor from '../components/Editor';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import Quill from 'quill/core';
 import {
   IonButton,
   IonContent,
@@ -16,7 +20,7 @@ import {
 } from '@ionic/react';
 import { supabase } from '../components/supaBase';
 import './Tab1.css';
-// import { useApi } from '../hooks/useApi';
+const Delta = Quill.import('delta');
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -24,12 +28,22 @@ const Login: React.FC = () => {
   const [showToast] = useIonToast();
   const [password, setPassword] = useState<string>('')
   const [username, setUsername] = useState<string>()
-
+  const [range, setRange] = useState();
+  const [lastChange, setLastChange] = useState();
+  const [readOnly, setReadOnly] = useState(false);
+  const [value, setValue] = useState('');
+  const quillRef = useRef();
   const { createUser } = useApi()
 
   const create = async () => {
-    const result = await createUser({ email, username })
-    console.log(result, "this is the create user result")
+    if (email && username) {
+      const result = await createUser(email, username)
+      console.log(result, "this is the create user result")
+    } else {
+      console.log('there is an error')
+    }
+
+
   }
 
   const handleSignUp = async () => {
@@ -82,9 +96,27 @@ const Login: React.FC = () => {
       console.log(error)
     }
   }
+  const createPost = async () => {
+    try {
+      const test = await fetch('http://localhost:3000/api/createPost', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          content : value,
+          email
+        })
+      })
+      console.log(test)
+    } catch (error) {
+      console.log(error, "this is the create user error")
+    }
+  }
 
 
 
+  console.log(value, "this is the current value")
   return (
     <IonPage>
       <IonHeader>
@@ -98,6 +130,8 @@ const Login: React.FC = () => {
           <h1>Supabase + Ionic React</h1>
           <p>Sign in via magic link with your email below</p>
         </div>
+
+        <ReactQuill theme="bubble" value={value} onChange={setValue} />
         <IonList inset={true}>
           <IonItem>
             <IonInput
