@@ -31,7 +31,7 @@ const Login: React.FC = () => {
   const [range, setRange] = useState();
   const [lastChange, setLastChange] = useState();
   const [readOnly, setReadOnly] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
   const quillRef = useRef();
   const { createUser } = useApi()
 
@@ -105,7 +105,7 @@ const Login: React.FC = () => {
         },
         body: JSON.stringify({
           content : value,
-          email
+          email: 'kaleckh@gmail.com'
         })
       })
       console.log(test)
@@ -131,7 +131,7 @@ const Login: React.FC = () => {
           <p>Sign in via magic link with your email below</p>
         </div>
 
-        <ReactQuill theme="bubble" value={value} onChange={setValue} />
+        <ReactQuill preserveWhitespace={true} theme="snow" value={value} onChange={setValue} />
         <IonList inset={true}>
           <IonItem>
             <IonInput
@@ -161,7 +161,7 @@ const Login: React.FC = () => {
             ></IonInput>
           </IonItem>
           <div className="ion-text-center">
-            <IonButton onClick={() => { create() }}>
+            <IonButton onClick={() => { createPost() }}>
               Sign Up
             </IonButton>
             <IonButton onClick={() => { handleLogin() }}>
