@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useApi } from '../hooks/useApi';
 // import Editor from '../components/Editor';
 import ReactQuill from 'react-quill';
@@ -45,6 +45,8 @@ const Login: React.FC = () => {
 
 
   }
+
+
 
   const handleSignUp = async () => {
     console.log('kale')
@@ -104,7 +106,7 @@ const Login: React.FC = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          content : value,
+          content: value,
           email: 'kaleckh@gmail.com'
         })
       })
@@ -114,6 +116,32 @@ const Login: React.FC = () => {
     }
   }
 
+  const test = async () => {
+    try {
+      const test = await fetch(`http://localhost:3000/api/test`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      console.log(test)
+    } catch (error) {
+      console.log(error, "this is the create user error")
+    }
+  }
+
+  const imageHandler = useCallback(() => {
+    console.log("hititng handler")
+    // const input = document.createElement("input");
+    // input.setAttribute("type", "file");
+    // input.setAttribute("accept", "image/*");
+    // input.onchange = async () => {
+    //   if (input !== null && input.files !== null) {
+    //     const file = input.files[0];
+    //     console.log(file, "cuss word")
+    //   }
+    // };
+  }, []);
 
 
   console.log(value, "this is the current value")
@@ -124,14 +152,7 @@ const Login: React.FC = () => {
           <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>
-
       <IonContent>
-        <div className="ion-padding">
-          <h1>Supabase + Ionic React</h1>
-          <p>Sign in via magic link with your email below</p>
-        </div>
-
-        <ReactQuill preserveWhitespace={true} theme="snow" value={value} onChange={setValue} />
         <IonList inset={true}>
           <IonItem>
             <IonInput
