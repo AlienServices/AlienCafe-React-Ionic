@@ -1,6 +1,11 @@
 import { Redirect, Route } from 'react-router-dom';
+import { add, chevronUp } from 'ionicons/icons';
 import {
   IonApp,
+  IonButton,
+  IonFabList,
+  IonFabButton,
+  IonFab,
   IonPage,
   IonIcon,
   IonLabel,
@@ -47,8 +52,8 @@ const App: React.FC = () => (
           <Route exact={true} path="/tab1" render={() => <Login />}></Route>
           <Route exact={true} path="/" render={() => <Login />}></Route>
           <Route exact={true} path="/tab2" render={() => <Tab2 />}></Route>
-          <Route exact={true} path="/tab3" render={() => <Tab3 />}></Route>          
-          <Route exact={true} path="/create" render={() => <Create />}></Route>          
+          <Route exact={true} path="/tab3" render={() => <Tab3 />}></Route>
+          <Route exact={true} path="/create" render={() => <Create />}></Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
@@ -70,6 +75,22 @@ const App: React.FC = () => (
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
+    <IonFab horizontal='end' vertical='top'>
+      <IonFabButton>
+        <IonIcon icon={add}></IonIcon>
+      </IonFabButton>
+      <IonFabList side="bottom">
+        <IonFabButton>
+          <IonIcon icon={chevronUp}></IonIcon>
+        </IonFabButton>
+        <IonFabButton>
+          <IonIcon icon={chevronUp}></IonIcon>
+        </IonFabButton>
+        <IonFabButton>
+          <IonIcon icon={chevronUp}></IonIcon>
+        </IonFabButton>
+      </IonFabList>
+    </IonFab>
   </IonPage>
 );
 

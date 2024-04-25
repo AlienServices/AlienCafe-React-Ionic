@@ -28,12 +28,9 @@ const Login: React.FC = () => {
   const [showToast] = useIonToast();
   const [password, setPassword] = useState<string>('')
   const [username, setUsername] = useState<string>()
-  const [range, setRange] = useState();
-  const [lastChange, setLastChange] = useState();
-  const [readOnly, setReadOnly] = useState(false);
-  const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
-  const quillRef = useRef();
+  const [user, setUser] = useState()
   const { createUser } = useApi()
+
 
   const create = async () => {
     if (email && username) {
@@ -42,11 +39,7 @@ const Login: React.FC = () => {
     } else {
       console.log('there is an error')
     }
-
-
   }
-
-
 
   const handleSignUp = async () => {
     console.log('kale')
@@ -70,6 +63,7 @@ const Login: React.FC = () => {
         console.log(error, "this is the login error")
       }
       if (data) {
+        localStorage.setItem('user', JSON.stringify(data.user?.email))
         console.log(data, "this is login data")
       }
     } catch (error) {
@@ -93,58 +87,22 @@ const Login: React.FC = () => {
   const getUser = async () => {
     try {
       const { data, error } = await supabase.auth.getSession()
+      localStorage.setItem('user', JSON.stringify(data))
       console.log(data, "this is the data")
     } catch (error) {
       console.log(error)
     }
   }
-  const createPost = async () => {
-    try {
-      const test = await fetch('http://localhost:3000/api/createPost', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          content: value,
-          email: 'kaleckh@gmail.com'
-        })
-      })
-      console.log(test)
-    } catch (error) {
-      console.log(error, "this is the create user error")
-    }
-  }
-
-  const test = async () => {
-    try {
-      const test = await fetch(`http://localhost:3000/api/test`, {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      })
-      console.log(test)
-    } catch (error) {
-      console.log(error, "this is the create user error")
-    }
-  }
-
-  const imageHandler = useCallback(() => {
-    console.log("hititng handler")
-    // const input = document.createElement("input");
-    // input.setAttribute("type", "file");
-    // input.setAttribute("accept", "image/*");
-    // input.onchange = async () => {
-    //   if (input !== null && input.files !== null) {
-    //     const file = input.files[0];
-    //     console.log(file, "cuss word")
-    //   }
-    // };
-  }, []);
 
 
-  console.log(value, "this is the current value")
+  // useEffect(() => {
+  //   if (user?.session.accessToken) {
+  //     console.log('logged in')
+  //   } else {
+  //     getUser()
+  //   }
+  // }, [user])
+
   return (
     <IonPage>
       <IonHeader>
@@ -152,7 +110,9 @@ const Login: React.FC = () => {
           <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>
+
       <IonContent>
+
         <IonList inset={true}>
           <IonItem>
             <IonInput
@@ -182,7 +142,7 @@ const Login: React.FC = () => {
             ></IonInput>
           </IonItem>
           <div className="ion-text-center">
-            <IonButton onClick={() => { createPost() }}>
+            <IonButton onClick={() => { create() }}>
               Sign Up
             </IonButton>
             <IonButton onClick={() => { handleLogin() }}>

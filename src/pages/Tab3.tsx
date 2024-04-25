@@ -8,10 +8,12 @@ const Tab3: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 3</IonTitle>
+          <IonTitle>Your Posts</IonTitle>
         </IonToolbar>
       </IonHeader>
-     <MyPosts/>
+      <IonContent>
+        <MyPosts />
+      </IonContent>
     </IonPage>
   );
 };

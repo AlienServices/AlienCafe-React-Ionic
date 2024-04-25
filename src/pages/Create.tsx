@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useApi } from '../hooks/useApi';
-// import Editor from '../components/Editor';
-import ReactQuill from 'react-quill';
+import Editor from '../components/Editor';
 import 'react-quill/dist/quill.snow.css';
-import Quill from 'quill/core';
+import Styles from '../theme/myVariables.css'
 import {
     IonButton,
     IonContent,
@@ -20,7 +19,6 @@ import {
 } from '@ionic/react';
 import { supabase } from '../components/supaBase';
 import './Tab1.css';
-const Delta = Quill.import('delta');
 
 const Create: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -31,9 +29,9 @@ const Create: React.FC = () => {
     const [range, setRange] = useState();
     const [lastChange, setLastChange] = useState();
     const [readOnly, setReadOnly] = useState(false);
-    const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
-    const quillRef = useRef();
+    const [value, setValue] = useState('');
     const { createUser } = useApi()
+
 
     const create = async () => {
         if (email && username) {
@@ -42,69 +40,62 @@ const Create: React.FC = () => {
         } else {
             console.log('there is an error')
         }
-
-
     }
 
 
+    const imageHandler = useCallback(() => {
+        console.log("hititng handler")
+        // const input = document.createElement("input");
+        // input.setAttribute("type", "file");
+        // input.setAttribute("accept", "image/*");
+        // input.onchange = async () => {
+        //   if (input !== null && input.files !== null) {
+        //     const file = input.files[0];
+        //     console.log(file, "cuss word")
+        //   }
+        // };
+    }, []);
 
-    const handleSignUp = async () => {
-        console.log('kale')
+    const createPost = async () => {
         try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password,
+            const test = await fetch('http://localhost:3000/api/createPost', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: value,
+                    email: 'kaleckh@gmail.com'
+                })
             })
+            console.log(test)
         } catch (error) {
-            console.log(error)
-        }
-    };
-
-    const handleLogin = async () => {
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            })
-            if (error) {
-                console.log(error, "this is the login error")
-            }
-            if (data) {
-                console.log(data, "this is login data")
-            }
-        } catch (error) {
-            console.log(error)
+            console.log(error, "this is the create user error")
         }
     }
 
-
-    const handleLogout = async () => {
-        try {
-            const { error } = await supabase.auth.signOut()
-            if (error) {
-                console.log("this is logout error", error)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-
-    const getUser = async () => {
-        try {
-            const { data, error } = await supabase.auth.getSession()
-            console.log(data, "this is the data")
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
 
     return (
         <IonPage>
-            <div>This Is Working</div>
+            <IonHeader>
+                <IonToolbar>Alien Cafe</IonToolbar>
+            </IonHeader>
+            <IonContent>
+                <Editor value={value} setValue={setValue} />
+            </IonContent>
+            <IonContent  >
+                <IonButton onClick={() => {
+                    createPost();
+                    setValue('')
+                }}>Create Post</IonButton>
+            </IonContent>
         </IonPage>
+
     );
 }
 
+
 export default Create
+
+

@@ -1,80 +1,46 @@
-// import Quill from 'quill/core';
-// import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
-// import "quill/dist/quill.snow.css";
-// import Toolbar from "quill/modules/toolbar";
-// import Snow from "quill/themes/snow";
-// import Bold from "quill/formats/bold";
-// import Italic from "quill/formats/italic";
-// import Header from "quill/formats/header";
-
-
-// // Editor is an uncontrolled React component
-// const Editor = forwardRef(
-//   ({ readOnly, defaultValue, onTextChange, onSelectionChange }, ref) => {
-//     const containerRef = useRef(null);
-//     const defaultValueRef = useRef(defaultValue);
-//     const onTextChangeRef = useRef(onTextChange);
-//     const onSelectionChangeRef = useRef(onSelectionChange);
-
-//     useLayoutEffect(() => {
-//       onTextChangeRef.current = onTextChange;
-//       onSelectionChangeRef.current = onSelectionChange;
-//     });
-
-//     // useEffect(() => {
-//     //   ref?.current?.enable(!readOnly);
-//     // }, [ref, readOnly]);
-
-//     useEffect(() => {
-//       Quill.register({
-//         // "modules/toolbar": Toolbar,
-//         "themes/snow": Snow,
-//         // "formats/bold": Bold,
-//         // "formats/italic": Italic,
-//         // "formats/header": Header,
-//       });
-//       const container = containerRef.current;
-//       const editorContainer = container.appendChild(
-//         container.ownerDocument.createElement('div'),
-//       );
-//       const quill = new Quill(editorContainer, {
-//         theme: 'snow',        
-//       });
-
-//       ref.current = quill;
-
-//       if (defaultValueRef.current) {
-//         quill.setContents(defaultValueRef.current);
-//       }
-
-//       quill.on(Quill.events.TEXT_CHANGE, (...args) => {
-//         onTextChangeRef.current?.(...args);
-//       });
-
-//       quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
-//         onSelectionChangeRef.current?.(...args);
-//       });
-
-//       return () => {
-//         ref.current = null;
-//         container.innerHTML = '';
-//       };
-//     }, [ref]);
-
-//     return <div ref={containerRef}></div>;
-//   },
-// );
-
-// Editor.displayName = 'Editor';
-// export default Editor;
-
-
+import { IonPage, IonButton } from '@ionic/react';
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-function MyComponent() {
-  const [value, setValue] = useState('');
 
-  return <ReactQuill theme="snow" value={value} onChange={setValue} />;
+
+const Editor  = ({value, setValue}: {
+  value: string;
+  setValue: (value: string) => void;
+}) => {
+  // const [value, setValue] = useState('');
+
+
+  
+  return (
+    <IonPage>
+      <ReactQuill modules={{
+        toolbar: {
+          container: [
+            [{ header: "1" }, { header: "2" }, { font: [] }],
+            [{ size: [] }],
+            ["bold", "italic", "underline", "strike", "blockquote"],
+            [
+              { list: "ordered" },
+              { list: "bullet" },
+              { indent: "-1" },
+              { indent: "+1" },
+            ],
+            ["link", "image", "video"],
+            ["code-block"],
+            ["clean"],
+          ],
+          // handlers: {
+          //   image: imageHandler()
+          // }
+        },
+        clipboard: {
+          matchVisual: false,
+        },
+      }}  theme="snow" value={value} onChange={setValue} />
+    </IonPage>
+  )
 }
+
+export default Editor
