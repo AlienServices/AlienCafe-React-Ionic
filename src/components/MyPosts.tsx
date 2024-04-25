@@ -20,7 +20,7 @@ import {
     useIonToast,
     useIonLoading,
 } from '@ionic/react';
-import '../theme/content.scss'
+import '../theme/content.css'
 
 
 const Content: React.FC = () => {
@@ -56,13 +56,10 @@ const Content: React.FC = () => {
         <IonPage className='page' >
             <IonList>
                 {content ? <>   {content?.hello.map((stuff: any) => {
-                    return (
-                        <>
+                    return (                        
                             <IonCard key={''} className='card'>
                                 <ReactQuill readOnly={true} theme="bubble" value={stuff.content} />
-                            </IonCard>
-                        </>
-
+                            </IonCard>                        
                     )
                 })} </> : <><div>You aint got no posts</div></>}
             </IonList>

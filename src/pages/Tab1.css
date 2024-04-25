@@ -1,0 +1,35 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    height: 50%;
+}
+
+.quill .ql-container {
+    height: 100%;
+}
+
+
+.quill {
+    width: 100%;
+    padding: 10px;    
+}
+.quillCenter{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+@media (max-width: 650px) {
+    .quillCenter {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .quill {
+        width: 90%;
+        padding: 10px;
+    }
+}

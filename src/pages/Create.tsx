@@ -81,15 +81,15 @@ const Create: React.FC = () => {
             <IonHeader>
                 <IonToolbar>Alien Cafe</IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent >
                 <Editor value={value} setValue={setValue} />
             </IonContent>
-            <IonContent  >
-                <IonButton onClick={() => {
+            <div className='center'>
+                <IonButton shape='round' onClick={() => {
                     createPost();
                     setValue('')
                 }}>Create Post</IonButton>
-            </IonContent>
+            </div>
         </IonPage>
 
     );

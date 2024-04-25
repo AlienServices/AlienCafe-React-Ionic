@@ -1,25 +1,42 @@
-.ion-page .ion-page{
+.ion-page .ion-page {
     /* background-color: black !important; */
     justify-content: inherit;
     contain: inherit;
 }
+
 .ql-container .ql-snow {
     height: fit-content;
 }
-.quill .ql-container{
+
+.ios {
+    .ql-container {
+        height: 200px;
+    }
+}
+
+.quill .ql-container {
     height: fit-content;
 }
+
 .ql-editor {
     height: fit-content;
     /* overflow-y: scroll; */
 }
-.card{
+
+.card {
     width: 50%;
-    height: 230px;
+    height: fit-content;
     border-radius: 10px;
-    box-shadow: -1px 3px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 3px 5px 0px rgba(0, 0, 0, 0.75);
     margin: auto;
     margin-top: 30px;
     margin-bottom: 90px;
     overflow: visible;
+}
+
+
+@media (max-width: 600px) {
+    .quill .ql-container{
+        height: 200px;
+    }
 }
