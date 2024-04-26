@@ -77,7 +77,7 @@ const Create: React.FC = () => {
 
 
     return (
-        <IonPage>
+        <IonContent>
             <IonHeader>
                 <IonToolbar>Alien Cafe</IonToolbar>
             </IonHeader>
@@ -90,7 +90,7 @@ const Create: React.FC = () => {
                     setValue('')
                 }}>Create Post</IonButton>
             </div>
-        </IonPage>
+        </IonContent>
 
     );
 }
