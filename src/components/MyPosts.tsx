@@ -25,7 +25,7 @@ import '../pages/Tab3.css';
 
 
 const Content: React.FC = () => {
-    const [content, setContent] = useState();
+    const [content, setContent] = useState<{hello: []}>();
     const [userEmail, setUserEmail] = useState<any>(localStorage.getItem('user'))
     const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
 
@@ -43,7 +43,7 @@ const Content: React.FC = () => {
                 },
             })
             setContent(await result.json())
-            console.log("here is important result info", await result.json)
+            console.log("here is important result info", await content)
         } catch (error) {
             console.log(error, "this is the create user error")
         }
