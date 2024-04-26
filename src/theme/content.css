@@ -8,11 +8,6 @@
     height: fit-content;
 }
 
-.ios {
-    .ql-container {
-        height: 200px;
-    }
-}
 
 .quill .ql-container {
     height: fit-content;
