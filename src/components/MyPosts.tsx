@@ -36,7 +36,7 @@ const Content: React.FC = () => {
 
     const getMyPosts = async () => {
         try {
-            const result = await fetch(`http://localhost:3000/api/getMyPosts?email=${JSON.parse(userEmail)}`, {
+            const result = await fetch(`http://localhost:3000/api/getMyPosts?email=${JSON.parse<any>(localStorage.getItem('user'))}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ const Content: React.FC = () => {
         }
     }
 
-
+    console.log(localStorage.getItem('user'), "this is the current email")
     return (
         <IonContent className='page' >
             <IonList>

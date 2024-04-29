@@ -87,6 +87,7 @@ const Login: React.FC = () => {
   const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut()
+      console.log('You Logged Out')
       if (error) {
         console.log("this is logout error", error)
       }

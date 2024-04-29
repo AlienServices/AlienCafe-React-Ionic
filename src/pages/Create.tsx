@@ -67,9 +67,9 @@ const Create: React.FC = () => {
                 },
                 body: JSON.stringify({
                     content: value,
-                    email: 'kaleckh@gmail.com'
+                    email: JSON.parse<any>(localStorage.getItem('user'))
                 })
-            })            
+            })
         } catch (error) {
             console.log(error, "this is the create user error")
         }
