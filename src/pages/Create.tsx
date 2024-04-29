@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import { useApi } from '../hooks/useApi';
 import Editor from '../components/Editor';
 import 'react-quill/dist/quill.snow.css';
@@ -18,6 +18,7 @@ import {
     useIonLoading,
 } from '@ionic/react';
 import { supabase } from '../components/supaBase';
+import { ContextProvider } from "../providers/postProvider";
 import './Tab1.css';
 
 const Create: React.FC = () => {
@@ -30,6 +31,7 @@ const Create: React.FC = () => {
     const [lastChange, setLastChange] = useState();
     const [readOnly, setReadOnly] = useState(false);
     const [value, setValue] = useState('');
+    // const [values, setValues] = useContext(ContextProvider)
     const { createUser } = useApi()
 
 
@@ -67,8 +69,7 @@ const Create: React.FC = () => {
                     content: value,
                     email: 'kaleckh@gmail.com'
                 })
-            })
-            console.log(test)
+            })            
         } catch (error) {
             console.log(error, "this is the create user error")
         }

@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import Quill from 'quill/core';
 import {
   IonButton,
+  IonText,
   IonContent,
   IonHeader,
   IonInput,
@@ -29,17 +30,27 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('')
   const [username, setUsername] = useState<string>()
   const [user, setUser] = useState()
+  const [localEmail, setLocalEmail] = useState(localStorage.getItem('user'))
+  const [loggedIn, setLoggedIn] = useState('logged out')
   const { createUser } = useApi()
 
-
-  const create = async () => {
-    if (email && username) {
-      const result = await createUser(email, username)
-      console.log(result, "this is the create user result")
-    } else {
-      console.log('there is an error')
+  useEffect(() => {
+    if (localEmail) {
+      setLoggedIn('logged in')
+    } else{
+      setLoggedIn('logged out')
     }
-  }
+  }, [])
+
+
+  // const create = async () => {
+  //   if (email && username) {
+  //     const result = await createUser(email, username)
+  //     console.log(result, "this is the create user result")
+  //   } else {
+  //     console.log('there is an error')
+  //   }
+  // }
 
   const handleSignUp = async () => {
     console.log('kale')
@@ -48,6 +59,7 @@ const Login: React.FC = () => {
         email: email,
         password: password,
       })
+      console.log(error, data, "create user info")
     } catch (error) {
       console.log(error)
     }
@@ -142,7 +154,7 @@ const Login: React.FC = () => {
             ></IonInput>
           </IonItem>
           <div className="ion-text-center">
-            <IonButton onClick={() => { create() }}>
+            <IonButton onClick={() => { handleSignUp() }}>
               Sign Up
             </IonButton>
             <IonButton onClick={() => { handleLogin() }}>
@@ -151,10 +163,13 @@ const Login: React.FC = () => {
             <IonButton onClick={() => { getUser() }}>
               Am I logged in?
             </IonButton>
-            <IonButton onClick={() => { handleLogout() }}>
+            <IonButton onClick={() => { handleLogout(); localStorage.clear() }}>
               Log Out
             </IonButton>
           </div>
+          <IonText>
+            {loggedIn}
+          </IonText>
         </IonList>
       </IonContent>
     </IonPage>

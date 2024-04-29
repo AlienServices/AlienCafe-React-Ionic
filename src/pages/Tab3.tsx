@@ -13,7 +13,7 @@ const Tab3: React.FC = () => {
       </IonHeader>
       <IonContent>
         <MyPosts />
-      </IonContent>
+      </IonContent>      
     </IonPage>
   );
 };
