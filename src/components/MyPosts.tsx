@@ -36,7 +36,7 @@ const Content: React.FC = () => {
 
     const getMyPosts = async () => {
         try {
-            const result = await fetch(`http://localhost:3000/api/getMyPosts?email=${JSON.parse<any>(localStorage.getItem('user'))}`, {
+            const result = await fetch(`http://localhost:3000/api/getMyPosts?email=${JSON.parse(localStorage.getItem('user') || '')}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json'
