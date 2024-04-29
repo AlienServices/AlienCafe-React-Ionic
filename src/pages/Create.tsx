@@ -86,7 +86,7 @@ const Create: React.FC = () => {
                 <Editor value={value} setValue={setValue} />
             </IonContent>
             <div className='center'>
-                <IonButton shape='round' onClick={() => {
+                <IonButton shape='round' onClickCapture={() => {
                     createPost();
                     setValue('')
                 }}>Create Post</IonButton>

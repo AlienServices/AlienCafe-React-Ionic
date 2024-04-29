@@ -58,12 +58,12 @@ const Content: React.FC = () => {
                         <>
                             <IonCard key={index} className='card'>
                                 <ReactQuill readOnly={true} theme="bubble" value={stuff.content} />
-                            </IonCard>                            
+                            </IonCard>
                         </>
                     )
                 })} </> : <><div>You aint got no posts</div></>}
             </IonList>
-            <IonButton onClick={() => getMyPosts()}>
+            <IonButton  onClickCapture={() => getMyPosts()}>
                 Press me
             </IonButton>
         </IonContent>

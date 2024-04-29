@@ -155,16 +155,16 @@ const Login: React.FC = () => {
             ></IonInput>
           </IonItem>
           <div className="ion-text-center">
-            <IonButton onClick={() => { handleSignUp() }}>
+            <IonButton onClickCapture={() => { handleSignUp() }}>
               Sign Up
             </IonButton>
-            <IonButton onClick={() => { handleLogin() }}>
+            <IonButton onClickCapture={() => { handleLogin() }}>
               Log In
             </IonButton>
-            <IonButton onClick={() => { getUser() }}>
+            <IonButton onClickCapture={() => { getUser() }}>
               Am I logged in?
             </IonButton>
-            <IonButton onClick={() => { handleLogout(); localStorage.clear() }}>
+            <IonButton onClickCapture={() => { handleLogout(); localStorage.clear() }}>
               Log Out
             </IonButton>
           </div>
