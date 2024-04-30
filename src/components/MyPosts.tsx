@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { IonIcon } from '@ionic/react';
 import { useApi } from '../hooks/useApi';
+import { colorFill, heart, heartCircle, chatbubbleOutline } from 'ionicons/icons';
 // import Editor from '../components/Editor';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Quill from 'quill/core';
+
 import { supabase } from './supaBase';
 import {
     IonButton,
@@ -55,15 +58,26 @@ const Content: React.FC = () => {
             <IonList>
                 {content ? <>   {content?.hello.map((stuff: any, index: number) => {
                     return (
-                        <>
+                        <div className='shadow'>
                             <IonCard key={index} className='card'>
-                                <ReactQuill readOnly={true} theme="bubble" value={stuff.content} />
+                                <IonItem lines='none'>
+                                    <ReactQuill readOnly={true} theme="bubble" value={stuff.content} />
+                                </IonItem>
+                                <div className='flex'>
+                                    <div>
+                                        <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
+                                    </div>
+                                    <div>
+                                        <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
+                                    </div>
+                                </div>
+
                             </IonCard>
-                        </>
+                        </div>
                     )
                 })} </> : <><div>You aint got no posts</div></>}
             </IonList>
-            <IonButton  onClick={() => getMyPosts()}>
+            <IonButton onClick={() => getMyPosts()}>
                 Press me
             </IonButton>
         </IonContent>

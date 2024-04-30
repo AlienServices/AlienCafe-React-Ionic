@@ -119,7 +119,7 @@ const CreateAccount = ({ setToggle }: { setToggle: (value: boolean) => void }) =
                     ></IonInput>
                 </IonItem>
                 <div className="ion-text-center">
-                    <IonButton onClick={() => { handleSignUp()  }}>
+                    <IonButton onClick={() => { handleSignUp() }}>
                         Create Account
                     </IonButton>
                     <IonButton onClick={() => { setToggle(true) }}>
