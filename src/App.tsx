@@ -62,7 +62,7 @@ const App: React.FC = () => (
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
             <IonIcon aria-hidden="true" icon={diamondOutline} />
-            <IonLabel>All Posts</IonLabel>
+            <IonLabel>My Profile</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon aria-hidden="true" icon={giftOutline} />
@@ -75,22 +75,6 @@ const App: React.FC = () => (
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
-    <IonFab horizontal='end' vertical='top'>
-      <IonFabButton>
-        <IonIcon icon={add}></IonIcon>
-      </IonFabButton>
-      <IonFabList side="bottom">
-        <IonFabButton>
-          <IonIcon icon={chevronUp}></IonIcon>
-        </IonFabButton>
-        <IonFabButton>
-          <IonIcon icon={chevronUp}></IonIcon>
-        </IonFabButton>
-        <IonFabButton>
-          <IonIcon icon={chevronUp}></IonIcon>
-        </IonFabButton>
-      </IonFabList>
-    </IonFab>
   </IonPage>
 );
 

@@ -63,7 +63,7 @@ const Content: React.FC = () => {
                     )
                 })} </> : <><div>You aint got no posts</div></>}
             </IonList>
-            <IonButton  onClickCapture={() => getMyPosts()}>
+            <IonButton  onClick={() => getMyPosts()}>
                 Press me
             </IonButton>
         </IonContent>
