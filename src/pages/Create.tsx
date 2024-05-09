@@ -67,7 +67,7 @@ const Create: React.FC = () => {
                 },
                 body: JSON.stringify({
                     content: value,
-                    email: JSON.parse(localStorage.getItem('user') || '')
+                    email: localStorage.getItem('user') || ''
                 })
             })
         } catch (error) {

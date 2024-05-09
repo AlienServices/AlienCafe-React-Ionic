@@ -60,17 +60,18 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={beer} />
             <IonLabel>Login</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={diamondOutline} />
-            <IonLabel>My Profile</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={giftOutline} />
-            <IonLabel>My Posts</IonLabel>
-          </IonTabButton>
           <IonTabButton tab="tab4" href="/create">
             <IonIcon aria-hidden="true" icon={flameOutline} />
             <IonLabel>Create A Post</IonLabel>
+          </IonTabButton>
+
+          <IonTabButton tab="tab3" href="/tab3">
+            <IonIcon aria-hidden="true" icon={giftOutline} />
+            <IonLabel>All Posts</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="tab2" href="/tab2">
+            <IonIcon aria-hidden="true" icon={diamondOutline} />
+            <IonLabel>My Profile</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

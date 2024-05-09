@@ -28,60 +28,83 @@ import '../pages/Tab3.css';
 
 const Content: React.FC = () => {
     const [content, setContent] = useState<{ hello: [id: string, content: string, likes: string] }>();
-    const [userEmail, setUserEmail] = useState<any>(localStorage.getItem('user'))
+    const [userEmail, setUserEmail] = useState<string | null>(localStorage.getItem('user'))
     const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
+    const [likes, setLikes] = useState()
 
     useEffect(() => {
-        getMyPosts()
+        getAllPosts()
     }, [])
 
-    const getMyPosts = async () => {
+    const getAllPosts = async () => {
         try {
-            const result = await fetch(`http://localhost:3000/api/getMyPosts?email=${localStorage.getItem('user')}`, {
+            const result = await fetch(`http://localhost:3000/api/getPosts`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json'
                 },
             })
+            // console.log(await result.json(), 'this is the result')
             setContent(await result.json())
-            console.log("here is important result info", await content)
         } catch (error) {
             console.log(error, "this is the create user error")
         }
     }
 
-    const likePost = async (id: string, likes: string, email: string) => {
+
+    const likePost = async (id: string, likes: string[], email: string) => {
 
         try {
-            const test = await fetch(`http://localhost:3000/api/addLike?id=${id}`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    likes: likes,
-                    email: email
+            if (likes.indexOf(localStorage.getItem('user')) === -1) {
+                const test = await fetch(`http://localhost:3000/api/addLike?id=${id}`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        likes: likes,
+                        email: localStorage.getItem('user')
+                    })
                 })
-            })
-            console.log(test, 'this is the test')
+
+            }
         } catch (error) {
             console.log(error, "this is the create user error")
         }
     }
+    const dislikePost = async (id: string, likes: string[], email: string) => {
 
+        try {
+            if (likes.indexOf(localStorage.getItem('user')) === -1) {
+                const test = await fetch(`http://localhost:3000/api/addLike?id=${id}`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        likes: likes,
+                        email: localStorage.getItem('user')
+                    })
+                })
+
+            }
+        } catch (error) {
+            console.log(error, "this is the create user error")
+        }
+    }
 
     return (
         <IonContent className='page' >
             <IonList>
-                {content ? <>   {content?.hello.map((post: any, index: number) => {
+                {content ? <>   {content?.Hello.map((post: any, index: number) => {
                     return (
                         <div className='shadow'>
                             <IonCard key={index} className='card'>
                                 <IonItem lines='none'>
                                     <ReactQuill readOnly={true} theme="bubble" value={post.content} />
                                 </IonItem>
-                                <div className='centerFlex'>
-                                    <div onClick={() => { likePost(post.id, post.likes, post.email) }}>
+                                <div className='flex'>
+                                    <div className='center' onClick={() => {if('') {likePost(post.id, post.likes, post.email)} else {dislikePost(post.id, post.likes, post.email)}  }}>
                                         <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
                                         <div>{post.likes.length}</div>
                                     </div>
@@ -89,13 +112,12 @@ const Content: React.FC = () => {
                                         <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
                                     </div>
                                 </div>
-
                             </IonCard>
                         </div>
                     )
-                })} </> : <><div>You aint got no posts</div></>}
+                })} </> : <><div>You aint got no post</div></>}
             </IonList>
-            <IonButton onClick={() => getMyPosts()}>
+            <IonButton onClick={() => getAllPosts()}>
                 Press me
             </IonButton>
         </IonContent>

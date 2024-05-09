@@ -51,8 +51,8 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
             if (error) {
                 console.log(error, "this is the login error")
             }
-            if (data) {
-                localStorage.setItem('user', JSON.stringify(data.user?.email))
+            if (data.user?.email) {
+                localStorage.setItem('user', data.user.email)
                 console.log(data, "this is login data")
             }
         } catch (error) {
@@ -121,6 +121,9 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
                     </IonButton>
                     <IonButton onClick={() => { setToggle(false) }}>
                         Sign Up
+                    </IonButton>
+                    <IonButton onClick={() => { handleLogout() }}>
+                        Log Out
                     </IonButton>
                 </div>
             </IonList>
