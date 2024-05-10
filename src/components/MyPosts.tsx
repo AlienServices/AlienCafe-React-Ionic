@@ -80,8 +80,8 @@ const Content: React.FC = () => {
                                 <IonItem lines='none'>
                                     <ReactQuill readOnly={true} theme="bubble" value={post.content} />
                                 </IonItem>
-                                <div className='centerFlex'>
-                                    <div onClick={() => { likePost(post.id, post.likes, post.email) }}>
+                                <div className='flex'>
+                                    <div className='center' onClick={() => { likePost(post.id, post.likes, post.email) }}>
                                         <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
                                         <div>{post.likes.length}</div>
                                     </div>

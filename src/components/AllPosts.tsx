@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { Redirect, Route } from 'react-router-dom';
+
 import { IonIcon } from '@ionic/react';
 import { useApi } from '../hooks/useApi';
 import { colorFill, heart, heartCircle, chatbubbleOutline } from 'ionicons/icons';
@@ -12,8 +14,11 @@ import {
     IonButton,
     IonContent,
     IonCard,
+    IonRouterLink,
     IonHeader,
+    IonRoute,
     IonInput,
+    IonRouterOutlet,
     IonItem,
     IonLabel,
     IonList,
@@ -72,22 +77,20 @@ const Content: React.FC = () => {
             console.log(error, "this is the create user error")
         }
     }
-    const dislikePost = async (id: string, likes: string[], email: string) => {
-
+    const dislikePost = async (id: string, likes: string[]) => {
+        debugger
+        let index = likes.indexOf(localStorage.getItem('user') || '')
+        likes = likes.splice(index, 0)
         try {
-            if (likes.indexOf(localStorage.getItem('user')) === -1) {
-                const test = await fetch(`http://localhost:3000/api/addLike?id=${id}`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        likes: likes,
-                        email: localStorage.getItem('user')
-                    })
+            const test = await fetch(`http://localhost:3000/api/addLike?id=${id}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    likes: likes,
                 })
-
-            }
+            })
         } catch (error) {
             console.log(error, "this is the create user error")
         }
@@ -104,7 +107,7 @@ const Content: React.FC = () => {
                                     <ReactQuill readOnly={true} theme="bubble" value={post.content} />
                                 </IonItem>
                                 <div className='flex'>
-                                    <div className='center' onClick={() => {if('') {likePost(post.id, post.likes, post.email)} else {dislikePost(post.id, post.likes, post.email)}  }}>
+                                    <div className='center' onClick={() => { if (post.likes.indexOf(localStorage.getItem('user')) === -1) { likePost(post.id, post.likes, post.email) } else { dislikePost(post.id, post.likes) } }}>
                                         <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
                                         <div>{post.likes.length}</div>
                                     </div>
@@ -112,14 +115,19 @@ const Content: React.FC = () => {
                                         <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
                                     </div>
                                 </div>
+                                <IonRouterLink href={`/view/${post.id}`}>
+                                    <IonButton>Enter Post</IonButton>
+                                </IonRouterLink>
                             </IonCard>
                         </div>
                     )
                 })} </> : <><div>You aint got no post</div></>}
             </IonList>
             <IonButton onClick={() => getAllPosts()}>
-                Press me
+                Refresh Posts
             </IonButton>
+
+
         </IonContent>
     );
 }
