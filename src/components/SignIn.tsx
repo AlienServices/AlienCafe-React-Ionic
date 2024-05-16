@@ -122,7 +122,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
                     <IonButton onClick={() => { setToggle(false) }}>
                         Sign Up
                     </IonButton>
-                    <IonButton onClick={() => { handleLogout() }}>
+                    <IonButton onClick={() => { handleLogout(); localStorage.removeItem('user') }}>
                         Log Out
                     </IonButton>
                 </div>

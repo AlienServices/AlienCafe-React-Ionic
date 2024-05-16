@@ -1,0 +1,11 @@
+.editor .ql-toolbar{
+    display: none;
+}
+.column{
+    display: flex;
+    flex-direction: column;    
+    width: 100%;
+}
+.column .md{
+    box-shadow: none !important;
+}

@@ -29,17 +29,21 @@ import {
     useIonLoading,
 } from '@ionic/react';
 import '../pages/Tab3.css';
+import { post } from '../utils/fetch';
 
 
 const Content: React.FC = () => {
-    const [content, setContent] = useState<{ hello: [id: string, content: string, likes: string] }>();
+    const [content, setContent] = useState<{ id: string, content: string, likes: string, email: string }[]>([]);
     const [userEmail, setUserEmail] = useState<string | null>(localStorage.getItem('user'))
     const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
     const [likes, setLikes] = useState()
+    const [toggle, setToggle] = useState(true)
+
 
     useEffect(() => {
         getAllPosts()
     }, [])
+
 
     const getAllPosts = async () => {
         try {
@@ -50,56 +54,34 @@ const Content: React.FC = () => {
                 },
             })
             // console.log(await result.json(), 'this is the result')
-            setContent(await result.json())
+            const posts = await result.json()
+            setContent(posts.Posts)
         } catch (error) {
             console.log(error, "this is the create user error")
         }
     }
 
 
-    const likePost = async (id: string, likes: string[], email: string) => {
-
-        try {
-            if (likes.indexOf(localStorage.getItem('user')) === -1) {
-                const test = await fetch(`http://localhost:3000/api/addLike?id=${id}`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        likes: likes,
-                        email: localStorage.getItem('user')
-                    })
-                })
-
+    const updatePost = async (id: string, likes: string[], postContent: string) => {
+        console.log(likes, 'these are the likes I need')
+        const updatedPost = await post({
+            url: `http://localhost:3000/api/addLike?id=${id}`, body: {
+                likes: likes,
+                content: postContent
             }
-        } catch (error) {
-            console.log(error, "this is the create user error")
-        }
+        })
+        console.log(updatedPost, 'an updated post')
+        setContent(content.map((post) => post.id === updatedPost.update.id ? updatedPost.update : post)
+        )
     }
-    const dislikePost = async (id: string, likes: string[]) => {
-        debugger
-        let index = likes.indexOf(localStorage.getItem('user') || '')
-        likes = likes.splice(index, 0)
-        try {
-            const test = await fetch(`http://localhost:3000/api/addLike?id=${id}`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    likes: likes,
-                })
-            })
-        } catch (error) {
-            console.log(error, "this is the create user error")
-        }
-    }
+
+
+    console.log(content, 'this is a test')
 
     return (
         <IonContent className='page' >
             <IonList>
-                {content ? <>   {content?.Hello.map((post: any, index: number) => {
+                {content ? <>   {content.map((post: any, index: number) => {
                     return (
                         <div className='shadow'>
                             <IonCard key={index} className='card'>
@@ -107,7 +89,16 @@ const Content: React.FC = () => {
                                     <ReactQuill readOnly={true} theme="bubble" value={post.content} />
                                 </IonItem>
                                 <div className='flex'>
-                                    <div className='center' onClick={() => { if (post.likes.indexOf(localStorage.getItem('user')) === -1) { likePost(post.id, post.likes, post.email) } else { dislikePost(post.id, post.likes) } }}>
+                                    <div className='center' onClick={() => {
+                                        if (post.likes.indexOf(userEmail) === -1) {                                            
+                                            let fullLikes = [...post.likes, userEmail];
+                                            updatePost(post.id, fullLikes, post.content)
+                                        } else {                                                
+                                            let emailIndex = post.likes.indexOf(localStorage.getItem('user') || '')
+                                            let newLikes = post.likes.toSpliced(emailIndex, 1)                                            
+                                            updatePost(post.id, newLikes, post.content)
+                                        }
+                                    }}>
                                         <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
                                         <div>{post.likes.length}</div>
                                     </div>

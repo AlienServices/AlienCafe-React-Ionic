@@ -6,10 +6,10 @@ import { colorFill, heart, heartCircle, chatbubbleOutline } from 'ionicons/icons
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Quill from 'quill/core';
-
 import { supabase } from './supaBase';
 import {
     IonButton,
+    IonRouterLink,
     IonContent,
     IonCard,
     IonHeader,
@@ -24,16 +24,19 @@ import {
     useIonLoading,
 } from '@ionic/react';
 import '../pages/Tab3.css';
+import { post } from '../utils/fetch';
+
 
 
 const Content: React.FC = () => {
-    const [content, setContent] = useState<{ hello: [id: string, content: string, likes: string] }>();
+    const [content, setContent] = useState<{ id: string, content: string, likes: string, email: string }[]>([]);
     const [userEmail, setUserEmail] = useState<any>(localStorage.getItem('user'))
     const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
 
     useEffect(() => {
         getMyPosts()
     }, [])
+
 
     const getMyPosts = async () => {
         try {
@@ -43,37 +46,33 @@ const Content: React.FC = () => {
                     'Content-Type': 'application/json'
                 },
             })
-            setContent(await result.json())
-            console.log("here is important result info", await content)
+            const posts = await result.json()
+            setContent(posts.Posts)
+            console.log("here is important result info", await result.json())
         } catch (error) {
             console.log(error, "this is the create user error")
         }
     }
 
-    const likePost = async (id: string, likes: string, email: string) => {
 
-        try {
-            const test = await fetch(`http://localhost:3000/api/addLike?id=${id}`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    likes: likes,
-                    email: email
-                })
-            })
-            console.log(test, 'this is the test')
-        } catch (error) {
-            console.log(error, "this is the create user error")
-        }
+    const updatePost = async (id: string, likes: string[], postContent: string) => {
+        console.log(likes, 'these are the likes I need')
+        const updatedPost = await post({
+            url: `http://localhost:3000/api/addLike?id=${id}`, body: {
+                likes: likes,
+                content: postContent
+            }
+        })
+        console.log(updatedPost, 'an updated post')
+        setContent(content.map((post) => post.id === updatedPost.update.id ? updatedPost.update : post)
+        )
     }
 
 
     return (
         <IonContent className='page' >
             <IonList>
-                {content ? <>   {content?.hello.map((post: any, index: number) => {
+                {content ? <>   {content?.map((post: any, index: number) => {
                     return (
                         <div className='shadow'>
                             <IonCard key={index} className='card'>
@@ -81,7 +80,18 @@ const Content: React.FC = () => {
                                     <ReactQuill readOnly={true} theme="bubble" value={post.content} />
                                 </IonItem>
                                 <div className='flex'>
-                                    <div className='center' onClick={() => { likePost(post.id, post.likes, post.email) }}>
+                                    <div className='center' onClick={() => {
+                                        if (post.likes.indexOf(userEmail) === -1) {
+                                            // debugger;
+                                            let fullLikes = [...post.likes, userEmail];
+                                            updatePost(post.id, fullLikes, post.content)
+                                        } else {
+                                            let emailIndex = post.likes.indexOf(localStorage.getItem('user') || '')
+                                            let newLikes = post.likes.toSpliced(0, emailIndex)
+                                            console.log(newLikes, 'thse are new likes')
+                                            updatePost(post.id, newLikes, post.content)
+                                        }
+                                    }}>
                                         <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
                                         <div>{post.likes.length}</div>
                                     </div>
@@ -89,11 +99,13 @@ const Content: React.FC = () => {
                                         <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
                                     </div>
                                 </div>
-
+                                <IonRouterLink href={`/view/${post.id}`}>
+                                    <IonButton>Enter Post</IonButton>
+                                </IonRouterLink>
                             </IonCard>
                         </div>
                     )
-                })} </> : <><div>You aint got no posts</div></>}
+                })} </> : <><div>You aint got no post</div></>}
             </IonList>
             <IonButton onClick={() => getMyPosts()}>
                 Press me

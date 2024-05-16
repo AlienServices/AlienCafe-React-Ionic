@@ -83,12 +83,12 @@ const Create: React.FC = () => {
                 <IonToolbar>Alien Cafe</IonToolbar>
             </IonHeader>
             <IonContent >
-                <Editor value={value} setValue={setValue} />
+                <Editor  toolBar={true} theme={'snow'} value={value} setValue={setValue} />
             </IonContent>
             <div className='center'>
                 <IonButton shape='round' onClick={() => {
                     createPost();
-                    setValue('')
+                    setValue('')                    
                 }}>Create Post</IonButton>
             </div>
         </IonContent>

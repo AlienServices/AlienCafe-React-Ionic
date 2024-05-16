@@ -69,7 +69,7 @@ const Tab2: React.FC = () => {
         </div >
       </IonCard >
       {
-        choices.replies ? <>replies</> : choices.posts ? <>< MyPosts /></> : choices.likes ? <>Likes</> : choices.categories ? <><Category/></> : <MyPosts></MyPosts>
+        choices.replies ? <>replies</> : choices.posts ? <>< MyPosts /></> : choices.likes ? <>Likes</> : choices.categories ? <><Category /></> : <MyPosts></MyPosts>
       }
 
 
