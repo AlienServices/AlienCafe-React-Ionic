@@ -29,30 +29,12 @@ const Login: React.FC = () => {
   const [showToast] = useIonToast();
   const [localEmail, setLocalEmail] = useState(localStorage.getItem('user'))
   const [loggedIn, setLoggedIn] = useState('logged out')
+  const [email, setEmail] = useState('logged out')
+  const [userName, setUserName] = useState('logged out')
   const [loginToggle, setLoginToggle] = useState<boolean>(true)
   const { createUser } = useApi()
 
-  useEffect(() => {
-    if (localEmail) {
-      setLoggedIn('logged in')
-    } else {
-      setLoggedIn('logged out')
-    }
-  }, [])
-
-
-  // const create = async () => {
-  //   if (email && username) {
-  //     const result = await createUser(email, username)
-  //     console.log(result, "this is the create user result")
-  //   } else {
-  //     console.log('there is an error')
-  //   }
-  // }
-
-
-
-
+ 
   // useEffect(() => {
   //   if (user?.session.accessToken) {
   //     console.log('logged in')

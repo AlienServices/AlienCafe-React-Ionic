@@ -4,6 +4,12 @@
     padding: 10px;
     width: 55%;
 }
+.flexChoice{
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    width: 100%;
+}
 .noMargin{
     margin: 0;
 }

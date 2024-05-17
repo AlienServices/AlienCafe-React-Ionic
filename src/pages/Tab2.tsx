@@ -4,9 +4,9 @@ import './Tab2.css';
 import MyPosts from '../components/MyPosts'
 import Category from '../components/Category';
 import { logoIonic } from 'ionicons/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const Tab2: React.FC = () => {
+const Tab2 = () => {
 
   const [choices, setChoices] = useState({
     posts: 1,
@@ -15,25 +15,49 @@ const Tab2: React.FC = () => {
     categories: 0
   })
   const [posts, setPosts] = useState(0)
+  const [myInfo, setMyInfo] = useState<{ email: string, id: string, username: string }>()
   const [replies, setReplies] = useState(0)
   const [likes, setLikes] = useState(1)
   const [categories, setCategories] = useState(0)
+
+  useEffect(() => {
+    getMyInfo()
+  }, [])
+
+
+  const getMyInfo = async () => {
+    try {
+      const result = await fetch(`http://localhost:3000/api/myInfo?email=${localStorage.getItem('user')}`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      const posts = await result.json()
+      setMyInfo(posts.Hello)
+    } catch (error) {
+      console.log(error, "this is the create user error")
+    }
+  } 
+
+  console.log(myInfo, 'this is my info')
+
   return (
     <IonPage>
       <IonCard className='noMargin' color={'light'}>
         <IonIcon icon={logoIonic} size='large'></IonIcon>
         <IonCardHeader>
           <IonCardTitle>
-            UserName Tag
+            {myInfo?.username}
           </IonCardTitle>
           <IonCardSubtitle>
-            Titles Titles Titles Titles Titles Titles
+            Subtitle?
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
-          Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio Here is the Bio
+          Aspiring fact chaser who enjoys reading science and stuff
         </IonCardContent>
-        <div className='flex'>
+        <div className='flexChoice'>
           <div onClick={() => {
             setChoices({
               posts: 1,

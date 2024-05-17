@@ -14,6 +14,7 @@ import {
     IonFabButton,
     IonRouterLink,
     IonContent,
+    IonNavLink,
     IonCard,
     IonHeader,
     IonInput,
@@ -28,6 +29,7 @@ import {
 } from '@ionic/react';
 import '../pages/Tab3.css';
 import { post } from '../utils/fetch';
+import Page from '../pages/View/[id]'
 
 
 
@@ -71,17 +73,14 @@ const Content: React.FC = () => {
         )
     }
 
-
-
     const updatePosts = async (id: string) => {
         console.log(id, 'these are the likes I need')
         const updatedPost = await post({
-            url: `http://localhost:3000/api/updatePosts`, body: {
+            url: `http://localhost:3000/api/updatePosts?id=${id}`, body: {
                 id
             }
         })
-        console.log(updatedPost, 'an updated post')
-        // `setContent(updatedPost)`
+        getMyPosts()
     }
 
 
@@ -109,9 +108,11 @@ const Content: React.FC = () => {
                                 <div className='emailContainer'>
                                     <div className='username'>{post.email}</div>
                                 </div>
-                                <IonItem lines='none'>
-                                    <ReactQuill readOnly={true} theme="bubble" value={post.content} />
-                                </IonItem>
+                                <IonNavLink routerDirection="forward" component={() => <Page id={post.id} />}>
+                                    <IonItem lines='none'>
+                                        <ReactQuill readOnly={true} theme="bubble" value={post.content} />
+                                    </IonItem>
+                                </IonNavLink>
                                 <div className='flex'>
 
                                     <div className='center' onClick={() => {
