@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { IonIcon } from '@ionic/react';
 import { useApi } from '../hooks/useApi';
-import { colorFill, heart, heartCircle, chatbubbleOutline } from 'ionicons/icons';
+import { colorFill, heart, heartCircle, chatbubbleOutline, ellipsisHorizontalOutline, cartOutline } from 'ionicons/icons';
 // import Editor from '../components/Editor';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -9,6 +9,9 @@ import Quill from 'quill/core';
 import { supabase } from './supaBase';
 import {
     IonButton,
+    IonFab,
+    IonFabList,
+    IonFabButton,
     IonRouterLink,
     IonContent,
     IonCard,
@@ -69,6 +72,19 @@ const Content: React.FC = () => {
     }
 
 
+
+    const updatePosts = async (id: string) => {
+        console.log(id, 'these are the likes I need')
+        const updatedPost = await post({
+            url: `http://localhost:3000/api/updatePosts`, body: {
+                id
+            }
+        })
+        console.log(updatedPost, 'an updated post')
+        // `setContent(updatedPost)`
+    }
+
+
     return (
         <IonContent className='page' >
             <IonList>
@@ -76,10 +92,28 @@ const Content: React.FC = () => {
                     return (
                         <div className='shadow'>
                             <IonCard key={index} className='card'>
+                                <div className='fab'>
+                                    <IonFab horizontal='end'>
+                                        <IonFabButton size='small'>
+                                            <IonIcon icon={ellipsisHorizontalOutline}></IonIcon>
+                                        </IonFabButton>
+                                        <IonFabList side='bottom'>
+                                            <IonFabButton>
+                                                <IonIcon onClick={() => {
+                                                    updatePosts(post.id)
+                                                }} icon={cartOutline}></IonIcon>
+                                            </IonFabButton>
+                                        </IonFabList>
+                                    </IonFab>
+                                </div>
+                                <div className='emailContainer'>
+                                    <div className='username'>{post.email}</div>
+                                </div>
                                 <IonItem lines='none'>
                                     <ReactQuill readOnly={true} theme="bubble" value={post.content} />
                                 </IonItem>
                                 <div className='flex'>
+
                                     <div className='center' onClick={() => {
                                         if (post.likes.indexOf(userEmail) === -1) {
                                             // debugger;
@@ -99,9 +133,9 @@ const Content: React.FC = () => {
                                         <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
                                     </div>
                                 </div>
-                                <IonRouterLink href={`/view/${post.id}`}>
-                                    <IonButton>Enter Post</IonButton>
-                                </IonRouterLink>
+                                <div>
+                                </div>
+
                             </IonCard>
                         </div>
                     )

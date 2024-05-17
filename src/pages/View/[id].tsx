@@ -9,6 +9,8 @@ import 'react-quill/dist/quill.snow.css';
 import Quill from 'quill/core';
 import {
     IonButton,
+    IonButtons,
+    IonBackButton,
     IonCard,
     IonText,
     IonContent,
@@ -30,13 +32,12 @@ import Editor from '../../components/Editor';
 import '../../theme/id.module.css';
 
 
-const Login: React.FC = () => {
+const Login = ({ id }: { id: string }) => {
     const [content, setContent] = useState<{ id: string, content: string, likes: string, email: string, comments: string[] }[]>([]);
     const [array, setArray] = useState<[]>([])
     const [comments, setComments] = useState<string[]>([])
     const [comment, setComment] = useState<string>('')
     const [written, setWritten] = useState('')
-    const { id } = useParams<{ id: string }>();
     const [value, setValue] = useState('');
 
     useEffect(() => {
@@ -75,17 +76,27 @@ const Login: React.FC = () => {
         )
     }
 
-    console.log(content[0], 'testing tesitng testing')
+    // const handleKeyDown = (e: any, data: string[]) => {
+    //     if (e.key === 'Enter') {
+    //         updatePost(data)
+    //         setValue('')
+    //     }
+    // }
+
 
     return (
         <IonPage >
             <IonContent>
-                <IonToolbar>
-                    <IonTitle>
-                        Read And Add Comments
-                    </IonTitle>
-                </IonToolbar>
+                <IonHeader>
+                    <IonToolbar>
+                        <IonRouterLink href={`/tab3`}>
+                            <button className='button-41'>Back</button>
+                        </IonRouterLink>
+
+                    </IonToolbar>
+                </IonHeader>
                 {content.map((post: any, index: number) => {
+                    console.log(post.comments.length, 'this is comment length')
                     return (
                         <div className='shadow'>
                             <IonCard key={index} className='card'>
@@ -97,8 +108,9 @@ const Login: React.FC = () => {
                                         <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
                                         <div>{post.likes.length}</div>
                                     </div>
-                                    <div>
+                                    <div className='center'>
                                         <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
+                                        <div>{post.comments.length}</div>
                                     </div>
                                 </div>
                             </IonCard>
@@ -125,14 +137,14 @@ const Login: React.FC = () => {
                         })}
                     </div>
                 </IonItem>
-                <IonContent >
+                <IonItem >
                     <Editor toolBar={false} theme={'snow'} value={value} setValue={setValue} />
-                </IonContent>
+                </IonItem>
                 <div>
-                    <IonButton onClick={() => {
+                    <IonButton onClick={(e) => {
                         setValue('')
                         updatePost([...content[0].comments, value])
-                        console.log(value, content[0].comments, "this is a test")
+                        // handleKeyDown(e, [...content[0].comments, value])
                     }}>Add Comment</IonButton>
                 </div>
             </IonContent>

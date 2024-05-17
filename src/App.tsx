@@ -1,5 +1,6 @@
 import { Redirect, Route } from 'react-router-dom';
 import { add, chevronUp } from 'ionicons/icons';
+import { IonNav } from '@ionic/react';
 import {
   IonApp,
   IonButton,
@@ -46,7 +47,7 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonPage>
+  <IonNav root={() => <IonPage>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
@@ -78,7 +79,8 @@ const App: React.FC = () => (
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
-  </IonPage>
+  </IonPage>} />
+
 );
 
 export default App;

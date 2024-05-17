@@ -8,12 +8,14 @@ import { colorFill, heart, heartCircle, chatbubbleOutline } from 'ionicons/icons
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Quill from 'quill/core';
-
+import Post from '../pages/View/[id]'
 import { supabase } from './supaBase';
 import {
     IonButton,
+    IonNav,
     IonContent,
     IonCard,
+    IonNavLink,
     IonRouterLink,
     IonHeader,
     IonRoute,
@@ -29,6 +31,7 @@ import {
     useIonLoading,
 } from '@ionic/react';
 import '../pages/Tab3.css';
+import Page from '../pages/View/[id]'
 import { post } from '../utils/fetch';
 
 
@@ -85,31 +88,38 @@ const Content: React.FC = () => {
                     return (
                         <div className='shadow'>
                             <IonCard key={index} className='card'>
-                                <IonItem lines='none'>
-                                    <ReactQuill readOnly={true} theme="bubble" value={post.content} />
-                                </IonItem>
+                                <div className='emailContainer'>
+                                    <div className='username'>{post.email}</div>
+                                </div>
+                                <IonNavLink routerDirection="forward" component={() => <Page id={post.id} />}>
+                                    <IonItem lines='none'>
+                                        <ReactQuill readOnly={true} theme="bubble" value={post.content} />
+                                    </IonItem>
+                                </IonNavLink>
                                 <div className='flex'>
                                     <div className='center' onClick={() => {
-                                        if (post.likes.indexOf(userEmail) === -1) {                                            
+                                        if (post.likes.indexOf(userEmail) === -1) {
                                             let fullLikes = [...post.likes, userEmail];
                                             updatePost(post.id, fullLikes, post.content)
-                                        } else {                                                
+                                        } else {
                                             let emailIndex = post.likes.indexOf(localStorage.getItem('user') || '')
-                                            let newLikes = post.likes.toSpliced(emailIndex, 1)                                            
+                                            let newLikes = post.likes.toSpliced(emailIndex, 1)
                                             updatePost(post.id, newLikes, post.content)
                                         }
                                     }}>
                                         <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
                                         <div>{post.likes.length}</div>
                                     </div>
-                                    <div>
+                                    <div className='center'>
                                         <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
+                                        <div>{post.comments.length}</div>
                                     </div>
                                 </div>
-                                <IonRouterLink href={`/view/${post.id}`}>
-                                    <IonButton>Enter Post</IonButton>
-                                </IonRouterLink>
+                                {/* <IonNavLink routerDirection="forward" component={() => <Page id={post.id} />}>
+                                    <IonButton>this is the button</IonButton>
+                                </IonNavLink> */}
                             </IonCard>
+
                         </div>
                     )
                 })} </> : <><div>You aint got no post</div></>}
