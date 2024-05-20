@@ -20,9 +20,11 @@ import {
 import { supabase } from '../components/supaBase';
 import { ContextProvider } from "../providers/postProvider";
 import './Tab1.css';
+import { MyContext } from '../providers/postProvider';
 
 const Create: React.FC = () => {
-    const [email, setEmail] = useState<string>('');
+    const [email, setEmail] = useState<string>(localStorage.getItem('user'));
+    const { createPost } = useContext(MyContext)
     const [showLoading, hideLoading] = useIonLoading();
     const [showToast] = useIonToast();
     const [password, setPassword] = useState<string>('')
@@ -31,6 +33,7 @@ const Create: React.FC = () => {
     const [lastChange, setLastChange] = useState();
     const [readOnly, setReadOnly] = useState(false);
     const [value, setValue] = useState('');
+
     // const [values, setValues] = useContext(ContextProvider)
     const { createUser } = useApi()
 
@@ -58,25 +61,25 @@ const Create: React.FC = () => {
         // };
     }, []);
 
-    const createPost = async () => {
-        try {
-            const test = await fetch('http://localhost:3000/api/createPost', {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    content: value,
-                    email: localStorage.getItem('user') || ''
-                })
-            })
-        } catch (error) {
-            console.log(error, "this is the create user error")
-        }
-    }
+    // const createPost = async () => {
+    //     try {
+    //         const test = await fetch('http://localhost:3000/api/createPost', {
+    //             method: "POST",
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 content: value,
+    //                 email: localStorage.getItem('user') || ''
+    //             })
+    //         })
+    //     } catch (error) {
+    //         console.log(error, "this is the create user error")
+    //     }
+    // }
 
 
-
+    console.log(email, 'this is the email')
     return (
         <IonPage>
             <IonHeader>
@@ -87,7 +90,7 @@ const Create: React.FC = () => {
             </IonContent>
             <div className='center'>
                 <IonButton shape='round' onClick={() => {
-                    createPost();
+                    createPost(value);
                     setValue('')
                 }}>Create Post</IonButton>
             </div>

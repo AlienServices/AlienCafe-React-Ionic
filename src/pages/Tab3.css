@@ -7,6 +7,13 @@
 .ql-container .ql-snow {
     height: fit-content;
 }
+.list-md .card{
+    border-bottom: none;
+    border-top: none;
+}
+.ql-container.ql-disabled .ql-tooltip {
+    display: none;
+}
 
 
 .quill .ql-container {
@@ -15,28 +22,24 @@
 
 .card .quill {
     width: 100%;
+    /* height: 100px; */
 }
 
 .ql-editor {
-    height: fit-content;
-    /* overflow-y: scroll; */
+    padding: 5px;
 }
 
 .card {
     width: 50%;
-    height: fit-content;
-    border-radius: 10px;
-    box-shadow: -1px 3px 5px 0px rgba(0, 0, 0, 0.75);
+    height: fit-content;    
+    /* box-shadow: -1px 3px 5px 0px rgba(0, 0, 0, 0.75); */
     margin: auto;
-    margin-top: 30px;
-    margin-bottom: 90px;
     overflow: visible;
 }
 
 .list-md .card {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-    margin-bottom: 40px;
-    margin-top: 15px;
+
 }
 
 .flex .center {
@@ -65,9 +68,9 @@
 }
 
 .emailContainer {
-    width: 55%;
+    width: 40%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around   ;
 }
 
 @media (max-width: 600px) {

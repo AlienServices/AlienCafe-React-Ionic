@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
 import { IonIcon } from '@ionic/react';
@@ -33,78 +33,82 @@ import {
 import '../pages/Tab3.css';
 import Page from '../pages/View/[id]'
 import { post } from '../utils/fetch';
+import { MyContext } from '../providers/postProvider';
 
 
 const Content: React.FC = () => {
     const [content, setContent] = useState<{ id: string, content: string, likes: string, email: string }[]>([]);
+    const { posts, myPosts, setPosts, setMyPosts, updatePost } = useContext(MyContext)
     const [userEmail, setUserEmail] = useState<string | null>(localStorage.getItem('user'))
     const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
     const [likes, setLikes] = useState()
     const [toggle, setToggle] = useState(true)
 
 
-    useEffect(() => {
-        getAllPosts()
-    }, [])
+    // useEffect(() => {
+    //     getAllPosts()
+    // }, [])
 
 
-    const getAllPosts = async () => {
-        try {
-            const result = await fetch(`http://localhost:3000/api/getPosts`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-            // console.log(await result.json(), 'this is the result')
-            const posts = await result.json()
-            setContent(posts.Posts)
-        } catch (error) {
-            console.log(error, "this is the create user error")
-        }
-    }
+    // const getAllPosts = async () => {
+    //     try {
+    //         const result = await fetch(`http://localhost:3000/api/getPosts`, {
+    //             method: "GET",
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //         })
+    //         // console.log(await result.json(), 'this is the result')
+    //         const posts = await result.json()
+    //         setContent(posts.Posts)
+    //     } catch (error) {
+    //         console.log(error, "this is the create user error")
+    //     }
+    // }
 
 
-    const updatePost = async (id: string, likes: string[], postContent: string) => {
-        console.log(likes, 'these are the likes I need')
-        const updatedPost = await post({
-            url: `http://localhost:3000/api/addLike?id=${id}`, body: {
-                likes: likes,
-                content: postContent
-            }
-        })
-        console.log(updatedPost, 'an updated post')
-        setContent(content.map((post) => post.id === updatedPost.update.id ? updatedPost.update : post)
-        )
-    }
+    // const updatePost = async (id: string, likes: string[], postContent: string) => {
+    //     console.log(likes, 'these are the likes I need')
+    //     const updatedPost = await post({
+    //         url: `http://localhost:3000/api/addLike?id=${id}`, body: {
+    //             likes: likes,
+    //             content: postContent
+    //         }
+    //     })
+    //     console.log(updatedPost, 'an updated post')
+    //     setContent(content.map((post) => post.id === updatedPost.update.id ? updatedPost.update : post)
+    //     )
+    // }
 
-
-    console.log(content, 'this is a test')
-
+    console.log(posts, 'these are posts')
     return (
         <IonContent className='page' >
             <IonList>
-                {content ? <>   {content.map((post: any, index: number) => {
+                {posts ? <>   {posts.map((post: any, index: number) => {
+
+                    var parser = new DOMParser()
+                    var doc = parser.parseFromString(post.content, 'text/html');
+                    var output = Array.prototype.slice.call(
+                        doc.querySelectorAll('h1')
+                    ).map(el => el.outerHTML);
                     return (
                         <div className='shadow'>
-                            <IonCard key={index} className='card'>
+                            <IonCard style={{ boxShadow: 'none', borderTop: "1px solid #eaeaea", borderRadius: "0px", borderBottom: "1px solid #eaeaea", paddingTop: '10px', paddingBottom: '10px' }} key={post.id} className='card'>
                                 <div className='emailContainer'>
                                     <div className='username'>{post.email}</div>
                                 </div>
                                 <IonNavLink routerDirection="forward" component={() => <Page id={post.id} />}>
-                                    <IonItem lines='none'>
-                                        <ReactQuill readOnly={true} theme="bubble" value={post.content} />
-                                    </IonItem>
+                                    <ReactQuill style={{ color: "black" }} readOnly={true} theme="bubble" value={output[0]} />
                                 </IonNavLink>
                                 <div className='flex'>
                                     <div className='center' onClick={() => {
                                         if (post.likes.indexOf(userEmail) === -1) {
                                             let fullLikes = [...post.likes, userEmail];
-                                            updatePost(post.id, fullLikes, post.content)
+                                            updatePost({ id: post.id, likes: fullLikes, content: post.content, email: post.email })
                                         } else {
                                             let emailIndex = post.likes.indexOf(localStorage.getItem('user') || '')
                                             let newLikes = post.likes.toSpliced(emailIndex, 1)
-                                            updatePost(post.id, newLikes, post.content)
+                                            updatePost({ id: post.id, likes: newLikes, content: post.content, email: post.email })
                                         }
                                     }}>
                                         <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
@@ -119,16 +123,13 @@ const Content: React.FC = () => {
                                     <IonButton>this is the button</IonButton>
                                 </IonNavLink> */}
                             </IonCard>
-
                         </div>
                     )
                 })} </> : <><div>You aint got no post</div></>}
             </IonList>
-            <IonButton onClick={() => getAllPosts()}>
+            {/* <IonButton onClick={() => getAllPosts()}>
                 Refresh Posts
-            </IonButton>
-
-
+            </IonButton> */}
         </IonContent>
     );
 }
