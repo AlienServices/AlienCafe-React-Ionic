@@ -3,12 +3,13 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 // import Editor from '../components/Editor';
 import { useParams, withRouter } from 'react-router';
 import ReactQuill from 'react-quill';
-import { colorFill, heart, heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline } from 'ionicons/icons';
+import { colorFill, heart, heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, arrowBackOutline, backspaceOutline } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router';
 import 'react-quill/dist/quill.snow.css';
 import Quill from 'quill/core';
 import {
     IonButton,
+    IonTextarea,
     IonAvatar,
     IonButtons,
     IonBackButton,
@@ -45,8 +46,8 @@ const Login = ({ id }: { id: string }) => {
         getOnePost()
     }, [])
     useEffect(() => {
-        console.log(written, 'written stuff')
-    }, [])
+        console.log(value, 'vallllllue')
+    }, [value])
 
 
     const getOnePost = async () => {
@@ -77,9 +78,8 @@ const Login = ({ id }: { id: string }) => {
         )
     }
 
-    // const handleKeyDown = (e: any, data: string[]) => {
+    // const handleKeyDown = () => {
     //     if (e.key === 'Enter') {
-    //         updatePost(data)
     //         setValue('')
     //     }
     // }
@@ -91,7 +91,7 @@ const Login = ({ id }: { id: string }) => {
                 <IonHeader>
                     <IonToolbar>
                         <IonRouterLink href={`/tab3`}>
-                            <button className='button-41'>Back</button>
+                            <IonIcon size='large' icon={arrowBackOutline}></IonIcon>
                         </IonRouterLink>
 
                     </IonToolbar>
@@ -99,7 +99,7 @@ const Login = ({ id }: { id: string }) => {
                 {content.map((post: any, index: number) => {
                     return (
                         <div className='shadow'>
-                            <IonCard key={index} className='card'>
+                            <IonCard style={{ borderBottom: "1px solid lightgray", marginBottom: '25px' }} key={index} className='card'>
                                 <div className='around'>
                                     <div style={{ padding: "8px" }} className='emailContainer'>
                                         <IonAvatar style={{ height: '20px', width: '20px', marginLeft: '10px', marginRight: '5px' }}>
@@ -144,7 +144,7 @@ const Login = ({ id }: { id: string }) => {
                         </div>
                     )
                 })}
-                {/* <IonItem>
+                <IonItem>
                     <div className='column' style={{ width: "100%" }}>
                         {content[0]?.comments.map((comments: any, index: number) => {
                             return (
@@ -163,17 +163,22 @@ const Login = ({ id }: { id: string }) => {
                             )
                         })}
                     </div>
-                </IonItem> */}
-                <div>
-                    <Editor toolBar={false} theme={'bubble'} value={value} setValue={setValue} />
+                </IonItem>
+                <div className='flexWide'>
+                    {/* <Editor toolBar={false} theme={'snow'} value={value} setValue={setValue} /> */}
+                    <IonItem>
+                        <IonTextarea value={value}  onIonInput={(e: any) => {setValue(e.target.value)}}></IonTextarea>
+                    </IonItem>
+                    <div>
+                        <IonButton size='small' onClick={(e) => {
+                            setValue('')
+                            updatePost([...content[0].comments, value])
+                            getOnePost()
+                            // handleKeyDown(e, [...content[0].comments, value])
+                        }}>Add Comment</IonButton>
+                    </div>
                 </div>
-                <div>
-                    <IonButton size='small' onClick={(e) => {
-                        setValue('')
-                        updatePost([...content[0].comments, value])
-                        // handleKeyDown(e, [...content[0].comments, value])
-                    }}>Add Comment</IonButton>
-                </div>
+
             </IonContent>
         </IonPage>
     );

@@ -135,8 +135,7 @@ const Content: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className='centerColumn'>
-                                        <IonIcon color='' size='small' icon={shareOutline} ></IonIcon>
-                                        <div>{post.comments.length}</div>
+                                        <IonIcon color='' size='small' icon={shareOutline} ></IonIcon>                                        
                                     </div>
                                 </div>
                                 {/* <IonNavLink routerDirection="forward" component={() => <Page id={post.id} />}>
