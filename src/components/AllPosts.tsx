@@ -3,7 +3,7 @@ import { Redirect, Route } from 'react-router-dom';
 
 import { IonIcon } from '@ionic/react';
 import { useApi } from '../hooks/useApi';
-import { colorFill, heart, heartCircle, chatbubbleOutline } from 'ionicons/icons';
+import { colorFill, heart, heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline } from 'ionicons/icons';
 // import Editor from '../components/Editor';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -13,6 +13,8 @@ import { supabase } from './supaBase';
 import {
     IonButton,
     IonNav,
+    IonChip,
+    IonAvatar,
     IonContent,
     IonCard,
     IonNavLink,
@@ -93,29 +95,47 @@ const Content: React.FC = () => {
                     ).map(el => el.outerHTML);
                     return (
                         <div className='shadow'>
-                            <IonCard style={{ boxShadow: 'none', borderTop: "1px solid #eaeaea", borderRadius: "0px", borderBottom: "1px solid #eaeaea", paddingTop: '10px', paddingBottom: '10px' }} key={post.id} className='card'>
-                                <div className='emailContainer'>
-                                    <div className='username'>{post.email}</div>
+                            <IonCard style={{ boxShadow: 'none', borderTop: "1px solid #eaeaea", borderRadius: "0px", paddingTop: '10px', paddingBottom: '10px' }} key={post.id} className='card'>
+                                <div className='around'>
+                                    <div className='emailContainer'>
+                                        <IonAvatar style={{ height: '20px', width: '20px', marginLeft: '10px', marginRight: '5px' }}>
+                                            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                        </IonAvatar>
+                                        <div className='username'>{post.email}</div>
+                                    </div>
+                                    <div>
+                                        <IonButton size='small'>Follow</IonButton>
+                                    </div>
                                 </div>
                                 <IonNavLink routerDirection="forward" component={() => <Page id={post.id} />}>
                                     <ReactQuill style={{ color: "black" }} readOnly={true} theme="bubble" value={output[0]} />
                                 </IonNavLink>
-                                <div className='flex'>
-                                    <div className='center' onClick={() => {
-                                        if (post.likes.indexOf(userEmail) === -1) {
-                                            let fullLikes = [...post.likes, userEmail];
-                                            updatePost({ id: post.id, likes: fullLikes, content: post.content, email: post.email })
-                                        } else {
-                                            let emailIndex = post.likes.indexOf(localStorage.getItem('user') || '')
-                                            let newLikes = post.likes.toSpliced(emailIndex, 1)
-                                            updatePost({ id: post.id, likes: newLikes, content: post.content, email: post.email })
-                                        }
-                                    }}>
-                                        <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
-                                        <div>{post.likes.length}</div>
+                                <div className='around'>
+                                    <div className='flex'>
+                                        <div className='center' onClick={() => {
+                                            if (post.likes.indexOf(userEmail) === -1) {
+                                                let fullLikes = [...post.likes, userEmail];
+                                                updatePost({ id: post.id, likes: fullLikes, content: post.content, email: post.email })
+                                            } else {
+                                                let emailIndex = post.likes.indexOf(localStorage.getItem('user') || '')
+                                                let newLikes = post.likes.toSpliced(emailIndex, 1)
+                                                console.log(newLikes, 'thse are new likes')
+                                                updatePost({ id: post.id, likes: newLikes, content: post.content, email: post.email })
+                                            }
+                                        }}>
+                                            <IonIcon color='danger' size='small' icon={heartCircle} ></IonIcon>
+                                            <div>{post.likes.length}</div>
+                                        </div>
+                                        <div className='center'>
+                                            <IonIcon color='' size='small' icon={chatbubbleOutline} ></IonIcon>
+                                            <div>{post.comments.length}</div>
+                                        </div>
+                                        <div className='center'>
+                                            <IonIcon color='' size='small' icon={bookmarkOutline} ></IonIcon>
+                                        </div>
                                     </div>
-                                    <div className='center'>
-                                        <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
+                                    <div className='centerColumn'>
+                                        <IonIcon color='' size='small' icon={shareOutline} ></IonIcon>
                                         <div>{post.comments.length}</div>
                                     </div>
                                 </div>

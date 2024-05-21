@@ -3,12 +3,13 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 // import Editor from '../components/Editor';
 import { useParams, withRouter } from 'react-router';
 import ReactQuill from 'react-quill';
-import { colorFill, heart, heartCircle, chatbubbleOutline } from 'ionicons/icons';
+import { colorFill, heart, heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router';
 import 'react-quill/dist/quill.snow.css';
 import Quill from 'quill/core';
 import {
     IonButton,
+    IonAvatar,
     IonButtons,
     IonBackButton,
     IonCard,
@@ -96,28 +97,54 @@ const Login = ({ id }: { id: string }) => {
                     </IonToolbar>
                 </IonHeader>
                 {content.map((post: any, index: number) => {
-                    console.log(post.comments.length, 'this is comment length')
                     return (
                         <div className='shadow'>
                             <IonCard key={index} className='card'>
-                                <IonItem lines='none'>
-                                    <ReactQuill readOnly={true} theme="bubble" value={post.content} />
-                                </IonItem>
-                                <div className='flex'>
-                                    <div className='center'>
-                                        <IonIcon color='danger' size='large' icon={heartCircle} ></IonIcon>
-                                        <div>{post.likes.length}</div>
+                                <div className='around'>
+                                    <div style={{ padding: "8px" }} className='emailContainer'>
+                                        <IonAvatar style={{ height: '20px', width: '20px', marginLeft: '10px', marginRight: '5px' }}>
+                                            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                        </IonAvatar>
+                                        <div className='username'>{post.email}</div>
                                     </div>
-                                    <div className='center'>
-                                        <IonIcon color='' size='large' icon={chatbubbleOutline} ></IonIcon>
-                                        <div>{post.comments.length}</div>
+                                    <div>
+                                        {/* <IonButton size='small'>Follow</IonButton> */}
+                                    </div>
+                                </div>
+                                <ReactQuill style={{ color: 'black' }} readOnly={true} theme="bubble" value={post.content} />
+                                <div className='around'>
+                                    <div className='flex'>
+                                        <div className='center' onClick={() => {
+                                            // if (post.likes.indexOf(userEmail) === -1) {
+                                            //     let fullLikes = [...post.likes, userEmail];
+                                            //     updatePost({ id: post.id, likes: fullLikes, content: post.content, email: post.email })
+                                            // } else {
+                                            //     let emailIndex = post.likes.indexOf(localStorage.getItem('user') || '')
+                                            //     let newLikes = post.likes.toSpliced(emailIndex, 1)
+                                            //     console.log(newLikes, 'thse are new likes')
+                                            //     updatePost({ id: post.id, likes: newLikes, content: post.content, email: post.email })
+                                            // }
+                                        }}>
+                                            <IonIcon color='danger' size='small' icon={heartCircle} ></IonIcon>
+                                            <div>{post.likes.length}</div>
+                                        </div>
+                                        <div className='center'>
+                                            <IonIcon color='' size='small' icon={chatbubbleOutline} ></IonIcon>
+                                            <div>{post.comments.length}</div>
+                                        </div>
+                                        <div className='center'>
+                                            <IonIcon color='' size='small' icon={bookmarkOutline} ></IonIcon>
+                                        </div>
+                                    </div>
+                                    <div className='centerColumn'>
+                                        <IonIcon color='' size='small' icon={shareOutline} ></IonIcon>
                                     </div>
                                 </div>
                             </IonCard>
                         </div>
                     )
                 })}
-                <IonItem>
+                {/* <IonItem>
                     <div className='column' style={{ width: "100%" }}>
                         {content[0]?.comments.map((comments: any, index: number) => {
                             return (
@@ -136,12 +163,12 @@ const Login = ({ id }: { id: string }) => {
                             )
                         })}
                     </div>
-                </IonItem>
-                <IonItem >
-                    <Editor toolBar={false} theme={'snow'} value={value} setValue={setValue} />
-                </IonItem>
+                </IonItem> */}
                 <div>
-                    <IonButton onClick={(e) => {
+                    <Editor toolBar={false} theme={'bubble'} value={value} setValue={setValue} />
+                </div>
+                <div>
+                    <IonButton size='small' onClick={(e) => {
                         setValue('')
                         updatePost([...content[0].comments, value])
                         // handleKeyDown(e, [...content[0].comments, value])

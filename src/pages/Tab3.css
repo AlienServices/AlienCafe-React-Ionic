@@ -7,21 +7,28 @@
 .ql-container .ql-snow {
     height: fit-content;
 }
-.list-md .card{
-    border-bottom: none;
-    border-top: none;
-}
+
 .ql-container.ql-disabled .ql-tooltip {
     display: none;
 }
-
 
 .quill .ql-container {
     height: fit-content;
 }
 
+.quill .ql-editor h1 {
+    font-size: 20px !important;
+}
+
+.quill .ql-editor h2 {
+    font-size: 18px !important;
+}
+
+
+
 .card .quill {
     width: 100%;
+    box-shadow: none;    
     /* height: 100px; */
 }
 
@@ -31,10 +38,12 @@
 
 .card {
     width: 50%;
-    height: fit-content;    
+    height: fit-content;
     /* box-shadow: -1px 3px 5px 0px rgba(0, 0, 0, 0.75); */
     margin: auto;
     overflow: visible;
+    border-bottom: 1px solid lightgray;
+    box-shadow: none;
 }
 
 .list-md .card {
@@ -68,9 +77,11 @@
 }
 
 .emailContainer {
-    width: 40%;
+    width: fit-content;
     display: flex;
-    justify-content: space-around   ;
+    /* width: 55%; */
+    align-items: center;
+    justify-content: space-around;
 }
 
 @media (max-width: 600px) {
