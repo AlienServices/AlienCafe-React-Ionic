@@ -22,12 +22,9 @@ const Editor = ({ value, setValue, theme, toolBar }: {
         {toolBar ? <ReactQuill modules={{
           toolbar: {
             container: [
-              [{ header: "1" }, { header: "2" }, { font: [] }],
-              [{ size: [] }],
+              [{ header: "1" }, { header: "2" }],              
               ["bold", "italic", "underline", "strike", "blockquote"],
-              ["link", "image", "video"],
-              ["code-block"],
-              ["clean"],
+              ["link", "image"],            
             ],
             // handlers: {
             //   image: imageHandler()

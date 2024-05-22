@@ -82,18 +82,20 @@ const Create: React.FC = () => {
     console.log(email, 'this is the email')
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>Alien Cafe</IonToolbar>
-            </IonHeader>
-            <IonContent >
-                <Editor toolBar={true} theme={'snow'} value={value} setValue={setValue} />
+            <IonContent>
+                <IonHeader>
+                    {/* <IonTitle>name</IonTitle> */}
+                    <div className='end'>
+                        <IonButton onClick={() => {
+                            createPost(value);
+                            setValue('')
+                        }}>Next</IonButton>
+                    </div>
+                </IonHeader>
+                <IonItem lines='none'>
+                    <Editor toolBar={true} theme={'snow'} value={value} setValue={setValue} />
+                </IonItem>              
             </IonContent>
-            <div className='center'>
-                <IonButton shape='round' onClick={() => {
-                    createPost(value);
-                    setValue('')
-                }}>Create Post</IonButton>
-            </div>
         </IonPage>
 
     );

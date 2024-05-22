@@ -90,6 +90,12 @@
     justify-content: space-around;
 }
 
+.end{
+    display: flex;
+    justify-content: end;
+    padding: 10px;
+}
+
 @media (max-width: 600px) {
     .quill .ql-container {
         height: 200px;

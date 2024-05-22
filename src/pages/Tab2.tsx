@@ -38,7 +38,7 @@ const Tab2 = () => {
     } catch (error) {
       console.log(error, "this is the create user error")
     }
-  } 
+  }
 
   console.log(myInfo, 'this is my info')
 

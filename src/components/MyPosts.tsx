@@ -52,7 +52,7 @@ const Content: React.FC = () => {
                     ).map(el => el.outerHTML);
                     return (
                         <div className='shadow'>
-                            <IonCard style={{ boxShadow: 'none', borderRadius: "0px", borderBottom: "1px solid #eaeaea", paddingTop: '10px', paddingBottom: '10px'}} key={index} className='card'>
+                            <IonCard style={{ boxShadow: 'none', borderRadius: "0px", borderBottom: "1px solid #eaeaea", paddingTop: '10px', paddingBottom: '10px' }} key={index} className='card'>
                                 <div className='around'>
                                     <div className='emailContainer'>
                                         <IonAvatar style={{ height: '20px', width: '20px', marginLeft: '10px', marginRight: '5px' }}>
