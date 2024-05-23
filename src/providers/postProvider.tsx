@@ -11,21 +11,27 @@ interface Post {
 interface PostContext {
     posts: Post[];
     myPosts: Post[];
+    myInfo: { id: string, email: string, username: string, bio: string, following: [], followers: [] }
     setPosts: (post: Post[]) => void
     setMyPosts: (post: Post[]) => void
+    setMyInfo: (post: Post[]) => void
     updatePost: (post: Post) => void
     deletePost: (id: string) => void
     createPost: (value: string) => void
-
+    getAllPosts: () => void
+    setLoggedin: (value: boolean) => void
+    loggedIn: boolean
 }
 
 // const MyContext = createContext({ values: [], setValues: (posts) => { } });
-const MyContext = createContext<PostContext>({ posts: [], myPosts: [], setPosts: (posts) => { }, setMyPosts: (posts) => { }, updatePost: (post) => { }, deletePost: (id) => { }, createPost: (value, email) => { } });
+const MyContext = createContext<PostContext>({ posts: [], myPosts: [], setPosts: (posts) => { }, setMyPosts: (posts) => { }, updatePost: (post) => { }, deletePost: (id) => { }, createPost: (value, email) => { }, setMyInfo: () => { }, getAllPosts: () => { }, setLoggedin: () => { }, loggedIn: false, myInfo: { id: '', email: '', bio: '', followers: [], following: [], username: '' } });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
     const [content, setContent] = useState<{ id: string, content: string, likes: string[], email: string }[]>([]);
     let realContent = content
     const [myPosts, setMyPosts] = useState<{ id: string, content: string, likes: string[], email: string }[]>([]);
+    const [myInfo, setMyInfo] = useState<{ id: string, content: string, likes: string[], email: string }[]>([]);
+    const [loggedIn, setLoggedIn] = useState(true)
 
 
     useEffect(() => {
@@ -35,7 +41,26 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         getMyPosts()
-    }, [])
+        userInfo()
+    }, [loggedIn])
+
+
+
+    const userInfo = async () => {
+        try {
+            const result = await fetch(`http://localhost:3000/api/myInfo?email=${localStorage.getItem('user')}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            const posts = await result.json()
+            console.log('called user info')
+            setMyInfo(posts.Hello)
+        } catch (error) {
+            console.log(error, "this is the create user error")
+        }
+    }
 
 
     const getAllPosts = async () => {
@@ -113,9 +138,9 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
 
 
-    console.log(content, 'this is the content i need')
+    console.log(myInfo, 'My Information')
     return (
-        <MyContext.Provider value={{ posts: content, myPosts: myPosts, setPosts: setContent, setMyPosts: setMyPosts, updatePost: updatePost, deletePost, createPost }}>
+        <MyContext.Provider value={{ posts: content, myPosts: myPosts, setPosts: setContent, setMyPosts: setMyPosts, updatePost: updatePost, deletePost, createPost, myInfo, setMyInfo, getAllPosts, setLoggedin: setLoggedIn, loggedIn }}>
             {children}
         </MyContext.Provider>
     );

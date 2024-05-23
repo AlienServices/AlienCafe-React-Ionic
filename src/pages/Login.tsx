@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import { useApi } from '../hooks/useApi';
 // import Editor from '../components/Editor';
 import ReactQuill from 'react-quill';
@@ -23,10 +23,12 @@ import { supabase } from '../components/supaBase';
 import './Tab1.css';
 import SignIn from '../components/SignIn';
 import CreateAccount from '../components/CreateAccount'
+import { MyContext } from '../providers/postProvider';
 
 const Login: React.FC = () => {
   const [showLoading, hideLoading] = useIonLoading();
   const [showToast] = useIonToast();
+  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts } = useContext(MyContext)
   const [localEmail, setLocalEmail] = useState(localStorage.getItem('user'))
   const [loggedIn, setLoggedIn] = useState('logged out')
   const [email, setEmail] = useState('logged out')
@@ -34,7 +36,7 @@ const Login: React.FC = () => {
   const [loginToggle, setLoginToggle] = useState<boolean>(true)
   const { createUser } = useApi()
 
- 
+
   // useEffect(() => {
   //   if (user?.session.accessToken) {
   //     console.log('logged in')

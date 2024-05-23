@@ -3,7 +3,7 @@ import { Redirect, Route } from 'react-router-dom';
 
 import { IonIcon } from '@ionic/react';
 import { useApi } from '../hooks/useApi';
-import { colorFill, heart, heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline } from 'ionicons/icons';
+import { colorFill, heart, heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkOutline } from 'ionicons/icons';
 // import Editor from '../components/Editor';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -34,55 +34,58 @@ import {
 } from '@ionic/react';
 import '../pages/Tab3.css';
 import Page from '../pages/View/[id]'
+import Profile from '../pages/Profile/[id]'
 import { post } from '../utils/fetch';
 import { MyContext } from '../providers/postProvider';
 
 
 const Content: React.FC = () => {
     const [content, setContent] = useState<{ id: string, content: string, likes: string, email: string }[]>([]);
-    const { posts, myPosts, setPosts, setMyPosts, updatePost } = useContext(MyContext)
+    const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts } = useContext(MyContext)
     const [userEmail, setUserEmail] = useState<string | null>(localStorage.getItem('user'))
     const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
-    const [likes, setLikes] = useState()
+    const [user, setUser] = useState<{ bio: string, email: string, followers: string[], following: string[], id: string, username: string }>({ bio: '', email: '', followers: [], following: [], id: '', username: '' })
     const [toggle, setToggle] = useState(true)
 
 
-    // useEffect(() => {
-    //     getAllPosts()
-    // }, [])
+    useEffect(() => {
+        getUser()
+    }, [])
 
 
-    // const getAllPosts = async () => {
-    //     try {
-    //         const result = await fetch(`http://localhost:3000/api/getPosts`, {
-    //             method: "GET",
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //         })
-    //         // console.log(await result.json(), 'this is the result')
-    //         const posts = await result.json()
-    //         setContent(posts.Posts)
-    //     } catch (error) {
-    //         console.log(error, "this is the create user error")
-    //     }
-    // }
+    const getUser = async () => {
+        try {
+            const result = await fetch(`http://localhost:3000/api/myInfo?email=${localStorage.getItem('user')}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            const userInfo = await result.json()
+            setUser(userInfo.Hello)
+            console.log(userInfo, 'this is user result')
+        } catch (error) {
+            console.log(error, "this is the create user error")
+        }
+    }
 
+    const updateUser = async (username: string, bio: string, following: string[]) => {
+        try {
+            const updateUser = await post({
+                url: `http://localhost:3000/api/updateUsers?email=${userEmail}`,
+                body: {
+                    bio: bio,
+                    username: user.username,
+                    following: following,
+                }
+            })
+            setContent(content.map((post) => post.id === updateUser.update.id ? updateUser.update : post))
+            getUser()
 
-    // const updatePost = async (id: string, likes: string[], postContent: string) => {
-    //     console.log(likes, 'these are the likes I need')
-    //     const updatedPost = await post({
-    //         url: `http://localhost:3000/api/addLike?id=${id}`, body: {
-    //             likes: likes,
-    //             content: postContent
-    //         }
-    //     })
-    //     console.log(updatedPost, 'an updated post')
-    //     setContent(content.map((post) => post.id === updatedPost.update.id ? updatedPost.update : post)
-    //     )
-    // }
+        } catch (err) { console.log(err) }
+    }
 
-    console.log(posts, 'these are posts')
+    console.log(user, 'this is the user')
     return (
         <IonContent className='page' >
             <IonList>
@@ -101,10 +104,18 @@ const Content: React.FC = () => {
                                         <IonAvatar style={{ height: '20px', width: '20px', marginLeft: '10px', marginRight: '5px' }}>
                                             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                                         </IonAvatar>
-                                        <div className='username'>{post.email}</div>
+                                        <IonNavLink routerDirection="forward" component={() => <Profile id={post.email} />}>
+                                            <div className='username'>{post.email}</div>
+                                        </IonNavLink>
                                     </div>
                                     <div>
-                                        <IonButton size='small'>Follow</IonButton>
+                                        {user.email !== post.email ? <> {user?.following?.indexOf(post.email) !== -1 ? <div> <IonButton onClick={() => {
+                                            let emailIndex = user?.following?.indexOf(post.email)
+                                            let newLikes = user?.following?.toSpliced(emailIndex, 1)
+                                            updateUser(user?.username, user?.bio, [...newLikes])
+                                        }} size='small'>{"<3"}</IonButton></div> : <div> <IonButton onClick={() => {
+                                            updateUser(user?.username, user?.bio, [...user.following, post.email])
+                                        }} size='small'>Follow</IonButton></div>}</> : <>Its you Mf</>}
                                     </div>
                                 </div>
                                 <IonNavLink routerDirection="forward" component={() => <Page id={post.id} />}>
@@ -135,7 +146,7 @@ const Content: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className='centerColumn'>
-                                        <IonIcon color='' size='small' icon={shareOutline} ></IonIcon>                                        
+                                        <IonIcon color='' size='small' icon={shareOutline} ></IonIcon>
                                     </div>
                                 </div>
                                 {/* <IonNavLink routerDirection="forward" component={() => <Page id={post.id} />}>

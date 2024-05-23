@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { supabase } from './supaBase';
@@ -19,10 +19,12 @@ import {
     useIonLoading,
 } from '@ionic/react';
 import '../pages/Tab3.css';
+import { MyContext } from '../providers/postProvider';
 
 const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
     const [content, setContent] = useState<{ hello: [] }>();
     const [email, setEmail] = useState<string>('');
+    const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, setLoggedin, loggedIn } = useContext(MyContext)
     const [userEmail, setUserEmail] = useState<any>(localStorage.getItem('user'))
     const [password, setPassword] = useState<string>('')
     const [username, setUsername] = useState<string>()
@@ -42,7 +44,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
     };
 
 
-    const handleLogin = async () => {        
+    const handleLogin = async () => {
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
@@ -55,6 +57,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
                 localStorage.setItem('user', data.user.email)
                 console.log(data, "this is login data")
             }
+            setLoggedin(!loggedIn)
         } catch (error) {
             console.log(error)
         }
@@ -83,6 +86,8 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
             console.log(error)
         }
     }
+
+
 
     return (
         <IonContent>
@@ -116,7 +121,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
                 </IonItem>
 
                 <div className="ion-text-center">
-                    <IonButton onClick={() => { handleLogin() }}>
+                    <IonButton onClick={() => { handleLogin(); }}>
                         Log In
                     </IonButton>
                     <IonButton onClick={() => { setToggle(false) }}>
