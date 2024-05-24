@@ -41,7 +41,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         getMyPosts()
-        userInfo()
+        getAllPosts()
+        userInfo()       
     }, [loggedIn])
 
 

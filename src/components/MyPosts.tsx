@@ -65,7 +65,7 @@ const Content: React.FC = () => {
                                             <IonIcon icon={ellipsisHorizontal}></IonIcon>
                                         </IonFabButton>
                                         <IonFabList>
-                                            <IonFabButton>Trash</IonFabButton>
+                                            <IonFabButton onClick={() => {deletePost(post.id)}}>Trash</IonFabButton>
                                         </IonFabList>
                                     </IonFab>
                                 </div>

@@ -6,6 +6,7 @@ import Category from '../components/Category';
 import { logoIonic } from 'ionicons/icons';
 import { useEffect, useState, useContext } from 'react';
 import { MyContext } from '../providers/postProvider';
+import Replies from '../components/Replies';
 
 const Tab2 = () => {
 
@@ -22,7 +23,6 @@ const Tab2 = () => {
   const [categories, setCategories] = useState(0)
 
 
-console.log(myInfo, 'shold hav my name')
   return (
     <IonPage>
       <IonCard className='noMargin' color={'light'}>
@@ -31,9 +31,6 @@ console.log(myInfo, 'shold hav my name')
           <IonCardTitle>
             {myInfo?.username}
           </IonCardTitle>
-          {/* <IonCardSubtitle>
-            Subtitle?
-          </IonCardSubtitle> */}
         </IonCardHeader>
         <IonCardContent>
           {myInfo.bio}
@@ -74,7 +71,7 @@ console.log(myInfo, 'shold hav my name')
         </div >
       </IonCard >
       {
-        choices.replies ? <>replies</> : choices.posts ? <>< MyPosts /></> : choices.likes ? <>Likes</> : choices.categories ? <><Category /></> : <MyPosts></MyPosts>
+        choices.replies ? <><Replies /></> : choices.posts ? <>< MyPosts /></> : choices.likes ? <>Likes</> : choices.categories ? <><Category /></> : <MyPosts></MyPosts>
       }
 
 
