@@ -32,10 +32,10 @@ const CreateAccount = ({ setToggle }: { setToggle: (value: boolean) => void }) =
 
     const handleSignUp = async () => {
         try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password,
-            })
+            // const { data, error } = await supabase.auth.signUp({
+            //     email: email,
+            //     password: password,
+            // })
             const result = await fetch(`http://localhost:3000/api/createUser`, {
                 method: "POST",
                 headers: {

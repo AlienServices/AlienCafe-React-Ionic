@@ -37,6 +37,8 @@ import Page from '../pages/View/[id]'
 import Profile from '../pages/Profile/[id]'
 import { post } from '../utils/fetch';
 import { MyContext } from '../providers/postProvider';
+import moment from 'moment'
+
 
 
 const Content: React.FC = () => {
@@ -84,18 +86,25 @@ const Content: React.FC = () => {
 
         } catch (err) { console.log(err) }
     }
-
-    console.log(user, 'this is the user')
     return (
         <IonContent className='page' >
             <IonList>
-                {posts ? <>   {posts.map((post: any, index: number) => {
+                {posts ? <>   {posts.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date)).map((post: any, index: number) => {
 
                     var parser = new DOMParser()
                     var doc = parser.parseFromString(post.content, 'text/html');
                     var output = Array.prototype.slice.call(
                         doc.querySelectorAll('h1')
                     ).map(el => el.outerHTML);
+
+                    const date = new Date(post.date)
+                    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+                    const day = String(date.getUTCDate()).padStart(2, '0');
+                    const year = date.getUTCFullYear();
+
+                    // Format the date as mm/dd/yyyy
+                    const formattedDate = `${month}/${day}/${year}`;
+
                     return (
                         <div className='shadow'>
                             <IonCard style={{ boxShadow: 'none', borderTop: "1px solid #eaeaea", borderRadius: "0px", paddingTop: '10px', paddingBottom: '10px' }} key={post.id} className='card'>
@@ -145,7 +154,8 @@ const Content: React.FC = () => {
                                             <IonIcon color='' size='small' icon={bookmarkOutline} ></IonIcon>
                                         </div>
                                     </div>
-                                    <div className='centerColumn'>
+                                    <div className='flex'>
+                                        <div>{formattedDate}</div>
                                         <IonIcon color='' size='small' icon={shareOutline} ></IonIcon>
                                     </div>
                                 </div>

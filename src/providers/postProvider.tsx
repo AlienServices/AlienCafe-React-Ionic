@@ -48,6 +48,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
 
     const userInfo = async () => {
+        
         try {
             const result = await fetch(`http://localhost:3000/api/myInfo?email=${localStorage.getItem('user')}`, {
                 method: "GET",
@@ -56,8 +57,9 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
                 },
             })
             const posts = await result.json()
-            console.log('called user info')
-            setMyInfo(posts.Hello)
+            console.log(posts, 'this is important info')
+            // console.log('called user info')
+            // setMyInfo(posts.Hello)
         } catch (error) {
             console.log(error, "this is the create user error")
         }
@@ -120,6 +122,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const createPost = async (value: string) => {
+        
         try {
             const test = await fetch('http://localhost:3000/api/createPost', {
                 method: "POST",
@@ -128,7 +131,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
                 },
                 body: JSON.stringify({
                     content: value,
-                    email: localStorage.getItem('user') || ''
+                    email: localStorage.getItem('user') || '',
+                    date: new Date() 
                 })
             })
             getAllPosts()

@@ -44,12 +44,19 @@ const Content: React.FC = () => {
     return (
         <IonContent className='page' >
             <IonList>
-                {myPosts ? <>   {myPosts?.map((post: any, index: number) => {
+                {myPosts ? <>   {myPosts?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date)).map((post: any, index: number) => {
                     var parser = new DOMParser()
                     var doc = parser.parseFromString(post.content, 'text/html');
                     var output = Array.prototype.slice.call(
                         doc.querySelectorAll('h1')
                     ).map(el => el.outerHTML);
+                    const date = new Date(post.date)
+                    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+                    const day = String(date.getUTCDate()).padStart(2, '0');
+                    const year = date.getUTCFullYear();
+
+                    // Format the date as mm/dd/yyyy
+                    const formattedDate = `${month}/${year}`;
                     return (
                         <div className='shadow'>
                             <IonCard style={{ boxShadow: 'none', borderRadius: "0px", borderBottom: "1px solid #eaeaea", paddingTop: '10px', paddingBottom: '10px' }} key={index} className='card'>
@@ -65,7 +72,7 @@ const Content: React.FC = () => {
                                             <IonIcon icon={ellipsisHorizontal}></IonIcon>
                                         </IonFabButton>
                                         <IonFabList>
-                                            <IonFabButton onClick={() => {deletePost(post.id)}}>Trash</IonFabButton>
+                                            <IonFabButton onClick={() => { deletePost(post.id) }}>Trash</IonFabButton>
                                         </IonFabList>
                                     </IonFab>
                                 </div>
@@ -96,9 +103,10 @@ const Content: React.FC = () => {
                                             <IonIcon color='' size='small' icon={bookmarkOutline} ></IonIcon>
                                         </div>
                                     </div>
-                                    <div className='centerColumn'>
+                                    <div className='flexSmall'>
+                                        <div>{formattedDate}</div>
                                         <IonIcon color='' size='small' icon={shareOutline} ></IonIcon>
-                                        <div>{post.comments.length}</div>
+                                        
                                     </div>
                                 </div>
                                 <div>

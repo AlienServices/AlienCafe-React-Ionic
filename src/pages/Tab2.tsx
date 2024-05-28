@@ -33,7 +33,7 @@ const Tab2 = () => {
           </IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
-          {myInfo.bio}
+          {myInfo?.bio}
         </IonCardContent>
         <div className='flexChoice'>
           <div onClick={() => {
