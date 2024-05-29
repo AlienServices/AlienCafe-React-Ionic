@@ -36,16 +36,16 @@ import { MyContext } from '../providers/postProvider';
 
 
 const Content: React.FC = () => {
-    const { posts, myPosts, setPosts, setMyPosts, updatePost, deletePost, userPosts, getUserPosts } = useContext(MyContext)
-    const [userEmail, setUserEmail] = useState<any>(localStorage.getItem('user'))
+    const { posts, myPosts, setPosts, setMyPosts, updatePost, deletePost, userPosts, getUserPosts } = useContext(MyContext)    
     const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
 
+    
 
-
+    console.log(userPosts, 'these are the users posts')
     return (
         <IonContent className='page' >
             <IonList>
-                {myPosts ? <>   {myPosts?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date)).map((post: any, index: number) => {
+                {userPosts? <>   {userPosts?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date)).map((post: any, index: number) => {
                     var parser = new DOMParser()
                     var doc = parser.parseFromString(post.content, 'text/html');
                     var output = Array.prototype.slice.call(

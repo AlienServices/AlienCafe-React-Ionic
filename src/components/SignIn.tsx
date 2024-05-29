@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useLocation, useHistory } from 'react-router';
+import useNavigate from 'react-router'
 import { supabase } from './supaBase';
 import {
     IonButton,
@@ -28,6 +30,9 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
     const [userEmail, setUserEmail] = useState<any>(localStorage.getItem('user'))
     const [password, setPassword] = useState<string>('')
     const [username, setUsername] = useState<string>()
+    const [error, setError] = useState<string>()
+    const history = useHistory()
+
     // const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
 
     const handleSignUp = async () => {
@@ -38,6 +43,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
                 password: password,
             })
             console.log(error, data, "create user info")
+
         } catch (error) {
             console.log(error)
         }
@@ -52,10 +58,12 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
             })
             if (error) {
                 console.log(error, "this is the login error")
+                setError('Incorrect Password')
             }
             if (data.user?.email) {
                 localStorage.setItem('user', data.user.email)
                 console.log(data, "this is login data")
+                history.push('/tab3')
             }
             setLoggedin(!loggedIn)
         } catch (error) {
@@ -131,6 +139,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
                         Log Out
                     </IonButton>
                 </div>
+                <div>{error}</div>
             </IonList>
         </IonContent>
     );

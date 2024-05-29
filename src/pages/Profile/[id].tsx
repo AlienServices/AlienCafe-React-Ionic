@@ -9,6 +9,7 @@ import { useEffect, useState, useContext } from 'react';
 // import { StringMap } from 'quill';
 import { MyContext } from '../../providers/postProvider';
 import { post } from '../../utils/fetch';
+import UserPosts from '../../components/UserPosts'
 
 const Profile = ({ id }: { id: string }) => {
 
@@ -122,7 +123,7 @@ const Profile = ({ id }: { id: string }) => {
                 </div >
             </IonCard >
             {
-                choices.replies ? <>replies</> : choices.posts ? <>< MyPosts /></> : choices.likes ? <>Likes</> : choices.categories ? <><Category /></> : <MyPosts></MyPosts>
+                choices.replies ? <>replies</> : choices.posts ? <>< UserPosts /></> : choices.likes ? <>Likes</> : choices.categories ? <><Category /></> : <MyPosts></MyPosts>
             }
 
 

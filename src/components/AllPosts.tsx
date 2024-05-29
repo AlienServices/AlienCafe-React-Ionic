@@ -43,7 +43,7 @@ import moment from 'moment'
 
 const Content: React.FC = () => {
     const [content, setContent] = useState<{ id: string, content: string, likes: string, email: string }[]>([]);
-    const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts } = useContext(MyContext)
+    const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo, updateUser, getUserPosts } = useContext(MyContext)
     const [userEmail, setUserEmail] = useState<string | null>(localStorage.getItem('user'))
     const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
     const [user, setUser] = useState<{ bio: string, email: string, followers: string[], following: string[], id: string, username: string }>({ bio: '', email: '', followers: [], following: [], id: '', username: '' })
@@ -71,21 +71,8 @@ const Content: React.FC = () => {
         }
     }
 
-    const updateUser = async (username: string, bio: string, following: string[]) => {
-        try {
-            const updateUser = await post({
-                url: `http://localhost:3000/api/updateUsers?email=${userEmail}`,
-                body: {
-                    bio: bio,
-                    username: user.username,
-                    following: following,
-                }
-            })
-            setContent(content.map((post) => post.id === updateUser.update.id ? updateUser.update : post))
-            getUser()
 
-        } catch (err) { console.log(err) }
-    }
+    console.log(myInfo, 'me')
     return (
         <IonContent className='page' >
             <IonList>
@@ -113,17 +100,17 @@ const Content: React.FC = () => {
                                         <IonAvatar style={{ height: '20px', width: '20px', marginLeft: '10px', marginRight: '5px' }}>
                                             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                                         </IonAvatar>
-                                        <IonNavLink routerDirection="forward" component={() => <Profile id={post.email} />}>
+                                        <IonNavLink onClick={(() => { getUserPosts(post.email)})} routerDirection="forward" component={() => <Profile id={post.email} />}>
                                             <div className='username'>{post.email}</div>
                                         </IonNavLink>
                                     </div>
                                     <div>
-                                        {user.email !== post.email ? <> {user?.following?.indexOf(post.email) !== -1 ? <div> <IonButton onClick={() => {
-                                            let emailIndex = user?.following?.indexOf(post.email)
-                                            let newLikes = user?.following?.toSpliced(emailIndex, 1)
-                                            updateUser(user?.username, user?.bio, [...newLikes])
+                                        {myInfo?.email !== post?.email ? <> {myInfo?.following?.indexOf(post.email) !== -1 ? <div> <IonButton onClick={() => {
+                                            let emailIndex = myInfo?.following?.indexOf(post.email)
+                                            let newLikes = myInfo?.following?.toSpliced(emailIndex, 1)
+                                            updateUser(myInfo?.username, myInfo?.bio, [...newLikes], myInfo.email)
                                         }} size='small'>{"<3"}</IonButton></div> : <div> <IonButton onClick={() => {
-                                            updateUser(user?.username, user?.bio, [...user.following, post.email])
+                                            updateUser(user?.username, user?.bio, [...user.following, post.email], myInfo.email)
                                         }} size='small'>Follow</IonButton></div>}</> : <>Its you Mf</>}
                                     </div>
                                 </div>

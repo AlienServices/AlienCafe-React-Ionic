@@ -11,25 +11,31 @@ interface Post {
 interface PostContext {
     posts: Post[];
     myPosts: Post[];
+    userPosts: Post[];
     myInfo: { id: string, email: string, username: string, bio: string, following: [], followers: [] }
     setPosts: (post: Post[]) => void
+    setUserPosts: (post: Post[]) => void
     setMyPosts: (post: Post[]) => void
     setMyInfo: (post: Post[]) => void
     updatePost: (post: Post) => void
     deletePost: (id: string) => void
     createPost: (value: string) => void
+    updateUser: (username: string, bio: string, following: string[], email: string) => void
     getAllPosts: () => void
+    getUserPosts: (email: string) => void
     setLoggedin: (value: boolean) => void
     loggedIn: boolean
+
 }
 
 // const MyContext = createContext({ values: [], setValues: (posts) => { } });
-const MyContext = createContext<PostContext>({ posts: [], myPosts: [], setPosts: (posts) => { }, setMyPosts: (posts) => { }, updatePost: (post) => { }, deletePost: (id) => { }, createPost: (value, email) => { }, setMyInfo: () => { }, getAllPosts: () => { }, setLoggedin: () => { }, loggedIn: false, myInfo: { id: '', email: '', bio: '', followers: [], following: [], username: '' } });
+const MyContext = createContext<PostContext>({ posts: [], myPosts: [], setPosts: (posts) => { }, setMyPosts: (posts) => { }, updatePost: (post) => { }, deletePost: (id) => { }, createPost: (value, email) => { }, setMyInfo: () => { }, getAllPosts: () => { }, setLoggedin: () => { }, loggedIn: false, myInfo: { id: '', email: '', bio: '', followers: [], following: [], username: '' }, updateUser: () => { }, setUserPosts: () => { }, userPosts: [], getUserPosts: (email) => { } });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
     const [content, setContent] = useState<{ id: string, content: string, likes: string[], email: string }[]>([]);
     let realContent = content
     const [myPosts, setMyPosts] = useState<{ id: string, content: string, likes: string[], email: string }[]>([]);
+    const [userPosts, setUserPosts] = useState<{ id: string, content: string, likes: string[], email: string }[]>([]);
     const [myInfo, setMyInfo] = useState<{ id: string, content: string, likes: string[], email: string }[]>([]);
     const [loggedIn, setLoggedIn] = useState(true)
 
@@ -42,13 +48,14 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         getMyPosts()
         getAllPosts()
-        userInfo()       
+        userInfo()
     }, [loggedIn])
+    
 
 
 
     const userInfo = async () => {
-        
+
         try {
             const result = await fetch(`http://localhost:3000/api/myInfo?email=${localStorage.getItem('user')}`, {
                 method: "GET",
@@ -57,9 +64,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
                 },
             })
             const posts = await result.json()
-            console.log(posts, 'this is important info')
-            // console.log('called user info')
-            // setMyInfo(posts.Hello)
+            setMyInfo(posts.Hello)
         } catch (error) {
             console.log(error, "this is the create user error")
         }
@@ -120,9 +125,25 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
             console.log(error, "this is the create user error")
         }
     }
+    const getUserPosts = async (email: string) => {
+        console.log(email, 'this is the email')        
+        try {
+            const result = await fetch(`http://localhost:3000/api/getMyPosts?email=${email}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            const posts = await result.json()            
+            setUserPosts(posts.Posts)
+        } catch (error) {
+            console.log(error, "this is the create user error")
+        }
+    }
+
 
     const createPost = async (value: string) => {
-        
+
         try {
             const test = await fetch('http://localhost:3000/api/createPost', {
                 method: "POST",
@@ -132,7 +153,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
                 body: JSON.stringify({
                     content: value,
                     email: localStorage.getItem('user') || '',
-                    date: new Date() 
+                    date: new Date()
                 })
             })
             getAllPosts()
@@ -142,10 +163,24 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
+    const updateUser = async (username: string, bio: string, following: string[], email: string) => {
+        try {
+            const updateUser = await post({
+                url: `http://localhost:3000/api/updateUsers?email=${email}`,
+                body: {
+                    bio: bio,
+                    username: username,
+                    following: following,
+                }
+            })
+            userInfo()
+        } catch (err) { console.log(err) }
+    }
+
 
     console.log(myInfo, 'My Information')
     return (
-        <MyContext.Provider value={{ posts: content, myPosts: myPosts, setPosts: setContent, setMyPosts: setMyPosts, updatePost: updatePost, deletePost, createPost, myInfo, setMyInfo, getAllPosts, setLoggedin: setLoggedIn, loggedIn }}>
+        <MyContext.Provider value={{ posts: content, myPosts: myPosts, setPosts: setContent, setMyPosts: setMyPosts, updatePost: updatePost, deletePost, createPost, myInfo, setMyInfo, getAllPosts, setLoggedin: setLoggedIn, loggedIn, updateUser, userPosts, getUserPosts }}>
             {children}
         </MyContext.Provider>
     );
