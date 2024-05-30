@@ -1,41 +1,41 @@
-.flex{
-    display: flex;
-    justify-content: space-around;
-    width: 50%;
-    height: 100%;
+.flex {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+  height: 100%;
 }
-.around{
-    display: flex;
-    justify-content: space-between;
-    width: 95%;
+.around {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
 }
-.centerColumn{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.centerColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.flexChoice{
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    width: 100%;
+.flexChoice {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  width: 100%;
 }
-.noMargin{
-    margin: 0;
+.noMargin {
+  margin: 0;
 }
-.optionsCenter{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 100%;
-    flex-direction: column;
+.optionsCenter {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
 }
-.row{
-    width: 50%;
-    display: flex;
-    align-items:center;
-    justify-content: space-around;
+.row {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
-.row div{
-    width: 100px;
+.row div {
+  width: 100px;
 }

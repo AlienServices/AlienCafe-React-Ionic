@@ -1,66 +1,72 @@
 .center {
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  height: 50%;
 }
 
 .quill .ql-container {
-    height: 100%;
+  height: 100%;
 }
 
 .quill {
-    width: 50%;
-    padding: 10px;
+  width: 50%;
+  padding: 10px;
 }
 
 .quillCenter {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .button-41 {
-    background-color: initial;
-    background-image: linear-gradient(-180deg, #00D775, #00BD68);
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
-    color: #FFFFFF;
-    cursor: pointer;
-    display: inline-block;
-    font-family: Inter, -apple-system, system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
-    height: 44px;
-    line-height: 44px;
-    outline: 0;
-    overflow: hidden;
-    padding: 0 20px;
-    pointer-events: auto;
-    position: relative;
-    text-align: center;
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-user-select: none;
-    vertical-align: top;
-    white-space: nowrap;
-    width: fit-content;
-    z-index: 9;
-    border: 0;
+  background-color: initial;
+  background-image: linear-gradient(-180deg, #00d775, #00bd68);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family:
+    Inter,
+    -apple-system,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  height: 44px;
+  line-height: 44px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  width: fit-content;
+  z-index: 9;
+  border: 0;
 }
 
 .button-41:hover {
-    background: #00bd68;
+  background: #00bd68;
 }
 
-
 @media (max-width: 650px) {
-    .quillCenter {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
+  .quillCenter {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 
-    .quill {
-        width: 100%;
-        padding: 10px;
-    }
+  .quill {
+    width: 100%;
+    padding: 10px;
+  }
 }

@@ -1,116 +1,114 @@
 .ion-page .ion-page {
-    /* background-color: black !important; */
-    justify-content: inherit;
-    contain: inherit;
+  /* background-color: black !important; */
+  justify-content: inherit;
+  contain: inherit;
 }
 
 .ql-container .ql-snow {
-    height: fit-content;
+  height: fit-content;
 }
 
 .ql-container.ql-disabled .ql-tooltip {
-    display: none;
+  display: none;
 }
 
 .quill .ql-container {
-    height: fit-content;
+  height: fit-content;
 }
 
 .quill .ql-editor h1 {
-    font-size: 20px !important;
+  font-size: 20px !important;
 }
 
 .quill .ql-editor h2 {
-    font-size: 18px !important;
+  font-size: 18px !important;
 }
 
-
-
 .card .quill {
-    width: 100%;
-    box-shadow: none;
-    /* height: 100px; */
+  width: 100%;
+  box-shadow: none;
+  /* height: 100px; */
 }
 
 .ql-editor {
-    padding: 5px;
+  padding: 5px;
 }
 
 .card {
-    width: 50%;
-    height: fit-content;
-    /* box-shadow: -1px 3px 5px 0px rgba(0, 0, 0, 0.75); */
-    margin: auto;
-    overflow: visible;
+  width: 50%;
+  height: fit-content;
+  /* box-shadow: -1px 3px 5px 0px rgba(0, 0, 0, 0.75); */
+  margin: auto;
+  overflow: visible;
 
-    box-shadow: none;
-    padding-bottom: 15px;
+  box-shadow: none;
+  padding-bottom: 15px;
 }
 
 .list-md .card {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
 .flexWide {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 
 .flex .center {
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.flexSmall {    
-    display: flex;
-    justify-content: space-around;
-    width: 30%;
-    align-items: center;
+.flexSmall {
+  display: flex;
+  justify-content: space-around;
+  width: 30%;
+  align-items: center;
 }
 
 .fab {
-    display: flex;
+  display: flex;
 }
 
 .centerFlex {
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .username {
-    font-size: 12px;
-    width: 130px;
-    /* padding-left: 10px; */
+  font-size: 12px;
+  width: 130px;
+  /* padding-left: 10px; */
 }
 
 .emailContainer {
-    width: fit-content;
-    display: flex;
-    /* width: 55%; */
-    align-items: center;
-    justify-content: space-around;
+  width: fit-content;
+  display: flex;
+  /* width: 55%; */
+  align-items: center;
+  justify-content: space-around;
 }
 
 .end {
-    display: flex;
-    justify-content: end;
-    padding: 10px;
+  display: flex;
+  justify-content: end;
+  padding: 10px;
 }
 
 @media (max-width: 600px) {
-    .quill .ql-container {
-        height: 200px;
-        /* width: 500px; */
-    }
+  .quill .ql-container {
+    height: 200px;
+    /* width: 500px; */
+  }
 
-    .card {
-        width: 100%;
-    }
+  .card {
+    width: 100%;
+  }
 }
