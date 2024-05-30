@@ -81,9 +81,9 @@ const Create: React.FC = () => {
   console.log(email, "this is the email");
   return (
     <IonPage>
-      <IonContent>
-        <IonHeader>
-          {/* <IonTitle>name</IonTitle> */}
+
+      <IonHeader>
+        <IonToolbar>          
           <div className="end">
             <IonButton
               onClick={() => {
@@ -94,15 +94,15 @@ const Create: React.FC = () => {
               Next
             </IonButton>
           </div>
-        </IonHeader>
-        <IonItem lines="none">
-          <Editor
-            toolBar={true}
-            theme={"snow"}
-            value={value}
-            setValue={setValue}
-          />
-        </IonItem>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <Editor
+          toolBar={true}
+          theme={"snow"}
+          value={value}
+          setValue={setValue}
+        />
       </IonContent>
     </IonPage>
   );

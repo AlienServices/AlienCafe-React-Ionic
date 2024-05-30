@@ -5,11 +5,25 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill/core";
 import {
+  colorFill,
+  heart,
+  heartCircle,
+  chatbubbleOutline,
+  bookmarkOutline,
+  shareOutline,
+  checkmarkOutline,
+  settingsOutline,
+  personOutline,
+  createOutline,
+
+} from "ionicons/icons";
+import {
   IonButton,
   IonText,
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonMenuButton,
   IonMenuToggle,
   IonInput,
@@ -33,7 +47,7 @@ import Menu from '../components/Menu'
 const Login: React.FC = () => {
   const [showLoading, hideLoading] = useIonLoading();
   const [showToast] = useIonToast();
-  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts } =
+  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo } =
     useContext(MyContext);
   const [localEmail, setLocalEmail] = useState(localStorage.getItem("user"));
   const [menuType, setMenuType] = useState('overlay');
@@ -53,14 +67,33 @@ const Login: React.FC = () => {
 
   return (
     <>
-
       <IonMenu side="start" contentId="main-content">
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Menu Content</IonTitle>
+            <IonTitle>@{myInfo.username}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding">This is the menu content.</IonContent>
+        <IonContent className="ion-padding">
+          <div className="contentContainer">
+            <div className="flexSetting">
+              <IonIcon icon={settingsOutline}></IonIcon>
+              <div>Settings</div>
+            </div>
+            <div className="flexSetting">
+              <IonIcon icon={personOutline}></IonIcon>
+              <div>Profile</div>
+            </div>
+            <div className="flexSetting">
+              <IonIcon icon={createOutline}></IonIcon>
+              <div>Messages</div>
+            </div>
+            <div className="flexSetting">
+              <IonIcon icon={bookmarkOutline}></IonIcon>
+              <div>Bookmarks</div>
+            </div>
+
+          </div>
+        </IonContent>
       </IonMenu>
       <IonPage id="main-content">
         <IonHeader>
