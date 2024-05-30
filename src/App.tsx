@@ -4,6 +4,13 @@ import { IonNav } from "@ionic/react";
 import {
   IonApp,
   IonButton,
+  IonItem,
+  IonMenu,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonMenuToggle,
   IonFabList,
   IonFabButton,
   IonFab,
@@ -32,6 +39,7 @@ import Tab3 from "./pages/Tab3";
 import Login from "./pages/Login";
 import Create from "./pages/Create";
 import Post from "./pages/View/[id]";
+import Menu from './components/Menu'
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -58,46 +66,49 @@ const App: React.FC = () => (
   <IonNav
     root={() => (
       <IonPage>
-        <IonReactRouter>
-          <IonTabs>
-            <IonRouterOutlet>
-              <Route exact={true} path="/tab1" render={() => <Login />}></Route>
-              <Route exact={true} path="/" render={() => <Login />}></Route>
-              <Route exact={true} path="/tab2" render={() => <Tab2 />}></Route>
-              <Route exact={true} path="/tab3" render={() => <Tab3 />}></Route>
-              <Route
-                exact={true}
-                path="/create"
-                render={() => <Create />}
-              ></Route>
-              <Route
-                path={`/view/:id`}
-                render={() => {
-                  return <Post />;
-                }}
-              ></Route>
-            </IonRouterOutlet>
-            <IonTabBar slot="bottom">
-              <IonTabButton tab="tab1" href="/tab1">
-                <IonIcon aria-hidden="true" icon={beer} />
-                <IonLabel>Login</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="tab4" href="/create">
-                <IonIcon aria-hidden="true" icon={flameOutline} />
-                <IonLabel>Create A Post</IonLabel>
-              </IonTabButton>
+        <IonContent>
+          
+          <IonReactRouter>
+            <IonTabs>
+              <IonRouterOutlet>
+                <Route exact={true} path="/tab1" render={() => <Login />}></Route>
+                <Route exact={true} path="/" render={() => <Login />}></Route>
+                <Route exact={true} path="/tab2" render={() => <Tab2 />}></Route>
+                <Route exact={true} path="/tab3" render={() => <Tab3 />}></Route>
+                <Route
+                  exact={true}
+                  path="/create"
+                  render={() => <Create />}
+                ></Route>
+                <Route
+                  path={`/view/:id`}
+                  render={() => {
+                    return <Post />;
+                  }}
+                ></Route>
+              </IonRouterOutlet>
+              <IonTabBar slot="bottom">
+                <IonTabButton tab="tab1" href="/tab1">
+                  <IonIcon aria-hidden="true" icon={beer} />
+                  <IonLabel>Login</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="tab4" href="/create">
+                  <IonIcon aria-hidden="true" icon={flameOutline} />
+                  <IonLabel>Create A Post</IonLabel>
+                </IonTabButton>
 
-              <IonTabButton tab="tab3" href="/tab3">
-                <IonIcon aria-hidden="true" icon={giftOutline} />
-                <IonLabel>All Posts</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="tab2" href="/tab2">
-                <IonIcon aria-hidden="true" icon={diamondOutline} />
-                <IonLabel>My Profile</IonLabel>
-              </IonTabButton>
-            </IonTabBar>
-          </IonTabs>
-        </IonReactRouter>
+                <IonTabButton tab="tab3" href="/tab3">
+                  <IonIcon aria-hidden="true" icon={giftOutline} />
+                  <IonLabel>All Posts</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="tab2" href="/tab2">
+                  <IonIcon aria-hidden="true" icon={diamondOutline} />
+                  <IonLabel>My Profile</IonLabel>
+                </IonTabButton>
+              </IonTabBar>
+            </IonTabs>
+          </IonReactRouter>
+        </IonContent>
       </IonPage>
     )}
   />

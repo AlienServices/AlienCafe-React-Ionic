@@ -7,8 +7,11 @@ import Quill from "quill/core";
 import {
   IonButton,
   IonText,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonMenuButton,
+  IonMenuToggle,
   IonInput,
   IonItem,
   IonLabel,
@@ -18,12 +21,14 @@ import {
   IonToolbar,
   useIonToast,
   useIonLoading,
+  IonMenu,
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
 import "./Tab1.css";
 import SignIn from "../components/SignIn";
 import CreateAccount from "../components/CreateAccount";
 import { MyContext } from "../providers/postProvider";
+import Menu from '../components/Menu'
 
 const Login: React.FC = () => {
   const [showLoading, hideLoading] = useIonLoading();
@@ -31,6 +36,7 @@ const Login: React.FC = () => {
   const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts } =
     useContext(MyContext);
   const [localEmail, setLocalEmail] = useState(localStorage.getItem("user"));
+  const [menuType, setMenuType] = useState('overlay');
   const [loggedIn, setLoggedIn] = useState("logged out");
   const [email, setEmail] = useState("logged out");
   const [userName, setUserName] = useState("logged out");
@@ -46,25 +52,39 @@ const Login: React.FC = () => {
   // }, [user])
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>{loginToggle ? <>Login</> : <>Sign Up</>}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    <>
 
-      <IonContent>
-        {loginToggle ? (
-          <>
-            <SignIn setToggle={setLoginToggle} />
-          </>
-        ) : (
-          <>
-            <CreateAccount setToggle={setLoginToggle} />
-          </>
-        )}
-      </IonContent>
-    </IonPage>
+      <IonMenu side="start" contentId="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menu Content</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">This is the menu content.</IonContent>
+      </IonMenu>
+      <IonPage id="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton></IonMenuButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          {loginToggle ? (
+            <>
+              <SignIn setToggle={setLoginToggle} />
+            </>
+          ) : (
+            <>
+              <CreateAccount setToggle={setLoginToggle} />
+            </>
+          )}
+        </IonContent>
+
+      </IonPage>
+
+    </>
   );
 };
 
