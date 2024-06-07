@@ -79,7 +79,7 @@ const Profile = ({ id }: { id: string }) => {
       url: `http://localhost:3000/api/updateUsers?email=${myInfo.email}`,
       body: {
         bio: bio,
-        username: myInfo.username,
+        username: myInfo?.username,
         following,
       },
     });

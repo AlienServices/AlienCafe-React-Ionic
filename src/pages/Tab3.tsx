@@ -5,10 +5,13 @@ import {
   IonTitle,
   IonMenu,
   IonButtons,
+  IonImg,
   IonMenuButton,
   IonToolbar,
 } from "@ionic/react";
 import { useEffect, useState, useRef, useCallback, useContext } from "react";
+
+import alien from '../../public/alien.png'
 import ExploreContainer from "../components/ExploreContainer";
 import "./Tab3.css";
 import AllPosts from "../components/AllPosts";
@@ -18,13 +21,15 @@ const Tab3: React.FC = () => {
 
   const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo } =
     useContext(MyContext);
+ 
+    console.log('kale')
   return (
     <>
       <IonMenu side="start" contentId="main-content">
         <IonHeader>
           <IonToolbar>
             <div className="center">
-              <IonTitle >@{myInfo.username}</IonTitle>
+              <IonTitle >@{myInfo?.username}</IonTitle>
             </div>
           </IonToolbar>
         </IonHeader>
@@ -40,10 +45,14 @@ const Tab3: React.FC = () => {
       <IonPage id="main-content">
         <IonHeader>
           <IonToolbar>
-            <IonTitle>All Posts</IonTitle>
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
+            <div className="centerAlien">
+              <div className="imageContainer">
+                <IonImg src={alien}></IonImg>
+              </div>
+            </div>
           </IonToolbar>
         </IonHeader>
         <IonContent>

@@ -58,6 +58,12 @@
   background: #00bd68;
 }
 
+.centerAlien{
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
 @media (max-width: 650px) {
   .quillCenter {
     width: 100%;

@@ -4,6 +4,7 @@ import { useApi } from "../hooks/useApi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill/core";
+import alien from '../../public/alien.png'
 import {
   colorFill,
   heart,
@@ -36,6 +37,7 @@ import {
   useIonToast,
   useIonLoading,
   IonMenu,
+  IonImg
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
 import "./Tab1.css";
@@ -70,7 +72,7 @@ const Login: React.FC = () => {
       <IonMenu side="start" contentId="main-content">
         <IonHeader>
           <IonToolbar>
-            <IonTitle>@{myInfo.username}</IonTitle>
+            <IonTitle>@{myInfo?.username}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
@@ -101,6 +103,11 @@ const Login: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
+            <div className="centerAlien">
+              <div className="imageContainer">
+                <IonImg src={alien}></IonImg>
+              </div>
+            </div>
           </IonToolbar>
         </IonHeader>
         <IonContent>
