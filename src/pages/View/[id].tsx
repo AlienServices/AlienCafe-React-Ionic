@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 // import { useApi } from '../hooks/useApi';
 // import Editor from '../components/Editor';
-import { useParams, withRouter } from "react-router";
+import { useParams, withRouter } from "react-router-dom";
 import ReactQuill from "react-quill";
 import {
   colorFill,

@@ -20,6 +20,7 @@ const Editor = ({
   return (
     <div>
       <div className="quillCenter">
+
         {toolBar ? (
           <ReactQuill
             modules={{

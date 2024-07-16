@@ -117,7 +117,7 @@ const Content: React.FC = () => {
             {" "}
             {posts
               .sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
-              .map((post: any, index: number) => {
+              .map((post: any, index: number) => {  
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(post.content, "text/html");
                 var output = Array.prototype.slice

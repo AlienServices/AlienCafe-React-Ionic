@@ -36,7 +36,7 @@ interface PostContext {
   }) => void;
   updatePost: (post: Post) => void;
   deletePost: (id: string) => void;
-  createPost: (value: string) => void;
+  createPost: (title: string, value: string) => void;
   updateUser: (
     username: string,
     bio: string,
@@ -53,14 +53,14 @@ interface PostContext {
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
-  setPosts: (posts) => {},
-  setMyPosts: (posts) => {},
-  updatePost: (post) => {},
-  deletePost: (id) => {},
-  createPost: (value) => {},
-  setMyInfo: () => {},
-  getAllPosts: () => {},
-  setLoggedin: () => {},
+  setPosts: (posts) => { },
+  setMyPosts: (posts) => { },
+  updatePost: (post) => { },
+  deletePost: (id) => { },
+  createPost: (value) => { },
+  setMyInfo: () => { },
+  getAllPosts: () => { },
+  setLoggedin: () => { },
   loggedIn: false,
   myInfo: {
     id: "",
@@ -70,10 +70,10 @@ const MyContext = createContext<PostContext>({
     following: [],
     username: "",
   },
-  updateUser: () => {},
-  setUserPosts: () => {},
+  updateUser: () => { },
+  setUserPosts: () => { },
   userPosts: [],
-  getUserPosts: (email) => {},
+  getUserPosts: (email) => { },
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -238,7 +238,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const createPost = async (value: string) => {
+  const createPost = async (title: string, value: string) => {
     try {
       const test = await fetch("http://localhost:3000/api/createPost", {
         method: "POST",
@@ -246,6 +246,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          title,
           content: value,
           email: localStorage.getItem("user") || "",
           date: new Date(),

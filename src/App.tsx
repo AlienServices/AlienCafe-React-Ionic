@@ -67,7 +67,7 @@ const App: React.FC = () => (
     root={() => (
       <IonPage>
         <IonContent>
-          
+
           <IonReactRouter>
             <IonTabs>
               <IonRouterOutlet>
@@ -96,7 +96,6 @@ const App: React.FC = () => (
                   <IonIcon aria-hidden="true" icon={flameOutline} />
                   <IonLabel>Create A Post</IonLabel>
                 </IonTabButton>
-
                 <IonTabButton tab="tab3" href="/tab3">
                   <IonIcon aria-hidden="true" icon={giftOutline} />
                   <IonLabel>All Posts</IonLabel>

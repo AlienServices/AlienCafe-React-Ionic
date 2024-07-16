@@ -1,0 +1,33 @@
+.ql-container.ql-snow {
+    border: none
+}
+
+.custom-title-editor .ql-editor.ql-blank::before {
+    font-size: 25px;
+}
+
+.custom-title-editor .ql-editor.ql-blank {
+    padding: 10px;
+}
+
+.custom-title-editor p {
+    font-size: 30px
+}
+
+.ql-editor ul {
+    padding-left: 0px;
+}
+
+.custom-content-editor {
+    overflow-x: auto;
+    height: 100%;
+    white-space: nowrap;
+}
+
+.flexRow{
+    display: flex;
+    height: 45px;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+}

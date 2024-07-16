@@ -1,12 +1,17 @@
-import { useEffect, useState, useRef, useCallback, useContext } from "react";
-import { useApi } from "../hooks/useApi";
-import Editor from "../components/Editor";
-import "react-quill/dist/quill.snow.css";
-import Styles from "../theme/myVariables.css";
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import ReactQuill from 'react-quill';
+import { MyContext } from '../providers/postProvider';
+import 'react-quill/dist/quill.snow.css';
+import '../theme/create.css'
 import {
   IonButton,
+  IonText,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
+  IonMenuButton,
+  IonMenuToggle,
   IonInput,
   IonItem,
   IonLabel,
@@ -16,96 +21,98 @@ import {
   IonToolbar,
   useIonToast,
   useIonLoading,
+  IonMenu,
+  IonImg
 } from "@ionic/react";
-import { supabase } from "../components/supaBase";
-import { ContextProvider } from "../providers/postProvider";
-import "./Tab1.css";
-import { MyContext } from "../providers/postProvider";
 
-const Create: React.FC = () => {
-  const [email, setEmail] = useState<string | null>(
-    localStorage.getItem("user"),
-  );
-  const { createPost } = useContext(MyContext);
-  const [showLoading, hideLoading] = useIonLoading();
-  const [showToast] = useIonToast();
-  const [password, setPassword] = useState<string>("");
-  const [username, setUsername] = useState<string>();
-  const [range, setRange] = useState();
-  const [lastChange, setLastChange] = useState();
-  const [readOnly, setReadOnly] = useState(false);
-  const [value, setValue] = useState("");
+const MyEditor = () => {
+  const [editorHtmlTitle, setEditorHtmlTitle] = useState('');
+  const [editorHtml, setEditorHtml] = useState('');
+  const titleQuillRef = useRef(null);
+  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo, createPost } =
+    useContext(MyContext);
+  const contentQuillRef = useRef(null);
 
-  // const [values, setValues] = useContext(ContextProvider)
-  const { createUser } = useApi();
-
-  const create = async () => {
-    if (email && username) {
-      const result = await createUser(email, username);
-      console.log(result, "this is the create user result");
-    } else {
-      console.log("there is an error");
+  useEffect(() => {
+    if (contentQuillRef.current) {
+      const quill = contentQuillRef.current.getEditor();
+      quill.getModule('toolbar').container = document.querySelector('#toolbar');
     }
-  };
-
-  const imageHandler = useCallback(() => {
-    console.log("hititng handler");
-    // const input = document.createElement("input");
-    // input.setAttribute("type", "file");
-    // input.setAttribute("accept", "image/*");
-    // input.onchange = async () => {
-    //   if (input !== null && input.files !== null) {
-    //     const file = input.files[0];
-    //     console.log(file, "cuss word")
-    //   }
-    // };
   }, []);
 
-  // const createPost = async () => {
-  //     try {
-  //         const test = await fetch('http://localhost:3000/api/createPost', {
-  //             method: "POST",
-  //             headers: {
-  //                 'Content-Type': 'application/json'
-  //             },
-  //             body: JSON.stringify({
-  //                 content: value,
-  //                 email: localStorage.getItem('user') || ''
-  //             })
-  //         })
-  //     } catch (error) {
-  //         console.log(error, "this is the create user error")
-  //     }
-  // }
+  const handleChange = (html) => {
+    setEditorHtml(html);
+  };
 
-  console.log(email, "this is the email");
+  const handleTitleChange = (html) => {
+    setEditorHtmlTitle(html);
+  };
+
   return (
-    <IonPage>
-
-      <IonHeader>
-        <IonToolbar>          
-          <div className="end">
-            <IonButton
-              onClick={() => {
-                createPost(value);
-                setValue("");
-              }}
-            >
-              Next
-            </IonButton>
-          </div>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <Editor
-          toolBar={true}
-          theme={"snow"}
-          value={value}
-          setValue={setValue}
+    <div >
+      <div className='flexRow'>
+        <div style={{ fontSize: '20px' }}>X</div>
+        <IonButton shape='round' size='small' onClick={(() => {
+          createPost(editorHtmlTitle, editorHtml)
+        })}>Next</IonButton>
+      </div>
+      <div>
+        <ReactQuill
+          className="custom-title-editor"
+          ref={titleQuillRef}
+          value={editorHtmlTitle}
+          placeholder="Title"
+          onChange={handleTitleChange}
+          modules={MyEditor.titleModules}
+          formats={MyEditor.titleFormats}
+          style={{ height: 'fit-content', minHeight: '50px', border: 'none' }}
         />
-      </IonContent>
-    </IonPage>
+
+      </div>
+
+      <div style={{ height: '620px' }}>
+        <ReactQuill
+          className="custom-content-editor"
+          ref={contentQuillRef}
+          value={editorHtml}
+          placeholder="Content Here..."
+          onChange={handleChange}
+          modules={MyEditor.modules}
+          formats={MyEditor.formats}
+          style={{ minHeight: '300px', border: 'none' }}
+        />
+      </div>
+      <div id="toolbar" style={{ position: 'fixed', bottom: '0px', width: '70%', border: 'none', background: 'white', zIndex: 1000, display: 'flex', justifyContent: 'space-between' }}>
+        <button className="ql-bold"></button>
+        <button className="ql-underline"></button>
+        <button className="ql-link"></button>
+        <button className="ql-image"></button>
+        <button className="ql-list" value="bullet"></button>
+      </div>
+    </div>
   );
 };
 
-export default Create;
+MyEditor.titleModules = {
+  toolbar: false,
+  clipboard: {
+    matchVisual: false,
+  },
+
+};
+
+MyEditor.titleFormats = ['header'];
+
+MyEditor.modules = {
+  toolbar: {
+    container: "#toolbar",
+  },
+};
+
+MyEditor.formats = [
+  'header', 'bold', 'italic', 'underline',
+  'link', 'image', 'video', 'code-block',
+  'list', 'bullet', 'indent',
+];
+
+export default MyEditor;
