@@ -279,8 +279,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       console.log(err);
     }
   };
-
-  console.log(myInfo, "My Information");
+  
   return (
     <MyContext.Provider
       value={{

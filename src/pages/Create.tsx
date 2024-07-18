@@ -10,6 +10,7 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
+  
   IonMenuButton,
   IonMenuToggle,
   IonInput,
@@ -24,6 +25,7 @@ import {
   IonMenu,
   IonImg
 } from "@ionic/react";
+import { closeOutline } from 'ionicons/icons';
 
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState('');
@@ -51,7 +53,7 @@ const MyEditor = () => {
   return (
     <div >
       <div className='flexRow'>
-        <div style={{ fontSize: '20px' }}>X</div>
+        <IonIcon size='large' icon={closeOutline}></IonIcon>
         <IonButton shape='round' size='small' onClick={(() => {
           createPost(editorHtmlTitle, editorHtml)
         })}>Next</IonButton>

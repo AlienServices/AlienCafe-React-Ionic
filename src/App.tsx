@@ -71,10 +71,10 @@ const App: React.FC = () => (
           <IonReactRouter>
             <IonTabs>
               <IonRouterOutlet>
-                <Route exact={true} path="/tab1" render={() => <Login />}></Route>
+                <Route exact={true} path="/tab1" render={() => <Tab3 />}></Route>
                 <Route exact={true} path="/" render={() => <Login />}></Route>
                 <Route exact={true} path="/tab2" render={() => <Tab2 />}></Route>
-                <Route exact={true} path="/tab3" render={() => <Tab3 />}></Route>
+                {/* <Route exact={true} path="/tab3" render={() => <Tab3 />}></Route> */}
                 <Route
                   exact={true}
                   path="/create"
@@ -90,15 +90,15 @@ const App: React.FC = () => (
               <IonTabBar slot="bottom">
                 <IonTabButton tab="tab1" href="/tab1">
                   <IonIcon aria-hidden="true" icon={beer} />
-                  <IonLabel>Login</IonLabel>
+                  <IonLabel>Home</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="tab4" href="/create">
                   <IonIcon aria-hidden="true" icon={flameOutline} />
-                  <IonLabel>Create A Post</IonLabel>
+                  <IonLabel>Create</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="tab3" href="/tab3">
                   <IonIcon aria-hidden="true" icon={giftOutline} />
-                  <IonLabel>All Posts</IonLabel>
+                  <IonLabel>Messages</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="tab2" href="/tab2">
                   <IonIcon aria-hidden="true" icon={diamondOutline} />

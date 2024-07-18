@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef, useCallback, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useApi } from "../hooks/useApi";
+import { useHistory } from "react-router";
 // import Editor from '../components/Editor';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -56,6 +57,7 @@ const Login: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState("logged out");
   const [email, setEmail] = useState("logged out");
   const [userName, setUserName] = useState("logged out");
+  const history = useHistory();
   const [loginToggle, setLoginToggle] = useState<boolean>(true);
   const { createUser } = useApi();
 
@@ -66,6 +68,18 @@ const Login: React.FC = () => {
   //     getUser()
   //   }
   // }, [user])
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      console.log("You Logged Out");
+      if (error) {
+        console.log("this is logout error", error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -92,6 +106,14 @@ const Login: React.FC = () => {
             <div className="flexSetting">
               <IonIcon icon={bookmarkOutline}></IonIcon>
               <div>Bookmarks</div>
+            </div>
+            <div>
+              <div>buttons</div>
+              <IonMenuToggle>
+                <IonButton onClick={() => {
+                  handleLogout(); localStorage.removeItem('user'); history.push("/tab1");
+                }}>Logout</IonButton>
+              </IonMenuToggle>
             </div>
 
           </div>

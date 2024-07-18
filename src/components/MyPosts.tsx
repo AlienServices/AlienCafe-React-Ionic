@@ -48,6 +48,7 @@ const Content: React.FC = () => {
     posts,
     myPosts,
     setPosts,
+    myInfo,
     setMyPosts,
     updatePost,
     deletePost,
@@ -59,38 +60,51 @@ const Content: React.FC = () => {
     "<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>",
   );
 
+  const transformTitleToH1 = (title: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(title, "text/html");
+    const pTag = doc.querySelector("p");
+
+    if (pTag) {
+      const h1Tag = document.createElement("h1");
+      h1Tag.innerHTML = pTag.innerHTML;
+      pTag.parentNode?.replaceChild(h1Tag, pTag);
+    }
+
+    return doc.body.innerHTML;
+  };
+
+
+
   return (
     <IonContent className="page">
-      <IonList>
+<IonList>
         {myPosts ? (
           <>
             {" "}
             {myPosts
-              ?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
+              .sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
               .map((post: any, index: number) => {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(post.content, "text/html");
-                var output = Array.prototype.slice
-                  .call(doc.querySelectorAll("h1"))
-                  .map((el) => el.outerHTML);
+                const transformedTitle = transformTitleToH1(post.title);
+
                 const date = new Date(post.date);
                 const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
                 const day = String(date.getUTCDate()).padStart(2, "0");
                 const year = date.getUTCFullYear();
 
                 // Format the date as mm/dd/yyyy
-                const formattedDate = `${month}/${year}`;
+                const formattedDate = `${month}/${day}/${year}`;
+
                 return (
-                  <div className="shadow">
+                  <div className="shadow" key={post.id}>
                     <IonCard
                       style={{
                         boxShadow: "none",
+                        borderTop: "1px solid #eaeaea",
                         borderRadius: "0px",
-                        borderBottom: "1px solid #eaeaea",
                         paddingTop: "10px",
                         paddingBottom: "10px",
                       }}
-                      key={index}
                       className="card"
                     >
                       <div className="around">
@@ -108,22 +122,67 @@ const Content: React.FC = () => {
                               src="https://ionicframework.com/docs/img/demos/avatar.svg"
                             />
                           </IonAvatar>
-                          <div className="username">{post.email}</div>
+                          <IonNavLink
+                            onClick={() => {
+                              getUserPosts(post.email);
+                            }}
+                            routerDirection="forward"
+                            component={() => <Profile id={post.email} />}
+                          >
+                            <div className="username">{post.email}</div>
+                          </IonNavLink>
                         </div>
-                        <IonFab horizontal="end">
-                          <IonFabButton size="small">
-                            <IonIcon icon={ellipsisHorizontal}></IonIcon>
-                          </IonFabButton>
-                          <IonFabList>
-                            <IonFabButton
-                              onClick={() => {
-                                deletePost(post.id);
-                              }}
-                            >
-                              Trash
-                            </IonFabButton>
-                          </IonFabList>
-                        </IonFab>
+                        <div>
+                          {myInfo?.email !== post?.email ? (
+                            <>
+                              {" "}
+                              {myInfo?.following?.indexOf(post.email) !== -1 ? (
+                                <div>
+                                  {" "}
+                                  <IonButton
+                                    onClick={() => {
+                                      let emailIndex =
+                                        myInfo?.following?.indexOf(post.email);
+                                      let newLikes =
+                                        myInfo?.following?.toSpliced(
+                                          emailIndex,
+                                          1
+                                        );
+                                      updateUser(
+                                        myInfo?.username,
+                                        myInfo?.bio,
+                                        [...newLikes],
+                                        myInfo.email
+                                      );
+                                    }}
+                                    size="small"
+                                  >
+                                    {"<3"}
+                                  </IonButton>
+                                </div>
+                              ) : (
+                                <div>
+                                  {" "}
+                                  <IonButton
+                                    onClick={() => {
+                                      updateUser(
+                                        user?.username,
+                                        user?.bio,
+                                        [...user.following, post.email],
+                                        myInfo.email
+                                      );
+                                    }}
+                                    size="small"
+                                  >
+                                    Follow
+                                  </IonButton>
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <>Its you Mf</>
+                          )}
+                        </div>
                       </div>
                       <IonNavLink
                         routerDirection="forward"
@@ -133,47 +192,11 @@ const Content: React.FC = () => {
                           style={{ color: "black" }}
                           readOnly={true}
                           theme="bubble"
-                          value={output[0]}
+                          value={transformedTitle}
                         />
                       </IonNavLink>
                       <div className="around">
                         <div className="flex">
-                          <div
-                            className="center"
-                            onClick={() => {
-                              if (post.likes.indexOf(userEmail) === -1) {
-                                let fullLikes = [...post.likes, userEmail];
-                                updatePost({
-                                  id: post.id,
-                                  likes: fullLikes,
-                                  content: post.content,
-                                  email: post.email,
-                                });
-                              } else {
-                                let emailIndex = post.likes.indexOf(
-                                  localStorage.getItem("user") || "",
-                                );
-                                let newLikes = post.likes.toSpliced(
-                                  emailIndex,
-                                  1,
-                                );
-                                console.log(newLikes, "thse are new likes");
-                                updatePost({
-                                  id: post.id,
-                                  likes: newLikes,
-                                  content: post.content,
-                                  email: post.email,
-                                });
-                              }
-                            }}
-                          >
-                            <IonIcon
-                              color="danger"
-                              size="small"
-                              icon={heartCircle}
-                            ></IonIcon>
-                            <div>{post.likes.length}</div>
-                          </div>
                           <div className="center">
                             <IonIcon
                               color=""
@@ -190,7 +213,7 @@ const Content: React.FC = () => {
                             ></IonIcon>
                           </div>
                         </div>
-                        <div className="flexSmall">
+                        <div className="flex">
                           <div>{formattedDate}</div>
                           <IonIcon
                             color=""
@@ -199,7 +222,6 @@ const Content: React.FC = () => {
                           ></IonIcon>
                         </div>
                       </div>
-                      <div></div>
                     </IonCard>
                   </div>
                 );
