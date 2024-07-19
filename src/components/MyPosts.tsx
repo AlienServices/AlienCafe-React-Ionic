@@ -74,166 +74,181 @@ const Content: React.FC = () => {
     return doc.body.innerHTML;
   };
 
+  const truncateContent = (content: string, length: number) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, "text/html");
+    let textContent = doc.body.textContent || "";
+    if (textContent.length > length) {
+      textContent = textContent.substring(0, length) + "...";
+    }
+    return textContent;
+  };
 
 
   return (
-    <IonContent className="page">
-<IonList>
-        {myPosts ? (
-          <>
-            {" "}
-            {myPosts
-              .sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
-              .map((post: any, index: number) => {
-                const transformedTitle = transformTitleToH1(post.title);
 
-                const date = new Date(post.date);
-                const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
-                const day = String(date.getUTCDate()).padStart(2, "0");
-                const year = date.getUTCFullYear();
+    <IonList>
+      {myPosts ? (
+        <>
+          {" "}
+          {myPosts
+            .sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
+            .map((post: any, index: number) => {
+              const transformedTitle = transformTitleToH1(post.title);
+              const truncatedContent = truncateContent(post.content, 200);
+              const date = new Date(post.date);
+              const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
+              const day = String(date.getUTCDate()).padStart(2, "0");
+              const year = date.getUTCFullYear();
 
-                // Format the date as mm/dd/yyyy
-                const formattedDate = `${month}/${day}/${year}`;
+              // Format the date as mm/dd/yyyy
+              const formattedDate = `${month}/${day}/${year}`;
 
-                return (
-                  <div className="shadow" key={post.id}>
-                    <IonCard
-                      style={{
-                        boxShadow: "none",
-                        borderTop: "1px solid #eaeaea",
-                        borderRadius: "0px",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                      }}
-                      className="card"
-                    >
-                      <div className="around">
-                        <div className="emailContainer">
-                          <IonAvatar
-                            style={{
-                              height: "20px",
-                              width: "20px",
-                              marginLeft: "10px",
-                              marginRight: "5px",
-                            }}
-                          >
-                            <img
-                              alt="Silhouette of a person's head"
-                              src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                            />
-                          </IonAvatar>
-                          <IonNavLink
-                            onClick={() => {
-                              getUserPosts(post.email);
-                            }}
-                            routerDirection="forward"
-                            component={() => <Profile id={post.email} />}
-                          >
-                            <div className="username">{post.email}</div>
-                          </IonNavLink>
-                        </div>
-                        <div>
-                          {myInfo?.email !== post?.email ? (
-                            <>
-                              {" "}
-                              {myInfo?.following?.indexOf(post.email) !== -1 ? (
-                                <div>
-                                  {" "}
-                                  <IonButton
-                                    onClick={() => {
-                                      let emailIndex =
-                                        myInfo?.following?.indexOf(post.email);
-                                      let newLikes =
-                                        myInfo?.following?.toSpliced(
-                                          emailIndex,
-                                          1
-                                        );
-                                      updateUser(
-                                        myInfo?.username,
-                                        myInfo?.bio,
-                                        [...newLikes],
-                                        myInfo.email
-                                      );
-                                    }}
-                                    size="small"
-                                  >
-                                    {"<3"}
-                                  </IonButton>
-                                </div>
-                              ) : (
-                                <div>
-                                  {" "}
-                                  <IonButton
-                                    onClick={() => {
-                                      updateUser(
-                                        user?.username,
-                                        user?.bio,
-                                        [...user.following, post.email],
-                                        myInfo.email
-                                      );
-                                    }}
-                                    size="small"
-                                  >
-                                    Follow
-                                  </IonButton>
-                                </div>
-                              )}
-                            </>
-                          ) : (
-                            <>Its you Mf</>
-                          )}
-                        </div>
+              return (
+                <div className="shadow" key={post.id}>
+                  <IonCard
+                    style={{
+                      boxShadow: "none",
+                      borderTop: "1px solid #eaeaea",
+                      borderRadius: "0px",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                    }}
+                    className="card"
+                  >
+                    <div className="around">
+                      <div className="emailContainer">
+                        <IonAvatar
+                          style={{
+                            height: "20px",
+                            width: "20px",
+                            marginLeft: "10px",
+                            marginRight: "5px",
+                          }}
+                        >
+                          <img
+                            alt="Silhouette of a person's head"
+                            src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                          />
+                        </IonAvatar>
+                        <IonNavLink
+                          onClick={() => {
+                            getUserPosts(post.email);
+                          }}
+                          routerDirection="forward"
+                          component={() => <Profile id={post.email} />}
+                        >
+                          <div className="username">{post.email}</div>
+                        </IonNavLink>
                       </div>
-                      <IonNavLink
-                        routerDirection="forward"
-                        component={() => <Page id={post.id} />}
-                      >
-                        <ReactQuill
-                          style={{ color: "black" }}
-                          readOnly={true}
-                          theme="bubble"
-                          value={transformedTitle}
-                        />
-                      </IonNavLink>
-                      <div className="around">
-                        <div className="flex">
-                          <div className="center">
-                            <IonIcon
-                              color=""
-                              size="small"
-                              icon={chatbubbleOutline}
-                            ></IonIcon>
-                            <div>{post.comments.length}</div>
-                          </div>
-                          <div className="center">
-                            <IonIcon
-                              color=""
-                              size="small"
-                              icon={bookmarkOutline}
-                            ></IonIcon>
-                          </div>
-                        </div>
-                        <div className="flex">
-                          <div>{formattedDate}</div>
+                      <div>
+                        {myInfo?.email !== post?.email ? (
+                          <>
+                            {" "}
+                            {myInfo?.following?.indexOf(post.email) !== -1 ? (
+                              <div>
+                                {" "}
+                                <IonButton
+                                  onClick={() => {
+                                    let emailIndex =
+                                      myInfo?.following?.indexOf(post.email);
+                                    let newLikes =
+                                      myInfo?.following?.toSpliced(
+                                        emailIndex,
+                                        1
+                                      );
+                                    updateUser(
+                                      myInfo?.username,
+                                      myInfo?.bio,
+                                      [...newLikes],
+                                      myInfo.email
+                                    );
+                                  }}
+                                  size="small"
+                                >
+                                  {"<3"}
+                                </IonButton>
+                              </div>
+                            ) : (
+                              <div>
+                                {" "}
+                                <IonButton
+                                  onClick={() => {
+                                    updateUser(
+                                      user?.username,
+                                      user?.bio,
+                                      [...user.following, post.email],
+                                      myInfo.email
+                                    );
+                                  }}
+                                  size="small"
+                                >
+                                  Follow
+                                </IonButton>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    </div>
+                    <IonNavLink
+                      routerDirection="forward"
+                      component={() => <Page id={post.id} />}
+                    >
+                      <ReactQuill
+                        style={{ color: "black" }}
+                        readOnly={true}
+                        theme="bubble"
+                        value={transformedTitle}
+                      />
+                      <ReactQuill
+                        className="small"
+                        readOnly={true}
+                        theme="bubble"
+                        value={truncatedContent}
+                      />
+                    </IonNavLink>
+                    <div className="around">
+                      <div className="flex">
+                        <div className="center">
                           <IonIcon
                             color=""
                             size="small"
-                            icon={shareOutline}
+                            icon={chatbubbleOutline}
+                          ></IonIcon>
+                          <div>{post.comments.length}</div>
+                        </div>
+                        <div className="center">
+                          <IonIcon
+                            color=""
+                            size="small"
+                            icon={bookmarkOutline}
                           ></IonIcon>
                         </div>
                       </div>
-                    </IonCard>
-                  </div>
-                );
-              })}{" "}
-          </>
-        ) : (
-          <>
-            <div>You aint got no post</div>
-          </>
-        )}
-      </IonList>
-    </IonContent>
+                      <div className="flex">
+                        <div>{formattedDate}</div>
+                        <IonIcon
+                          color=""
+                          size="small"
+                          icon={shareOutline}
+                        ></IonIcon>
+                      </div>
+                    </div>
+                  </IonCard>
+                </div>
+              );
+            })}{" "}
+        </>
+      ) : (
+        <>
+          <div>You aint got no post</div>
+        </>
+      )}
+    </IonList>
+
   );
 };
 

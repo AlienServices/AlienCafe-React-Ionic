@@ -39,7 +39,10 @@ import Tab3 from "./pages/Tab3";
 import Login from "./pages/Login";
 import Create from "./pages/Create";
 import Post from "./pages/View/[id]";
+import MessageHome from './pages/MessageHome'
 import Menu from './components/Menu'
+import Chat from "./pages/Chat";
+import CurrentChat from "./pages/CurrentChat";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -67,14 +70,15 @@ const App: React.FC = () => (
     root={() => (
       <IonPage>
         <IonContent>
-
           <IonReactRouter>
             <IonTabs>
               <IonRouterOutlet>
                 <Route exact={true} path="/tab1" render={() => <Tab3 />}></Route>
                 <Route exact={true} path="/" render={() => <Login />}></Route>
-                <Route exact={true} path="/tab2" render={() => <Tab2 />}></Route>
-                {/* <Route exact={true} path="/tab3" render={() => <Tab3 />}></Route> */}
+                <Route exact={true} path="/tab2" render={() => <Tab2 />}></Route>                
+                <Route exact={true} path="/tab3" render={() => <MessageHome />}></Route>
+                <Route exact={true} path="/newChat" render={() => <Chat />}></Route>
+                <Route exact={true} path="/chat/:id" render={() => <CurrentChat />}></Route>
                 <Route
                   exact={true}
                   path="/create"

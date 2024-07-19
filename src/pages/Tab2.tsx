@@ -123,7 +123,8 @@ const Tab2 = () => {
           <Category />
         </>
       ) : (
-        <MyPosts></MyPosts>
+        // <MyPosts></MyPosts>
+        <></>
       )}
     </IonPage>
   );
