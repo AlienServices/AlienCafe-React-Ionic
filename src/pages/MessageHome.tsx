@@ -46,11 +46,11 @@ const MessageHome: React.FC = () => {
   const [myConvos, setMyConvos] = useState()
   const history = useHistory();
 
-  useEffect(() => {
-    getConvos();
-    const intervalId = setInterval(getConvos, 1000);    
-    return () => clearInterval(intervalId);
-  }, []);
+  // useEffect(() => {
+  //   getConvos();
+  //   const intervalId = setInterval(getConvos, 1000);    
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   const getConvos = async () => {        
     try {

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useContext } from "react";
 import { IonIcon } from "@ionic/react";
 import { useApi } from "../hooks/useApi";
+import { useLocation, useHistory } from "react-router";
 import {
   colorFill,
   heart,
@@ -56,6 +57,7 @@ const Content: React.FC = () => {
     getUserPosts,
   } = useContext(MyContext);
   const [userEmail, setUserEmail] = useState<any>(localStorage.getItem("user"));
+  const history = useHistory();
   const [value, setValue] = useState(
     "<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>",
   );
@@ -84,6 +86,10 @@ const Content: React.FC = () => {
     return textContent;
   };
 
+  const gotoTopic = (email: string) => {
+    history.push(`/view/${email}`);
+  };
+
 
   return (
 
@@ -109,7 +115,6 @@ const Content: React.FC = () => {
                   <IonCard
                     style={{
                       boxShadow: "none",
-                      borderTop: "1px solid #eaeaea",
                       borderRadius: "0px",
                       paddingTop: "10px",
                       paddingBottom: "10px",
@@ -131,15 +136,8 @@ const Content: React.FC = () => {
                             src="https://ionicframework.com/docs/img/demos/avatar.svg"
                           />
                         </IonAvatar>
-                        <IonNavLink
-                          onClick={() => {
-                            getUserPosts(post.email);
-                          }}
-                          routerDirection="forward"
-                          component={() => <Profile id={post.email} />}
-                        >
-                          <div className="username">{post.email}</div>
-                        </IonNavLink>
+                        <div className="username">{post.email}</div>
+
                       </div>
                       <div>
                         {myInfo?.email !== post?.email ? (
@@ -193,10 +191,7 @@ const Content: React.FC = () => {
                         )}
                       </div>
                     </div>
-                    <IonNavLink
-                      routerDirection="forward"
-                      component={() => <Page id={post.id} />}
-                    >
+                    <div onClick={() => { gotoTopic(post.email) }}>
                       <ReactQuill
                         style={{ color: "black" }}
                         readOnly={true}
@@ -209,8 +204,9 @@ const Content: React.FC = () => {
                         theme="bubble"
                         value={truncatedContent}
                       />
-                    </IonNavLink>
-                    <div className="around">
+                    </div>
+
+                    {/* <div className="around">
                       <div className="flex">
                         <div className="center">
                           <IonIcon
@@ -236,7 +232,7 @@ const Content: React.FC = () => {
                           icon={shareOutline}
                         ></IonIcon>
                       </div>
-                    </div>
+                    </div> */}
                   </IonCard>
                 </div>
               );

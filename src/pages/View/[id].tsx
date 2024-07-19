@@ -42,7 +42,7 @@ import { post } from "../../utils/fetch";
 import Editor from "../../components/Editor";
 import "../../theme/id.module.css";
 
-const Post = ({ id }: { id: string }) => {
+const Post = () => {
   const [content, setContent] = useState<
     {
       id: string;
@@ -57,15 +57,13 @@ const Post = ({ id }: { id: string }) => {
   const [comment, setComment] = useState<string>("");
   const [written, setWritten] = useState("");
   const [value, setValue] = useState("");
-
+  const { id } = useParams<{ id: string }>();
   useEffect(() => {
     getOnePost();
   }, []);
-  useEffect(() => {
-    console.log(value, "vallllllue");
-  }, [value]);
+  
 
-  const getOnePost = async () => {
+  const getOnePost = async () => {    
     try {
       const result = await fetch(`http://localhost:3000/api/getPost?id=${id}`, {
         method: "GET",
@@ -102,22 +100,39 @@ const Post = ({ id }: { id: string }) => {
   //     }
   // }
 
+  const transformTitleToH1 = (title: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(title, "text/html");
+    const pTag = doc.querySelector("p");
+
+    if (pTag) {
+      const h1Tag = document.createElement("h1");
+      h1Tag.innerHTML = pTag.innerHTML;
+      pTag.parentNode?.replaceChild(h1Tag, pTag);
+    }
+
+    return doc.body.innerHTML;
+  };
+
+  console.log(id)
+
   return (
     <IonPage>
       <IonContent>
         <IonHeader>
           <IonToolbar>
-            <IonRouterLink href={`/tab3`}>
+            <IonRouterLink href={`/tab2`}>
               <IonIcon size="large" icon={arrowBackOutline}></IonIcon>
             </IonRouterLink>
           </IonToolbar>
         </IonHeader>
         {content.map((post: any, index: number) => {
+          const transformedTitle = transformTitleToH1(post.title);
           return (
-            <div className="shadow">
+            <div className="shadow">              
               <IonCard
-                style={{
-                  borderBottom: "1px solid lightgray",
+              
+                style={{                  
                   marginBottom: "25px",
                 }}
                 key={index}
@@ -138,7 +153,7 @@ const Post = ({ id }: { id: string }) => {
                         src="https://ionicframework.com/docs/img/demos/avatar.svg"
                       />
                     </IonAvatar>
-                    <div className="username">{post.email}</div>
+                    <div className="username">{post?.email}</div>
                   </div>
                   <div>{/* <IonButton size='small'>Follow</IonButton> */}</div>
                 </div>
@@ -146,7 +161,14 @@ const Post = ({ id }: { id: string }) => {
                   style={{ color: "black" }}
                   readOnly={true}
                   theme="bubble"
-                  value={post.content}
+                  value={transformedTitle}
+                />
+                <ReactQuill
+                className="small"
+                  style={{ color: "black" }}
+                  readOnly={true}
+                  theme="bubble"
+                  value={post?.content}
                 />
                 <div className="around">
                   <div className="flex">
@@ -169,7 +191,7 @@ const Post = ({ id }: { id: string }) => {
                         size="small"
                         icon={heartCircle}
                       ></IonIcon>
-                      <div>{post.likes.length}</div>
+                      <div>{post?.likes.length}</div>
                     </div>
                     <div className="center">
                       <IonIcon
@@ -177,7 +199,7 @@ const Post = ({ id }: { id: string }) => {
                         size="small"
                         icon={chatbubbleOutline}
                       ></IonIcon>
-                      <div>{post.comments.length}</div>
+                      <div>{post?.comments.length}</div>
                     </div>
                     <div className="center">
                       <IonIcon
@@ -199,7 +221,7 @@ const Post = ({ id }: { id: string }) => {
             </div>
           );
         })}
-        <IonItem>
+        <IonItem lines="none">
           <div className="column" style={{ width: "100%" }}>
             {content[0]?.comments.map((comments: any, index: number) => {
               return (
@@ -211,7 +233,7 @@ const Post = ({ id }: { id: string }) => {
                       value={comments}
                     />
                   </IonItem>
-                  <IonButton
+                  {/* <IonButton
                     onClick={(e) => {
                       let newComments = content[0]?.comments.toSpliced(
                         index,
@@ -226,38 +248,40 @@ const Post = ({ id }: { id: string }) => {
                     }}
                   >
                     delete me
-                  </IonButton>
+                  </IonButton> */}
                 </IonCard>
               );
             })}
           </div>
         </IonItem>
-        <div className="flexWide">
-          {/* <Editor toolBar={false} theme={'snow'} value={value} setValue={setValue} /> */}
-          <IonItem>
-            <IonTextarea
-              value={value}
-              onIonInput={(e: any) => {
-                setValue(e.target.value);
-              }}
-            ></IonTextarea>
-          </IonItem>
-          <div>
-            <IonButton
-              size="small"
-              onClick={(e) => {
-                setValue("");
-                updatePost([...content[0].comments, value]);
-                getOnePost();
-                // handleKeyDown(e, [...content[0].comments, value])
-              }}
-            >
-              Add Comment
-            </IonButton>
-          </div>
-        </div>
+        
       </IonContent>
     </IonPage>
   );
 };
 export default Post;
+
+//  <div className="flexWide">
+//            <Editor toolBar={false} theme={'snow'} value={value} setValue={setValue} 
+//           <IonItem>
+//             <IonTextarea
+//               value={value}
+//               onIonInput={(e: any) => {
+//                 setValue(e.target.value);
+//               }}
+//             ></IonTextarea>
+//           </IonItem>
+//           <div>
+//             <IonButton
+//               size="small"
+//               onClick={(e) => {
+//                 setValue("");
+//                 updatePost([...content[0].comments, value]);
+//                 getOnePost();
+//                 handleKeyDown(e, [...content[0].comments, value])
+//               }}
+//             >
+//               Add Comment
+//             </IonButton>
+//           </div>
+//         </div> 

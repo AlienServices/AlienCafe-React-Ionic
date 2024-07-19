@@ -52,13 +52,14 @@ const Tab2 = () => {
         <IonIcon icon={logoIonic} size="large"></IonIcon>
         <IonCardHeader>
           <IonCardTitle>{myInfo?.username}</IonCardTitle>
-          <IonNavLink routerDirection="forward" component={() => <Page />}>
+          {/* <IonNavLink routerDirection="forward" component={() => <Page />}>
             <div>edit profile</div>
-          </IonNavLink>
+          </IonNavLink> */}
         </IonCardHeader>
         <IonCardContent>{myInfo?.bio}</IonCardContent>
         <div className="flexChoice">
           <div
+            className="smallTitle"
             onClick={() => {
               setChoices({
                 posts: 1,
@@ -71,6 +72,7 @@ const Tab2 = () => {
             Posts
           </div>
           <div
+            className="smallTitle"
             onClick={() => {
               setChoices({
                 posts: 0,
@@ -83,6 +85,7 @@ const Tab2 = () => {
             Replies
           </div>
           <div
+            className="smallTitle"
             onClick={() => {
               setChoices({
                 posts: 0,
@@ -95,6 +98,7 @@ const Tab2 = () => {
             Likes
           </div>
           <div
+            className="smallTitle"
             onClick={() => {
               setChoices({
                 posts: 0,

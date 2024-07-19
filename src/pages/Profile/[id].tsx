@@ -108,8 +108,9 @@ const Profile = ({ id }: { id: string }) => {
   console.log(userInfo.email);
   return (
     <IonPage>
+      
       <IonCard className="noMargin" color={"light"}>
-        <IonRouterLink href={`/tab3`}>
+        <IonRouterLink href={`/tab1`}>
           <IonIcon
             style={{ paddingTop: "40px" }}
             size="large"

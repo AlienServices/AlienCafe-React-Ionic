@@ -1,5 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { IonIcon } from "@ionic/react";
+import { useParams } from "react-router-dom";
+import { useLocation, useHistory } from "react-router";
 import {
   heartCircle,
   chatbubbleOutline,
@@ -24,6 +26,7 @@ import { MyContext } from "../providers/postProvider";
 import moment from "moment";
 
 const Content: React.FC = () => {
+  const history = useHistory();
   const {
     posts,
     myPosts,
@@ -50,6 +53,7 @@ const Content: React.FC = () => {
     id: "",
     username: "",
   });
+  
 
   useEffect(() => {
     getUser();
@@ -110,6 +114,13 @@ const Content: React.FC = () => {
     return textContent;
   };
 
+
+  const gotoTopic = (id: string) => {
+    history.push(`/view/${id}`);
+  };
+
+  console.log(posts)
+
   return (
     <IonContent className="page">
       <IonList>
@@ -162,11 +173,11 @@ const Content: React.FC = () => {
                                 getUserPosts(post.email);
                               }}
                               routerDirection="forward"
-                              component={() => <Profile id={post.email} />}
+                              component={() => <Profile id={post.id} />}
                             >
                               <div className="username">{post.email}</div>
                             </IonNavLink>
-                            <div style={{fontSize:'13px'}}>{formattedDate}</div>
+                            <div style={{ fontSize: '13px' }}>{formattedDate}</div>
                           </div>
                           {/* <div>
                             {myInfo?.email !== post?.email ? (
@@ -217,10 +228,9 @@ const Content: React.FC = () => {
                             )}
                           </div> */}
                         </div>
-                        <IonNavLink
-                          routerDirection="forward"
-                          component={() => <Page id={post.id} />}
-                        >
+                        <div onClick={() => {
+                          gotoTopic(post.id)
+                        }}>
                           <ReactQuill
                             style={{ color: "black" }}
                             readOnly={true}
@@ -234,7 +244,8 @@ const Content: React.FC = () => {
                             theme="bubble"
                             value={truncatedContent}
                           />
-                        </IonNavLink>
+                        </div>
+
                         <div className="around">
                           <div style={{ alignItems: 'center' }} className="flex">
                             <IonIcon

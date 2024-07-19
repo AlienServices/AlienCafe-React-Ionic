@@ -4,26 +4,36 @@
   width: 50%;
   height: 100%;
 }
+
 .around {
   display: flex;
   justify-content: space-between;
   width: 95%;
 }
+
+.smallTitle {
+  font-size: 13px;
+  color: rgb(35, 34, 34);
+}
+
 .centerColumn {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .flexChoice {
   display: flex;
   justify-content: space-around;
   padding: 10px;
-  
+
   width: 100%;
 }
+
 .noMargin {
   margin: 0;
 }
+
 .optionsCenter {
   display: flex;
   justify-content: space-evenly;
@@ -31,13 +41,14 @@
   height: 100%;
   flex-direction: column;
 }
+
 .row {
   width: 50%;
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
+
 .row div {
   width: 100px;
 }
-
