@@ -53,7 +53,7 @@ const Content: React.FC = () => {
     id: "",
     username: "",
   });
-  
+
 
   useEffect(() => {
     getUser();
@@ -130,7 +130,7 @@ const Content: React.FC = () => {
               .sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
               .map((post: any, index: number) => {
                 const transformedTitle = transformTitleToH1(post.title);
-                const truncatedContent = truncateContent(post.content, 200);
+                const truncatedContent = truncateContent(post.content, 400);
 
                 const date = new Date(post.date);
                 const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
@@ -173,7 +173,7 @@ const Content: React.FC = () => {
                                 getUserPosts(post.email);
                               }}
                               routerDirection="forward"
-                              component={() => <Profile id={post.id} />}
+                              component={() => <Profile id={post.email} />}
                             >
                               <div className="username">{post.email}</div>
                             </IonNavLink>
@@ -246,7 +246,7 @@ const Content: React.FC = () => {
                           />
                         </div>
 
-                        <div className="around">
+                        {/* <div className="around">
                           <div style={{ alignItems: 'center' }} className="flex">
                             <IonIcon
                               size="large"
@@ -268,7 +268,7 @@ const Content: React.FC = () => {
                               icon={shareOutline}
                             ></IonIcon>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </IonCard>
                   </div>

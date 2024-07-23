@@ -42,6 +42,7 @@ import Post from "./pages/View/[id]";
 import MessageHome from './pages/MessageHome'
 import Menu from './components/Menu'
 import Chat from "./pages/Chat";
+import Quiz from "./subPages/Quiz";
 import CurrentChat from "./pages/CurrentChat";
 
 /* Core CSS required for Ionic components to work properly */
@@ -75,6 +76,7 @@ const App: React.FC = () => (
               <IonRouterOutlet>
                 <Route exact={true} path="/tab1" render={() => <Tab3 />}></Route>
                 <Route exact={true} path="/" render={() => <Login />}></Route>
+                <Route exact={true} path="/quiz" render={() => <Quiz />}></Route>
                 <Route exact={true} path="/tab2" render={() => <Tab2 />}></Route>                
                 <Route exact={true} path="/tab3" render={() => <MessageHome />}></Route>
                 <Route exact={true} path="/newChat" render={() => <Chat />}></Route>
@@ -82,7 +84,7 @@ const App: React.FC = () => (
                 <Route
                   exact={true}
                   path="/create"
-                  render={() => <Create />}
+                  component={Create}
                 ></Route>
                 <Route
                   path={`/view/:id`}

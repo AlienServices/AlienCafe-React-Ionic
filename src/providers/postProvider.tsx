@@ -162,9 +162,11 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           "Content-Type": "application/json",
         },
       });
-      // console.log(await result.json(), 'this is the result')
       const posts = await result.json();
-      setContent(posts.Posts);
+      setContent(posts.Posts.map((post: any) => ({
+        ...post,
+        date: new Date(post.date),
+      })));
     } catch (error) {
       console.log(error, "this is the create user error");
     }

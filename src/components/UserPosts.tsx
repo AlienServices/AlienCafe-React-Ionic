@@ -58,6 +58,32 @@ const Content: React.FC = () => {
     "<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>",
   );
 
+  const transformTitleToH1 = (title: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(title, "text/html");
+    const pTag = doc.querySelector("p");
+
+    if (pTag) {
+      const h1Tag = document.createElement("h1");
+      h1Tag.innerHTML = pTag.innerHTML;
+      pTag.parentNode?.replaceChild(h1Tag, pTag);
+    }
+
+    return doc.body.innerHTML;
+  };
+
+  const truncateContent = (content: string, length: number) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, "text/html");
+    let textContent = doc.body.textContent || "";
+    if (textContent.length > length) {
+      textContent = textContent.substring(0, length) + "...";
+    }
+    return textContent;
+  };
+
+
+
   console.log(userPosts, "these are the users posts");
   return (
     <IonContent className="page">
@@ -73,6 +99,8 @@ const Content: React.FC = () => {
                 var output = Array.prototype.slice
                   .call(doc.querySelectorAll("h1"))
                   .map((el) => el.outerHTML);
+                const transformedTitle = transformTitleToH1(post.title);
+                const truncatedContent = truncateContent(post.content, 200);
                 const date = new Date(post.date);
                 const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
                 const day = String(date.getUTCDate()).padStart(2, "0");
@@ -125,18 +153,24 @@ const Content: React.FC = () => {
                           </IonFabList>
                         </IonFab>
                       </div>
-                      <IonNavLink
-                        routerDirection="forward"
-                        component={() => <Page id={post.id} />}
-                      >
+                      <div onClick={() => {
+                        gotoTopic(post.id)
+                      }}>
                         <ReactQuill
                           style={{ color: "black" }}
                           readOnly={true}
                           theme="bubble"
-                          value={output[0]}
+                          value={transformedTitle}
                         />
-                      </IonNavLink>
-                      <div className="around">
+                        <ReactQuill
+                          className="small"
+                          style={{ color: "black" }}
+                          readOnly={true}
+                          theme="bubble"
+                          value={truncatedContent}
+                        />
+                      </div>
+                      {/* <div className="around">
                         <div className="flex">
                           <div
                             className="center"
@@ -198,12 +232,11 @@ const Content: React.FC = () => {
                             icon={shareOutline}
                           ></IonIcon>
                         </div>
-                      </div>
-                      <div></div>
+                      </div> */}
                     </IonCard>
                   </div>
                 );
-              })}{" "}
+              })}
           </>
         ) : (
           <>

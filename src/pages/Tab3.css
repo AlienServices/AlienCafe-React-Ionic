@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .small .ql-editor p{
@@ -65,7 +65,7 @@
 .flexWide {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .flex .center {

@@ -105,134 +105,138 @@ const Profile = ({ id }: { id: string }) => {
     }
   };
 
-  console.log(userInfo.email);
+  // console.log(userInfo);
   return (
     <IonPage>
-      
-      <IonCard className="noMargin" color={"light"}>
-        <IonRouterLink href={`/tab1`}>
-          <IonIcon
-            style={{ paddingTop: "40px" }}
-            size="large"
-            icon={arrowBackOutline}
-          ></IonIcon>
-        </IonRouterLink>
-        <IonCardHeader>
-          <div className="flexWide">
-            <IonCardTitle>{userInfo?.username}</IonCardTitle>
-            <div>
-              {myInfo.email !== id ? (
-                <>
-                  {" "}
-                  {myInfo?.following?.indexOf(id) !== -1 ? (
-                    <div>
-                      {" "}
-                      <IonButton
-                        onClick={() => {
-                          let emailIndex = myInfo?.following?.indexOf(id);
-                          let newLikes = myInfo?.following?.toSpliced(
-                            emailIndex,
-                            1,
-                          );
-                          updateUser(myInfo?.username, myInfo?.bio, [
-                            ...newLikes,
-                          ]);
-                        }}
-                        size="small"
-                      >
-                        Unfollow?
-                      </IonButton>
-                    </div>
-                  ) : (
-                    <div>
-                      {" "}
-                      <IonButton
-                        onClick={() => {
-                          updateUser(myInfo?.username, myInfo?.bio, [
-                            ...myInfo.following,
-                            userInfo.email,
-                          ]);
-                        }}
-                        size="small"
-                      >
-                        Follow
-                      </IonButton>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>Its you Mf</>
-              )}
+      <IonContent>
+        <IonCard className="noMargin" color={"light"}>
+          <IonRouterLink href={`/tab1`}>
+            <IonIcon
+              style={{ paddingTop: "40px" }}
+              size="large"
+              icon={arrowBackOutline}
+            ></IonIcon>
+          </IonRouterLink>
+          <IonCardHeader>
+            <div className="flexWide">
+              <IonCardTitle>{userInfo?.username}</IonCardTitle>
+              <div>
+                {myInfo.email !== id ? (
+                  <>
+                    {myInfo?.following?.indexOf(id) !== -1 ? (
+                      <div>
+                        <IonButton
+                          onClick={() => {
+                            let emailIndex = myInfo?.following?.indexOf(id);
+                            let newLikes = myInfo?.following?.toSpliced(
+                              emailIndex,
+                              1,
+                            );
+                            updateUser(myInfo?.username, myInfo?.bio, [
+                              ...newLikes,
+                            ]);
+                          }}
+                          size="small"
+                        >
+                          Unfollow?
+                        </IonButton>
+                      </div>
+                    ) : (
+                      // <div>                      
+                      //   <IonButton
+                      //     onClick={() => {
+                      //       updateUser(myInfo?.username, myInfo?.bio, [
+                      //         ...myInfo.following,
+                      //         userInfo.email,
+                      //       ]);
+                      //     }}
+                      //     size="small"
+                      //   >
+                      //     Follow
+                      //   </IonButton>
+                      // </div>
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  // <>Its you Mf</>
+                  <></>
+                )}
+              </div>
+            </div>
+          </IonCardHeader>
+          <IonCardContent>{userInfo?.bio}</IonCardContent>
+          <div className="flexChoice">
+            <div
+              className="smallTitle"
+              onClick={() => {
+                setChoices({
+                  posts: 1,
+                  replies: 0,
+                  likes: 0,
+                  categories: 0,
+                });
+              }}
+            >
+              Posts
+            </div>
+            <div
+              className="smallTitle"
+              onClick={() => {
+                setChoices({
+                  posts: 0,
+                  replies: 1,
+                  likes: 0,
+                  categories: 0,
+                });
+              }}
+            >
+              Replies
+            </div>
+            <div
+              className="smallTitle"
+              onClick={() => {
+                setChoices({
+                  posts: 0,
+                  replies: 0,
+                  likes: 1,
+                  categories: 0,
+                });
+              }}
+            >
+              Likes
+            </div>
+            <div
+              className="smallTitle"
+              onClick={() => {
+                setChoices({
+                  posts: 0,
+                  replies: 0,
+                  likes: 0,
+                  categories: 1,
+                });
+              }}
+            >
+              Categories
             </div>
           </div>
-        </IonCardHeader>
-        <IonCardContent>{userInfo?.bio}</IonCardContent>
-        <div className="flexChoice">
-          <div
-            onClick={() => {
-              setChoices({
-                posts: 1,
-                replies: 0,
-                likes: 0,
-                categories: 0,
-              });
-            }}
-          >
-            Posts
-          </div>
-          <div
-            onClick={() => {
-              setChoices({
-                posts: 0,
-                replies: 1,
-                likes: 0,
-                categories: 0,
-              });
-            }}
-          >
-            Replies
-          </div>
-          <div
-            onClick={() => {
-              setChoices({
-                posts: 0,
-                replies: 0,
-                likes: 1,
-                categories: 0,
-              });
-            }}
-          >
-            Likes
-          </div>
-          <div
-            onClick={() => {
-              setChoices({
-                posts: 0,
-                replies: 0,
-                likes: 0,
-                categories: 1,
-              });
-            }}
-          >
-            Categories
-          </div>
-        </div>
-      </IonCard>
-      {choices.replies ? (
-        <>replies</>
-      ) : choices.posts ? (
-        <>
-          <UserPosts />
-        </>
-      ) : choices.likes ? (
-        <>Likes</>
-      ) : choices.categories ? (
-        <>
-          <Category />
-        </>
-      ) : (
-        <MyPosts></MyPosts>
-      )}
+        </IonCard>
+        {choices.replies ? (
+          <>replies</>
+        ) : choices.posts ? (
+          <>
+            <UserPosts />
+          </>
+        ) : choices.likes ? (
+          <>Likes</>
+        ) : choices.categories ? (
+          <>
+            <Category />
+          </>
+        ) : (
+          <>nada</>
+        )}
+      </IonContent>
     </IonPage>
   );
 };

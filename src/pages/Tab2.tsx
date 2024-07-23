@@ -48,88 +48,92 @@ const Tab2 = () => {
 
   return (
     <IonPage>
-      <IonCard className="noMargin" color={"light"}>
-        <IonIcon icon={logoIonic} size="large"></IonIcon>
-        <IonCardHeader>
-          <IonCardTitle>{myInfo?.username}</IonCardTitle>
-          {/* <IonNavLink routerDirection="forward" component={() => <Page />}>
+      <IonContent>
+        <IonCard className="noMargin" color={"light"}>
+          <IonIcon icon={logoIonic} size="large"></IonIcon>
+          <IonCardHeader>
+            <div>
+              <IonCardTitle>{myInfo?.username}</IonCardTitle>
+            </div>
+            {/* <IonNavLink routerDirection="forward" component={() => <Page />}>
             <div>edit profile</div>
           </IonNavLink> */}
-        </IonCardHeader>
-        <IonCardContent>{myInfo?.bio}</IonCardContent>
-        <div className="flexChoice">
-          <div
-            className="smallTitle"
-            onClick={() => {
-              setChoices({
-                posts: 1,
-                replies: 0,
-                likes: 0,
-                categories: 0,
-              });
-            }}
-          >
-            Posts
+          </IonCardHeader>
+          <IonCardContent>{myInfo?.bio}</IonCardContent>
+          <div className="flexChoice">
+            <div
+              className="smallTitle"
+              onClick={() => {
+                setChoices({
+                  posts: 1,
+                  replies: 0,
+                  likes: 0,
+                  categories: 0,
+                });
+              }}
+            >
+              Posts
+            </div>
+            <div
+              className="smallTitle"
+              onClick={() => {
+                setChoices({
+                  posts: 0,
+                  replies: 1,
+                  likes: 0,
+                  categories: 0,
+                });
+              }}
+            >
+              Replies
+            </div>
+            <div
+              className="smallTitle"
+              onClick={() => {
+                setChoices({
+                  posts: 0,
+                  replies: 0,
+                  likes: 1,
+                  categories: 0,
+                });
+              }}
+            >
+              Likes
+            </div>
+            <div
+              className="smallTitle"
+              onClick={() => {
+                setChoices({
+                  posts: 0,
+                  replies: 0,
+                  likes: 0,
+                  categories: 1,
+                });
+              }}
+            >
+              Categories
+            </div>
           </div>
-          <div
-            className="smallTitle"
-            onClick={() => {
-              setChoices({
-                posts: 0,
-                replies: 1,
-                likes: 0,
-                categories: 0,
-              });
-            }}
-          >
-            Replies
-          </div>
-          <div
-            className="smallTitle"
-            onClick={() => {
-              setChoices({
-                posts: 0,
-                replies: 0,
-                likes: 1,
-                categories: 0,
-              });
-            }}
-          >
-            Likes
-          </div>
-          <div
-            className="smallTitle"
-            onClick={() => {
-              setChoices({
-                posts: 0,
-                replies: 0,
-                likes: 0,
-                categories: 1,
-              });
-            }}
-          >
-            Categories
-          </div>
-        </div>
-      </IonCard>
-      {choices.replies ? (
-        <>
-          <Replies />
-        </>
-      ) : choices.posts ? (
-        <>
-          <MyPosts />
-        </>
-      ) : choices.likes ? (
-        <>Likes</>
-      ) : choices.categories ? (
-        <>
-          <Category />
-        </>
-      ) : (
-        // <MyPosts></MyPosts>
-        <></>
-      )}
+        </IonCard>
+        {choices.replies ? (
+          <>
+            <Replies />
+          </>
+        ) : choices.posts ? (
+          <>
+            <MyPosts />
+          </>
+        ) : choices.likes ? (
+          <>Likes</>
+        ) : choices.categories ? (
+          <>
+            <Category />
+          </>
+        ) : (
+          // <MyPosts></MyPosts>
+          <></>
+        )}
+      </IonContent>
     </IonPage>
   );
 };

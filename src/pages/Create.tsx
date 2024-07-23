@@ -10,7 +10,7 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  
+  IonNavLink,
   IonMenuButton,
   IonMenuToggle,
   IonInput,
@@ -26,6 +26,7 @@ import {
   IonImg
 } from "@ionic/react";
 import { closeOutline } from 'ionicons/icons';
+import Quiz from '../subPages/Quiz';
 
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState('');
@@ -51,12 +52,14 @@ const MyEditor = () => {
   };
 
   return (
-    <div >
+    <IonPage>
       <div className='flexRow'>
         <IonIcon size='large' icon={closeOutline}></IonIcon>
-        <IonButton shape='round' size='small' onClick={(() => {
-          createPost(editorHtmlTitle, editorHtml)
-        })}>Next</IonButton>
+        <IonNavLink routerDirection='forward' component={() => <Quiz />}>
+          <IonButton shape='round' size='small' onClick={(() => {
+            // createPost(editorHtmlTitle, editorHtml)
+          })}>Next</IonButton>
+        </IonNavLink>
       </div>
       <div>
         <ReactQuill
@@ -91,7 +94,7 @@ const MyEditor = () => {
         <button className="ql-image"></button>
         <button className="ql-list" value="bullet"></button>
       </div>
-    </div>
+    </IonPage>
   );
 };
 

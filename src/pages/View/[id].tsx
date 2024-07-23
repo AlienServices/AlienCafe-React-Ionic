@@ -15,12 +15,14 @@ import {
 } from "ionicons/icons";
 import { RouteComponentProps } from "react-router";
 import "react-quill/dist/quill.snow.css";
+import alien from '../../../public/alien.png'
 import Quill from "quill/core";
 import {
   IonButton,
   IonTextarea,
   IonAvatar,
   IonButtons,
+  IonImg,
   IonBackButton,
   IonCard,
   IonText,
@@ -61,9 +63,9 @@ const Post = () => {
   useEffect(() => {
     getOnePost();
   }, []);
-  
 
-  const getOnePost = async () => {    
+
+  const getOnePost = async () => {
     try {
       const result = await fetch(`http://localhost:3000/api/getPost?id=${id}`, {
         method: "GET",
@@ -121,18 +123,23 @@ const Post = () => {
       <IonContent>
         <IonHeader>
           <IonToolbar>
-            <IonRouterLink href={`/tab2`}>
+            <IonRouterLink href={`/tab1`}>
               <IonIcon size="large" icon={arrowBackOutline}></IonIcon>
             </IonRouterLink>
+            <div className="centerAlien">
+              {/* <div className="imageContainer">
+                <IonImg src={alien}></IonImg>
+              </div> */}
+            </div>
           </IonToolbar>
         </IonHeader>
         {content.map((post: any, index: number) => {
           const transformedTitle = transformTitleToH1(post.title);
           return (
-            <div className="shadow">              
+            <div className="shadow">
               <IonCard
-              
-                style={{                  
+
+                style={{
                   marginBottom: "25px",
                 }}
                 key={index}
@@ -164,7 +171,7 @@ const Post = () => {
                   value={transformedTitle}
                 />
                 <ReactQuill
-                className="small"
+                  className="small"
                   style={{ color: "black" }}
                   readOnly={true}
                   theme="bubble"
@@ -254,7 +261,7 @@ const Post = () => {
             })}
           </div>
         </IonItem>
-        
+
       </IonContent>
     </IonPage>
   );
