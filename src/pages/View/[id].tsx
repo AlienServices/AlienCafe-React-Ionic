@@ -1,69 +1,43 @@
-import { useEffect, useState, useRef, useCallback } from "react";
-// import { useApi } from '../hooks/useApi';
-// import Editor from '../components/Editor';
-import { useParams, withRouter } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import {
-  colorFill,
-  heart,
-  heartCircle,
+  arrowBackOutline,
   chatbubbleOutline,
+  heartCircle,
   bookmarkOutline,
   shareOutline,
-  arrowBackOutline,
-  backspaceOutline,
 } from "ionicons/icons";
-import { RouteComponentProps } from "react-router";
 import "react-quill/dist/quill.snow.css";
-import alien from '../../../public/alien.png'
-import Quill from "quill/core";
 import {
   IonButton,
   IonTextarea,
   IonAvatar,
-  IonButtons,
-  IonImg,
-  IonBackButton,
+  IonIcon,
   IonCard,
-  IonText,
   IonContent,
   IonHeader,
-  IonInput,
   IonItem,
   IonLabel,
   IonList,
   IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonToast,
-  IonIcon,
   IonRouterLink,
-  useIonLoading,
+  IonToolbar,
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
-import Editor from "../../components/Editor";
 import "../../theme/id.module.css";
 
 const Post = () => {
-  const [content, setContent] = useState<
-    {
-      id: string;
-      content: string;
-      likes: string;
-      email: string;
-      comments: string[];
-    }[]
-  >([]);
-  const [array, setArray] = useState<[]>([]);
+  const [content, setContent] = useState([]);
   const [comments, setComments] = useState<string[]>([]);
   const [comment, setComment] = useState<string>("");
-  const [written, setWritten] = useState("");
   const [value, setValue] = useState("");
+  const [selectedOption, setSelectedOption] = useState<string>("");
   const { id } = useParams<{ id: string }>();
+
   useEffect(() => {
     getOnePost();
   }, []);
-
 
   const getOnePost = async () => {
     try {
@@ -74,33 +48,29 @@ const Post = () => {
         },
       });
       const post = await result.json();
-      console.log(post.Hello, "this is post");
       setContent(post.Hello);
     } catch (error) {
       console.log(error, "this is the create user error");
     }
   };
 
-  const updatePost = async (comments: string[]) => {
-    const updatedPost = await post({
-      url: `http://localhost:3000/api/addLike?id=${id}`,
-      body: {
-        comments: comments,
-      },
-    });
-    console.log(updatedPost, "an updated post");
-    setContent(
-      content.map((post) =>
-        post.id === updatedPost.update.id ? updatedPost.update : post,
-      ),
-    );
-  };
+  // const updatePost = async (comments: string[]) => {
+  //   const updatedPost = await post({
+  //     url: `http://localhost:3000/api/addLike?id=${id}`,
+  //     body: {
+  //       comments: comments,
+  //     },
+  //   });
+  //   setContent(
+  //     content.map((post) =>
+  //       post.id === updatedPost.update.id ? updatedPost.update : post
+  //     )
+  //   );
+  // };
 
-  // const handleKeyDown = () => {
-  //     if (e.key === 'Enter') {
-  //         setValue('')
-  //     }
-  // }
+  const handleOptionChange = (e: any) => {
+    setSelectedOption(e.target.value);
+  };
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -116,8 +86,6 @@ const Post = () => {
     return doc.body.innerHTML;
   };
 
-  console.log(id)
-
   return (
     <IonPage>
       <IonContent>
@@ -126,23 +94,16 @@ const Post = () => {
             <IonRouterLink href={`/tab1`}>
               <IonIcon size="large" icon={arrowBackOutline}></IonIcon>
             </IonRouterLink>
-            <div className="centerAlien">
-              {/* <div className="imageContainer">
-                <IonImg src={alien}></IonImg>
-              </div> */}
-            </div>
           </IonToolbar>
         </IonHeader>
         {content.map((post: any, index: number) => {
           const transformedTitle = transformTitleToH1(post.title);
           return (
-            <div className="shadow">
+            <div className="shadow" key={index}>
               <IonCard
-
                 style={{
                   marginBottom: "25px",
                 }}
-                key={index}
                 className="card"
               >
                 <div className="around">
@@ -162,7 +123,6 @@ const Post = () => {
                     </IonAvatar>
                     <div className="username">{post?.email}</div>
                   </div>
-                  <div>{/* <IonButton size='small'>Follow</IonButton> */}</div>
                 </div>
                 <ReactQuill
                   style={{ color: "black" }}
@@ -179,20 +139,7 @@ const Post = () => {
                 />
                 <div className="around">
                   <div className="flex">
-                    <div
-                      className="center"
-                      onClick={() => {
-                        // if (post.likes.indexOf(userEmail) === -1) {
-                        //     let fullLikes = [...post.likes, userEmail];
-                        //     updatePost({ id: post.id, likes: fullLikes, content: post.content, email: post.email })
-                        // } else {
-                        //     let emailIndex = post.likes.indexOf(localStorage.getItem('user') || '')
-                        //     let newLikes = post.likes.toSpliced(emailIndex, 1)
-                        //     console.log(newLikes, 'thse are new likes')
-                        //     updatePost({ id: post.id, likes: newLikes, content: post.content, email: post.email })
-                        // }
-                      }}
-                    >
+                    <div className="center">
                       <IonIcon
                         color="danger"
                         size="small"
@@ -202,7 +149,6 @@ const Post = () => {
                     </div>
                     <div className="center">
                       <IonIcon
-                        color=""
                         size="small"
                         icon={chatbubbleOutline}
                       ></IonIcon>
@@ -210,7 +156,6 @@ const Post = () => {
                     </div>
                     <div className="center">
                       <IonIcon
-                        color=""
                         size="small"
                         icon={bookmarkOutline}
                       ></IonIcon>
@@ -218,7 +163,6 @@ const Post = () => {
                   </div>
                   <div className="centerColumn">
                     <IonIcon
-                      color=""
                       size="small"
                       icon={shareOutline}
                     ></IonIcon>
@@ -228,67 +172,54 @@ const Post = () => {
             </div>
           );
         })}
+        <div className="quiz">
+          <div className="centerThesis">
+            <div className="question">{content[0]?.thesis}</div>
+          </div>
+          <div className="checkSpace">
+            <input
+              type="radio"
+              value="yes"
+              checked={selectedOption === "yes"}
+              onChange={handleOptionChange}
+            />
+            <div className="answerWidth">Yes</div>
+          </div>
+          <div className="checkSpace">
+            <input
+              type="radio"
+              value="no"
+              checked={selectedOption === "no"}
+              onChange={handleOptionChange}
+            />
+            <div className="answerWidth">No</div>
+          </div>
+          <div className="checkSpace">
+            <input
+              type="radio"
+              value="undecided"
+              checked={selectedOption === "undecided"}
+              onChange={handleOptionChange}
+            />
+            <div className="answerWidth">Undecided</div>
+          </div>
+        </div>
         <IonItem lines="none">
           <div className="column" style={{ width: "100%" }}>
             {content[0]?.comments.map((comments: any, index: number) => {
               return (
-                <IonCard>
+                <IonCard key={index}>
                   <IonItem lines="none">
-                    <ReactQuill
-                      readOnly={true}
-                      theme="bubble"
-                      value={comments}
-                    />
+                    <ReactQuill readOnly={true} theme="bubble" value={comments} />
                   </IonItem>
-                  {/* <IonButton
-                    onClick={(e) => {
-                      let newComments = content[0]?.comments.toSpliced(
-                        index,
-                        1,
-                      );
-                      console.log(
-                        newComments,
-                        index,
-                        "this is the index and spliced array",
-                      );
-                      updatePost(newComments);
-                    }}
-                  >
-                    delete me
-                  </IonButton> */}
                 </IonCard>
               );
             })}
           </div>
         </IonItem>
-
       </IonContent>
     </IonPage>
   );
 };
-export default Post;
 
-//  <div className="flexWide">
-//            <Editor toolBar={false} theme={'snow'} value={value} setValue={setValue} 
-//           <IonItem>
-//             <IonTextarea
-//               value={value}
-//               onIonInput={(e: any) => {
-//                 setValue(e.target.value);
-//               }}
-//             ></IonTextarea>
-//           </IonItem>
-//           <div>
-//             <IonButton
-//               size="small"
-//               onClick={(e) => {
-//                 setValue("");
-//                 updatePost([...content[0].comments, value]);
-//                 getOnePost();
-//                 handleKeyDown(e, [...content[0].comments, value])
-//               }}
-//             >
-//               Add Comment
-//             </IonButton>
-//           </div>
-//         </div> 
+export default Post;

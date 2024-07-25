@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import ReactQuill from 'react-quill';
 import { MyContext } from '../providers/postProvider';
+import { useHistory } from "react-router";
 import 'react-quill/dist/quill.snow.css';
 import '../theme/create.css'
 import {
@@ -31,7 +32,9 @@ import Quiz from '../subPages/Quiz';
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState('');
   const [editorHtml, setEditorHtml] = useState('');
+
   const titleQuillRef = useRef(null);
+  const history = useHistory();
   const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo, createPost } =
     useContext(MyContext);
   const contentQuillRef = useRef(null);
@@ -54,8 +57,10 @@ const MyEditor = () => {
   return (
     <IonPage>
       <div className='flexRow'>
-        <IonIcon size='large' icon={closeOutline}></IonIcon>
-        <IonNavLink routerDirection='forward' component={() => <Quiz />}>
+        <IonIcon onClick={() => {
+          history.push('/tab1')
+        }} size='large' icon={closeOutline}></IonIcon>
+        <IonNavLink routerDirection='forward' component={() => <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />}>
           <IonButton shape='round' size='small' onClick={(() => {
             // createPost(editorHtmlTitle, editorHtml)
           })}>Next</IonButton>

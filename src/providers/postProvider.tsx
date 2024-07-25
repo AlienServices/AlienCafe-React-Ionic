@@ -36,7 +36,7 @@ interface PostContext {
   }) => void;
   updatePost: (post: Post) => void;
   deletePost: (id: string) => void;
-  createPost: (title: string, value: string) => void;
+  createPost: (title: string, value: string, thesis: string, yesAction: string, noAction: string, maybeAction: string, categories: string) => void;
   updateUser: (
     username: string,
     bio: string,
@@ -240,7 +240,18 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const createPost = async (title: string, value: string) => {
+  const createPost = async (title: string, value: string, thesis: string, yesAction: string, noAction: string, maybeAction: string, categories: string) => {
+    console.log(JSON.stringify({
+      title,
+      thesis,
+      content: value,
+      email: localStorage.getItem("user") || "",
+      date: new Date(),
+      yesAction,
+      noAction,
+      maybeAction,
+      categories
+    }))
     try {
       const test = await fetch("http://localhost:3000/api/createPost", {
         method: "POST",
@@ -249,11 +260,16 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         },
         body: JSON.stringify({
           title,
+          thesis,
           content: value,
           email: localStorage.getItem("user") || "",
           date: new Date(),
+          yesAction,
+          noAction,
+          maybeAction,
+          categories
         }),
-      });
+      });       
       getAllPosts();
       getMyPosts();
       console.log(test, 'Post message')
@@ -282,7 +298,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       console.log(err);
     }
   };
-  
+
   return (
     <MyContext.Provider
       value={{

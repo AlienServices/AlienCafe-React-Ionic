@@ -148,23 +148,11 @@ const Content: React.FC = () => {
                                 {" "}
                                 <IonButton
                                   onClick={() => {
-                                    let emailIndex =
-                                      myInfo?.following?.indexOf(post.email);
-                                    let newLikes =
-                                      myInfo?.following?.toSpliced(
-                                        emailIndex,
-                                        1
-                                      );
-                                    updateUser(
-                                      myInfo?.username,
-                                      myInfo?.bio,
-                                      [...newLikes],
-                                      myInfo.email
-                                    );
+                                    deletePost(post.id)
                                   }}
                                   size="small"
                                 >
-                                  {"<3"}
+                                  {"Trash"}
                                 </IonButton>
                               </div>
                             ) : (

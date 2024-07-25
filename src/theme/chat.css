@@ -120,6 +120,15 @@
   flex-direction: column;
   align-items: center;
 }
+.centerThesis{
+  display: flex;
+  width: 100%;  
+  justify-content: center;
+}
+
+.question{
+  font-size: 17px;
+}
 
 .centerGray {
   display: flex;
@@ -200,9 +209,52 @@
   justify-content: space-between;
   width: 100%;
 }
+
 .noneBack {
   --background: none;
   --box-shadow: none;
   --padding-start: 0;
   --padding-end: 0;
+}
+
+.boxInput {
+  margin: 5px;
+  border: 1px solid rgb(200, 195, 195);
+  border-radius: 10px;
+
+}
+
+.spaceColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 60%;
+}
+
+.flexRowCenter {
+  display: flex;
+  width: 95%;
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.checkSpace {
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+
+}
+
+.quiz {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: space-evenly;
+  height: 30%;
+  margin: 8px;
+}
+
+.answerWidth{
+  width: 150px;
+  font-size: 15px;
 }
