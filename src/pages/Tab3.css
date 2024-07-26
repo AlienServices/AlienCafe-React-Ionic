@@ -47,7 +47,8 @@
 }
 .card {
   width: 50%;
-  height: 300px;
+  min-height: 300px;
+  height: fit-content;
   /* box-shadow: -1px 3px 5px 0px rgba(0, 0, 0, 0.75); */
   margin: auto;
   overflow: visible;

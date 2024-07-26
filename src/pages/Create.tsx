@@ -54,6 +54,10 @@ const MyEditor = () => {
     setEditorHtmlTitle(html);
   };
 
+  // useEffect(() => {
+  //   debugger
+  // }, [])
+
   return (
     <IonPage>
       <div className='flexRow'>

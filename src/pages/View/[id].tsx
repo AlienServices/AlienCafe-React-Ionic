@@ -33,11 +33,17 @@ const Post = () => {
   const [comment, setComment] = useState<string>("");
   const [value, setValue] = useState("");
   const [selectedOption, setSelectedOption] = useState<string>("");
+  const [hasVoted, setHasVoted] = useState(false);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     getOnePost();
   }, []);
+
+  useEffect(() => {
+    updateVote()
+  }, [totalCount])
 
   const getOnePost = async () => {
     try {
@@ -54,22 +60,22 @@ const Post = () => {
     }
   };
 
-  // const updatePost = async (comments: string[]) => {
-  //   const updatedPost = await post({
-  //     url: `http://localhost:3000/api/addLike?id=${id}`,
-  //     body: {
-  //       comments: comments,
-  //     },
-  //   });
-  //   setContent(
-  //     content.map((post) =>
-  //       post.id === updatedPost.update.id ? updatedPost.update : post
-  //     )
-  //   );
-  // };
-
   const handleOptionChange = (e: any) => {
     setSelectedOption(e.target.value);
+  };
+
+  const handleVote = () => {
+    setHasVoted(true);
+    setTimeout(() => {
+      let updatedCount = totalCount;
+      if (selectedOption === "yes") {
+        updatedCount += 1;
+      } else if (selectedOption === "no") {
+        updatedCount -= 1;
+      }
+      setTotalCount(updatedCount);
+      console.log("User has voted:", selectedOption);
+    }, 500); // The delay should match the CSS transition duration
   };
 
   const transformTitleToH1 = (title: string) => {
@@ -84,6 +90,15 @@ const Post = () => {
     }
 
     return doc.body.innerHTML;
+  };
+
+  const updateVote = async () => {
+    const updateUser = await post({
+      url: "http://localhost:3000/api/addVote",
+      body: {
+        vote: totalCount
+      },
+    });
   };
 
   return (
@@ -137,42 +152,11 @@ const Post = () => {
                   theme="bubble"
                   value={post?.content}
                 />
-                <div className="around">
-                  <div className="flex">
-                    <div className="center">
-                      <IonIcon
-                        color="danger"
-                        size="small"
-                        icon={heartCircle}
-                      ></IonIcon>
-                      <div>{post?.likes.length}</div>
-                    </div>
-                    <div className="center">
-                      <IonIcon
-                        size="small"
-                        icon={chatbubbleOutline}
-                      ></IonIcon>
-                      <div>{post?.comments.length}</div>
-                    </div>
-                    <div className="center">
-                      <IonIcon
-                        size="small"
-                        icon={bookmarkOutline}
-                      ></IonIcon>
-                    </div>
-                  </div>
-                  <div className="centerColumn">
-                    <IonIcon
-                      size="small"
-                      icon={shareOutline}
-                    ></IonIcon>
-                  </div>
-                </div>
               </IonCard>
             </div>
           );
         })}
-        <div className="quiz">
+        <div className={`quiz ${hasVoted ? 'slide-out' : ''}`}>
           <div className="centerThesis">
             <div className="question">{content[0]?.thesis}</div>
           </div>
@@ -197,26 +181,20 @@ const Post = () => {
           <div className="checkSpace">
             <input
               type="radio"
-              value="undecided"
-              checked={selectedOption === "undecided"}
+              value="maybe"
+              checked={selectedOption === "maybe"}
               onChange={handleOptionChange}
             />
-            <div className="answerWidth">Undecided</div>
+            <div className="answerWidth">Maybe</div>
           </div>
         </div>
-        <IonItem lines="none">
-          <div className="column" style={{ width: "100%" }}>
-            {content[0]?.comments.map((comments: any, index: number) => {
-              return (
-                <IonCard key={index}>
-                  <IonItem lines="none">
-                    <ReactQuill readOnly={true} theme="bubble" value={comments} />
-                  </IonItem>
-                </IonCard>
-              );
-            })}
-          </div>
-        </IonItem>
+        <div className={`${!hasVoted ? 'middle' : 'none'}`}>
+          <IonButton onClick={handleVote}>Submit</IonButton>
+        </div>
+        <div className={`results ${hasVoted ? 'show-results' : ''}`}>
+          <div>These are the results</div>
+          <div>Total Count: {totalCount}</div>
+        </div>
       </IonContent>
     </IonPage>
   );

@@ -103,22 +103,22 @@ const Quiz = (props: TestProps) => {
             <textarea onChange={(e) => {
               console.log(thesis, 'this is thesis')
               setThesis(e?.target.value)
-            }} className='boxInput' placeholder='Thesis Question'></textarea>
+            }} className='stylish-input' placeholder='Thesis Question'></textarea>
           </IonItem>
           <IonItem lines='none'>
             <textarea onChange={(e) => {
               setYesAction(e?.target.value)
-            }} className='boxInput' placeholder='Action if user votes yes'></textarea>
+            }} className='stylish-input' placeholder='Action if user votes yes'></textarea>
           </IonItem>
           <IonItem lines='none'>
             <textarea onChange={(e) => {
               setMaybeAction(e?.target.value)
-            }} className='boxInput' placeholder='Action if user votes maybe'></textarea>
+            }} className='stylish-input' placeholder='Action if user votes maybe'></textarea>
           </IonItem>
           <IonItem lines='none'>
             <textarea onChange={(e) => {
               setNoAction(e?.target.value)
-            }} className='boxInput' placeholder='Action if user votes no'></textarea>
+            }} className='stylish-input' placeholder='Action if user votes no'></textarea>
           </IonItem>
         </div>
       </IonContent>
