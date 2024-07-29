@@ -101,6 +101,8 @@ const Post = () => {
     });
   };
 
+  console.log(totalCount, 'this is the total count')
+
   return (
     <IonPage>
       <IonContent>
