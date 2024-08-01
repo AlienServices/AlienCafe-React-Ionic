@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
+import { MyContext } from "../../providers/postProvider";
 import {
   arrowBackOutline,
   chatbubbleOutline,
@@ -28,10 +29,12 @@ import { post } from "../../utils/fetch";
 import "../../theme/id.module.css";
 
 const Post = () => {
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState<any[]>([]); // Initialize as an empty array
   const [comments, setComments] = useState<string[]>([]);
   const [comment, setComment] = useState<string>("");
+  const [myVote, setMyVote] = useState<string>("");
   const [value, setValue] = useState("");
+  const { myInfo } = useContext(MyContext);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -41,20 +44,17 @@ const Post = () => {
     getOnePost();
   }, []);
 
-  useEffect(() => {
-    updateVote()
-  }, [totalCount])
-
   const getOnePost = async () => {
     try {
-      const result = await fetch(`http://localhost:3000/api/getPost?id=${id}`, {
+      const result = await fetch(`http://localhost:3000/api/getPost?id=${id}&userId=${myInfo?.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
       const post = await result.json();
-      setContent(post.Hello);
+      setContent([post.post]); // Ensure the post is wrapped in an array
+      setMyVote(post.userVote?.vote || "");
     } catch (error) {
       console.log(error, "this is the create user error");
     }
@@ -64,9 +64,9 @@ const Post = () => {
     setSelectedOption(e.target.value);
   };
 
-  const handleVote = () => {
+  const handleVote = async () => {
     setHasVoted(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       let updatedCount = totalCount;
       if (selectedOption === "yes") {
         updatedCount += 1;
@@ -74,7 +74,10 @@ const Post = () => {
         updatedCount -= 1;
       }
       setTotalCount(updatedCount);
+      await updateVote(id);
       console.log("User has voted:", selectedOption);
+      // Re-fetch the post data to trigger re-render
+      getOnePost();
     }, 500); // The delay should match the CSS transition duration
   };
 
@@ -92,16 +95,19 @@ const Post = () => {
     return doc.body.innerHTML;
   };
 
-  const updateVote = async () => {
+  const updateVote = async (id: string) => {
     const updateUser = await post({
       url: "http://localhost:3000/api/addVote",
-      body: {
-        vote: totalCount
-      },
+      body: { vote: selectedOption, id, email: myInfo?.id }
+    });
+    setMyVote(selectedOption);
+    await post({
+      url: "http://localhost:3000/api/updateUser",
+      body: { vote: selectedOption, id, email: myInfo?.email }
     });
   };
 
-  console.log(totalCount, 'this is the total count')
+  console.log(myVote)
 
   return (
     <IonPage>
@@ -113,7 +119,7 @@ const Post = () => {
             </IonRouterLink>
           </IonToolbar>
         </IonHeader>
-        {content.map((post: any, index: number) => {
+        {Array.isArray(content) && content.map((post: any, index: number) => {
           const transformedTitle = transformTitleToH1(post.title);
           return (
             <div className="shadow" key={index}>
@@ -158,10 +164,14 @@ const Post = () => {
             </div>
           );
         })}
-        <div className={`quiz ${hasVoted ? 'slide-out' : ''}`}>
-          <div className="centerThesis">
-            <div className="question">{content[0]?.thesis}</div>
-          </div>
+
+        {myVote ? <>  <div className="vote">
+          {myVote === "yes" && <div>{content[0]?.yesAction}</div>}
+          {myVote === "no" && <div>{content[0]?.noAction}</div>}
+          {myVote === "maybe" && <div>{content[0]?.maybeAction}</div>}
+        </div></> : <>   <div className="centerThesis">
+          <div className="question">{content[0]?.thesis}</div>
+        </div>
           <div className="checkSpace">
             <input
               type="radio"
@@ -189,14 +199,11 @@ const Post = () => {
             />
             <div className="answerWidth">Maybe</div>
           </div>
-        </div>
-        <div className={`${!hasVoted ? 'middle' : 'none'}`}>
-          <IonButton onClick={handleVote}>Submit</IonButton>
-        </div>
-        <div className={`results ${hasVoted ? 'show-results' : ''}`}>
-          <div>These are the results</div>
-          <div>Total Count: {totalCount}</div>
-        </div>
+
+          <div className={`${!hasVoted ? 'middle' : 'none'}`}>
+            <IonButton onClick={handleVote}>Submit</IonButton>
+          </div></>}
+
       </IonContent>
     </IonPage>
   );

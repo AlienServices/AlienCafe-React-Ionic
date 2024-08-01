@@ -11,6 +11,12 @@
   width: 95%;
 }
 
+.vote {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .smallTitle {
   font-size: 13px;
   color: rgb(35, 34, 34);

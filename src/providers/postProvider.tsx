@@ -262,14 +262,14 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           title,
           thesis,
           content: value,
-          email: localStorage.getItem("user") || "",
+          email: localStorage.getItem("user"),
           date: new Date(),
           yesAction,
           noAction,
           maybeAction,
           categories
         }),
-      });       
+      });
       getAllPosts();
       getMyPosts();
       console.log(test, 'Post message')
