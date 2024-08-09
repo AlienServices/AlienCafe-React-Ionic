@@ -138,20 +138,13 @@ const Content: React.FC = () => {
                           </IonAvatar>
                           <div className="username">{post.email}</div>
                         </div>
-                        <IonFab horizontal="end">
-                          <IonFabButton size="small">
-                            <IonIcon icon={ellipsisHorizontal}></IonIcon>
-                          </IonFabButton>
-                          <IonFabList>
-                            <IonFabButton
-                              onClick={() => {
-                                deletePost(post.id);
-                              }}
-                            >
-                              Trash
-                            </IonFabButton>
-                          </IonFabList>
-                        </IonFab>
+                        <IonButton
+                          onClick={() => {
+                            deletePost(post.id);
+                          }}
+                        >
+                          Trash
+                        </IonButton>
                       </div>
                       <div onClick={() => {
                         gotoTopic(post.id)

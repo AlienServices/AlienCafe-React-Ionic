@@ -1,66 +1,24 @@
-import { useEffect, useState, useRef, useCallback, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { IonIcon } from "@ionic/react";
-import { useApi } from "../hooks/useApi";
 import { useLocation, useHistory } from "react-router";
-import {
-  colorFill,
-  heart,
-  heartCircle,
-  chatbubbleOutline,
-  ellipsisHorizontalOutline,
-  cartOutline,
-  bookmarkOutline,
-  shareOutline,
-  ellipsisHorizontal,
-} from "ionicons/icons";
-// import Editor from '../components/Editor';
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import Quill from "quill/core";
-import { supabase } from "./supaBase";
 import {
   IonButton,
   IonAvatar,
-  IonFab,
-  IonFabList,
-  IonFabButton,
-  IonRouterLink,
-  IonContent,
-  IonNavLink,
   IonCard,
-  IonHeader,
-  IonInput,
-  IonItem,
-  IonLabel,
   IonList,
   IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonToast,
-  useIonLoading,
 } from "@ionic/react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import "../pages/Tab3.css";
-import { post } from "../utils/fetch";
-import Page from "../pages/View/[id]";
 import { MyContext } from "../providers/postProvider";
 
 const Content: React.FC = () => {
   const {
-    posts,
     myPosts,
-    setPosts,
-    myInfo,
-    setMyPosts,
-    updatePost,
     deletePost,
-    userPosts,
-    getUserPosts,
   } = useContext(MyContext);
-  const [userEmail, setUserEmail] = useState<any>(localStorage.getItem("user"));
   const history = useHistory();
-  const [value, setValue] = useState(
-    "<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>",
-  );
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -90,16 +48,28 @@ const Content: React.FC = () => {
     history.push(`/view/${email}`);
   };
 
+  const groupPostsByCategory = (posts) => {
+    return posts.reduce((groups, post) => {
+      post.categories.forEach((category) => {
+        if (!groups[category]) {
+          groups[category] = [];
+        }
+        groups[category].push(post);
+      });
+      return groups;
+    }, {});
+  };
+
+  const groupedPosts = groupPostsByCategory(myPosts);
 
   return (
-
     <IonList>
-      {myPosts ? (
-        <>
-          {" "}
-          {myPosts
+      {Object.keys(groupedPosts).map((category) => (
+        <div key={category}>
+          <div className="MyPostsTitle">{category} -</div>
+          {groupedPosts[category]
             .sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
-            .map((post: any, index: number) => {
+            .map((post, index) => {
               const transformedTitle = transformTitleToH1(post.title);
               const truncatedContent = truncateContent(post.content, 200);
               const date = new Date(post.date);
@@ -137,46 +107,16 @@ const Content: React.FC = () => {
                           />
                         </IonAvatar>
                         <div className="username">{post.email}</div>
-
                       </div>
                       <div>
-                        {myInfo?.email !== post?.email ? (
-                          <>
-                            {" "}
-                            {myInfo?.following?.indexOf(post.email) !== -1 ? (
-                              <div>
-                                {" "}
-                                <IonButton
-                                  onClick={() => {
-                                    deletePost(post.id)
-                                  }}
-                                  size="small"
-                                >
-                                  {"Trash"}
-                                </IonButton>
-                              </div>
-                            ) : (
-                              <div>
-                                {" "}
-                                <IonButton
-                                  onClick={() => {
-                                    updateUser(
-                                      user?.username,
-                                      user?.bio,
-                                      [...user.following, post.email],
-                                      myInfo.email
-                                    );
-                                  }}
-                                  size="small"
-                                >
-                                  Follow
-                                </IonButton>
-                              </div>
-                            )}
-                          </>
-                        ) : (
-                          <></>
-                        )}
+                        <IonButton
+                          onClick={() => {
+                            deletePost(post.id)
+                          }}
+                          size="small"
+                        >
+                          Trash
+                        </IonButton>
                       </div>
                     </div>
                     <div onClick={() => { gotoTopic(post.email) }}>
@@ -193,46 +133,20 @@ const Content: React.FC = () => {
                         value={truncatedContent}
                       />
                     </div>
-
-                    {/* <div className="around">
+                    <div className="around">
                       <div className="flex">
                         <div className="center">
-                          <IonIcon
-                            color=""
-                            size="small"
-                            icon={chatbubbleOutline}
-                          ></IonIcon>
-                          <div>{post.comments.length}</div>
-                        </div>
-                        <div className="center">
-                          <IonIcon
-                            color=""
-                            size="small"
-                            icon={bookmarkOutline}
-                          ></IonIcon>
+                          {/* <div>{formattedDate}</div> */}
                         </div>
                       </div>
-                      <div className="flex">
-                        <div>{formattedDate}</div>
-                        <IonIcon
-                          color=""
-                          size="small"
-                          icon={shareOutline}
-                        ></IonIcon>
-                      </div>
-                    </div> */}
+                    </div>
                   </IonCard>
                 </div>
               );
-            })}{" "}
-        </>
-      ) : (
-        <>
-          <div>You aint got no post</div>
-        </>
-      )}
+            })}
+        </div>
+      ))}
     </IonList>
-
   );
 };
 

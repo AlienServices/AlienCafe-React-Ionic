@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import "../theme/chat.css";
-import { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from "react-router";
 import {
   IonItem,
@@ -8,7 +6,6 @@ import {
   IonSelect,
   IonSelectOption,
   IonCheckbox,
-  IonInput,
   IonList,
   IonNavLink,
   IonHeader,
@@ -20,7 +17,6 @@ import {
   useIonAlert,
   IonTextarea,
 } from '@ionic/react';
-import Tab2 from '../pages/Login';
 import Tab3 from '../pages/Tab3';
 import { MyContext } from '../providers/postProvider';
 
@@ -30,30 +26,19 @@ interface TestProps {
 }
 
 const Quiz = (props: TestProps) => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string>('');
   const [present] = useIonAlert();
   const [thesis, setThesis] = useState('');
-  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo, createPost } =
-    useContext(MyContext);
+  const { createPost } = useContext(MyContext);
   const [yesAction, setYesAction] = useState('');
   const [noAction, setNoAction] = useState('');
   const [maybeAction, setMaybeAction] = useState('');
   const history = useHistory();
 
-  const options = ['Aliens', 'Covid 19', 'Vaccines', 'Something', 'Test', 'Aliens', 'Covid 19', 'Vaccines', 'Something', 'Test'];
+  const options = ['Aliens', 'Covid 19', 'Vaccines', 'Something', 'Test'];
 
-  const handleCheckboxChange = (option: string) => {
-    if (selectedOptions.includes(option)) {
-      setSelectedOptions(prevSelected => prevSelected.filter(item => item !== option));
-    } else if (selectedOptions.length < 3) {
-      setSelectedOptions(prevSelected => [...prevSelected, option]);
-    } else {
-      present({
-        header: 'Selection Limit',
-        message: 'You can only select up to 3 options.',
-        buttons: ['OK']
-      });
-    }
+  const handleOptionChange = (e: CustomEvent) => {
+    setSelectedOption(e.detail.value);
   };
 
   return (
@@ -68,7 +53,9 @@ const Quiz = (props: TestProps) => {
             </IonNavLink>
             <IonNavLink routerDirection='back' component={Tab3}>
               <IonButton onClick={() => {
-                createPost(props.quizTitle, props.content, thesis, yesAction, noAction, maybeAction, selectedOptions); history?.push("/tab1");
+                console.log(selectedOption, 'selected option')
+                createPost(props.quizTitle, props.content, thesis, yesAction, noAction, maybeAction, [selectedOption]);
+                history?.push("/tab1");
               }}>Next</IonButton>
             </IonNavLink>
           </div>
@@ -78,22 +65,16 @@ const Quiz = (props: TestProps) => {
         <IonItem>
           <IonLabel>Choose Category</IonLabel>
           <IonSelect
-            multiple={true}
-            value={selectedOptions}
+            multiple={false}
+            value={selectedOption}
+            onIonChange={handleOptionChange}
             interfaceOptions={{
               cssClass: 'custom-popover',
             }}
           >
             {options.map((option, index) => (
               <IonSelectOption key={index} value={option}>
-                <IonItem lines="none">
-                  <IonLabel>{option}</IonLabel>
-                  <IonCheckbox
-                    slot="start"
-                    checked={selectedOptions.includes(option)}
-                    onIonChange={() => handleCheckboxChange(option)}
-                  />
-                </IonItem>
+                {option}
               </IonSelectOption>
             ))}
           </IonSelect>
@@ -101,7 +82,6 @@ const Quiz = (props: TestProps) => {
         <div className='spaceColumn'>
           <IonItem lines='none'>
             <textarea onChange={(e) => {
-              console.log(thesis, 'this is thesis')
               setThesis(e?.target.value)
             }} className='stylish-input' placeholder='Thesis Question'></textarea>
           </IonItem>

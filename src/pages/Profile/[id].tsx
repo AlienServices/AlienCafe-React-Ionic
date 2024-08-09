@@ -81,7 +81,7 @@ const Profile = ({ id }: { id: string }) => {
         bio: bio,
         username: myInfo?.username,
         following,
-      },
+      }
     });
     setMyInfo(updateUser.update);
     getUserInfo();

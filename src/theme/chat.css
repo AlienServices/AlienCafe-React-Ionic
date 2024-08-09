@@ -123,6 +123,7 @@
 
 .centerThesis {
   display: flex;
+  margin:8px;
   width: 100%;
   justify-content: center;
 }
@@ -243,7 +244,7 @@
   display: flex;
   justify-content: space-evenly;
   width: 80%;
-
+  margin: 10px;
 }
 
 .quiz {

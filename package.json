@@ -39,7 +39,8 @@
     "react-native": "^0.73.6",
     "react-quill": "^2.0.0",
     "react-router": "^5.3.4",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^5.3.4",
+    "swiper": "^11.1.9"
   },
   "devDependencies": {
     "@capacitor/cli": "6.0.0",

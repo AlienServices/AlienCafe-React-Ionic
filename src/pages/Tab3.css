@@ -157,6 +157,23 @@
   padding: 25px;  
 }
 
+.MyPostsTitle{
+  font-size: 25px;
+  padding: 10px;
+}
+
+
+.user-icon {
+  display: block;
+  height: 45px;
+  width: 45px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 100%;
+  pointer-events: none;
+}
+
+
 @media (max-width: 600px) {
   .quill .ql-container {
     height: 200px;

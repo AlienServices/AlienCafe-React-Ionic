@@ -52,10 +52,10 @@ const Test = (props: TestProps) => {
 
   const handleDragEnd = (info: any, messageId: string) => {
     console.log('hit drag end')
-    const dragDistance = info.point.x;    
+    const dragDistance = info.point.x;
     console.log(dragDistance, 'testing drag end truthy')
     console.log(-DELETE_BTN_WIDTH, 'testing drag end truthy')
-    if (dragDistance < DELETE_BTN_WIDTH) {      
+    if (dragDistance < DELETE_BTN_WIDTH) {
       console.log('drag distance is right')
       deleteConvos(messageId);
     }

@@ -46,15 +46,38 @@ const Tab2 = () => {
   const [likes, setLikes] = useState(1);
   const [categories, setCategories] = useState(0);
 
+
+  console.log(myPosts, 'my posts')
+
   return (
     <IonPage>
       <IonContent>
         <IonCard className="noMargin" color={"light"}>
-          <IonIcon icon={logoIonic} size="large"></IonIcon>
-          <IonCardHeader>
-            <div>
-              <IonCardTitle>{myInfo?.username}</IonCardTitle>
+          <div className="paddingCenter">
+            <IonCardTitle>{myInfo?.username}</IonCardTitle>
+          </div>
+          <div className="rowEven">
+            <img
+              style={{ marginLeft: "10px" }}
+              className="user-icon"
+              src={"https://ionicframework.com/docs/img/demos/avatar.svg"}
+              alt="User icon"
+            />
+            <div className="rowClose">
+              <div>Posts</div>
+              <div className="centerSmall">{myPosts.length}</div>
             </div>
+            <div className="rowClose">
+              <div>Following</div>
+              <div className="centerSmall">{myInfo.following.length}</div>
+            </div>
+            <div className="rowClose">
+              <div>Followers</div>
+              <div className="centerSmall">{myInfo.followers.length}</div>
+            </div>
+          </div>
+          <IonCardHeader>
+
             {/* <IonNavLink routerDirection="forward" component={() => <Page />}>
             <div>edit profile</div>
           </IonNavLink> */}
@@ -62,7 +85,7 @@ const Tab2 = () => {
           <IonCardContent>{myInfo?.bio}</IonCardContent>
           <div className="flexChoice">
             <div
-              className="smallTitle"
+              className="smallTitleChoice"
               onClick={() => {
                 setChoices({
                   posts: 1,
@@ -72,10 +95,10 @@ const Tab2 = () => {
                 });
               }}
             >
-              Posts
+              My Posts
             </div>
             <div
-              className="smallTitle"
+              className="smallTitleChoice"
               onClick={() => {
                 setChoices({
                   posts: 0,
@@ -88,7 +111,7 @@ const Tab2 = () => {
               Replies
             </div>
             <div
-              className="smallTitle"
+              className="smallTitleChoice"
               onClick={() => {
                 setChoices({
                   posts: 0,
@@ -101,7 +124,7 @@ const Tab2 = () => {
               Likes
             </div>
             <div
-              className="smallTitle"
+              className="smallTitleChoice"
               onClick={() => {
                 setChoices({
                   posts: 0,
@@ -111,7 +134,7 @@ const Tab2 = () => {
                 });
               }}
             >
-              Categories
+              Reposts
             </div>
           </div>
         </IonCard>
