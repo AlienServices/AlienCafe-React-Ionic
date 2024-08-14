@@ -7,6 +7,7 @@ import {
   chatbubbleOutline,
   bookmarkOutline,
   shareOutline,
+  checkmarkCircleOutline
 } from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -148,7 +149,7 @@ const Content: React.FC = () => {
                         margin: "5px",
                         borderRadius: "0px",
                         paddingTop: "10px",
-                        paddingBottom: "10px",
+                        paddingBottom: "10px",                        
                       }}
                       className="card"
                     >
@@ -179,41 +180,22 @@ const Content: React.FC = () => {
                             </IonNavLink>
                             <div style={{ fontSize: '13px' }}>{formattedDate}</div>
                           </div>
-                          {/* <div>
+                          <div>
                             {myInfo?.email !== post?.email ? (
                               <>
                                 {myInfo?.following?.indexOf(post.email) !== -1 ? (
                                   <div>
-                                    <IonButton
-                                      onClick={() => {
-                                        let emailIndex =
-                                          myInfo?.following?.indexOf(post.email);
-                                        let newLikes =
-                                          myInfo?.following?.toSpliced(
-                                            emailIndex,
-                                            1
-                                          );
-                                        updateUser(
-                                          myInfo?.username,
-                                          myInfo?.bio,
-                                          [...newLikes],
-                                          myInfo.email
-                                        );
-                                      }}
-                                      size="small"
-                                    >
-                                      {"<3"}
-                                    </IonButton>
+                                    <IonIcon icon={checkmarkCircleOutline}></IonIcon>
                                   </div>
                                 ) : (
                                   <div>
                                     <IonButton
                                       onClick={() => {
                                         updateUser(
-                                          user?.username,
-                                          user?.bio,
-                                          [...user.following, post.email],
-                                          myInfo.email
+                                          myInfo.email,
+                                          post?.email,
+                                          '',
+
                                         );
                                       }}
                                       size="small"
@@ -224,9 +206,9 @@ const Content: React.FC = () => {
                                 )}
                               </>
                             ) : (
-                              <>You</>
+                              <></>
                             )}
-                          </div> */}
+                          </div>
                         </div>
                         <div onClick={() => {
                           gotoTopic(post.id)

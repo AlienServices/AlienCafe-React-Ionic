@@ -48,14 +48,14 @@
 .card {
   width: 50%;
   min-height: 300px;
-  height: fit-content;
-  /* box-shadow: -1px 3px 5px 0px rgba(0, 0, 0, 0.75); */
+  height: fit-content;  
   margin: auto;
-  overflow: visible;
-
+  overflow: visible;  
   box-shadow: none;
   padding-bottom: 15px;
 }
+
+
 
 .list-md .card {
   box-shadow:
@@ -158,8 +158,9 @@
 }
 
 .MyPostsTitle{
-  font-size: 25px;
+  font-size: 30px;
   padding: 10px;
+  border-bottom: 1px solid black;
 }
 
 

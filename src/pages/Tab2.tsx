@@ -47,7 +47,7 @@ const Tab2 = () => {
   const [categories, setCategories] = useState(0);
 
 
-  console.log(myPosts, 'my posts')
+  console.log(myInfo, 'my posts')
 
   return (
     <IonPage>
@@ -65,15 +65,15 @@ const Tab2 = () => {
             />
             <div className="rowClose">
               <div>Posts</div>
-              <div className="centerSmall">{myPosts.length}</div>
+              <div className="centerSmall">{myPosts?.length}</div>
             </div>
             <div className="rowClose">
               <div>Following</div>
-              <div className="centerSmall">{myInfo.following.length}</div>
+              <div className="centerSmall">{myInfo?.following.length}</div>
             </div>
             <div className="rowClose">
               <div>Followers</div>
-              <div className="centerSmall">{myInfo.followers.length}</div>
+              <div className="centerSmall">{myInfo?.followers.length}</div>
             </div>
           </div>
           <IonCardHeader>
@@ -85,7 +85,7 @@ const Tab2 = () => {
           <IonCardContent>{myInfo?.bio}</IonCardContent>
           <div className="flexChoice">
             <div
-              className="smallTitleChoice"
+              className={!choices.posts ? "smallTitleChoice" : "smallTitleChoiceLine"}
               onClick={() => {
                 setChoices({
                   posts: 1,
@@ -98,7 +98,7 @@ const Tab2 = () => {
               My Posts
             </div>
             <div
-              className="smallTitleChoice"
+              className={!choices.replies ? "smallTitleChoice" : "smallTitleChoiceLine"}
               onClick={() => {
                 setChoices({
                   posts: 0,
@@ -111,7 +111,7 @@ const Tab2 = () => {
               Replies
             </div>
             <div
-              className="smallTitleChoice"
+              className={!choices.likes ? "smallTitleChoice" : "smallTitleChoiceLine"}
               onClick={() => {
                 setChoices({
                   posts: 0,
@@ -124,7 +124,7 @@ const Tab2 = () => {
               Likes
             </div>
             <div
-              className="smallTitleChoice"
+              className={!choices.categories ? "smallTitleChoice" : "smallTitleChoiceLine"}
               onClick={() => {
                 setChoices({
                   posts: 0,

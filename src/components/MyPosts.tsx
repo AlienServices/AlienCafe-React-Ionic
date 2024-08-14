@@ -44,8 +44,8 @@ const Content: React.FC = () => {
     return textContent;
   };
 
-  const gotoTopic = (email: string) => {
-    history.push(`/view/${email}`);
+  const gotoTopic = (id: string) => {
+    history.push(`/view/${id}`);
   };
 
   const groupPostsByCategory = (posts) => {
@@ -66,7 +66,7 @@ const Content: React.FC = () => {
     <IonList>
       {Object.keys(groupedPosts).map((category) => (
         <div key={category}>
-          <div className="MyPostsTitle">{category} -</div>
+          <div className="MyPostsTitle">{category}</div>
           {groupedPosts[category]
             .sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
             .map((post, index) => {
@@ -119,7 +119,7 @@ const Content: React.FC = () => {
                         </IonButton>
                       </div>
                     </div>
-                    <div onClick={() => { gotoTopic(post.email) }}>
+                    <div onClick={() => { gotoTopic(post.id) }}>
                       <ReactQuill
                         style={{ color: "black" }}
                         readOnly={true}

@@ -25,12 +25,19 @@
 .smallTitleChoice {
   font-size: 13px;
   text-align: center;
-  color: rgb(0, 0, 0);
-  background-color: rgb(220, 214, 214);
-  border: 1px solid black;
-  width: 90px;
+  color: rgb(0, 0, 0);  
   padding: 2px;
+  margin: 1px;
   border-radius: 3px;
+}
+.smallTitleChoiceLine {
+  font-size: 13px;
+  border-bottom: 3px solid rgb(97, 97, 209);
+  text-align: center;
+  color: rgb(0, 0, 0);  
+  padding: 2px;
+  margin: 1px;
+  
 }
 
 .flexChoice {

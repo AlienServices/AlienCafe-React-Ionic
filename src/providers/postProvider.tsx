@@ -38,10 +38,9 @@ interface PostContext {
   deletePost: (id: string) => void;
   createPost: (title: string, value: string, thesis: string, yesAction: string, noAction: string, maybeAction: string, categories: string) => void;
   updateUser: (
-    username: string,
+    userEmail: string,
+    followUserEmail: string,
     bio: string,
-    following: string[],
-    email: string,
   ) => void;
   getAllPosts: () => void;
   getUserPosts: (email: string) => void;
@@ -241,7 +240,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const createPost = async (title: string, value: string, thesis: string, yesAction: string, noAction: string, maybeAction: string, categories: string) => {
-   
+
     try {
       const test = await fetch("http://localhost:3000/api/createPost", {
         method: "POST",
@@ -269,18 +268,19 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateUser = async (
-    username: string,
+    userEmail: string,
+    followUserEmail: string,
     bio: string,
-    following: string[],
-    email: string,
+
   ) => {
+    console.log(userEmail, followUserEmail, bio, "important info")
     try {
       const updateUser = await post({
-        url: `http://localhost:3000/api/updateUsers?email=${email}`,
+        url: `http://localhost:3000/api/updateUsers`,
         body: {
+          userEmail,
+          followUserEmail,
           bio: bio,
-          username: username,
-          following: following,
         },
       });
       userInfo();
