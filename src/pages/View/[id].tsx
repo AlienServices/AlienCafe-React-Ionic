@@ -9,6 +9,7 @@ import {
   bookmarkOutline,
   shareOutline,
 } from "ionicons/icons";
+import Replies from "../../components/Replies";
 import "react-quill/dist/quill.snow.css";
 import {
   IonButton,
@@ -216,6 +217,7 @@ const Post = () => {
             </div>
           </>
         )}
+        <Replies id={id}/>
       </IonContent>
     </IonPage>
   );

@@ -24,6 +24,7 @@ import { useEffect, useState, useContext } from "react";
 import { MyContext } from "../providers/postProvider";
 import Replies from "../components/Replies";
 import Page from "../pages/Edit";
+import UserComments from "../components/UserComments";
 
 const Tab2 = () => {
   const [choices, setChoices] = useState({
@@ -148,7 +149,7 @@ const Tab2 = () => {
         </IonCard>
         {choices.replies ? (
           <>
-            <Replies />
+            <UserComments id={myInfo.id} />
           </>
         ) : choices.posts ? (
           <>

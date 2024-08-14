@@ -45,22 +45,21 @@ import Profile from "../pages/Profile/[id]";
 import { post } from "../utils/fetch";
 import { MyContext } from "../providers/postProvider";
 
-const Replies = ({ id }: { id: string }) => {
+const UserComments = ({ id }: { id: string }) => {
 
   const { myInfo } = useContext(MyContext);
   const [comments, setComments] = useState()
   const [comment, setComment] = useState()
 
   useEffect(() => {
-    getOneConvo()
-
+    getUserComments()
   }, [])
 
 
-  const getOneConvo = async () => {
+  const getUserComments = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3000/api/getComments?id=${id}`,
+        `http://localhost:3000/api/getUserComments?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -77,41 +76,9 @@ const Replies = ({ id }: { id: string }) => {
   };
 
 
-  const AddComment = async (comment: string, userName: string, postId: string, userId: string) => {
-    console.log(userName, 'this is the comment')
-    try {
-      const result = await fetch(
-        `http://localhost:3000/api/addComment?id=${id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            comment: comment,
-            userName,
-            postId,
-            userId
-          })
-        },
-      );
-      const post = await result.json();
-      console.log(post.comments)
-      setComments(post.comments)
-    } catch (error) {
-      console.log(error, "this is the create user error");
-    }
-  };
 
-  console.log(comment, 'comment')
   return (
-    <>
-      <div className="rowWide">
-        <input className="input" onChange={(e) => {
-          setComment(e?.target.value)
-        }} placeholder="Add Comment"></input>
-        <IonButton onClick={() => { AddComment(comment, myInfo.username, id, myInfo.id) }}>Send</IonButton>
-      </div>
+    <>      
       <IonList>
         {comments?.map((comment: string) => {
           return (
@@ -133,4 +100,4 @@ const Replies = ({ id }: { id: string }) => {
   );
 };
 
-export default Replies;
+export default UserComments;
