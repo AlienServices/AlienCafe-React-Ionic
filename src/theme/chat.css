@@ -123,7 +123,7 @@
 
 .centerThesis {
   display: flex;
-  margin:8px;
+  margin: 8px;
   width: 100%;
   justify-content: center;
 }
@@ -223,7 +223,6 @@
   margin: 5px;
   border: 1px solid rgb(200, 195, 195);
   border-radius: 10px;
-
 }
 
 .spaceColumn {
@@ -267,7 +266,9 @@
 }
 
 .quiz {
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out;
 }
 
 .slide-out {
@@ -295,7 +296,9 @@
   border: 2px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .stylish-input:focus {

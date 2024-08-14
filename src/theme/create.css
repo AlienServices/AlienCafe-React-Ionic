@@ -1,41 +1,41 @@
 .ql-container.ql-snow {
-    border: none
+  border: none;
 }
 
 .custom-title-editor .ql-editor.ql-blank::before {
-    font-size: 25px;
+  font-size: 25px;
 }
 
 .custom-title-editor .ql-editor.ql-blank {
-    padding: 10px;
+  padding: 10px;
 }
 
 .custom-title-editor p {
-    font-size: 30px;
-    font-weight: 500;
+  font-size: 30px;
+  font-weight: 500;
 }
 
 .ql-editor ul {
-    padding-left: 0px;
+  padding-left: 0px;
 }
 
 .custom-content-editor {
-    overflow-x: auto;
-    height: 100%;
-    white-space: nowrap;
+  overflow-x: auto;
+  height: 100%;
+  white-space: nowrap;
 }
-.custom-content-editor p{
-    color: rgb(92, 89, 89);
-    font-weight: 350;
+.custom-content-editor p {
+  color: rgb(92, 89, 89);
+  font-weight: 350;
 }
 
 .flexRow {
-    display: flex;
-    height: 45px;
-    justify-content: space-between;
-    padding: 3px;
-    align-items: center;
+  display: flex;
+  height: 45px;
+  justify-content: space-between;
+  padding: 3px;
+  align-items: center;
 }
 .ql-editor {
-    height: 91% !important;
+  height: 91% !important;
 }

@@ -31,7 +31,9 @@ const Chat: React.FC = () => {
     useContext(MessageContext);
   const history = useHistory();
   const [recipient, setRecipient] = useState<string | undefined>();
-  const [userName, setUserName] = useState<string | null>(localStorage.getItem('user'));
+  const [userName, setUserName] = useState<string | null>(
+    localStorage.getItem("user"),
+  );
   const [roomName, setRoomName] = useState<string>("");
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const Chat: React.FC = () => {
     }
   }, [messages]);
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const createConversation = async () => {
     const response = await post({
@@ -64,8 +66,6 @@ const Chat: React.FC = () => {
     setMessage("");
     setRecipient("");
   };
-
-
 
   return (
     <IonPage>
@@ -97,12 +97,14 @@ const Chat: React.FC = () => {
               className={` ${myUsername === msg.userName ? "end" : "start"}`}
             >
               <div
-                className={`${myUsername === msg.userName ? "centerEnd" : "centerBeginning"
-                  }`}
+                className={`${
+                  myUsername === msg.userName ? "centerEnd" : "centerBeginning"
+                }`}
               >
                 <div
-                  className={`${myUsername === msg.userName ? "blueEnd" : "grayEnd"
-                    }`}
+                  className={`${
+                    myUsername === msg.userName ? "blueEnd" : "grayEnd"
+                  }`}
                 >
                   {messages[i - 1]?.userName === msg.userName ? (
                     <></>
@@ -111,8 +113,9 @@ const Chat: React.FC = () => {
                   )}
                 </div>
                 <div
-                  className={`message ${myUsername === msg.userName ? "blue" : "gray"
-                    } `}
+                  className={`message ${
+                    myUsername === msg.userName ? "blue" : "gray"
+                  } `}
                 >
                   {msg.message}
                 </div>

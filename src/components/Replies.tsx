@@ -167,7 +167,7 @@ const Replies = () => {
                                         }} size='small'>Follow</IonButton></div>}</> : <>Its you Mf</>}
                                     </div>
                                 </div> */}
-                    {post?.comments.map((comments: any, index: number) => {
+                    {post?.comments?.map((comments: any, index: number) => {
                       return (
                         <IonCard>
                           <IonItem lines="none">

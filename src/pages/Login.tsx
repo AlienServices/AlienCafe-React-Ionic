@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill/core";
-import alien from '../../public/alien.png'
+import alien from "../../public/alien.png";
 import {
   colorFill,
   heart,
@@ -17,7 +17,6 @@ import {
   settingsOutline,
   personOutline,
   createOutline,
-
 } from "ionicons/icons";
 import {
   IonButton,
@@ -38,22 +37,29 @@ import {
   useIonToast,
   useIonLoading,
   IonMenu,
-  IonImg
+  IonImg,
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
 import "./Tab1.css";
 import SignIn from "../components/SignIn";
 import CreateAccount from "../components/CreateAccount";
 import { MyContext } from "../providers/postProvider";
-import Menu from '../components/Menu'
+import Menu from "../components/Menu";
 
 const Login: React.FC = () => {
   const [showLoading, hideLoading] = useIonLoading();
   const [showToast] = useIonToast();
-  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo } =
-    useContext(MyContext);
+  const {
+    posts,
+    myPosts,
+    setPosts,
+    setMyPosts,
+    updatePost,
+    getAllPosts,
+    myInfo,
+  } = useContext(MyContext);
   const [localEmail, setLocalEmail] = useState(localStorage.getItem("user"));
-  const [menuType, setMenuType] = useState('overlay');
+  const [menuType, setMenuType] = useState("overlay");
   const [loggedIn, setLoggedIn] = useState("logged out");
   const [email, setEmail] = useState("logged out");
   const [userName, setUserName] = useState("logged out");
@@ -110,12 +116,17 @@ const Login: React.FC = () => {
             <div>
               <div>buttons</div>
               <IonMenuToggle>
-                <IonButton onClick={() => {
-                  handleLogout(); localStorage.removeItem('user'); history.push("/tab1");
-                }}>Logout</IonButton>
+                <IonButton
+                  onClick={() => {
+                    handleLogout();
+                    localStorage.removeItem("user");
+                    history.push("/tab1");
+                  }}
+                >
+                  Logout
+                </IonButton>
               </IonMenuToggle>
             </div>
-
           </div>
         </IonContent>
       </IonMenu>
@@ -143,9 +154,7 @@ const Login: React.FC = () => {
             </>
           )}
         </IonContent>
-
       </IonPage>
-
     </>
   );
 };

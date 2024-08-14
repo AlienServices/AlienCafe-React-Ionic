@@ -82,8 +82,6 @@ const Content: React.FC = () => {
     return textContent;
   };
 
-
-
   console.log(userPosts, "these are the users posts");
   return (
     <IonContent className="page">
@@ -146,9 +144,11 @@ const Content: React.FC = () => {
                           Trash
                         </IonButton>
                       </div>
-                      <div onClick={() => {
-                        gotoTopic(post.id)
-                      }}>
+                      <div
+                        onClick={() => {
+                          gotoTopic(post.id);
+                        }}
+                      >
                         <ReactQuill
                           style={{ color: "black" }}
                           readOnly={true}

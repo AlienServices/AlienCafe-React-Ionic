@@ -39,8 +39,8 @@ import Tab3 from "./pages/Tab3";
 import Login from "./pages/Login";
 import Create from "./pages/Create";
 import Post from "./pages/View/[id]";
-import MessageHome from './pages/MessageHome'
-import Menu from './components/Menu'
+import MessageHome from "./pages/MessageHome";
+import Menu from "./components/Menu";
 import Chat from "./pages/Chat";
 import Quiz from "./subPages/Quiz";
 import CurrentChat from "./pages/CurrentChat";
@@ -74,18 +74,38 @@ const App: React.FC = () => (
           <IonReactRouter>
             <IonTabs>
               <IonRouterOutlet>
-                <Route exact={true} path="/tab1" render={() => <Tab3 />}></Route>
-                <Route exact={true} path="/" render={() => <Login />}></Route>
-                <Route exact={true} path="/quiz" render={() => <Quiz />}></Route>
-                <Route exact={true} path="/tab2" render={() => <Tab2 />}></Route>                
-                <Route exact={true} path="/tab3" render={() => <MessageHome />}></Route>
-                <Route exact={true} path="/newChat" render={() => <Chat />}></Route>
-                <Route exact={true} path="/chat/:id" render={() => <CurrentChat />}></Route>
                 <Route
                   exact={true}
-                  path="/create"
-                  component={Create}
+                  path="/tab1"
+                  render={() => <Tab3 />}
                 ></Route>
+                <Route exact={true} path="/" render={() => <Login />}></Route>
+                <Route
+                  exact={true}
+                  path="/quiz"
+                  render={() => <Quiz />}
+                ></Route>
+                <Route
+                  exact={true}
+                  path="/tab2"
+                  render={() => <Tab2 />}
+                ></Route>
+                <Route
+                  exact={true}
+                  path="/tab3"
+                  render={() => <MessageHome />}
+                ></Route>
+                <Route
+                  exact={true}
+                  path="/newChat"
+                  render={() => <Chat />}
+                ></Route>
+                <Route
+                  exact={true}
+                  path="/chat/:id"
+                  render={() => <CurrentChat />}
+                ></Route>
+                <Route exact={true} path="/create" component={Create}></Route>
                 <Route
                   path={`/view/:id`}
                   render={() => {

@@ -1,23 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import { IonIcon } from "@ionic/react";
 import { useLocation, useHistory } from "react-router";
-import {
-  IonButton,
-  IonAvatar,
-  IonCard,
-  IonList,
-  IonPage,
-} from "@ionic/react";
+import { IonButton, IonAvatar, IonCard, IonList, IonPage } from "@ionic/react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../pages/Tab3.css";
 import { MyContext } from "../providers/postProvider";
 
 const Content: React.FC = () => {
-  const {
-    myPosts,
-    deletePost,
-  } = useContext(MyContext);
+  const { myPosts, deletePost } = useContext(MyContext);
   const history = useHistory();
 
   const transformTitleToH1 = (title: string) => {
@@ -111,7 +102,7 @@ const Content: React.FC = () => {
                       <div>
                         <IonButton
                           onClick={() => {
-                            deletePost(post.id)
+                            deletePost(post.id);
                           }}
                           size="small"
                         >
@@ -119,7 +110,11 @@ const Content: React.FC = () => {
                         </IonButton>
                       </div>
                     </div>
-                    <div onClick={() => { gotoTopic(post.id) }}>
+                    <div
+                      onClick={() => {
+                        gotoTopic(post.id);
+                      }}
+                    >
                       <ReactQuill
                         style={{ color: "black" }}
                         readOnly={true}

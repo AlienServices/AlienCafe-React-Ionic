@@ -4,7 +4,7 @@ import supabase from "../messageComponents/supabaseClient";
 import { createId } from "@paralleldrive/cuid2";
 import { sendOutline, returnUpBackOutline } from "ionicons/icons";
 import "../theme/chat.css";
-import { Keyboard } from '@capacitor/keyboard';
+import { Keyboard } from "@capacitor/keyboard";
 import { MyContext } from "../providers/postProvider";
 import { useHistory } from "react-router";
 import {
@@ -55,7 +55,7 @@ const CurrentChat: React.FC = () => {
   const [updatedMessagesRead, setUpdatedMessagesRead] = useState(false);
   const [shouldFetchConvo, setShouldFetchConvo] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const index = myConvos.findIndex(item => item.id == id);
+  const index = myConvos.findIndex((item) => item.id == id);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
@@ -125,7 +125,7 @@ const CurrentChat: React.FC = () => {
         .on("broadcast", { event: "message" }, ({ payload }: any) => {
           payload.message.date = new Date();
           payload.message.status = "Delivered";
-          setMessages(prevMessages => [...prevMessages, payload.message]);
+          setMessages((prevMessages) => [...prevMessages, payload.message]);
           if (payload.message.userName !== myUsername) {
             updatedMessage(payload.message.id, "Read");
           }
@@ -139,23 +139,28 @@ const CurrentChat: React.FC = () => {
   }, [myConvos, index, myUsername]);
 
   const onSend = () => {
-    if (messages[messages.length - 1]?.status === "Delivered" && myUsername !== messages[messages.length - 1]?.userName) {
+    if (
+      messages[messages.length - 1]?.status === "Delivered" &&
+      myUsername !== messages[messages.length - 1]?.userName
+    ) {
       const lastMessageIndex = messages.length - 1;
       const result = messages.map((msg, i) => {
         if (i === lastMessageIndex) {
           return {
-            ...msg, status: "Read"
-          }
+            ...msg,
+            status: "Read",
+          };
         }
-        return msg
-      })
+        return msg;
+      });
       // @ts-ignore
-      setMessages(result)
+      setMessages(result);
     }
     const messageId = createId();
     if (!channel.current || message.trim().length === 0) return;
     if (userName && info) {
-      const recipient = myUsername === info.recipient ? info.me : info.recipient;
+      const recipient =
+        myUsername === info.recipient ? info.me : info.recipient;
       addMessage(messageId, id, message, userName, "Delivered", recipient);
     }
     channel.current.send({
@@ -175,15 +180,16 @@ const CurrentChat: React.FC = () => {
   }, [channel]);
 
   useEffect(() => {
-    if (messages[messages.length - 1]?.status === "Delivered" || myUsername !== messages[messages.length - 1]?.userName) {
-      onSend()
+    if (
+      messages[messages.length - 1]?.status === "Delivered" ||
+      myUsername !== messages[messages.length - 1]?.userName
+    ) {
+      onSend();
     }
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-  }, [])
-
+  useEffect(() => {}, []);
 
   const getConvo = async () => {
     try {
@@ -221,15 +227,18 @@ const CurrentChat: React.FC = () => {
     }
   };
 
-  console.log(messages, 'bottom return messages')
-
+  console.log(messages, "bottom return messages");
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <div className="flex">
-            <IonRouterLink className="clickable" routerLink="/tab3" routerDirection="back">
+            <IonRouterLink
+              className="clickable"
+              routerLink="/tab3"
+              routerDirection="back"
+            >
               <IonIcon size="large" icon={returnUpBackOutline}></IonIcon>
             </IonRouterLink>
             <div className="centeredInputContainer">
@@ -252,12 +261,14 @@ const CurrentChat: React.FC = () => {
                 className={` ${userName === msg.userName ? "end" : "start"}`}
               >
                 <div
-                  className={`${userName === msg.userName ? "centerEnd" : "centerBeginning"
-                    }`}
+                  className={`${
+                    userName === msg.userName ? "centerEnd" : "centerBeginning"
+                  }`}
                 >
                   <div
-                    className={`message ${userName === msg.userName ? "blue" : "gray"
-                      }`}
+                    className={`message ${
+                      userName === msg.userName ? "blue" : "gray"
+                    }`}
                   >
                     {msg.message}
                   </div>
@@ -287,8 +298,11 @@ const CurrentChat: React.FC = () => {
           <IonItem style={{ width: "100%" }} lines="none">
             <textarea
               onClick={() => {
-                Keyboard.addListener('keyboardWillShow', info => {
-                  console.log('keyboard will show with height:', info.keyboardHeight);
+                Keyboard.addListener("keyboardWillShow", (info) => {
+                  console.log(
+                    "keyboard will show with height:",
+                    info.keyboardHeight,
+                  );
                 });
               }}
               inputMode="text"

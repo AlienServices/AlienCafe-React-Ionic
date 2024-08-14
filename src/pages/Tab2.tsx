@@ -46,8 +46,7 @@ const Tab2 = () => {
   const [likes, setLikes] = useState(1);
   const [categories, setCategories] = useState(0);
 
-
-  console.log(myInfo, 'my posts')
+  console.log(myInfo, "my posts");
 
   return (
     <IonPage>
@@ -77,7 +76,6 @@ const Tab2 = () => {
             </div>
           </div>
           <IonCardHeader>
-
             {/* <IonNavLink routerDirection="forward" component={() => <Page />}>
             <div>edit profile</div>
           </IonNavLink> */}
@@ -85,7 +83,9 @@ const Tab2 = () => {
           <IonCardContent>{myInfo?.bio}</IonCardContent>
           <div className="flexChoice">
             <div
-              className={!choices.posts ? "smallTitleChoice" : "smallTitleChoiceLine"}
+              className={
+                !choices.posts ? "smallTitleChoice" : "smallTitleChoiceLine"
+              }
               onClick={() => {
                 setChoices({
                   posts: 1,
@@ -98,7 +98,9 @@ const Tab2 = () => {
               My Posts
             </div>
             <div
-              className={!choices.replies ? "smallTitleChoice" : "smallTitleChoiceLine"}
+              className={
+                !choices.replies ? "smallTitleChoice" : "smallTitleChoiceLine"
+              }
               onClick={() => {
                 setChoices({
                   posts: 0,
@@ -111,7 +113,9 @@ const Tab2 = () => {
               Replies
             </div>
             <div
-              className={!choices.likes ? "smallTitleChoice" : "smallTitleChoiceLine"}
+              className={
+                !choices.likes ? "smallTitleChoice" : "smallTitleChoiceLine"
+              }
               onClick={() => {
                 setChoices({
                   posts: 0,
@@ -124,7 +128,11 @@ const Tab2 = () => {
               Likes
             </div>
             <div
-              className={!choices.categories ? "smallTitleChoice" : "smallTitleChoiceLine"}
+              className={
+                !choices.categories
+                  ? "smallTitleChoice"
+                  : "smallTitleChoiceLine"
+              }
               onClick={() => {
                 setChoices({
                   posts: 0,

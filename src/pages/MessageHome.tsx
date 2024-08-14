@@ -20,14 +20,11 @@ import { addOutline } from "ionicons/icons";
 import { AnimatePresence } from "framer-motion";
 import { MessageContext } from "../providers/messageProvider";
 
-
 import "../theme/chat.css";
 import "../theme/swiper.css";
 import "../theme/test.css";
 import "../theme/styles.scss";
 import "../theme/Home.css";
-
-
 
 interface MessageData {
   conversationId: string;
@@ -40,36 +37,34 @@ interface MessageData {
 }
 
 const MessageHome: React.FC = () => {
-
   const [messageData, setMessageData] = useState<MessageData[]>([]);
   // const { myConvos, getConvos } = useContext(MessageContext);
-  const [myConvos, setMyConvos] = useState()
+  const [myConvos, setMyConvos] = useState();
   const history = useHistory();
 
   // useEffect(() => {
   //   getConvos();
-  //   const intervalId = setInterval(getConvos, 1000);    
+  //   const intervalId = setInterval(getConvos, 1000);
   //   return () => clearInterval(intervalId);
   // }, []);
 
-  const getConvos = async () => {        
+  const getConvos = async () => {
     try {
-        const convos = await fetch(
-            `http://localhost:3000/api/getConvos?email=${localStorage.getItem("user")}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        const userInfo = await convos.json();
-        setMyConvos([...userInfo.Posts]);
+      const convos = await fetch(
+        `http://localhost:3000/api/getConvos?email=${localStorage.getItem("user")}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const userInfo = await convos.json();
+      setMyConvos([...userInfo.Posts]);
     } catch (error) {
-        console.log(error, "this is the create user error");
+      console.log(error, "this is the create user error");
     }
-};
-
+  };
 
   const getConvoData = async () => {
     try {
@@ -89,11 +84,9 @@ const MessageHome: React.FC = () => {
     }
   };
 
-
   useEffect(() => {
     getConvoData();
   }, [myConvos]);
-
 
   const handleLogout = async () => {
     try {
@@ -107,12 +100,9 @@ const MessageHome: React.FC = () => {
     }
   };
 
-
   const gotoTopic = () => {
     history.push("/login");
   };
-
-
 
   return (
     <IonPage>
@@ -121,9 +111,15 @@ const MessageHome: React.FC = () => {
           <IonToolbar>Menu</IonToolbar>
         </IonHeader>
         <div className="centerButton">
-          <IonButton onClick={() => {
-            handleLogout(); localStorage.removeItem('user'); gotoTopic()
-          }}>Logout</IonButton>
+          <IonButton
+            onClick={() => {
+              handleLogout();
+              localStorage.removeItem("user");
+              gotoTopic();
+            }}
+          >
+            Logout
+          </IonButton>
         </div>
       </IonMenu>
       <IonPage>
@@ -150,16 +146,24 @@ const MessageHome: React.FC = () => {
                 const time = `${hours}:${minutes} ${ampm}`;
 
                 return (
-                  <Test key={convo.conversationId} time={time} conversationId={convo.conversationId} message={convo.message} status={convo.status} userName={convo.userName} recipient={convo.recipient} />
+                  <Test
+                    key={convo.conversationId}
+                    time={time}
+                    conversationId={convo.conversationId}
+                    message={convo.message}
+                    status={convo.status}
+                    userName={convo.userName}
+                    recipient={convo.recipient}
+                  />
                 );
               })}
             </AnimatePresence>
           </ul>
           <div className="center">
-            <div>Create A Conversation</div>            
+            <div>Create A Conversation</div>
             <IonRouterLink routerLink="/newChat" routerDirection="forward">
               <IonIcon size="large" icon={addOutline}></IonIcon>
-            </IonRouterLink>            
+            </IonRouterLink>
           </div>
         </IonContent>
       </IonPage>

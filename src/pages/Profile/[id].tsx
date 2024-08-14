@@ -81,7 +81,7 @@ const Profile = ({ id }: { id: string }) => {
         bio: bio,
         username: myInfo?.username,
         following,
-      }
+      },
     });
     setMyInfo(updateUser.update);
     getUserInfo();
@@ -142,7 +142,7 @@ const Profile = ({ id }: { id: string }) => {
                         </IonButton>
                       </div>
                     ) : (
-                      // <div>                      
+                      // <div>
                       //   <IonButton
                       //     onClick={() => {
                       //       updateUser(myInfo?.username, myInfo?.bio, [

@@ -7,7 +7,7 @@ import {
   chatbubbleOutline,
   bookmarkOutline,
   shareOutline,
-  checkmarkCircleOutline
+  checkmarkCircleOutline,
 } from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -55,7 +55,6 @@ const Content: React.FC = () => {
     username: "",
   });
 
-
   useEffect(() => {
     getUser();
   }, []);
@@ -69,7 +68,7 @@ const Content: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       const userInfo = await result.json();
       setUser(userInfo.Hello);
@@ -115,12 +114,11 @@ const Content: React.FC = () => {
     return textContent;
   };
 
-
   const gotoTopic = (id: string) => {
     history.push(`/view/${id}`);
   };
 
-  console.log(posts)
+  console.log(posts);
 
   return (
     <IonContent className="page">
@@ -149,7 +147,7 @@ const Content: React.FC = () => {
                         margin: "5px",
                         borderRadius: "0px",
                         paddingTop: "10px",
-                        paddingBottom: "10px",                        
+                        paddingBottom: "10px",
                       }}
                       className="card"
                     >
@@ -178,14 +176,19 @@ const Content: React.FC = () => {
                             >
                               <div className="username">{post.email}</div>
                             </IonNavLink>
-                            <div style={{ fontSize: '13px' }}>{formattedDate}</div>
+                            <div style={{ fontSize: "13px" }}>
+                              {formattedDate}
+                            </div>
                           </div>
                           <div>
                             {myInfo?.email !== post?.email ? (
                               <>
-                                {myInfo?.following?.indexOf(post.email) !== -1 ? (
+                                {myInfo?.following?.indexOf(post.email) !==
+                                -1 ? (
                                   <div>
-                                    <IonIcon icon={checkmarkCircleOutline}></IonIcon>
+                                    <IonIcon
+                                      icon={checkmarkCircleOutline}
+                                    ></IonIcon>
                                   </div>
                                 ) : (
                                   <div>
@@ -194,8 +197,7 @@ const Content: React.FC = () => {
                                         updateUser(
                                           myInfo.email,
                                           post?.email,
-                                          '',
-
+                                          "",
                                         );
                                       }}
                                       size="small"
@@ -210,9 +212,11 @@ const Content: React.FC = () => {
                             )}
                           </div>
                         </div>
-                        <div onClick={() => {
-                          gotoTopic(post.id)
-                        }}>
+                        <div
+                          onClick={() => {
+                            gotoTopic(post.id);
+                          }}
+                        >
                           <ReactQuill
                             style={{ color: "black" }}
                             readOnly={true}

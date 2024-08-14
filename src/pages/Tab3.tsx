@@ -11,11 +11,10 @@ import {
   IonToolbar,
   IonMenuToggle,
   useIonRouter,
-
 } from "@ionic/react";
 import { useEffect, useState, useRef, useCallback, useContext } from "react";
 import { supabase } from "../components/supaBase";
-import alien from '../../public/alien.png'
+import alien from "../../public/alien.png";
 import { useHistory } from "react-router";
 import ExploreContainer from "../components/ExploreContainer";
 import "./Tab3.css";
@@ -23,9 +22,15 @@ import AllPosts from "../components/AllPosts";
 import { MyContext } from "../providers/postProvider";
 
 const Tab3: React.FC = () => {
-
-  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo } =
-    useContext(MyContext);
+  const {
+    posts,
+    myPosts,
+    setPosts,
+    setMyPosts,
+    updatePost,
+    getAllPosts,
+    myInfo,
+  } = useContext(MyContext);
   const history = useHistory();
   const menuRef = useRef<HTMLIonMenuElement>(null);
 
@@ -39,7 +44,7 @@ const Tab3: React.FC = () => {
         // Close the menu
         menuRef.current?.close();
         // Remove user from local storage and navigate
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
         history.push("/tab1");
       }
     } catch (error) {
@@ -53,7 +58,7 @@ const Tab3: React.FC = () => {
         <IonHeader>
           <IonToolbar>
             <div className="center">
-              <IonTitle >@{myInfo?.username}</IonTitle>
+              <IonTitle>@{myInfo?.username}</IonTitle>
             </div>
           </IonToolbar>
         </IonHeader>
@@ -65,9 +70,8 @@ const Tab3: React.FC = () => {
             <div>Bookmarks</div>
             <div>
               <div>buttons</div>
-              
-                <IonButton onClick={handleLogout}>Logout</IonButton>
-              
+
+              <IonButton onClick={handleLogout}>Logout</IonButton>
             </div>
           </div>
         </IonContent>

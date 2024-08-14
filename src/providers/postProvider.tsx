@@ -36,12 +36,16 @@ interface PostContext {
   }) => void;
   updatePost: (post: Post) => void;
   deletePost: (id: string) => void;
-  createPost: (title: string, value: string, thesis: string, yesAction: string, noAction: string, maybeAction: string, categories: string) => void;
-  updateUser: (
-    userEmail: string,
-    followUserEmail: string,
-    bio: string,
+  createPost: (
+    title: string,
+    value: string,
+    thesis: string,
+    yesAction: string,
+    noAction: string,
+    maybeAction: string,
+    categories: string,
   ) => void;
+  updateUser: (userEmail: string, followUserEmail: string, bio: string) => void;
   getAllPosts: () => void;
   getUserPosts: (email: string) => void;
   setLoggedin: (value: boolean) => void;
@@ -52,14 +56,14 @@ interface PostContext {
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
-  setPosts: (posts) => { },
-  setMyPosts: (posts) => { },
-  updatePost: (post) => { },
-  deletePost: (id) => { },
-  createPost: (value) => { },
-  setMyInfo: () => { },
-  getAllPosts: () => { },
-  setLoggedin: () => { },
+  setPosts: (posts) => {},
+  setMyPosts: (posts) => {},
+  updatePost: (post) => {},
+  deletePost: (id) => {},
+  createPost: (value) => {},
+  setMyInfo: () => {},
+  getAllPosts: () => {},
+  setLoggedin: () => {},
   loggedIn: false,
   myInfo: {
     id: "",
@@ -69,10 +73,10 @@ const MyContext = createContext<PostContext>({
     following: [],
     username: "",
   },
-  updateUser: () => { },
-  setUserPosts: () => { },
+  updateUser: () => {},
+  setUserPosts: () => {},
   userPosts: [],
-  getUserPosts: (email) => { },
+  getUserPosts: (email) => {},
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -162,10 +166,12 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         },
       });
       const posts = await result.json();
-      setContent(posts.Posts.map((post: any) => ({
-        ...post,
-        date: new Date(post.date),
-      })));
+      setContent(
+        posts.Posts.map((post: any) => ({
+          ...post,
+          date: new Date(post.date),
+        })),
+      );
     } catch (error) {
       console.log(error, "this is the create user error");
     }
@@ -239,8 +245,15 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const createPost = async (title: string, value: string, thesis: string, yesAction: string, noAction: string, maybeAction: string, categories: string) => {
-
+  const createPost = async (
+    title: string,
+    value: string,
+    thesis: string,
+    yesAction: string,
+    noAction: string,
+    maybeAction: string,
+    categories: string,
+  ) => {
     try {
       const test = await fetch("http://localhost:3000/api/createPost", {
         method: "POST",
@@ -256,12 +269,12 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           yesAction,
           noAction,
           maybeAction,
-          categories
+          categories,
         }),
       });
       getAllPosts();
       getMyPosts();
-      console.log(test, 'Post message')
+      console.log(test, "Post message");
     } catch (error) {
       console.log(error, "this is the create user error");
     }
@@ -271,9 +284,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     userEmail: string,
     followUserEmail: string,
     bio: string,
-
   ) => {
-    console.log(userEmail, followUserEmail, bio, "important info")
+    console.log(userEmail, followUserEmail, bio, "important info");
     try {
       const updateUser = await post({
         url: `http://localhost:3000/api/updateUsers`,

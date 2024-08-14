@@ -35,7 +35,7 @@ const CreateAccount = ({
   );
 
   const handleSignUp = async (userName: string, email: string) => {
-    debugger
+    debugger;
     try {
       // const { data, error } = await supabase.auth.signUp({
       //     email: email,
@@ -48,7 +48,7 @@ const CreateAccount = ({
         },
         body: JSON.stringify({
           username: username,
-          email: email,          
+          email: email,
         }),
       });
       console.log(result, "this is the responose to making a user in the db");
@@ -96,8 +96,6 @@ const CreateAccount = ({
       console.log(error);
     }
   };
-
-
 
   return (
     <IonContent>

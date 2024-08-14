@@ -46,12 +46,15 @@ const Post = () => {
 
   const getOnePost = async () => {
     try {
-      const result = await fetch(`http://localhost:3000/api/getPost?id=${id}&userId=${myInfo?.id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const result = await fetch(
+        `http://localhost:3000/api/getPost?id=${id}&userId=${myInfo?.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
       const post = await result.json();
       setContent([post.post]); // Ensure the post is wrapped in an array
       setMyVote(post.userVote?.vote || "");
@@ -98,16 +101,16 @@ const Post = () => {
   const updateVote = async (id: string) => {
     const updateUser = await post({
       url: "http://localhost:3000/api/addVote",
-      body: { vote: selectedOption, id, email: myInfo?.id }
+      body: { vote: selectedOption, id, email: myInfo?.id },
     });
     setMyVote(selectedOption);
     await post({
       url: "http://localhost:3000/api/updateUser",
-      body: { vote: selectedOption, id, email: myInfo?.email }
+      body: { vote: selectedOption, id, email: myInfo?.email },
     });
   };
 
-  console.log(myVote)
+  console.log(myVote);
 
   return (
     <IonPage>
@@ -119,91 +122,100 @@ const Post = () => {
             </IonRouterLink>
           </IonToolbar>
         </IonHeader>
-        {Array.isArray(content) && content.map((post: any, index: number) => {
-          const transformedTitle = transformTitleToH1(post.title);
-          return (
-            <div className="shadow" key={index}>
-              <IonCard
-                style={{
-                  marginBottom: "25px",
-                }}
-                className="card"
-              >
-                <div className="around">
-                  <div style={{ padding: "8px" }} className="emailContainer">
-                    <IonAvatar
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        marginLeft: "10px",
-                        marginRight: "5px",
-                      }}
-                    >
-                      <img
-                        alt="Silhouette of a person's head"
-                        src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                      />
-                    </IonAvatar>
-                    <div className="username">{post?.email}</div>
+        {Array.isArray(content) &&
+          content.map((post: any, index: number) => {
+            const transformedTitle = transformTitleToH1(post.title);
+            return (
+              <div className="shadow" key={index}>
+                <IonCard
+                  style={{
+                    marginBottom: "25px",
+                  }}
+                  className="card"
+                >
+                  <div className="around">
+                    <div style={{ padding: "8px" }} className="emailContainer">
+                      <IonAvatar
+                        style={{
+                          height: "20px",
+                          width: "20px",
+                          marginLeft: "10px",
+                          marginRight: "5px",
+                        }}
+                      >
+                        <img
+                          alt="Silhouette of a person's head"
+                          src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                        />
+                      </IonAvatar>
+                      <div className="username">{post?.email}</div>
+                    </div>
                   </div>
-                </div>
-                <ReactQuill
-                  style={{ color: "black" }}
-                  readOnly={true}
-                  theme="bubble"
-                  value={transformedTitle}
-                />
-                <ReactQuill
-                  className="small"
-                  style={{ color: "black" }}
-                  readOnly={true}
-                  theme="bubble"
-                  value={post?.content}
-                />
-              </IonCard>
+                  <ReactQuill
+                    style={{ color: "black" }}
+                    readOnly={true}
+                    theme="bubble"
+                    value={transformedTitle}
+                  />
+                  <ReactQuill
+                    className="small"
+                    style={{ color: "black" }}
+                    readOnly={true}
+                    theme="bubble"
+                    value={post?.content}
+                  />
+                </IonCard>
+              </div>
+            );
+          })}
+
+        {myVote ? (
+          <>
+            {" "}
+            <div className="vote">
+              {myVote === "yes" && <div>{content[0]?.yesAction}</div>}
+              {myVote === "no" && <div>{content[0]?.noAction}</div>}
+              {myVote === "maybe" && <div>{content[0]?.maybeAction}</div>}
             </div>
-          );
-        })}
-
-        {myVote ? <>  <div className="vote">
-          {myVote === "yes" && <div>{content[0]?.yesAction}</div>}
-          {myVote === "no" && <div>{content[0]?.noAction}</div>}
-          {myVote === "maybe" && <div>{content[0]?.maybeAction}</div>}
-        </div></> : <>   <div className="centerThesis">
-          <div className="question">{content[0]?.thesis}</div>
-        </div>
-          <div className="checkSpace">
-            <input
-              type="radio"
-              value="yes"
-              checked={selectedOption === "yes"}
-              onChange={handleOptionChange}
-            />
-            <div className="answerWidth">Yes</div>
-          </div>
-          <div className="checkSpace">
-            <input
-              type="radio"
-              value="no"
-              checked={selectedOption === "no"}
-              onChange={handleOptionChange}
-            />
-            <div className="answerWidth">No</div>
-          </div>
-          <div className="checkSpace">
-            <input
-              type="radio"
-              value="maybe"
-              checked={selectedOption === "maybe"}
-              onChange={handleOptionChange}
-            />
-            <div className="answerWidth">Maybe</div>
-          </div>
-
-          <div className={`${!hasVoted ? 'middle' : 'none'}`}>
-            <IonButton onClick={handleVote}>Submit</IonButton>
-          </div></>}
-
+          </>
+        ) : (
+          <>
+            {" "}
+            <div className="centerThesis">
+              <div className="question">{content[0]?.thesis}</div>
+            </div>
+            <div className="checkSpace">
+              <input
+                type="radio"
+                value="yes"
+                checked={selectedOption === "yes"}
+                onChange={handleOptionChange}
+              />
+              <div className="answerWidth">Yes</div>
+            </div>
+            <div className="checkSpace">
+              <input
+                type="radio"
+                value="no"
+                checked={selectedOption === "no"}
+                onChange={handleOptionChange}
+              />
+              <div className="answerWidth">No</div>
+            </div>
+            <div className="checkSpace">
+              <input
+                type="radio"
+                value="maybe"
+                checked={selectedOption === "maybe"}
+                onChange={handleOptionChange}
+              />
+              <div className="answerWidth">Maybe</div>
+            </div>
+            <div className={`${!hasVoted ? "middle" : "none"}`}>
+              <IonButton onClick={handleVote}>Submit</IonButton>
+            </div>
+          </>
+        )}
       </IonContent>
     </IonPage>
   );

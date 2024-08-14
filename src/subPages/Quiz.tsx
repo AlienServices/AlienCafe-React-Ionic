@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router";
 import {
   IonItem,
@@ -16,9 +16,9 @@ import {
   IonButton,
   useIonAlert,
   IonTextarea,
-} from '@ionic/react';
-import Tab3 from '../pages/Tab3';
-import { MyContext } from '../providers/postProvider';
+} from "@ionic/react";
+import Tab3 from "../pages/Tab3";
+import { MyContext } from "../providers/postProvider";
 
 interface TestProps {
   quizTitle: string;
@@ -26,16 +26,16 @@ interface TestProps {
 }
 
 const Quiz = (props: TestProps) => {
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState<string>("");
   const [present] = useIonAlert();
-  const [thesis, setThesis] = useState('');
+  const [thesis, setThesis] = useState("");
   const { createPost } = useContext(MyContext);
-  const [yesAction, setYesAction] = useState('');
-  const [noAction, setNoAction] = useState('');
-  const [maybeAction, setMaybeAction] = useState('');
+  const [yesAction, setYesAction] = useState("");
+  const [noAction, setNoAction] = useState("");
+  const [maybeAction, setMaybeAction] = useState("");
   const history = useHistory();
 
-  const options = ['Aliens', 'Covid 19', 'Vaccines', 'Something', 'Test'];
+  const options = ["Aliens", "Covid 19", "Vaccines", "Something", "Test"];
 
   const handleOptionChange = (e: CustomEvent) => {
     setSelectedOption(e.detail.value);
@@ -45,18 +45,34 @@ const Quiz = (props: TestProps) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <div className='flexRowCenter'>
-            <IonNavLink routerDirection='back' component={Tab3}>
-              <IonButton onClick={() => {
-                history.push("/tab1")
-              }}>Back</IonButton>
+          <div className="flexRowCenter">
+            <IonNavLink routerDirection="back" component={Tab3}>
+              <IonButton
+                onClick={() => {
+                  history.push("/tab1");
+                }}
+              >
+                Back
+              </IonButton>
             </IonNavLink>
-            <IonNavLink routerDirection='back' component={Tab3}>
-              <IonButton onClick={() => {
-                console.log(selectedOption, 'selected option')
-                createPost(props.quizTitle, props.content, thesis, yesAction, noAction, maybeAction, [selectedOption]);
-                history?.push("/tab1");
-              }}>Next</IonButton>
+            <IonNavLink routerDirection="back" component={Tab3}>
+              <IonButton
+                onClick={() => {
+                  console.log(selectedOption, "selected option");
+                  createPost(
+                    props.quizTitle,
+                    props.content,
+                    thesis,
+                    yesAction,
+                    noAction,
+                    maybeAction,
+                    [selectedOption],
+                  );
+                  history?.push("/tab1");
+                }}
+              >
+                Next
+              </IonButton>
             </IonNavLink>
           </div>
         </IonToolbar>
@@ -69,7 +85,7 @@ const Quiz = (props: TestProps) => {
             value={selectedOption}
             onIonChange={handleOptionChange}
             interfaceOptions={{
-              cssClass: 'custom-popover',
+              cssClass: "custom-popover",
             }}
           >
             {options.map((option, index) => (
@@ -79,26 +95,42 @@ const Quiz = (props: TestProps) => {
             ))}
           </IonSelect>
         </IonItem>
-        <div className='spaceColumn'>
-          <IonItem lines='none'>
-            <textarea onChange={(e) => {
-              setThesis(e?.target.value)
-            }} className='stylish-input' placeholder='Thesis Question'></textarea>
+        <div className="spaceColumn">
+          <IonItem lines="none">
+            <textarea
+              onChange={(e) => {
+                setThesis(e?.target.value);
+              }}
+              className="stylish-input"
+              placeholder="Thesis Question"
+            ></textarea>
           </IonItem>
-          <IonItem lines='none'>
-            <textarea onChange={(e) => {
-              setYesAction(e?.target.value)
-            }} className='stylish-input' placeholder='Action if user votes yes'></textarea>
+          <IonItem lines="none">
+            <textarea
+              onChange={(e) => {
+                setYesAction(e?.target.value);
+              }}
+              className="stylish-input"
+              placeholder="Action if user votes yes"
+            ></textarea>
           </IonItem>
-          <IonItem lines='none'>
-            <textarea onChange={(e) => {
-              setMaybeAction(e?.target.value)
-            }} className='stylish-input' placeholder='Action if user votes maybe'></textarea>
+          <IonItem lines="none">
+            <textarea
+              onChange={(e) => {
+                setMaybeAction(e?.target.value);
+              }}
+              className="stylish-input"
+              placeholder="Action if user votes maybe"
+            ></textarea>
           </IonItem>
-          <IonItem lines='none'>
-            <textarea onChange={(e) => {
-              setNoAction(e?.target.value)
-            }} className='stylish-input' placeholder='Action if user votes no'></textarea>
+          <IonItem lines="none">
+            <textarea
+              onChange={(e) => {
+                setNoAction(e?.target.value);
+              }}
+              className="stylish-input"
+              placeholder="Action if user votes no"
+            ></textarea>
           </IonItem>
         </div>
       </IonContent>
