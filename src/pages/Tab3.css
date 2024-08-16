@@ -45,6 +45,7 @@
   font-size: small;
   color: rgb(79, 79, 80);
 }
+
 .card {
   width: 50%;
   min-height: 300px;
@@ -119,6 +120,7 @@
   justify-content: space-evenly;
   height: 30%;
 }
+
 div {
   font-size: 18px;
 }
@@ -143,6 +145,7 @@ div {
   width: 70%;
   align-items: center;
 }
+
 div {
   /* font-size: 25px; */
   /* width: 100px; */
@@ -173,7 +176,7 @@ div {
   pointer-events: none;
 }
 
-.input{
+.input {
   width: 95%;
   border: 1px solid rgb(194, 191, 191);
   margin-left: 15px;
@@ -181,27 +184,113 @@ div {
   background-color: white;
 }
 
-.rowWide{
+.inputReply {
+  width: 100%;
+  border: 1px solid rgb(194, 191, 191);
+  border-radius: 15px;
+  background-color: white;
+  margin-top: 10px;
+  padding: 5px;
+  font-size: 15px;
+}
+
+.inputReply::placeholder {
+  font-size: 14px;
+}
+
+
+
+.replyInput {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.noPadding {
+  padding: 0px;
+}
+
+.rowWide {
   display: flex;
   justify-content: space-evenly;
 }
 
-.cardComment{
+.cardComment {
   display: flex;
   margin: 8px;
   width: 95%;
-  padding: 10px;
+  padding: 5px;
+  box-shadow: none
 }
 
-.userName{
+.userName {
   color: black;
   margin-bottom: 8px;
-  font-size: 12px
+  font-size: 10px;
+  font-weight: 500;
 }
-.comment{
+
+.comment {
   color: black;
-  font-size: 16px;
-  letter-spacing: 2px;
+  font-size: 13px;
+  letter-spacing: .8px;
+}
+
+.columnWide {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.small {
+  font-size: 12px;
+  margin-left: 13px;
+}
+
+.reply {
+  padding-top: 10px;
+  font-size: 12px;
+  color: rgb(75, 75, 75);
+}
+
+.commentRow {
+  display: flex;
+}
+
+.profileImageSmall {
+  width: 10px;
+}
+
+.user-icon-small {
+  width: 18px;
+  height: 18px;
+  margin-top: 20px;
+  border-radius: 15px;
+}
+
+.replyRow {
+  display: flex;
+}
+
+.replyColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.seeMore {
+
+  padding-top: 10px;
+  color: rgb(59, 57, 57);
+  font-size: 12px;
+}
+
+.noPadding {
+  background-color: rgb(187, 187, 239);
+  margin: 10px;
+  padding: 5px;
+  border-radius: 10px;
 }
 
 @media (max-width: 600px) {
