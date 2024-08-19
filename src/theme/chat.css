@@ -124,12 +124,12 @@
 .centerThesis {
   display: flex;
   margin: 8px;
-  width: 100%;
+  width: 95%;
   justify-content: center;
 }
 
 .question {
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .centerGray {
@@ -256,13 +256,14 @@
 }
 
 .answerWidth {
-  width: 150px;
-  font-size: 15px;
+  width: 200px;
+  font-size: 13px;
 }
 
 .middle {
   display: flex;
   justify-content: center;
+  margin-left: 10px;
 }
 
 .quiz {

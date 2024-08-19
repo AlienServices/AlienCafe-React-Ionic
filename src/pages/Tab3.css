@@ -17,16 +17,26 @@
 }
 
 .quill .ql-editor h1 {
-  font-size: 20px !important;
+  font-size: 17px !important;
+  letter-spacing: .1px;
+  line-height: 22px;
 }
 
 .quill .ql-editor h2 {
   font-size: 18px !important;
 }
 
+.small .ql-editor p {
+  font-size: 11px;
+  letter-spacing: .2px;
+  padding: 3px;
+  color: rgb(61, 61, 63);
+}
+
 .card .quill {
   width: 100%;
   box-shadow: none;
+  padding-left: 0;
   /* height: 100px; */
 }
 
@@ -41,12 +51,14 @@
   /* justify-content: space-between; */
 }
 
-.small .ql-editor p {
-  font-size: small;
-  color: rgb(79, 79, 80);
-}
+
+
+
+
+
 
 .card {
+  padding: 3px;
   width: 50%;
   min-height: 300px;
   height: fit-content;
@@ -178,6 +190,7 @@ div {
 
 .input {
   width: 95%;
+  font-size: 12px;
   border: 1px solid rgb(194, 191, 191);
   margin-left: 15px;
   border-radius: 15px;
@@ -214,6 +227,7 @@ div {
 .rowWide {
   display: flex;
   justify-content: space-evenly;
+  width: 95%;
 }
 
 .cardComment {
@@ -244,9 +258,10 @@ div {
   padding-bottom: 15px;
 }
 
+
+
 .small {
   font-size: 12px;
-  margin-left: 13px;
 }
 
 .reply {
@@ -292,6 +307,14 @@ div {
   padding: 5px;
   border-radius: 10px;
 }
+
+.quizCenter {
+  display: flex;
+  width: 90%;
+  flex-direction: column;
+  align-items: center;
+}
+
 
 @media (max-width: 600px) {
   .quill .ql-container {

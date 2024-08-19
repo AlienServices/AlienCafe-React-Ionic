@@ -2,13 +2,24 @@ import { useState, useEffect, useContext } from "react";
 import { IonButton, IonItem, IonCard, IonList } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
 
+// Define the types for your props and state
+interface Comment {
+  id: string;
+  parentId: string | null;
+  comment: string;
+  username: string;
+}
 
-const Replies = ({ id }: { id: string }) => {
+interface RepliesProps {
+  id: string;
+}
+
+const Replies: React.FC<RepliesProps> = ({ id }) => {
   const { myInfo } = useContext(MyContext);
-  const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState('');
-  const [replyComment, setReplyComment] = useState('');
-  const [replyingTo, setReplyingTo] = useState<string | null>(null); // State to track which comment is being replied to
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [comment, setComment] = useState<string>('');
+  const [replyComment, setReplyComment] = useState<string>('');
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
@@ -27,13 +38,13 @@ const Replies = ({ id }: { id: string }) => {
         }
       );
       const post = await result.json();
-      setComments(post.comment);
+      setComments(post.comment as Comment[]);
     } catch (error) {
       console.log(error, "this is the create user error");
     }
   };
 
-  const AddComment = async (comment: string, userName: string, postId: string, userId: string, commentId: string) => {
+  const AddComment = async (comment: string, userName: string, postId: string, userId: string, commentId: string | null) => {
     try {
       const result = await fetch(
         `http://localhost:3000/api/addComment?id=${id}`,
@@ -43,16 +54,16 @@ const Replies = ({ id }: { id: string }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            comment: comment,
+            comment,
             userName,
             postId,
             userId,
-            commentId
-          })
+            commentId,
+          }),
         }
       );
       const post = await result.json();
-      setComments(post.comments);
+      setComments(post.comments as Comment[]);
       setComment(''); // Clear the input after posting
       setReplyingTo(null); // Reset the reply input after posting
     } catch (error) {
@@ -60,11 +71,11 @@ const Replies = ({ id }: { id: string }) => {
     }
   };
 
-  const handleReplyClick = (commentId) => {
+  const handleReplyClick = (commentId: string) => {
     setReplyingTo(prevId => (prevId === commentId ? null : commentId));
   };
 
-  const renderReplies = (commentId, nestedDepth = 0) => {
+  const renderReplies = (commentId: string, nestedDepth = 0) => {
     return comments
       .filter(reply => reply.parentId === commentId)
       .map(reply => (
@@ -89,7 +100,11 @@ const Replies = ({ id }: { id: string }) => {
                       onChange={(e) => setReplyComment(e.target.value)}
                       placeholder="Reply..."
                     />
-                    <button style={{marginTop:'20px'}} className="noPadding" onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, reply.id)}>
+                    <button
+                      style={{ marginTop: '20px' }}
+                      className="noPadding"
+                      onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, reply.id)}
+                    >
                       Send
                     </button>
                   </div>
@@ -107,11 +122,11 @@ const Replies = ({ id }: { id: string }) => {
       ));
   };
 
-  const toggleReplies = (commentId) => {
+  const toggleReplies = (commentId: string) => {
     const shouldHide = replyToggle[commentId];
-    
+  
     // Recursively hide all nested replies
-    const hideNestedReplies = (id) => {
+    const hideNestedReplies = (id: string) => {
       comments
         .filter(comment => comment.parentId === id)
         .forEach(comment => {
@@ -122,12 +137,12 @@ const Replies = ({ id }: { id: string }) => {
           hideNestedReplies(comment.id); // Recursively hide further nested replies
         });
     };
-  
+
     setReplyToggle(prevState => ({
       ...prevState,
       [commentId]: !prevState[commentId],
     }));
-  
+
     if (shouldHide) {
       hideNestedReplies(commentId);
     }
@@ -142,9 +157,9 @@ const Replies = ({ id }: { id: string }) => {
           placeholder="Add Comment"
           value={comment}
         />
-        <IonButton onClick={() => AddComment(comment, myInfo.username, id, myInfo.id, null)}>
+        <button className="noPadding" onClick={() => AddComment(comment, myInfo.username, id, myInfo.id, null)}>
           Send
-        </IonButton>
+        </button>
       </div>
       {comments
         .filter(comment => comment.parentId === null)
@@ -176,7 +191,11 @@ const Replies = ({ id }: { id: string }) => {
                           onChange={(e) => setReplyComment(e.target.value)}
                           placeholder="Reply..."
                         />
-                        <button style={{marginTop:'20px'}} className="noPadding" onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, comment.id)}>
+                        <button
+                          style={{ marginTop: '20px' }}
+                          className="noPadding"
+                          onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, comment.id)}
+                        >
                           Send
                         </button>
                       </div>

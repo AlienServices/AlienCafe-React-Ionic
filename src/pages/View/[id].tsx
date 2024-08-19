@@ -153,6 +153,7 @@ const Post = () => {
                     </div>
                   </div>
                   <ReactQuill
+                    className="quillTitle"
                     style={{ color: "black" }}
                     readOnly={true}
                     theme="bubble"
@@ -181,43 +182,63 @@ const Post = () => {
           </>
         ) : (
           <>
-            {" "}
+
             <div className="centerThesis">
               <div className="question">{content[0]?.thesis}</div>
             </div>
-            <div className="checkSpace">
-              <input
-                type="radio"
-                value="yes"
-                checked={selectedOption === "yes"}
-                onChange={handleOptionChange}
-              />
-              <div className="answerWidth">Yes</div>
-            </div>
-            <div className="checkSpace">
-              <input
-                type="radio"
-                value="no"
-                checked={selectedOption === "no"}
-                onChange={handleOptionChange}
-              />
-              <div className="answerWidth">No</div>
-            </div>
-            <div className="checkSpace">
-              <input
-                type="radio"
-                value="maybe"
-                checked={selectedOption === "maybe"}
-                onChange={handleOptionChange}
-              />
-              <div className="answerWidth">Maybe</div>
-            </div>
-            <div className={`${!hasVoted ? "middle" : "none"}`}>
-              <IonButton onClick={handleVote}>Submit</IonButton>
+            <div className="quizCenter">
+              <div className="checkSpace">
+                <input
+                  type="radio"
+                  value="yes"
+                  checked={selectedOption === "yes"}
+                  onChange={handleOptionChange}
+                />
+                <div className="answerWidth">Definitely Yes</div>
+              </div>
+              <div className="checkSpace">
+                <input
+                  type="radio"
+                  value="no"
+                  checked={selectedOption === "no"}
+                  onChange={handleOptionChange}
+                />
+                <div className="answerWidth">Maybe Yes</div>
+              </div>
+              <div className="checkSpace">
+                <input
+                  type="radio"
+                  value="maybe"
+                  checked={selectedOption === "maybe"}
+                  onChange={handleOptionChange}
+                />
+                <div className="answerWidth">Neutral</div>
+              </div>
+              <div className="checkSpace">
+                <input
+                  type="radio"
+                  value="maybe"
+                  checked={selectedOption === "maybe"}
+                  onChange={handleOptionChange}
+                />
+                <div className="answerWidth">Maybe No</div>
+              </div>
+              <div className="checkSpace">
+                <input
+                  type="radio"
+                  value="maybe"
+                  checked={selectedOption === "maybe"}
+                  onChange={handleOptionChange}
+                />
+                <div className="answerWidth">Definitely No</div>
+              </div>
+              <div className={`${!hasVoted ? "middle" : "none"}`}>
+                <button className="noPadding" onClick={handleVote}>Submit</button>
+              </div>
             </div>
           </>
         )}
-        <Replies id={id}/>
+        <Replies id={id} />
       </IonContent>
     </IonPage>
   );
