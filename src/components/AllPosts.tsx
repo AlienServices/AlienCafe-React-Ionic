@@ -105,14 +105,11 @@ const Content: React.FC = () => {
   };
 
   const truncateContent = (content: string, length: number) => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(content, "text/html");
-    let textContent = doc.body.textContent || "";
-    if (textContent.length > length) {
-      textContent = textContent.substring(0, length) + "...";
-    }
-    return textContent;
+    const doc = new DOMParser().parseFromString(content, "text/html");
+    let text = doc.body.textContent || "";
+    return text.split(" ").slice(0, 20).join(" ") + (text.split(" ").length > 20 ? "..." : "");
   };
+
 
   const gotoTopic = (id: string) => {
     history.push(`/view/${id}`);
@@ -144,9 +141,6 @@ const Content: React.FC = () => {
                     <IonCard
                       style={{
                         boxShadow: "none",
-                        margin: "5px",
-                        borderRadius: "0px",
-                        paddingTop: "10px",
                         paddingBottom: "10px",
                       }}
                       className="card"
@@ -158,7 +152,7 @@ const Content: React.FC = () => {
                               style={{
                                 height: "20px",
                                 width: "20px",
-                                marginLeft: "10px",
+                                marginLeft: "3px",
                                 marginRight: "5px",
                               }}
                             >
@@ -184,7 +178,7 @@ const Content: React.FC = () => {
                             {myInfo?.email !== post?.email ? (
                               <>
                                 {myInfo?.following?.indexOf(post.email) !==
-                                -1 ? (
+                                  -1 ? (
                                   <div>
                                     <IonIcon
                                       icon={checkmarkCircleOutline}

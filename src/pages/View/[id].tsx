@@ -41,9 +41,11 @@ const Post = () => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const { id } = useParams<{ id: string }>();
 
+
   useEffect(() => {
     getOnePost();
   }, []);
+
 
   const getOnePost = async () => {
     try {
@@ -59,10 +61,13 @@ const Post = () => {
       const post = await result.json();
       setContent([post.post]); // Ensure the post is wrapped in an array
       setMyVote(post.userVote?.vote || "");
+      // Set hasVoted based on whether a vote exists
     } catch (error) {
       console.log(error, "this is the create user error");
     }
   };
+
+
 
   const handleOptionChange = (e: any) => {
     setSelectedOption(e.target.value);
@@ -71,17 +76,8 @@ const Post = () => {
   const handleVote = async () => {
     setHasVoted(true);
     setTimeout(async () => {
-      let updatedCount = totalCount;
-      if (selectedOption === "yes") {
-        updatedCount += 1;
-      } else if (selectedOption === "no") {
-        updatedCount -= 1;
-      }
-      setTotalCount(updatedCount);
-      await updateVote(id);
-      console.log("User has voted:", selectedOption);
-      // Re-fetch the post data to trigger re-render
-      getOnePost();
+      await updateVote(id, myInfo?.email, myVote);
+      getOnePost(); // Re-fetch the post data to trigger re-render
     }, 500); // The delay should match the CSS transition duration
   };
 
@@ -99,11 +95,13 @@ const Post = () => {
     return doc.body.innerHTML;
   };
 
-  const updateVote = async (id: string) => {
+  const updateVote = async (id: string, email: string, vote: string) => {
+    console.log(email, 'this is email')
     const updateUser = await post({
       url: "http://localhost:3000/api/addVote",
       body: { vote: selectedOption, id, email: myInfo?.id },
     });
+    console.log(updateUser, 'this is the updated user')
     setMyVote(selectedOption);
     await post({
       url: "http://localhost:3000/api/updateUser",
@@ -111,7 +109,29 @@ const Post = () => {
     });
   };
 
-  console.log(myVote);
+  const getMyVote = async (id: string, postId: string) => {
+    const result = await fetch(
+      `http://localhost:3000/api/getVote?postId=${postId}&userId=${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );    
+    setHasVoted(await result.json())
+    
+  }
+
+
+
+  useEffect(() => {
+    getMyVote(myInfo.id, id)
+  }, [])
+
+
+
+  console.log(hasVoted, 'has voted')
 
   return (
     <IonPage>
@@ -126,6 +146,7 @@ const Post = () => {
         {Array.isArray(content) &&
           content.map((post: any, index: number) => {
             const transformedTitle = transformTitleToH1(post.title);
+
             return (
               <div className="shadow" key={index}>
                 <IonCard
@@ -135,12 +156,12 @@ const Post = () => {
                   className="card"
                 >
                   <div className="around">
-                    <div style={{ padding: "8px" }} className="emailContainer">
+                    <div className="emailContainer">
                       <IonAvatar
                         style={{
                           height: "20px",
                           width: "20px",
-                          marginLeft: "10px",
+                          marginLeft: "5px",
                           marginRight: "5px",
                         }}
                       >
@@ -171,18 +192,18 @@ const Post = () => {
             );
           })}
 
-        {myVote ? (
+        {hasVoted ? (
           <>
-            {" "}
             <div className="vote">
               {myVote === "yes" && <div>{content[0]?.yesAction}</div>}
               {myVote === "no" && <div>{content[0]?.noAction}</div>}
               {myVote === "maybe" && <div>{content[0]?.maybeAction}</div>}
             </div>
+            {/* Render the comments if the user has voted */}
+            <Replies id={id} />
           </>
         ) : (
           <>
-
             <div className="centerThesis">
               <div className="question">{content[0]?.thesis}</div>
             </div>
@@ -238,7 +259,6 @@ const Post = () => {
             </div>
           </>
         )}
-        <Replies id={id} />
       </IonContent>
     </IonPage>
   );

@@ -11,7 +11,7 @@
 
 .quill {
   width: 50%;
-  padding: 10px;
+  padding: 2px;
 }
 
 .quillCenter {
@@ -73,6 +73,6 @@
 
   .quill {
     width: 100%;
-    padding: 10px;
+    padding: 3px;
   }
 }

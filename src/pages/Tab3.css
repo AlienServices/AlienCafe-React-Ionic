@@ -20,6 +20,7 @@
   font-size: 17px !important;
   letter-spacing: .1px;
   line-height: 22px;
+  font-weight: 500 !important;
 }
 
 .quill .ql-editor h2 {
@@ -27,7 +28,7 @@
 }
 
 .small .ql-editor p {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: .2px;
   padding: 3px;
   color: rgb(61, 61, 63);
@@ -106,7 +107,9 @@
 }
 
 .username {
-  font-size: 12px;
+  font-size: 13px;
+  padding: 5px;
+  margin: 5px;
   width: 130px;
   /* padding-left: 10px; */
 }
@@ -117,6 +120,7 @@
   width: 80%;
   align-items: center;
   justify-content: normal;
+  padding-top: 10px;
 }
 
 .end {
@@ -233,21 +237,40 @@ div {
 .cardComment {
   display: flex;
   margin: 8px;
-  width: 95%;
-  padding: 5px;
-  box-shadow: none
+  width: 100%;
+  box-shadow: none;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+
 }
+
+/* .dot{
+  width: 2px;
+  height: 2px;
+  background-color: #4CAF50;
+  padding: 3px;
+  border-radius: 10px;
+} */
+
+.rowUsername {
+  display: flex;
+}
+
 
 .userName {
   color: black;
   margin-bottom: 8px;
-  font-size: 10px;
+  font-size: 11px;
+  margin: 5px 5px 5px 3px;
   font-weight: 500;
 }
 
 .comment {
   color: black;
-  font-size: 13px;
+  font-size: 12px;
+  margin: 5px 5px 5px 3px;
   letter-spacing: .8px;
 }
 
@@ -258,6 +281,13 @@ div {
   padding-bottom: 15px;
 }
 
+.columnCommentWide {
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 
 
 .small {
@@ -266,12 +296,14 @@ div {
 
 .reply {
   padding-top: 10px;
+  margin: 5px 5px 5px 3px;
   font-size: 12px;
   color: rgb(75, 75, 75);
 }
 
 .commentRow {
   display: flex;
+  width: 95%;
 }
 
 .profileImageSmall {
@@ -289,22 +321,35 @@ div {
   display: flex;
 }
 
+.voice-corner {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 30px;
+  height: 30px;
+  background-color: #4CAF50;
+  /* Same as border color or any desired color */
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  border-radius: 0 0 8px 0;
+}
+
+
 .replyColumn {
   display: flex;
   flex-direction: column;
 }
 
 .seeMore {
-
-  padding-top: 10px;
+  display: flex;
+  justify-content: center;
   color: rgb(59, 57, 57);
   font-size: 12px;
 }
 
 .noPadding {
   background-color: rgb(187, 187, 239);
-  margin: 10px;
-  padding: 5px;
+  margin: 5px;
+  padding: 3px;
   border-radius: 10px;
 }
 
@@ -313,6 +358,35 @@ div {
   width: 90%;
   flex-direction: column;
   align-items: center;
+}
+
+.bottomImage {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.parentInfo {
+  margin-bottom: 8px;
+  margin-left: 3px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 3px solid #4CAF50;
+  background-color: rgb(234, 229, 229);
+}
+
+.parentUsername {
+  font-size: 9px;
+  color: black;
+  margin: 5px 0px 3px 3px;
+}
+
+.parentComment {
+  color: black;
+  font-weight: 500;
+  font-size: 12px;
+  margin: 0px 5px 5px 3px;
 }
 
 

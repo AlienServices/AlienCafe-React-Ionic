@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import { IonButton, IonItem, IonCard, IonList } from "@ionic/react";
+import { IonButton, IonItem, IonCard, IonList, IonIcon } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
+import { sendOutline } from "ionicons/icons";
 
-// Define the types for your props and state
 interface Comment {
   id: string;
   parentId: string | null;
@@ -75,57 +75,67 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
     setReplyingTo(prevId => (prevId === commentId ? null : commentId));
   };
 
+  const getParentComment = (parentId: string | null) => {
+    if (!parentId) return null;
+    const parentComment = comments.find(comment => comment.id === parentId);
+    return parentComment ? { username: parentComment.username, comment: parentComment.comment } : null;
+  };
+
   const renderReplies = (commentId: string, nestedDepth = 0) => {
-    return comments
-      .filter(reply => reply.parentId === commentId)
-      .map(reply => (
-        <div key={reply.id} className={nestedDepth < 4 ? "replyRow" : "replyColumn"}>
-          <img
-            className="user-icon-small"
-            alt="User avatar"
-            src="https://ionicframework.com/docs/img/demos/avatar.svg"
-          />
-          <div className="columnWide">
-            <IonCard className="cardComment">
-              <div>
-                <div className="userName">{reply.username}</div>
-                <div className="comment">{reply.comment}</div>
-                <div className="reply" onClick={() => handleReplyClick(reply.id)}>
-                  Reply
+    return (
+      <>
+        {comments.filter(reply => reply.parentId === commentId).map(reply => {
+          const parentInfo = getParentComment(reply.parentId);
+          return (
+            <div className="columnCommentWide" key={reply.id}>
+              <IonCard className="cardComment">
+                <div style={{ width: '95%' }}>
+                  <div className="userName">{reply.username}</div>
+                  {parentInfo && (
+                    <div className="parentInfo">
+                      <div className="parentUsername">{parentInfo.username}</div>
+                      <div className="parentComment">{parentInfo.comment}</div>
+                    </div>
+                  )}
+                  <div className="comment">{reply.comment}</div>
+                  <div className="reply" onClick={() => handleReplyClick(reply.id)}>
+                    Reply
+                  </div>
+                  {replyingTo === reply.id && (
+                    <div className="replyInput">
+                      <input
+                        className="inputReply"
+                        onChange={(e) => setReplyComment(e.target.value)}
+                        placeholder="Reply..."
+                      />
+                      <button
+                        style={{ marginTop: '20px' }}
+                        className="noPadding"
+                        onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, reply.id)}
+                      >
+                        send
+                      </button>
+                    </div>
+                  )}
+                  {/* {comments.some(r => r.parentId === reply.id) && (
+                    <div className="seeMore" onClick={() => toggleReplies(reply.id)}>
+                      {replyToggle[reply.id] ? "- Hide Replies" : "+ See More"}
+                    </div>
+                  )} */}
                 </div>
-                {replyingTo === reply.id && (
-                  <div className="replyInput">
-                    <input
-                      className="inputReply"
-                      onChange={(e) => setReplyComment(e.target.value)}
-                      placeholder="Reply..."
-                    />
-                    <button
-                      style={{ marginTop: '20px' }}
-                      className="noPadding"
-                      onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, reply.id)}
-                    >
-                      Send
-                    </button>
-                  </div>
-                )}
-                {comments.some(r => r.parentId === reply.id) && (
-                  <div className="seeMore" onClick={() => toggleReplies(reply.id)}>
-                    {replyToggle[reply.id] ? "- Hide Replies" : "+ See More"}
-                  </div>
-                )}
-              </div>
-            </IonCard>
-            {replyToggle[reply.id] && renderReplies(reply.id, nestedDepth + 1)}
-          </div>
-        </div>
-      ));
+              </IonCard>
+
+              {replyToggle[reply.id] && renderReplies(reply.id, nestedDepth + 1)}
+            </div>
+          );
+        })}
+      </>
+    );
   };
 
   const toggleReplies = (commentId: string) => {
     const shouldHide = replyToggle[commentId];
-  
-    // Recursively hide all nested replies
+
     const hideNestedReplies = (id: string) => {
       comments
         .filter(comment => comment.parentId === id)
@@ -134,7 +144,7 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
             ...prevState,
             [comment.id]: false,
           }));
-          hideNestedReplies(comment.id); // Recursively hide further nested replies
+          hideNestedReplies(comment.id);
         });
     };
 
@@ -149,7 +159,7 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
   };
 
   return (
-    <IonList>
+    <>
       <div className="rowWide">
         <input
           className="input"
@@ -158,56 +168,63 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
           value={comment}
         />
         <button className="noPadding" onClick={() => AddComment(comment, myInfo.username, id, myInfo.id, null)}>
-          Send
+          <IonIcon icon={sendOutline}></IonIcon>
         </button>
       </div>
-      {comments
-        .filter(comment => comment.parentId === null)
-        .map(comment => (
-          <IonItem key={comment.id} lines="none">
-            <div className="commentRow">
-              <img
-                className="user-icon-small"
-                alt="User avatar"
-                src="https://ionicframework.com/docs/img/demos/avatar.svg"
-              />
+      <div className="commentColumn">
+        {comments
+          .filter(comment => comment.parentId === null)
+          .map(comment => (
+            <div key={comment.id} className="commentRow">
+              <div className="bottomImage">
+                <img
+                  className="user-icon-small"
+                  alt="User avatar"
+                  src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                />
+              </div>
               <div className="columnWide">
                 <IonCard className="cardComment">
                   <div>
-                    <div className="userName">{comment.username}</div>
+                    <div className="rowUser">
+                      <div className="userName">{comment.username}</div>
+                      <div className="dot"></div>
+                    </div>
                     <div className="comment">{comment.comment}</div>
                     <div className="reply" onClick={() => handleReplyClick(comment.id)}>
                       Reply
                     </div>
-                    {comments.some(reply => reply.parentId === comment.id) && (
-                      <div className="seeMore" onClick={() => toggleReplies(comment.id)}>
-                        {replyToggle[comment.id] ? "- Hide Replies" : "+ See More"}
-                      </div>
-                    )}
-                    {replyingTo === comment.id && (
-                      <div className="replyInput">
-                        <input
-                          className="inputReply"
-                          onChange={(e) => setReplyComment(e.target.value)}
-                          placeholder="Reply..."
-                        />
-                        <button
-                          style={{ marginTop: '20px' }}
-                          className="noPadding"
-                          onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, comment.id)}
-                        >
-                          Send
-                        </button>
-                      </div>
-                    )}
                   </div>
                 </IonCard>
+
+                {replyingTo === comment.id && (
+                  <div className="replyInput">
+                    <input
+                      className="inputReply"
+                      onChange={(e) => setReplyComment(e.target.value)}
+                      placeholder="Reply..."
+                    />
+                    <button
+                      className="noPadding"
+                      onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, comment.id)}
+                    >
+                      Send
+                    </button>
+                  </div>
+                )}
+
                 {replyToggle[comment.id] && renderReplies(comment.id)}
+
+                {comments.some(reply => reply.parentId === comment.id) && (
+                  <div className="seeMore" onClick={() => toggleReplies(comment.id)}>
+                    {replyToggle[comment.id] ? "- Hide Replies" : "+ See All Replies"}
+                  </div>
+                )}
               </div>
             </div>
-          </IonItem>
-        ))}
-    </IonList>
+          ))}
+      </div>
+    </>
   );
 };
 
