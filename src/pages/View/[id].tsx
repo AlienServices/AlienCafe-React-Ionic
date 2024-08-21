@@ -29,7 +29,6 @@ import {
 import { post } from "../../utils/fetch";
 import "../../theme/id.module.css";
 
-
 const Post = () => {
   const [content, setContent] = useState<any[]>([]); // Initialize as an empty array
   const [comments, setComments] = useState<string[]>([]);
@@ -42,11 +41,9 @@ const Post = () => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const { id } = useParams<{ id: string }>();
 
-
   useEffect(() => {
     getOnePost();
   }, []);
-
 
   const getOnePost = async () => {
     try {
@@ -67,8 +64,6 @@ const Post = () => {
       console.log(error, "this is the create user error");
     }
   };
-
-
 
   const handleOptionChange = (e: any) => {
     setSelectedOption(e.target.value);
@@ -97,12 +92,12 @@ const Post = () => {
   };
 
   const updateVote = async (id: string, email: string, vote: string) => {
-    console.log(email, 'this is email')
+    console.log(email, "this is email");
     const updateUser = await post({
       url: "http://localhost:3000/api/addVote",
       body: { vote: selectedOption, id, email: myInfo?.id },
     });
-    console.log(updateUser, 'this is the updated user')
+    console.log(updateUser, "this is the updated user");
     setMyVote(selectedOption);
     await post({
       url: "http://localhost:3000/api/updateUser",
@@ -111,28 +106,37 @@ const Post = () => {
   };
 
   const getMyVote = async (id: string, postId: string) => {
-    const result = await fetch(
-      `http://localhost:3000/api/getVote?postId=${postId}&userId=${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );    
-    setHasVoted(await result.json())
-    
-  }
-
-
+    try {
+      const result = await fetch(
+        `http://localhost:3000/api/getVote?postId=${postId}&userId=${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (!result.ok) {
+        // Handle the error, e.g., by logging it or displaying a message
+        console.error("Failed to fetch vote information");
+        return; // Exit the function without setting state
+      }
+  
+      const data = await result.json();
+      console.log(data);
+      setHasVoted(data); // Set state only if the request was successful
+    } catch (error) {
+      // Handle any network or parsing errors
+      console.error("An error occurred:", error);
+    }
+  };
 
   useEffect(() => {
-    getMyVote(myInfo.id, id)
-  }, [])
+    getMyVote(myInfo.id, id);
+  }, []);
 
-
-
-  console.log(hasVoted, 'has voted')
+  console.log(hasVoted, "has voted");
 
   return (
     <IonPage>
@@ -196,12 +200,12 @@ const Post = () => {
         {hasVoted ? (
           <>
             <div className="vote">
-              {myVote === "yes" && <div>{content[0]?.yesAction}</div>}
-              {myVote === "no" && <div>{content[0]?.noAction}</div>}
-              {myVote === "maybe" && <div>{content[0]?.maybeAction}</div>}
+              {myVote === "yes" && <div className="action">{content[0]?.yesAction}</div>}
+              {myVote === "no" && <div className="action">{content[0]?.noAction}</div>}
+              {myVote === "maybe" && <div className="action">{content[0]?.maybeAction}</div>}
             </div>
             {/* Render the comments if the user has voted */}
-            <Replies id={id} />
+            <Replies id={id} myVote={myVote} />
           </>
         ) : (
           <>
@@ -255,7 +259,9 @@ const Post = () => {
                 <div className="answerWidth">Definitely No</div>
               </div>
               <div className={`${!hasVoted ? "middle" : "none"}`}>
-                <button className="noPadding" onClick={handleVote}>Submit</button>
+                <button className="noPadding" onClick={handleVote}>
+                  Submit
+                </button>
               </div>
             </div>
           </>

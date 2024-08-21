@@ -46,15 +46,13 @@ import { post } from "../utils/fetch";
 import { MyContext } from "../providers/postProvider";
 
 const UserComments = ({ id }: { id: string }) => {
-
   const { myInfo } = useContext(MyContext);
-  const [comments, setComments] = useState()
-  const [comment, setComment] = useState()
+  const [comments, setComments] = useState();
+  const [comment, setComment] = useState();
 
   useEffect(() => {
-    getUserComments()
-  }, [])
-
+    getUserComments();
+  }, []);
 
   const getUserComments = async () => {
     try {
@@ -68,17 +66,15 @@ const UserComments = ({ id }: { id: string }) => {
         },
       );
       const post = await result.json();
-      setComments(post.comment)
-      console.log(post)
+      setComments(post.comment);
+      console.log(post);
     } catch (error) {
       console.log(error, "this is the create user error");
     }
   };
 
-
-
   return (
-    <>      
+    <>
       <IonList>
         {comments?.map((comment: string) => {
           return (
@@ -93,7 +89,7 @@ const UserComments = ({ id }: { id: string }) => {
                 </div>
               </IonCard>
             </IonItem>
-          )
+          );
         })}
       </IonList>
     </>

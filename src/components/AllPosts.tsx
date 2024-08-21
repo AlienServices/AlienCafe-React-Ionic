@@ -107,9 +107,11 @@ const Content: React.FC = () => {
   const truncateContent = (content: string, length: number) => {
     const doc = new DOMParser().parseFromString(content, "text/html");
     let text = doc.body.textContent || "";
-    return text.split(" ").slice(0, 20).join(" ") + (text.split(" ").length > 20 ? "..." : "");
+    return (
+      text.split(" ").slice(0, 20).join(" ") +
+      (text.split(" ").length > 20 ? "..." : "")
+    );
   };
-
 
   const gotoTopic = (id: string) => {
     history.push(`/view/${id}`);
@@ -178,7 +180,7 @@ const Content: React.FC = () => {
                             {myInfo?.email !== post?.email ? (
                               <>
                                 {myInfo?.following?.indexOf(post.email) !==
-                                  -1 ? (
+                                -1 ? (
                                   <div>
                                     <IonIcon
                                       icon={checkmarkCircleOutline}

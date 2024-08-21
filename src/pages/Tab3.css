@@ -18,7 +18,7 @@
 
 .quill .ql-editor h1 {
   font-size: 17px !important;
-  letter-spacing: .1px;
+  letter-spacing: 0.1px;
   line-height: 22px;
   font-weight: 500 !important;
 }
@@ -29,7 +29,7 @@
 
 .small .ql-editor p {
   font-size: 12px;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
   padding: 3px;
   color: rgb(61, 61, 63);
 }
@@ -51,12 +51,6 @@
   height: 100%;
   /* justify-content: space-between; */
 }
-
-
-
-
-
-
 
 .card {
   padding: 3px;
@@ -205,19 +199,17 @@ div {
   width: 100%;
   border: 1px solid rgb(194, 191, 191);
   border-radius: 15px;
-  background-color: white;  
+  background-color: white;
   padding: 5px;
-  font-size: 15px;
+  font-size: 12px;
+  margin: 10px;
 }
 
 .inputReply::placeholder {
   font-size: 14px;
 }
 
-
-
-.replyInput {
-  margin-left: 15px;
+.replyInput {  
   display: flex;
   width: 100%;
   align-items: center;
@@ -237,16 +229,14 @@ div {
 .cardComment {
   display: flex;
   margin: 8px;
+  flex-direction: column;
   width: 100%;
   box-shadow: none;
-  border: 2px solid #4CAF50;
+  border: 2px solid #4caf50;
   border-radius: 8px;
   margin-bottom: 10px;
   background-color: #f9f9f9;
-
 }
-
-
 
 /* .dot{
   width: 2px;
@@ -260,14 +250,13 @@ div {
   display: flex;
 }
 
-.rowUser{
-  
+.rowUser {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
 
-.commentColumn{
+.commentColumn {
   padding: 8px;
 }
 
@@ -283,25 +272,21 @@ div {
   color: black;
   font-size: 12px;
   margin: 5px 5px 5px 3px;
-  letter-spacing: .8px;
+  letter-spacing: 0.8px;
 }
-
-
 
 .columnWide {
   display: flex;
   flex-direction: column;
-  width: 100%;  
+  width: 100%;
 }
 
 .columnCommentWide {
-  margin-left: 25px;
+  margin-left: 20px;
   display: flex;
   flex-direction: column;
   width: 90%;
 }
-
-
 
 .small {
   font-size: 12px;
@@ -340,12 +325,11 @@ div {
   right: -10px;
   width: 30px;
   height: 30px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   /* Same as border color or any desired color */
   clip-path: polygon(0 100%, 100% 0, 100% 100%);
   border-radius: 0 0 8px 0;
 }
-
 
 .replyColumn {
   display: flex;
@@ -385,7 +369,7 @@ div {
   width: 100%;
   display: flex;
   flex-direction: column;
-  border-left: 3px solid #4CAF50;
+  border-left: 3px solid #4caf50;
   background-color: rgb(234, 229, 229);
 }
 
@@ -401,7 +385,6 @@ div {
   font-size: 12px;
   margin: 0px 5px 5px 3px;
 }
-
 
 @media (max-width: 600px) {
   .quill .ql-container {
