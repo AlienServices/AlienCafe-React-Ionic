@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { IonButton, IonItem, IonCard, IonList, IonIcon } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
-import { sendOutline } from "ionicons/icons";
+import { sendOutline, trashBin } from "ionicons/icons";
 
 interface Comment {
   id: string;
@@ -71,6 +71,36 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
     }
   };
 
+  const DeleteComment = async (commentId: string) => {
+    try {
+      const result = await fetch(
+        `http://localhost:3000/api/deleteComment`, // Assuming the correct API endpoint
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: commentId
+          })
+        }
+      );
+
+      if (result.ok) {
+        // Filter out the deleted comment and its nested replies from the state
+        const updatedComments = comments.filter(
+          comment => comment.id !== commentId && comment.parentId !== commentId
+        );
+        setComments(updatedComments);
+      } else {
+        console.error("Failed to delete comment");
+      }
+    } catch (error) {
+      console.log(error, "this is the delete comment error");
+    }
+  };
+
+
   const handleReplyClick = (commentId: string) => {
     setReplyingTo(prevId => (prevId === commentId ? null : commentId));
   };
@@ -87,44 +117,48 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
         {comments.filter(reply => reply.parentId === commentId).map(reply => {
           const parentInfo = getParentComment(reply.parentId);
           return (
-            <div className="columnCommentWide" key={reply.id}>
-              <IonCard className="cardComment">
-                <div style={{ width: '95%' }}>
-                  <div className="userName">{reply.username}</div>
-                  {parentInfo && (
-                    <div className="parentInfo">
-                      <div className="parentUsername">{parentInfo.username}</div>
-                      <div className="parentComment">{parentInfo.comment}</div>
+            <div>
+              <div className="columnCommentWide" key={reply.id}>
+                <IonCard className="cardComment">
+                  <div style={{ width: '95%' }}>
+                    <div className="rowUser">
+                      <div className="userName">{reply.username}</div>
+                      {myInfo.username === reply.username && <button onClick={() => { DeleteComment(reply.id) }}><IonIcon icon={trashBin}></IonIcon></button>}
                     </div>
-                  )}
-                  <div className="comment">{reply.comment}</div>
-                  <div className="reply" onClick={() => handleReplyClick(reply.id)}>
-                    Reply
+                    {parentInfo && (
+                      <div className="parentInfo">
+                        <div className="parentUsername">{parentInfo.username}</div>
+                        <div className="parentComment">{parentInfo.comment}</div>
+                      </div>
+                    )}
+                    <div className="comment">{reply.comment}</div>
+                    <div className="reply" onClick={() => handleReplyClick(reply.id)}>
+                      Reply
+                    </div>
+                    {replyingTo === reply.id && (
+                      <div className="replyInput">
+                        <input
+                          className="inputReply"
+                          onChange={(e) => setReplyComment(e.target.value)}
+                          placeholder="Reply..."
+                        />
+                        <button
+                          style={{ marginTop: '20px' }}
+                          className="noPadding"
+                          onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, reply.id)}
+                        >
+                          send
+                        </button>
+                      </div>
+                    )}
+                    {comments.some(r => r.parentId === reply.id) && (
+                      <div className="seeMore" onClick={() => toggleReplies(reply.id)}>
+                        {replyToggle[reply.id] ? "" : "+ See More"}
+                      </div>
+                    )}
                   </div>
-                  {replyingTo === reply.id && (
-                    <div className="replyInput">
-                      <input
-                        className="inputReply"
-                        onChange={(e) => setReplyComment(e.target.value)}
-                        placeholder="Reply..."
-                      />
-                      <button
-                        style={{ marginTop: '20px' }}
-                        className="noPadding"
-                        onClick={() => AddComment(replyComment, myInfo.username, id, myInfo.id, reply.id)}
-                      >
-                        send
-                      </button>
-                    </div>
-                  )}
-                  {/* {comments.some(r => r.parentId === reply.id) && (
-                    <div className="seeMore" onClick={() => toggleReplies(reply.id)}>
-                      {replyToggle[reply.id] ? "- Hide Replies" : "+ See More"}
-                    </div>
-                  )} */}
-                </div>
-              </IonCard>
-
+                </IonCard>
+              </div>
               {replyToggle[reply.id] && renderReplies(reply.id, nestedDepth + 1)}
             </div>
           );
@@ -171,10 +205,11 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
           <IonIcon icon={sendOutline}></IonIcon>
         </button>
       </div>
-      <div className="commentColumn">
-        {comments
-          .filter(comment => comment.parentId === null)
-          .map(comment => (
+
+      {comments
+        .filter(comment => comment.parentId === null)
+        .map(comment => (
+          <div className="commentColumn">
             <div key={comment.id} className="commentRow">
               <div className="bottomImage">
                 <img
@@ -185,10 +220,10 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
               </div>
               <div className="columnWide">
                 <IonCard className="cardComment">
-                  <div>
+                  <div style={{ width: '95%', padding: '3px' }}>
                     <div className="rowUser">
                       <div className="userName">{comment.username}</div>
-                      <div className="dot"></div>
+                      {myInfo.username === comment.username && <button onClick={() => { DeleteComment(comment.id) }}><IonIcon icon={trashBin}></IonIcon></button>}
                     </div>
                     <div className="comment">{comment.comment}</div>
                     <div className="reply" onClick={() => handleReplyClick(comment.id)}>
@@ -212,9 +247,6 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
                     </button>
                   </div>
                 )}
-
-                {replyToggle[comment.id] && renderReplies(comment.id)}
-
                 {comments.some(reply => reply.parentId === comment.id) && (
                   <div className="seeMore" onClick={() => toggleReplies(comment.id)}>
                     {replyToggle[comment.id] ? "- Hide Replies" : "+ See All Replies"}
@@ -222,8 +254,9 @@ const Replies: React.FC<RepliesProps> = ({ id }) => {
                 )}
               </div>
             </div>
-          ))}
-      </div>
+            {replyToggle[comment.id] && renderReplies(comment.id)}
+          </div>
+        ))}
     </>
   );
 };

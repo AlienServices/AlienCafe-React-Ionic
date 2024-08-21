@@ -29,6 +29,7 @@ import {
 import { post } from "../../utils/fetch";
 import "../../theme/id.module.css";
 
+
 const Post = () => {
   const [content, setContent] = useState<any[]>([]); // Initialize as an empty array
   const [comments, setComments] = useState<string[]>([]);
