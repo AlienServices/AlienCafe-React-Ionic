@@ -227,12 +227,10 @@ div {
 }
 
 .cardComment {
-  display: flex;
-  margin: 8px;
+  display: flex;  
   flex-direction: column;
   width: 100%;
-  box-shadow: none;
-  border: 2px solid #4caf50;
+  box-shadow: none;  
   border-radius: 8px;
   margin-bottom: 10px;
   background-color: #f9f9f9;
@@ -282,7 +280,7 @@ div {
 }
 
 .columnCommentWide {
-  margin-left: 20px;
+  margin-left: 15px;
   display: flex;
   flex-direction: column;
   width: 90%;
@@ -309,9 +307,10 @@ div {
 }
 
 .user-icon-small {
-  width: 18px;
-  height: 18px;
-  margin-top: 20px;
+  width: 20px;
+  height: 20px;
+  margin-top: 8px;
+  margin-right: 5px;
   border-radius: 15px;
 }
 

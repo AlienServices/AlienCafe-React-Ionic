@@ -54,7 +54,7 @@ const Post = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
       const post = await result.json();
       setContent([post.post]); // Ensure the post is wrapped in an array
@@ -72,7 +72,7 @@ const Post = () => {
   const handleVote = async () => {
     setHasVoted(true);
     setTimeout(async () => {
-      await updateVote(id, myInfo?.email, myVote);
+      await updateVote(id, myInfo?.email, selectedOption);
       getOnePost(); // Re-fetch the post data to trigger re-render
     }, 500); // The delay should match the CSS transition duration
   };
@@ -116,13 +116,13 @@ const Post = () => {
           },
         }
       );
-  
+
       if (!result.ok) {
         // Handle the error, e.g., by logging it or displaying a message
         console.error("Failed to fetch vote information");
         return; // Exit the function without setting state
       }
-  
+
       const data = await result.json();
       console.log(data);
       setHasVoted(data); // Set state only if the request was successful
@@ -133,10 +133,10 @@ const Post = () => {
   };
 
   useEffect(() => {
-    getMyVote(myInfo.id, id);
+    getMyVote(myInfo?.id, id);
   }, []);
 
-  console.log(hasVoted, "has voted");
+  console.log(myInfo, "has voted");
 
   return (
     <IonPage>
@@ -225,15 +225,6 @@ const Post = () => {
               <div className="checkSpace">
                 <input
                   type="radio"
-                  value="no"
-                  checked={selectedOption === "no"}
-                  onChange={handleOptionChange}
-                />
-                <div className="answerWidth">Maybe Yes</div>
-              </div>
-              <div className="checkSpace">
-                <input
-                  type="radio"
                   value="maybe"
                   checked={selectedOption === "maybe"}
                   onChange={handleOptionChange}
@@ -243,17 +234,8 @@ const Post = () => {
               <div className="checkSpace">
                 <input
                   type="radio"
-                  value="maybe"
-                  checked={selectedOption === "maybe"}
-                  onChange={handleOptionChange}
-                />
-                <div className="answerWidth">Maybe No</div>
-              </div>
-              <div className="checkSpace">
-                <input
-                  type="radio"
-                  value="maybe"
-                  checked={selectedOption === "maybe"}
+                  value="no"
+                  checked={selectedOption === "no"}
                   onChange={handleOptionChange}
                 />
                 <div className="answerWidth">Definitely No</div>
