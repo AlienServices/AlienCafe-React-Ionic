@@ -19,7 +19,7 @@
   padding: 10px;
 }
 
-.action{
+.action {
   font-size: 13px;
   color: purple;
 }
@@ -53,7 +53,7 @@
   width: 100%;
 }
 
-.rowReply{
+.rowReply {
   display: flex;
 }
 

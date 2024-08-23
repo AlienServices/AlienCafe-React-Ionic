@@ -209,7 +209,7 @@ div {
   font-size: 14px;
 }
 
-.replyInput {  
+.replyInput {
   display: flex;
   width: 100%;
   align-items: center;
@@ -227,10 +227,10 @@ div {
 }
 
 .cardComment {
-  display: flex;  
+  display: flex;
   flex-direction: column;
   width: 100%;
-  box-shadow: none;  
+  box-shadow: none;
   border-radius: 8px;
   margin-bottom: 10px;
   background-color: #f9f9f9;
@@ -284,6 +284,12 @@ div {
   display: flex;
   flex-direction: column;
   width: 90%;
+}
+
+.columnCommentWideNo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .small {
@@ -368,7 +374,7 @@ div {
   width: 100%;
   display: flex;
   flex-direction: column;
-  border-left: 3px solid #4caf50;
+  /* border-left: 3px solid #4caf50; */
   background-color: rgb(234, 229, 229);
 }
 

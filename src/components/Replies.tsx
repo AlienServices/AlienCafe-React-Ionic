@@ -22,7 +22,9 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
-  const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>({});
+  const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
+    {},
+  );
 
   useEffect(() => {
     fetchComments();
@@ -30,12 +32,15 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/getComments?id=${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://localhost:3000/api/getComments?id=${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
       const post = await response.json();
       setComments(post.comment as Comment[]);
     } catch (error) {
@@ -49,17 +54,26 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
     postId: string,
     userId: string,
     commentId: string | null,
-    vote: string
+    vote: string,
   ) => {
-
     try {
-      const response = await fetch(`http://localhost:3000/api/addComment?id=${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://localhost:3000/api/addComment?id=${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            comment,
+            userName,
+            postId,
+            userId,
+            commentId,
+            vote,
+          }),
         },
-        body: JSON.stringify({ comment, userName, postId, userId, commentId, vote }),
-      });
+      );
       const post = await response.json();
       setComments(post.comments as Comment[]);
       setComment("");
@@ -81,7 +95,8 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
 
       if (response.ok) {
         const updatedComments = comments.filter(
-          (comment) => comment.id !== commentId && comment.parentId !== commentId
+          (comment) =>
+            comment.id !== commentId && comment.parentId !== commentId,
         );
         setComments(updatedComments);
       } else {
@@ -100,8 +115,6 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
     if (!parentId) return null;
     return comments.find((comment) => comment.id === parentId);
   };
-  
-
 
   const getColor = (vote: string) => {
     switch (vote) {
@@ -121,9 +134,12 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
       .filter((reply) => reply.parentId === commentId)
       .map((reply) => {
         const parentInfo = getParentComment(reply.parentId);
-  
+        const parentColor = parentInfo
+          ? getColor(parentInfo.vote)
+          : "transparent"; // Get the color of the parent comment
+
         return (
-          <div key={reply.id} className="columnCommentWide">
+          <div key={reply.id} className={nestedDepth < 1 ? 'columnCommentWide': `columnCommentWideNo`}>
             <div className="rowReply">
               <div className="bottomImage">
                 <img
@@ -133,8 +149,10 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                 />
               </div>
               <IonCard
-                style={{ border: `2px solid ${getColor(reply.vote)}` }}
-                className={`${'cardComment'} ${getColor(reply.vote)}`}
+                style={{
+                  border: `2px solid ${getColor(reply.vote)}`,
+                }}
+                className={`${"cardComment"} ${getColor(reply.vote)}`}
               >
                 <div style={{ width: "95%" }}>
                   <div className="rowUser">
@@ -145,18 +163,19 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                       </button>
                     )}
                   </div>
-                  
+
                   {parentInfo && (
-                    <div className="parentInfo">
+                    <div
+                      style={{ borderLeft: `4px solid ${parentColor}` }}
+                      className="parentInfo"
+                    >
                       <div className="parentUsername">
                         {parentInfo.username}
                       </div>
-                      <div className="parentComment">
-                        {parentInfo.comment}
-                      </div>
+                      <div className="parentComment">{parentInfo.comment}</div>
                     </div>
                   )}
-                  
+
                   <div className="comment">{reply.comment}</div>
                   <div
                     className="reply"
@@ -180,7 +199,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                             id,
                             myInfo?.id,
                             reply.id,
-                            myVote
+                            myVote,
                           )
                         }
                       >
@@ -230,7 +249,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
     }
   };
 
-  console.log(myVote, 'my vote')
+  console.log(myVote, "my vote");
 
   return (
     <>
@@ -238,7 +257,14 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
         <input
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              addComment(comment, myInfo?.username, id, myInfo?.id, null, myVote);
+              addComment(
+                comment,
+                myInfo?.username,
+                id,
+                myInfo?.id,
+                null,
+                myVote,
+              );
             }
           }}
           className="input"
@@ -256,7 +282,8 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
         </button>
       </div>
 
-      {comments?.filter((comment) => comment.parentId === null)
+      {comments
+        ?.filter((comment) => comment.parentId === null)
         .map((comment) => (
           <div className="commentColumn" key={comment.id}>
             <div className="commentRow">
@@ -269,7 +296,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
               </div>
               <div className="columnWide">
                 <IonCard
-                  className={`${'cardComment'}`}
+                  className={`${"cardComment"}`}
                   style={{ border: `2px solid ${getColor(comment.vote)}` }}
                 >
                   <div style={{ width: "95%", padding: "3px" }}>
@@ -300,7 +327,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                               id,
                               myInfo?.id,
                               comment.id,
-                              myVote
+                              myVote,
                             );
                           }
                         }}
@@ -317,7 +344,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                             id,
                             myInfo?.id,
                             comment.id,
-                            myVote
+                            myVote,
                           )
                         }
                       >

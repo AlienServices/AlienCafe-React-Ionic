@@ -151,7 +151,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         },
       );
       const posts = await result.json();
-      
+
       setMyInfo(posts.Hello);
     } catch (error) {
       console.log(error, "this is the create user error");

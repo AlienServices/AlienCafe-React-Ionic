@@ -123,6 +123,8 @@ const Post = () => {
         return; // Exit the function without setting state
       }
 
+
+
       const data = await result.json();
       console.log(data);
       setHasVoted(data); // Set state only if the request was successful
@@ -136,7 +138,7 @@ const Post = () => {
     getMyVote(myInfo?.id, id);
   }, []);
 
-  console.log(myInfo, "has voted");
+
 
   return (
     <IonPage>

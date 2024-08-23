@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import supabase from "../messageComponents/supabaseClient";
 import { useHistory } from "react-router-dom";
 import Test from "./Test";
 import {
@@ -88,17 +87,7 @@ const MessageHome: React.FC = () => {
     getConvoData();
   }, [myConvos]);
 
-  const handleLogout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      console.log("You Logged Out");
-      if (error) {
-        console.log("this is logout error", error);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   const gotoTopic = () => {
     history.push("/login");
@@ -113,7 +102,7 @@ const MessageHome: React.FC = () => {
         <div className="centerButton">
           <IonButton
             onClick={() => {
-              handleLogout();
+              
               localStorage.removeItem("user");
               gotoTopic();
             }}
