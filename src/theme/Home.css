@@ -84,8 +84,20 @@
 
 .loginButton {
   display: flex;
-  justify-content: end;
-  width: 95%;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 5px;
+}
+
+.forgot{
+  color: rgb(70, 113, 169);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.createAccount {
+  color: rgb(70, 113, 169);
+  font-weight: 400;
 }
 
 .flexSpace {

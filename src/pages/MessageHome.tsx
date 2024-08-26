@@ -87,8 +87,6 @@ const MessageHome: React.FC = () => {
     getConvoData();
   }, [myConvos]);
 
-
-
   const gotoTopic = () => {
     history.push("/login");
   };
@@ -102,7 +100,6 @@ const MessageHome: React.FC = () => {
         <div className="centerButton">
           <IonButton
             onClick={() => {
-              
               localStorage.removeItem("user");
               gotoTopic();
             }}

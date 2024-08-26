@@ -54,7 +54,7 @@ const Post = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       const post = await result.json();
       setContent([post.post]); // Ensure the post is wrapped in an array
@@ -114,7 +114,7 @@ const Post = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (!result.ok) {
@@ -122,8 +122,6 @@ const Post = () => {
         console.error("Failed to fetch vote information");
         return; // Exit the function without setting state
       }
-
-
 
       const data = await result.json();
       console.log(data);
@@ -137,8 +135,6 @@ const Post = () => {
   useEffect(() => {
     getMyVote(myInfo?.id, id);
   }, []);
-
-
 
   return (
     <IonPage>
@@ -202,9 +198,15 @@ const Post = () => {
         {hasVoted ? (
           <>
             <div className="vote">
-              {myVote === "yes" && <div className="action">{content[0]?.yesAction}</div>}
-              {myVote === "no" && <div className="action">{content[0]?.noAction}</div>}
-              {myVote === "maybe" && <div className="action">{content[0]?.maybeAction}</div>}
+              {myVote === "yes" && (
+                <div className="action">{content[0]?.yesAction}</div>
+              )}
+              {myVote === "no" && (
+                <div className="action">{content[0]?.noAction}</div>
+              )}
+              {myVote === "maybe" && (
+                <div className="action">{content[0]?.maybeAction}</div>
+              )}
             </div>
             {/* Render the comments if the user has voted */}
             <Replies id={id} myVote={myVote} />

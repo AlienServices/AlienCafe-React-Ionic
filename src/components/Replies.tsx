@@ -139,7 +139,12 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
           : "transparent"; // Get the color of the parent comment
 
         return (
-          <div key={reply.id} className={nestedDepth < 1 ? 'columnCommentWide': `columnCommentWideNo`}>
+          <div
+            key={reply.id}
+            className={
+              nestedDepth < 1 ? "columnCommentWide" : `columnCommentWideNo`
+            }
+          >
             <div className="rowReply">
               <div className="bottomImage">
                 <img
