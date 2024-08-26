@@ -89,6 +89,14 @@
   margin: 5px;
 }
 
+.loginButtonRounded {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 5px;
+  
+}
+
 .forgot{
   color: rgb(70, 113, 169);
   font-weight: 500;

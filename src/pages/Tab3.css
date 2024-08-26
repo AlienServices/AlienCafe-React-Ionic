@@ -394,7 +394,7 @@ div {
 .loginInput {
   border-radius: 0px;
   background-color: transparent;
-  border: 1px solid rgb(158, 152, 152);
+  border: 1.5px solid rgb(197, 191, 191);
   padding: 12px !important;
   margin: 10px
 }
@@ -416,6 +416,16 @@ div {
   justify-content: space-evenly;
 }
 
+.grayWord {
+  display: flex;
+  color: rgb(54, 52, 52);
+  align-items: center;
+}
+
+.blueWord {
+  color: rgb(63, 134, 196);
+  margin: 5px;
+}
 
 
 

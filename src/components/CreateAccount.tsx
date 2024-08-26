@@ -99,49 +99,62 @@ const CreateAccount = ({
   return (
     <IonContent>
       <IonList inset={true}>
-        <IonItem>
-          <IonInput
+        <IonItem lines="none">
+          <input
+            className="loginInput"
             value={username}
-            placeholder="username"
+            placeholder="Username"
             name="username"
-            onIonChange={(e) => setUsername(e.detail.value ?? "")}
+            // onChange={(e) => setUsername(e.detail.value ?? "")}
             type="text"
-          ></IonInput>
+          ></input>
         </IonItem>
-        <IonItem>
-          <IonInput
-            value={password}
-            placeholder="password"
-            name="password"
-            onIonChange={(e) => setPassword(e.detail.value ?? "")}
-            type="password"
-          ></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonInput
+        <IonItem lines="none">
+          <input
+            className="loginInput"
             value={email}
-            placeholder="email"
+            placeholder="E`mail"
             name="email"
-            onIonChange={(e) => setEmail(e.detail.value ?? "")}
+            // onChange={(e) => setEmail(e.detail.value ?? "")}
             type="email"
-          ></IonInput>
+          ></input>
         </IonItem>
-        <div className="ion-text-center">
-          <IonButton
-            onClick={() => {
-              handleSignUp(username, email);
-            }}
-          >
-            Create Account
-          </IonButton>
-          
-          <IonButton
-            onClick={() => {
-              setToggle(true);
-            }}
-          >
-            Log In
-          </IonButton>
+        <IonItem lines="none">
+          <input
+            className="loginInput"
+            value={password}
+            placeholder="Password"
+            name="password"
+            // onChange={(e) => setPassword(e.detail.value ?? "")}
+            type="password"
+          ></input>
+        </IonItem>
+        <div className="center">
+          <div style={{ width: '85%' }} className="columnButtons">
+            <IonButton
+              shape="round"
+              className="loginButtonRounded"
+              onClick={() => {
+                handleSignUp(username, email);
+              }}
+            >
+              Create Account
+            </IonButton>
+            <div className="center">
+              <div style={{ margin: '10px', color: 'rgb(138,140,140)' }}>Or</div>
+              
+                <div
+                  className="grayWord"
+                  onClick={() => {
+                    setToggle(true);
+                  }}
+                >
+                  Already registered? <div className="blueWord">Login</div>
+                </div>
+              
+            </div>
+
+          </div>
         </div>
         <IonText>{/* {loggedIn} */}</IonText>
       </IonList>
