@@ -1,0 +1,19 @@
+.padding {
+    margin: 5px;
+    margin-top: 20px;
+}
+
+.rowUser {
+    display: flex;
+    justify-content: baseline
+}
+
+.commentColumn{
+    display: flex;
+    flex-direction: column;
+}
+
+.rowUserNoSpace{
+    display: flex;
+    align-items: center;
+}

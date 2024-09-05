@@ -136,6 +136,8 @@ const Post = () => {
     getMyVote(myInfo?.id, id);
   }, []);
 
+  console.log(id, 'post id')
+
   return (
     <IonPage>
       <IonContent>
@@ -208,8 +210,7 @@ const Post = () => {
                 <div className="action">{content[0]?.maybeAction}</div>
               )}
             </div>
-            {/* Render the comments if the user has voted */}
-            <Replies id={id} myVote={myVote} />
+            <Replies postId={id} myVote={myVote} />
           </>
         ) : (
           <>

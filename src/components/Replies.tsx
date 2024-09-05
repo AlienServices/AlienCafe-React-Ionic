@@ -2,6 +2,9 @@ import { useState, useEffect, useContext } from "react";
 import { IonButton, IonItem, IonCard, IonList, IonIcon } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
 import { sendOutline, trashBin } from "ionicons/icons";
+import { useHistory } from "react-router-dom";
+import { IonNavLink } from "@ionic/react";
+import Comment from "../pages/Comment/[id]";
 
 interface Comment {
   id: string;
@@ -12,13 +15,14 @@ interface Comment {
 }
 
 interface RepliesProps {
-  id: string;
+  postId: string;
   myVote: string;
 }
 
-const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
+const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const { myInfo } = useContext(MyContext);
   const [comments, setComments] = useState<Comment[]>([]);
+  const history = useHistory();
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
@@ -30,10 +34,11 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
     fetchComments();
   }, []);
 
+
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/getComments?id=${id}`,
+        `http://localhost:3000/api/getComments?id=${postId}`,
         {
           method: "GET",
           headers: {
@@ -56,6 +61,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
     commentId: string | null,
     vote: string,
   ) => {
+    
     try {
       const response = await fetch(
         `http://localhost:3000/api/addComment?id=${id}`,
@@ -75,6 +81,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
         },
       );
       const post = await response.json();
+      console.log(post, 'this is the post')
       setComments(post.comments as Comment[]);
       setComment("");
       setReplyingTo(null);
@@ -129,6 +136,12 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
     }
   };
 
+  const gotoTopic = (postId: string, id: string) => {
+    console.log(postId, id)
+    history.push(`/Comment/${id}/${myVote}/${postId}`);
+  };
+
+
   const renderReplies = (commentId: string, nestedDepth = 0) => {
     return comments
       .filter((reply) => reply.parentId === commentId)
@@ -153,6 +166,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                   src="https://ionicframework.com/docs/img/demos/avatar.svg"
                 />
               </div>
+
               <IonCard
                 style={{
                   border: `2px solid ${getColor(reply.vote)}`,
@@ -180,8 +194,9 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                       <div className="parentComment">{parentInfo.comment}</div>
                     </div>
                   )}
-
-                  <div className="comment">{reply.comment}</div>
+                  <div style={{ width: '100%' }} onClick={() => { gotoTopic(postId, reply.id) }}>
+                    <div className="comment">{reply.comment}</div>
+                  </div>
                   <div
                     className="reply"
                     onClick={() => handleReplyClick(reply.id)}
@@ -201,7 +216,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                           addComment(
                             replyComment,
                             myInfo?.username,
-                            id,
+                            postId,
                             myInfo?.id,
                             reply.id,
                             myVote,
@@ -222,6 +237,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                   )}
                 </div>
               </IonCard>
+
             </div>
             {replyToggle[reply.id] && renderReplies(reply.id, nestedDepth + 1)}
           </div>
@@ -254,8 +270,6 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
     }
   };
 
-  console.log(myVote, "my vote");
-
   return (
     <>
       <div className="rowWide">
@@ -265,7 +279,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
               addComment(
                 comment,
                 myInfo?.username,
-                id,
+                postId,
                 myInfo?.id,
                 null,
                 myVote,
@@ -280,7 +294,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
         <button
           className="noPadding"
           onClick={() =>
-            addComment(comment, myInfo?.username, id, myInfo?.id, null, myVote)
+            addComment(comment, myInfo?.username, postId, myInfo?.id, null, myVote)
           }
         >
           <IonIcon icon={sendOutline}></IonIcon>
@@ -300,6 +314,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                 />
               </div>
               <div className="columnWide">
+
                 <IonCard
                   className={`${"cardComment"}`}
                   style={{ border: `2px solid ${getColor(comment.vote)}` }}
@@ -313,7 +328,9 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                         </button>
                       )}
                     </div>
-                    <div className="comment">{comment.comment}</div>
+                    <div style={{ width: '100%' }} onClick={() => { gotoTopic(postId, comment.id) }}>
+                      <div className="comment">{comment.comment}</div>
+                    </div>
                     <div
                       className="reply"
                       onClick={() => handleReplyClick(comment.id)}
@@ -329,7 +346,7 @@ const Replies: React.FC<RepliesProps> = ({ id, myVote }) => {
                             addComment(
                               replyComment,
                               myInfo?.username,
-                              id,
+                              postId,
                               myInfo?.id,
                               comment.id,
                               myVote,

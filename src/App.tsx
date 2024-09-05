@@ -44,6 +44,7 @@ import Menu from "./components/Menu";
 import Chat from "./pages/Chat";
 import Quiz from "./subPages/Quiz";
 import CurrentChat from "./pages/CurrentChat";
+import Comment from "./pages/Comment/[id]";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -80,6 +81,7 @@ const App: React.FC = () => (
                   render={() => <Tab3 />}
                 ></Route>
                 <Route exact={true} path="/" render={() => <Login />}></Route>
+                <Route exact={true} path="/Comment/:id/:myVote/:postId" render={() => <Comment/>}></Route>
                 <Route
                   exact={true}
                   path="/quiz"
