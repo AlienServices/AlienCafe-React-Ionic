@@ -115,9 +115,6 @@ ion-input::placeholder {
   width: 70%;
 }
 
-.space {
-  min-height: 200px;
-}
 
 .centeredInputContainer {
   display: flex;

@@ -11,8 +11,9 @@
 }
 
 .custom-title-editor p {
-  font-size: 23px;
+  font-size: 18px;
   font-weight: 500;
+  padding: 5px;
 }
 
 .ql-editor ul {
@@ -24,9 +25,11 @@
   height: 100%;
   white-space: nowrap;
 }
+
 .custom-content-editor p {
   color: rgb(92, 89, 89);
   font-weight: 350;
+  padding: 8px;
 }
 
 .flexRow {
@@ -36,6 +39,7 @@
   padding: 3px;
   align-items: center;
 }
+
 .ql-editor {
   height: 91% !important;
 }

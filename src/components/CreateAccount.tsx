@@ -105,7 +105,7 @@ const CreateAccount = ({
             value={username}
             placeholder="Username"
             name="username"
-            // onChange={(e) => setUsername(e.detail.value ?? "")}
+            onChange={(e) => setUsername(e.target.value ?? "")}
             type="text"
           ></input>
         </IonItem>
@@ -115,7 +115,7 @@ const CreateAccount = ({
             value={email}
             placeholder="E`mail"
             name="email"
-            // onChange={(e) => setEmail(e.detail.value ?? "")}
+            onChange={(e) => setEmail(e.target.value ?? "")}
             type="email"
           ></input>
         </IonItem>
@@ -125,7 +125,7 @@ const CreateAccount = ({
             value={password}
             placeholder="Password"
             name="password"
-            // onChange={(e) => setPassword(e.detail.value ?? "")}
+            onChange={(e) => setPassword(e.target.value ?? "")}
             type="password"
           ></input>
         </IonItem>
@@ -142,16 +142,16 @@ const CreateAccount = ({
             </IonButton>
             <div className="center">
               <div style={{ margin: '10px', color: 'rgb(138,140,140)' }}>Or</div>
-              
-                <div
-                  className="grayWord"
-                  onClick={() => {
-                    setToggle(true);
-                  }}
-                >
-                  Already registered? <div className="blueWord">Login</div>
-                </div>
-              
+
+              <div
+                className="grayWord"
+                onClick={() => {
+                  setToggle(true);
+                }}
+              >
+                Already registered? <div className="blueWord">Login</div>
+              </div>
+
             </div>
 
           </div>

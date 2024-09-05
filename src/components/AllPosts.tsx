@@ -8,6 +8,13 @@ import {
   bookmarkOutline,
   shareOutline,
   checkmarkCircleOutline,
+  arrowDownCircleOutline,
+  arrowDownCircle,
+  arrowUpCircleOutline,
+  arrowUpCircle,
+  bookmark,
+
+
 } from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -155,7 +162,7 @@ const Content: React.FC = () => {
                                 height: "20px",
                                 width: "20px",
                                 marginLeft: "3px",
-                                marginRight: "5px",
+
                               }}
                             >
                               <img
@@ -172,15 +179,15 @@ const Content: React.FC = () => {
                             >
                               <div className="username">{post.email}</div>
                             </IonNavLink>
-                            <div style={{ fontSize: "13px" }}>
+                            {/* <div style={{ fontSize: "13px" }}>
                               {formattedDate}
-                            </div>
+                            </div> */}
                           </div>
                           <div>
                             {myInfo?.email !== post?.email ? (
                               <>
                                 {myInfo?.following?.indexOf(post.email) !==
-                                -1 ? (
+                                  -1 ? (
                                   <div>
                                     <IonIcon
                                       icon={checkmarkCircleOutline}
@@ -188,7 +195,8 @@ const Content: React.FC = () => {
                                   </div>
                                 ) : (
                                   <div>
-                                    <IonButton
+                                    <button
+                                      className="button"
                                       onClick={() => {
                                         updateUser(
                                           myInfo.email,
@@ -199,7 +207,7 @@ const Content: React.FC = () => {
                                       size="small"
                                     >
                                       Follow
-                                    </IonButton>
+                                    </button>
                                   </div>
                                 )}
                               </>
@@ -251,6 +259,19 @@ const Content: React.FC = () => {
                             ></IonIcon>
                           </div>
                         </div> */}
+                      </div>
+                      <div className="smallRow">
+                        <div className="tinyRow">
+                          <div className="voteRow">
+                            <IonIcon icon={arrowUpCircleOutline}></IonIcon>
+                            <IonIcon icon={arrowDownCircleOutline}></IonIcon>
+                          </div>
+                          <IonIcon icon={chatbubbleOutline}></IonIcon>
+                        </div>
+                        <div className="tinyRow">
+                          <IonIcon icon={bookmarkOutline}></IonIcon>
+                          <IonIcon icon={shareOutline}></IonIcon>
+                        </div>
                       </div>
                     </IonCard>
                   </div>

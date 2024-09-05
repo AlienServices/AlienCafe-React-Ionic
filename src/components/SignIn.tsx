@@ -109,7 +109,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
             value={email}
             placeholder="Email"
             name="email"
-            // onIonChange={(e) => setEmail(e.detail.value ?? "")}
+            onChange={(e) => setEmail(e.target.value ?? "")}
             type="email"
           ></input>
         </IonItem>
@@ -119,7 +119,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
             value={password}
             placeholder="Password"
             name="password"
-            // onIonChange={(e) => setPassword(e.detail.value ?? "")}
+            onChange={(e) => setPassword(e.target.value ?? "")}
             type="password"
           ></input>
         </IonItem>
