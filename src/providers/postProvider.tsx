@@ -56,14 +56,14 @@ interface PostContext {
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
-  setPosts: (posts) => {},
-  setMyPosts: (posts) => {},
-  updatePost: (post) => {},
-  deletePost: (id) => {},
-  createPost: (value) => {},
-  setMyInfo: () => {},
-  getAllPosts: () => {},
-  setLoggedin: () => {},
+  setPosts: (posts) => { },
+  setMyPosts: (posts) => { },
+  updatePost: (post) => { },
+  deletePost: (id) => { },
+  createPost: (value) => { },
+  setMyInfo: () => { },
+  getAllPosts: () => { },
+  setLoggedin: () => { },
   loggedIn: false,
   myInfo: {
     id: "",
@@ -73,10 +73,10 @@ const MyContext = createContext<PostContext>({
     following: [],
     username: "",
   },
-  updateUser: () => {},
-  setUserPosts: () => {},
+  updateUser: () => { },
+  setUserPosts: () => { },
   userPosts: [],
-  getUserPosts: (email) => {},
+  getUserPosts: (email) => { },
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -178,13 +178,12 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const updatePost = async ({ id, likes, content, email }: Post) => {
-    console.log(likes, "these are the likes I need");
+  const updatePost = async (id: string) => {
     const updatedPost = await post({
       url: `http://localhost:3000/api/addLike?id=${id}`,
       body: {
-        likes: likes,
-        content: content,
+        id: id,
+        userId: myInfo.id,
       },
     });
     getMyPosts();
@@ -227,6 +226,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       console.log(error, "this is the create user error");
     }
   };
+
   const getUserPosts = async (email: string) => {
     console.log(email, "this is the email");
     try {

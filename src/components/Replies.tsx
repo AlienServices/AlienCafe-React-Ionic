@@ -4,6 +4,7 @@ import { MyContext } from "../providers/postProvider";
 import { sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonNavLink } from "@ionic/react";
+import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, } from "ionicons/icons";
 import Comment from "../pages/Comment/[id]";
 
 interface Comment {
@@ -53,6 +54,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
+
   const addComment = async (
     comment: string,
     userName: string,
@@ -61,10 +63,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     commentId: string | null,
     vote: string,
   ) => {
-    
     try {
       const response = await fetch(
-        `http://localhost:3000/api/addComment?id=${id}`,
+        `http://localhost:3000/api/addComment?id=${postId}`,
         {
           method: "POST",
           headers: {
@@ -90,6 +91,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
+
   const deleteComment = async (commentId: string) => {
     try {
       const response = await fetch(`http://localhost:3000/api/deleteComment`, {
@@ -114,14 +116,17 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
+
   const handleReplyClick = (commentId: string) => {
     setReplyingTo((prevId) => (prevId === commentId ? null : commentId));
   };
+
 
   const getParentComment = (parentId: string | null) => {
     if (!parentId) return null;
     return comments.find((comment) => comment.id === parentId);
   };
+
 
   const getColor = (vote: string) => {
     switch (vote) {
@@ -135,6 +140,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         return "grey";
     }
   };
+
 
   const gotoTopic = (postId: string, id: string) => {
     console.log(postId, id)
@@ -363,7 +369,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                           addComment(
                             replyComment,
                             myInfo?.username,
-                            id,
+                            postId,
                             myInfo?.id,
                             comment.id,
                             myVote,
@@ -374,6 +380,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       </button>
                     </div>
                   )}
+                  <div className="voteRowSmall">
+                    <IonIcon onClick={() => { }} icon={arrowUpCircleOutline}></IonIcon>
+                    {/* {post.likes.length} */}
+                    <IonIcon onClick={() => { }} icon={arrowDownCircleOutline}></IonIcon>
+                  </div>
                 </IonCard>
                 {comments.some((reply) => reply.parentId === comment.id) && (
                   <div
@@ -393,5 +404,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     </>
   );
 };
+
 
 export default Replies;

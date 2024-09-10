@@ -129,7 +129,7 @@ const Comment = () => {
       );
       const post = await response.json();
       console.log(post, 'this is the post response')
-      // setComments(post.comment as Comment[]);
+      setComments(post.comment);
       fetchComments()
     } catch (error) {
       console.error("Error adding comment:", error);
