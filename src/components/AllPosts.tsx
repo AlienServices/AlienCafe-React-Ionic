@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { IonIcon, IonModal, IonHeader, IonToolbar, IonTitle, IonButton, IonAvatar, IonContent, IonCard, IonNavLink, IonList } from "@ionic/react";
 import { useParams } from "react-router-dom";
 import { useLocation, useHistory } from "react-router";
-import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, } from "ionicons/icons";
+import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, arrowUpCircle } from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from "./supaBase";
@@ -14,7 +14,7 @@ import moment from "moment";
 
 const Content: React.FC = () => {
   const history = useHistory();
-  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts, myInfo, updateUser, getUserPosts } = useContext(MyContext);
+  const { posts, myPosts, setPosts, setMyPosts, addLike, getAllPosts, myInfo, updateUser, getUserPosts, addDislike } = useContext(MyContext);
   const [user, setUser] = useState({
     bio: "",
     email: "",
@@ -93,9 +93,17 @@ const Content: React.FC = () => {
     setShowModal(false);
   };
 
+  const isLikedByUser = (likes: string[]): boolean => {
+    // Check if the likes array includes your user ID
+    return likes.includes(myInfo.id);
+  };
 
 
-  console.log(posts, 'these are the posts')
+
+  const calculateNetScore = (likes: string[], dislikes: string[]): number => {
+    return likes.length - dislikes.length;
+  };
+
 
   return (
     <IonContent className="page">
@@ -154,12 +162,12 @@ const Content: React.FC = () => {
                       <div className="smallRow">
                         <div className="tinyRow">
                           <div className="voteRow">
-                            <IonIcon onClick={() => { updatePost(post.id) }} icon={arrowUpCircleOutline}></IonIcon>
-                            {post.likes.length}
-                            <IonIcon onClick={() => { updatePost(post.id) }} icon={arrowDownCircleOutline}></IonIcon>
+                            <IonIcon onClick={() => { addLike(post.id) }} icon={isLikedByUser(post?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
+                            {calculateNetScore(post?.likes, post?.dislikes)}
+                            <IonIcon onClick={() => { addDislike(post.id) }} icon={arrowDownCircleOutline}></IonIcon>
                           </div>
-                          <IonIcon icon={chatbubbleOutline}></IonIcon>
-                          {post.comments.length}
+                          <IonIcon style={{paddingRight:'5px'}} icon={chatbubbleOutline}></IonIcon>
+                          {post?.comments?.length}
                         </div>
                         <div className="tinyRow">
                           <IonIcon icon={bookmarkOutline}></IonIcon>

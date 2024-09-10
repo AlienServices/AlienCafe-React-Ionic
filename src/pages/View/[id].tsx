@@ -41,9 +41,11 @@ const Post = () => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const { id } = useParams<{ id: string }>();
 
+
   useEffect(() => {
     getOnePost();
   }, []);
+
 
   const getOnePost = async () => {
     try {
@@ -57,17 +59,18 @@ const Post = () => {
         },
       );
       const post = await result.json();
-      setContent([post.post]); // Ensure the post is wrapped in an array
-      setMyVote(post.userVote?.vote || "");
-      // Set hasVoted based on whether a vote exists
+      setContent([post.post]); 
+      setMyVote(post.userVote?.vote || "");      
     } catch (error) {
       console.log(error, "this is the create user error");
     }
   };
 
+
   const handleOptionChange = (e: any) => {
     setSelectedOption(e.target.value);
   };
+
 
   const handleVote = async () => {
     setHasVoted(true);
@@ -76,6 +79,7 @@ const Post = () => {
       getOnePost(); // Re-fetch the post data to trigger re-render
     }, 500); // The delay should match the CSS transition duration
   };
+
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -90,6 +94,7 @@ const Post = () => {
 
     return doc.body.innerHTML;
   };
+
 
   const updateVote = async (id: string, email: string, vote: string) => {
     console.log(email, "this is email");
@@ -116,13 +121,11 @@ const Post = () => {
           },
         },
       );
-
       if (!result.ok) {
         // Handle the error, e.g., by logging it or displaying a message
         console.error("Failed to fetch vote information");
         return; // Exit the function without setting state
       }
-
       const data = await result.json();
       console.log(data);
       setHasVoted(data); // Set state only if the request was successful

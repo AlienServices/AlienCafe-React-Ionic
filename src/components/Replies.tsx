@@ -4,7 +4,7 @@ import { MyContext } from "../providers/postProvider";
 import { sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonNavLink } from "@ionic/react";
-import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, } from "ionicons/icons";
+import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, arrowUpCircle, arrowDownCircle } from "ionicons/icons";
 import Comment from "../pages/Comment/[id]";
 
 interface Comment {
@@ -12,7 +12,7 @@ interface Comment {
   parentId: string | null;
   comment: string;
   username: string;
-  vote: string; // Assuming vote is a string field on the comment object
+  vote: string;
 }
 
 interface RepliesProps {
@@ -27,6 +27,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isDisliked, setIsDisliked] = useState(false);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
   );
@@ -52,6 +54,19 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
+  };
+
+
+
+  const isLikedByUser = (likes: string[]): boolean => {
+    // Check if the likes array includes your user ID
+    return likes.includes(myInfo.id);
+  };
+
+
+  const isDislikedByUser = (dislikes: string[]): boolean => {
+    // Check if the likes array includes your user ID
+    return dislikes.includes(myInfo.id);
   };
 
 
@@ -86,6 +101,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       setComments(post.comments as Comment[]);
       setComment("");
       setReplyingTo(null);
+      await fetchComments()
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -115,6 +131,42 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       console.error("Error deleting comment:", error);
     }
   };
+
+
+  const addCommentLike = async (userId: string, commentId: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/addCommentLike`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, commentId }),
+      });
+
+      const updatedComment = await response.json();
+      await fetchComments()
+    } catch (error) {
+      console.error("Error adding like to comment:", error);
+    }
+  };
+
+  const addCommentDisike = async (userId: string, commentId: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/addCommentDislike`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, commentId }),
+      });
+
+      const updatedComment = await response.json();
+      await fetchComments()
+    } catch (error) {
+      console.error("Error adding like to comment:", error);
+    }
+  };
+
 
 
   const handleReplyClick = (commentId: string) => {
@@ -276,6 +328,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
+  const calculateNetScore = (likes: string[], dislikes: string[]): number => {
+    return likes.length - dislikes.length;
+  };
+
   return (
     <>
       <div className="rowWide">
@@ -381,9 +437,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     </div>
                   )}
                   <div className="voteRowSmall">
-                    <IonIcon onClick={() => { }} icon={arrowUpCircleOutline}></IonIcon>
-                    {/* {post.likes.length} */}
-                    <IonIcon onClick={() => { }} icon={arrowDownCircleOutline}></IonIcon>
+                    <IonIcon onClick={() => { addCommentLike(myInfo.id, comment.id) }} icon={isLikedByUser(comment?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
+                    {calculateNetScore(comment?.likes, comment?.dislikes)}
+                    <IonIcon onClick={() => { addCommentDisike(myInfo.id, comment.id) }} icon={isDislikedByUser(comment?.dislikes) ? arrowDownCircle : arrowDownCircleOutline}></IonIcon>
                   </div>
                 </IonCard>
                 {comments.some((reply) => reply.parentId === comment.id) && (

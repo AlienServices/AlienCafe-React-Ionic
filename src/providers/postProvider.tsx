@@ -50,6 +50,8 @@ interface PostContext {
   getUserPosts: (email: string) => void;
   setLoggedin: (value: boolean) => void;
   loggedIn: boolean;
+  addLike: (id: string) => void; // Add addLike
+  addDislike: (id: string) => void; // Add addDislike
 }
 
 // const MyContext = createContext({ values: [], setValues: (posts) => { } });
@@ -59,6 +61,8 @@ const MyContext = createContext<PostContext>({
   setPosts: (posts) => { },
   setMyPosts: (posts) => { },
   updatePost: (post) => { },
+  addLike: (post) => { },
+  addDislike: (post) => { },
   deletePost: (id) => { },
   createPost: (value) => { },
   setMyInfo: () => { },
@@ -178,9 +182,30 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const updatePost = async (id: string) => {
+  const updatePost = async (updatedPost: Post) => {
+    try {
+      // Send the updated post data to your backend
+      const result = await post({
+        url: `http://localhost:3000/api/updatePost?id=${updatedPost.id}`,
+        body: updatedPost,
+      });
+
+      // Update the state with the updated post
+      setContent((prevContent) =>
+        prevContent.map((post) =>
+          post.id === updatedPost.id ? result.update : post
+        )
+      );
+      getMyPosts(); // Optionally refresh myPosts
+    } catch (error) {
+      console.log(error, "Error updating post");
+    }
+  };
+
+
+  const addLike = async (id: string) => {
     const updatedPost = await post({
-      url: `http://localhost:3000/api/addLike?id=${id}`,
+      url: `http://localhost:3000/api/addPostLike?id=${id}`,
       body: {
         id: id,
         userId: myInfo.id,
@@ -193,6 +218,23 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       ),
     );
   };
+
+  const addDislike = async (id: string) => {
+    try {
+      const dislikedPost = await post({
+        url: `http://localhost:3000/api/addPostDislike`,
+        body: {
+          id,
+          userId: myInfo?.id,
+        },
+      });
+      getMyPosts();
+    } catch (error) {
+      console.error("Error adding dislike:", error); // Log any errors
+    }
+  };
+
+
   const deletePost = async (id: string) => {
     const updatedPost = await post({
       url: `http://localhost:3000/api/updatePosts?id=${id}`,
@@ -286,7 +328,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     followUserEmail: string,
     bio: string,
   ) => {
-    console.log(userEmail, followUserEmail, bio, "important info");
     try {
       const updateUser = await post({
         url: `http://localhost:3000/api/updateUsers`,
@@ -310,21 +351,24 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         setPosts: setContent,
         setMyPosts: setMyPosts,
         updatePost: updatePost,
-        deletePost,
-        createPost,
-        myInfo,
-        setMyInfo,
-        getAllPosts,
+        addLike: addLike,
+        addDislike: addDislike,
+        deletePost: deletePost,
+        createPost: createPost,
+        myInfo: myInfo,
+        setMyInfo: setMyInfo,
+        getAllPosts: getAllPosts,
         setLoggedin: setLoggedIn,
-        loggedIn,
-        updateUser,
-        userPosts,
-        getUserPosts,
-        setUserPosts,
+        loggedIn: loggedIn,
+        updateUser: updateUser,
+        userPosts: userPosts,
+        getUserPosts: getUserPosts,
+        setUserPosts: setUserPosts,
       }}
     >
       {children}
     </MyContext.Provider>
+
   );
 };
 
