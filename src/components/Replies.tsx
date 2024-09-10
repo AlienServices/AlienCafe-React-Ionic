@@ -329,7 +329,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
-    return likes.length - dislikes.length;
+    return (likes.length - dislikes.length)
   };
 
   return (
@@ -438,7 +438,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                   )}
                   <div className="voteRowSmall">
                     <IonIcon onClick={() => { addCommentLike(myInfo.id, comment.id) }} icon={isLikedByUser(comment?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
-                    {calculateNetScore(comment?.likes, comment?.dislikes)}
+                    <div className="small">{calculateNetScore(comment?.likes, comment?.dislikes)}</div>
                     <IonIcon onClick={() => { addCommentDisike(myInfo.id, comment.id) }} icon={isDislikedByUser(comment?.dislikes) ? arrowDownCircle : arrowDownCircleOutline}></IonIcon>
                   </div>
                 </IonCard>

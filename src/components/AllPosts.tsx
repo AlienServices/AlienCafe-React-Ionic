@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { IonIcon, IonModal, IonHeader, IonToolbar, IonTitle, IonButton, IonAvatar, IonContent, IonCard, IonNavLink, IonList } from "@ionic/react";
 import { useParams } from "react-router-dom";
 import { useLocation, useHistory } from "react-router";
-import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, arrowUpCircle } from "ionicons/icons";
+import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, arrowUpCircle, arrowDownCircle } from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from "./supaBase";
@@ -98,6 +98,12 @@ const Content: React.FC = () => {
     return likes.includes(myInfo.id);
   };
 
+  const isDislikedByUser = (dislikes: string[]): boolean => {
+    // Check if the likes array includes your user ID
+    return dislikes.includes(myInfo.id);
+  };
+
+
 
 
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
@@ -163,11 +169,11 @@ const Content: React.FC = () => {
                         <div className="tinyRow">
                           <div className="voteRow">
                             <IonIcon onClick={() => { addLike(post.id) }} icon={isLikedByUser(post?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
-                            {calculateNetScore(post?.likes, post?.dislikes)}
-                            <IonIcon onClick={() => { addDislike(post.id) }} icon={arrowDownCircleOutline}></IonIcon>
+                            <div className="small">{calculateNetScore(post?.likes, post?.dislikes)}</div>
+                            <IonIcon onClick={() => { addDislike(post.id) }} icon={isDislikedByUser(post?.dislikes) ? arrowDownCircle : arrowDownCircleOutline}></IonIcon>
                           </div>
-                          <IonIcon style={{paddingRight:'5px'}} icon={chatbubbleOutline}></IonIcon>
-                          {post?.comments?.length}
+                          <IonIcon style={{ paddingRight: '5px' }} icon={chatbubbleOutline}></IonIcon>
+                          <div className="small">{post?.comments?.length}</div>
                         </div>
                         <div className="tinyRow">
                           <IonIcon icon={bookmarkOutline}></IonIcon>

@@ -458,6 +458,14 @@ div {
   border-radius: 10px;
 }
 
+.voteRowSmall{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 20%;
+  padding: 3px;
+}
+
 @media (max-width: 600px) {
   .quill .ql-container {
     height: 200px;
