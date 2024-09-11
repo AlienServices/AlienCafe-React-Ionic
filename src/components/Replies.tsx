@@ -293,6 +293,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       {replyToggle[reply.id] ? "" : "+ See More"}
                     </div>
                   )}
+                  <div className="voteRowSmall">
+                    <IonIcon onClick={() => { addCommentLike(myInfo.id, reply.id) }} icon={isLikedByUser(reply?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
+                    <div className="small">{calculateNetScore(reply?.likes, reply?.dislikes)}</div>
+                    <IonIcon onClick={() => { addCommentDisike(myInfo.id, reply.id) }} icon={isDislikedByUser(reply?.dislikes) ? arrowDownCircle : arrowDownCircleOutline}></IonIcon>
+                  </div>
                 </div>
               </IonCard>
 
@@ -331,6 +336,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
     return (likes.length - dislikes.length)
   };
+
+  console.log(comments[0], "all the comments")
 
   return (
     <>
@@ -440,6 +447,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     <IonIcon onClick={() => { addCommentLike(myInfo.id, comment.id) }} icon={isLikedByUser(comment?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
                     <div className="small">{calculateNetScore(comment?.likes, comment?.dislikes)}</div>
                     <IonIcon onClick={() => { addCommentDisike(myInfo.id, comment.id) }} icon={isDislikedByUser(comment?.dislikes) ? arrowDownCircle : arrowDownCircleOutline}></IonIcon>
+                    <div>
+                      {/* <IonIcon size="small" onClick={() => {  }} icon={chatbubbleOutline}></IonIcon>
+                      {comment.replies.length} */}
+                    </div>
                   </div>
                 </IonCard>
                 {comments.some((reply) => reply.parentId === comment.id) && (
