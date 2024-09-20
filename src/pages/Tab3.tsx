@@ -1,3 +1,4 @@
+import React, { useContext, useRef, useState } from "react";
 import {
   IonContent,
   IonHeader,
@@ -9,41 +10,35 @@ import {
   IonImg,
   IonMenuButton,
   IonToolbar,
-  IonMenuToggle,
-  useIonRouter,
 } from "@ionic/react";
-import { useEffect, useState, useRef, useCallback, useContext } from "react";
+import { useHistory } from "react-router";
 import { supabase } from "../components/supaBase";
 import alien from "../../public/alien.png";
-import { useHistory } from "react-router";
-import ExploreContainer from "../components/ExploreContainer";
-import "./Tab3.css";
 import AllPosts from "../components/AllPosts";
 import { MyContext } from "../providers/postProvider";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import Category from "../components/categories/Category";
+import 'swiper/css';
+import 'swiper/css/pagination';
+import "./Tab3.css";
 
 const Tab3: React.FC = () => {
-  const {
-    posts,
-    myPosts,
-    setPosts,
-    setMyPosts,
-    updatePost,
-    getAllPosts,
-    myInfo,
-  } = useContext(MyContext);
+  const { myInfo } = useContext(MyContext);
   const history = useHistory();
   const menuRef = useRef<HTMLIonMenuElement>(null);
+  const [categories, setCategories] = useState([
+    'Aliens', 'Vaccines', 'Government', 'Space', '9/11', 'Covid', 'Israel'
+  ]);
+  const [currentCategory, setCurrentCategory] = useState(categories[0]); // Track the current category
 
   const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
-      console.log("You Logged Out");
       if (error) {
-        console.log("this is logout error", error);
+        console.log("Logout error:", error);
       } else {
-        // Close the menu
         menuRef.current?.close();
-        // Remove user from local storage and navigate
         localStorage.removeItem("user");
         history.push("/tab1");
       }
@@ -69,8 +64,6 @@ const Tab3: React.FC = () => {
             <div>Messages</div>
             <div>Bookmarks</div>
             <div>
-              <div>buttons</div>
-
               <IonButton onClick={handleLogout}>Logout</IonButton>
             </div>
           </div>
@@ -80,17 +73,33 @@ const Tab3: React.FC = () => {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonMenuButton></IonMenuButton>
+              <IonMenuButton />
             </IonButtons>
             <div className="centerAlien">
               <div className="imageContainer">
-                <IonImg src={alien}></IonImg>
+                <IonImg src={alien} />
               </div>
             </div>
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <AllPosts />
+          <div className="middle">
+            <IonTitle>{currentCategory}</IonTitle>
+          </div>
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={50}
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+            onSlideChange={(swiper) => setCurrentCategory(categories[swiper.activeIndex])} // Update category on slide change
+            style={{ height: '100%' }}
+          >
+            {categories.map((category, index) => (
+              <SwiperSlide key={index}>
+                <Category category={category} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </IonContent>
       </IonPage>
     </>

@@ -86,7 +86,7 @@ const MyEditor = () => {
             shape="round"
             size="small"
             onClick={() => {
-              // createPost(editorHtmlTitle, editorHtml)
+              setEditorHtml(''); setEditorHtmlTitle('')
             }}
           >
             Next

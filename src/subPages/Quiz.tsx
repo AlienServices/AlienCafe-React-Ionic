@@ -35,7 +35,7 @@ const Quiz = (props: TestProps) => {
   const [maybeAction, setMaybeAction] = useState("");
   const history = useHistory();
 
-  const options = ["Aliens", "Covid 19", "Vaccines", "Something", "Test"];
+  const options = ['Aliens', 'Vaccines', 'Government', 'Space', '9/11', 'Covid', 'Israel'];
 
   const handleOptionChange = (e: CustomEvent) => {
     setSelectedOption(e.detail.value);
@@ -71,7 +71,7 @@ const Quiz = (props: TestProps) => {
                   history?.push("/tab1");
                 }}
               >
-                Next
+                Create
               </IonButton>
             </IonNavLink>
           </div>
