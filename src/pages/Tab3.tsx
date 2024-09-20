@@ -16,11 +16,11 @@ import { supabase } from "../components/supaBase";
 import alien from "../../public/alien.png";
 import AllPosts from "../components/AllPosts";
 import { MyContext } from "../providers/postProvider";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
 import Category from "../components/categories/Category";
-import 'swiper/css';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/pagination";
 import "./Tab3.css";
 
 const Tab3: React.FC = () => {
@@ -28,7 +28,13 @@ const Tab3: React.FC = () => {
   const history = useHistory();
   const menuRef = useRef<HTMLIonMenuElement>(null);
   const [categories, setCategories] = useState([
-    'Aliens', 'Vaccines', 'Government', 'Space', '9/11', 'Covid', 'Israel'
+    "Aliens",
+    "Vaccines",
+    "Government",
+    "Space",
+    "9/11",
+    "Covid",
+    "Israel",
   ]);
   const [currentCategory, setCurrentCategory] = useState(categories[0]); // Track the current category
 
@@ -91,8 +97,10 @@ const Tab3: React.FC = () => {
             spaceBetween={50}
             slidesPerView={1}
             pagination={{ clickable: true }}
-            onSlideChange={(swiper) => setCurrentCategory(categories[swiper.activeIndex])} // Update category on slide change
-            style={{ height: '100%' }}
+            onSlideChange={(swiper) =>
+              setCurrentCategory(categories[swiper.activeIndex])
+            } // Update category on slide change
+            style={{ height: "100%" }}
           >
             {categories.map((category, index) => (
               <SwiperSlide key={index}>

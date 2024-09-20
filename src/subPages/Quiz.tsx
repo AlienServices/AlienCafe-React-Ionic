@@ -35,7 +35,15 @@ const Quiz = (props: TestProps) => {
   const [maybeAction, setMaybeAction] = useState("");
   const history = useHistory();
 
-  const options = ['Aliens', 'Vaccines', 'Government', 'Space', '9/11', 'Covid', 'Israel'];
+  const options = [
+    "Aliens",
+    "Vaccines",
+    "Government",
+    "Space",
+    "9/11",
+    "Covid",
+    "Israel",
+  ];
 
   const handleOptionChange = (e: CustomEvent) => {
     setSelectedOption(e.detail.value);

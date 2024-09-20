@@ -127,7 +127,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
           <div className="forgot">Forgot password?</div>
         </div>
         <div className="center">
-          <div style={{ width: '85%' }} className="columnButtons">
+          <div style={{ width: "85%" }} className="columnButtons">
             <IonButton
               className="loginButton"
               onClick={() => {
@@ -137,7 +137,9 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
               Sign In
             </IonButton>
             <div className="center">
-              <div style={{ margin: '10px', color: 'rgb(138,140,140)' }}>Or</div>
+              <div style={{ margin: "10px", color: "rgb(138,140,140)" }}>
+                Or
+              </div>
               <div
                 className="createAccount"
                 onClick={() => {
@@ -147,8 +149,6 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
                 Create Account
               </div>
             </div>
-
-
           </div>
         </div>
         <div>{error}</div>

@@ -86,7 +86,8 @@ const MyEditor = () => {
             shape="round"
             size="small"
             onClick={() => {
-              setEditorHtml(''); setEditorHtmlTitle('')
+              setEditorHtml("");
+              setEditorHtmlTitle("");
             }}
           >
             Next

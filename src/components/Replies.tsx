@@ -4,7 +4,17 @@ import { MyContext } from "../providers/postProvider";
 import { sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonNavLink } from "@ionic/react";
-import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, arrowUpCircle, arrowDownCircle } from "ionicons/icons";
+import {
+  heartCircle,
+  chatbubbleOutline,
+  bookmarkOutline,
+  shareOutline,
+  checkmarkCircleOutline,
+  arrowDownCircleOutline,
+  arrowUpCircleOutline,
+  arrowUpCircle,
+  arrowDownCircle,
+} from "ionicons/icons";
 import Comment from "../pages/Comment/[id]";
 
 interface Comment {
@@ -37,7 +47,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     fetchComments();
   }, []);
 
-
   const fetchComments = async () => {
     try {
       const response = await fetch(
@@ -56,19 +65,15 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
-
-
   const isLikedByUser = (likes: string[]): boolean => {
     // Check if the likes array includes your user ID
     return likes.includes(myInfo.id);
   };
 
-
   const isDislikedByUser = (dislikes: string[]): boolean => {
     // Check if the likes array includes your user ID
     return dislikes.includes(myInfo.id);
   };
-
 
   const addComment = async (
     comment: string,
@@ -97,16 +102,15 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         },
       );
       const post = await response.json();
-      console.log(post, 'this is the post')
+      console.log(post, "this is the post");
       setComments(post.comments as Comment[]);
       setComment("");
       setReplyingTo(null);
-      await fetchComments()
+      await fetchComments();
     } catch (error) {
       console.error("Error adding comment:", error);
     }
   };
-
 
   const deleteComment = async (commentId: string) => {
     try {
@@ -132,7 +136,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
-
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(`http://localhost:3000/api/addCommentLike`, {
@@ -144,7 +147,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       });
 
       const updatedComment = await response.json();
-      await fetchComments()
+      await fetchComments();
     } catch (error) {
       console.error("Error adding like to comment:", error);
     }
@@ -152,33 +155,32 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/addCommentDislike`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://localhost:3000/api/addCommentDislike`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, commentId }),
         },
-        body: JSON.stringify({ userId, commentId }),
-      });
+      );
 
       const updatedComment = await response.json();
-      await fetchComments()
+      await fetchComments();
     } catch (error) {
       console.error("Error adding like to comment:", error);
     }
   };
 
-
-
   const handleReplyClick = (commentId: string) => {
     setReplyingTo((prevId) => (prevId === commentId ? null : commentId));
   };
-
 
   const getParentComment = (parentId: string | null) => {
     if (!parentId) return null;
     return comments.find((comment) => comment.id === parentId);
   };
-
 
   const getColor = (vote: string) => {
     switch (vote) {
@@ -193,12 +195,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
-
   const gotoTopic = (postId: string, id: string) => {
-    console.log(postId, id)
+    console.log(postId, id);
     history.push(`/Comment/${id}/${myVote}/${postId}`);
   };
-
 
   const renderReplies = (commentId: string, nestedDepth = 0) => {
     return comments
@@ -252,7 +252,12 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       <div className="parentComment">{parentInfo.comment}</div>
                     </div>
                   )}
-                  <div style={{ width: '100%' }} onClick={() => { gotoTopic(postId, reply.id) }}>
+                  <div
+                    style={{ width: "100%" }}
+                    onClick={() => {
+                      gotoTopic(postId, reply.id);
+                    }}
+                  >
                     <div className="comment">{reply.comment}</div>
                   </div>
                   <div
@@ -294,13 +299,32 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     </div>
                   )}
                   <div className="voteRowSmall">
-                    <IonIcon onClick={() => { addCommentLike(myInfo.id, reply.id) }} icon={isLikedByUser(reply?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
-                    <div className="small">{calculateNetScore(reply?.likes, reply?.dislikes)}</div>
-                    <IonIcon onClick={() => { addCommentDisike(myInfo.id, reply.id) }} icon={isDislikedByUser(reply?.dislikes) ? arrowDownCircle : arrowDownCircleOutline}></IonIcon>
+                    <IonIcon
+                      onClick={() => {
+                        addCommentLike(myInfo.id, reply.id);
+                      }}
+                      icon={
+                        isLikedByUser(reply?.likes)
+                          ? arrowUpCircle
+                          : arrowUpCircleOutline
+                      }
+                    ></IonIcon>
+                    <div className="small">
+                      {calculateNetScore(reply?.likes, reply?.dislikes)}
+                    </div>
+                    <IonIcon
+                      onClick={() => {
+                        addCommentDisike(myInfo.id, reply.id);
+                      }}
+                      icon={
+                        isDislikedByUser(reply?.dislikes)
+                          ? arrowDownCircle
+                          : arrowDownCircleOutline
+                      }
+                    ></IonIcon>
                   </div>
                 </div>
               </IonCard>
-
             </div>
             {replyToggle[reply.id] && renderReplies(reply.id, nestedDepth + 1)}
           </div>
@@ -334,10 +358,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
-    return (likes.length - dislikes.length)
+    return likes.length - dislikes.length;
   };
 
-  console.log(comments[0], "all the comments")
+  console.log(comments[0], "all the comments");
 
   return (
     <>
@@ -363,7 +387,14 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         <button
           className="noPadding"
           onClick={() =>
-            addComment(comment, myInfo?.username, postId, myInfo?.id, null, myVote)
+            addComment(
+              comment,
+              myInfo?.username,
+              postId,
+              myInfo?.id,
+              null,
+              myVote,
+            )
           }
         >
           <IonIcon icon={sendOutline}></IonIcon>
@@ -383,7 +414,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                 />
               </div>
               <div className="columnWide">
-
                 <IonCard
                   className={`${"cardComment"}`}
                   style={{ border: `2px solid ${getColor(comment.vote)}` }}
@@ -397,7 +427,12 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                         </button>
                       )}
                     </div>
-                    <div style={{ width: '100%' }} onClick={() => { gotoTopic(postId, comment.id) }}>
+                    <div
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        gotoTopic(postId, comment.id);
+                      }}
+                    >
                       <div className="comment">{comment.comment}</div>
                     </div>
                     <div
@@ -444,9 +479,29 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     </div>
                   )}
                   <div className="voteRowSmall">
-                    <IonIcon onClick={() => { addCommentLike(myInfo.id, comment.id) }} icon={isLikedByUser(comment?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
-                    <div className="small">{calculateNetScore(comment?.likes, comment?.dislikes)}</div>
-                    <IonIcon onClick={() => { addCommentDisike(myInfo.id, comment.id) }} icon={isDislikedByUser(comment?.dislikes) ? arrowDownCircle : arrowDownCircleOutline}></IonIcon>
+                    <IonIcon
+                      onClick={() => {
+                        addCommentLike(myInfo.id, comment.id);
+                      }}
+                      icon={
+                        isLikedByUser(comment?.likes)
+                          ? arrowUpCircle
+                          : arrowUpCircleOutline
+                      }
+                    ></IonIcon>
+                    <div className="small">
+                      {calculateNetScore(comment?.likes, comment?.dislikes)}
+                    </div>
+                    <IonIcon
+                      onClick={() => {
+                        addCommentDisike(myInfo.id, comment.id);
+                      }}
+                      icon={
+                        isDislikedByUser(comment?.dislikes)
+                          ? arrowDownCircle
+                          : arrowDownCircleOutline
+                      }
+                    ></IonIcon>
                     <div>
                       {/* <IonIcon size="small" onClick={() => {  }} icon={chatbubbleOutline}></IonIcon>
                       {comment.replies.length} */}
@@ -471,6 +526,5 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     </>
   );
 };
-
 
 export default Replies;

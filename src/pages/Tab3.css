@@ -144,7 +144,7 @@ div {
   align-items: center;
   text-align: center;
 }
-.middle{
+.middle {
   display: flex;
   padding-top: 10px;
   text-align: center;
@@ -405,7 +405,7 @@ div {
   background-color: transparent;
   border: 1.5px solid rgb(197, 191, 191);
   padding: 12px !important;
-  margin: 10px
+  margin: 10px;
 }
 
 .forgotPassword {
@@ -416,7 +416,7 @@ div {
 }
 
 .loginInput::placeholder {
-  font-weight: 500
+  font-weight: 500;
 }
 
 .columnButtons {
@@ -449,7 +449,7 @@ div {
   align-items: center;
 }
 
-.voteRow{
+.voteRow {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -457,14 +457,13 @@ div {
   padding-right: 10px;
 }
 
-
-.button{
+.button {
   padding: 5px;
   background-color: rgb(119, 181, 223);
   border-radius: 10px;
 }
 
-.voteRowSmall{
+.voteRowSmall {
   display: flex;
   align-items: center;
   justify-content: space-between;

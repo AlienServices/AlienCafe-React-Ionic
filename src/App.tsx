@@ -81,7 +81,11 @@ const App: React.FC = () => (
                   render={() => <Tab3 />}
                 ></Route>
                 <Route exact={true} path="/" render={() => <Login />}></Route>
-                <Route exact={true} path="/Comment/:id/:myVote/:postId" render={() => <Comment/>}></Route>
+                <Route
+                  exact={true}
+                  path="/Comment/:id/:myVote/:postId"
+                  render={() => <Comment />}
+                ></Route>
                 <Route
                   exact={true}
                   path="/quiz"

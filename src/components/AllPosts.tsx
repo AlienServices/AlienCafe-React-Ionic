@@ -1,8 +1,30 @@
 import { useEffect, useState, useContext } from "react";
-import { IonIcon, IonModal, IonHeader, IonToolbar, IonTitle, IonButton, IonAvatar, IonContent, IonCard, IonNavLink, IonList } from "@ionic/react";
+import {
+  IonIcon,
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButton,
+  IonAvatar,
+  IonContent,
+  IonCard,
+  IonNavLink,
+  IonList,
+} from "@ionic/react";
 import { useParams } from "react-router-dom";
 import { useLocation, useHistory } from "react-router";
-import { heartCircle, chatbubbleOutline, bookmarkOutline, shareOutline, checkmarkCircleOutline, arrowDownCircleOutline, arrowUpCircleOutline, arrowUpCircle, arrowDownCircle } from "ionicons/icons";
+import {
+  heartCircle,
+  chatbubbleOutline,
+  bookmarkOutline,
+  shareOutline,
+  checkmarkCircleOutline,
+  arrowDownCircleOutline,
+  arrowUpCircleOutline,
+  arrowUpCircle,
+  arrowDownCircle,
+} from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from "./supaBase";
@@ -14,7 +36,18 @@ import moment from "moment";
 
 const Content: React.FC = () => {
   const history = useHistory();
-  const { posts, myPosts, setPosts, setMyPosts, addLike, getAllPosts, myInfo, updateUser, getUserPosts, addDislike } = useContext(MyContext);
+  const {
+    posts,
+    myPosts,
+    setPosts,
+    setMyPosts,
+    addLike,
+    getAllPosts,
+    myInfo,
+    updateUser,
+    getUserPosts,
+    addDislike,
+  } = useContext(MyContext);
   const [user, setUser] = useState({
     bio: "",
     email: "",
@@ -31,12 +64,15 @@ const Content: React.FC = () => {
 
   const getUser = async () => {
     try {
-      const result = await fetch(`http://localhost:3000/api/myInfo?email=${localStorage.getItem("user")}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const result = await fetch(
+        `http://localhost:3000/api/myInfo?email=${localStorage.getItem("user")}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
       const userInfo = await result.json();
       setUser(userInfo.Hello);
       console.log(userInfo, "this is user result");
@@ -89,7 +125,7 @@ const Content: React.FC = () => {
   };
 
   const closeModal = () => {
-    debugger
+    debugger;
     setShowModal(false);
   };
 
@@ -103,13 +139,9 @@ const Content: React.FC = () => {
     return dislikes.includes(myInfo.id);
   };
 
-
-
-
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
     return likes.length - dislikes.length;
   };
-
 
   return (
     <IonContent className="page">
@@ -131,27 +163,60 @@ const Content: React.FC = () => {
 
                 return (
                   <div className="shadow" key={post.id}>
-                    <IonCard style={{ boxShadow: "none", paddingBottom: "10px" }} className="card">
+                    <IonCard
+                      style={{ boxShadow: "none", paddingBottom: "10px" }}
+                      className="card"
+                    >
                       <div className="space">
                         <div className="around">
                           <div className="emailContainer">
-                            <IonAvatar style={{ height: "20px", width: "20px", marginLeft: "3px" }}>
-                              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                            <IonAvatar
+                              style={{
+                                height: "20px",
+                                width: "20px",
+                                marginLeft: "3px",
+                              }}
+                            >
+                              <img
+                                alt="Silhouette of a person's head"
+                                src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                              />
                             </IonAvatar>
-                            <IonNavLink onClick={() => { getUserPosts(post.email); }} routerDirection="forward" component={() => <Profile id={post.email} />}>
+                            <IonNavLink
+                              onClick={() => {
+                                getUserPosts(post.email);
+                              }}
+                              routerDirection="forward"
+                              component={() => <Profile id={post.email} />}
+                            >
                               <div className="username">{post.email}</div>
                             </IonNavLink>
                           </div>
                           <div>
                             {myInfo?.email !== post?.email ? (
                               <>
-                                {myInfo?.following?.indexOf(post.email) !== -1 ? (
+                                {myInfo?.following?.indexOf(post.email) !==
+                                -1 ? (
                                   <div>
-                                    <IonIcon icon={checkmarkCircleOutline}></IonIcon>
+                                    <IonIcon
+                                      icon={checkmarkCircleOutline}
+                                    ></IonIcon>
                                   </div>
                                 ) : (
                                   <div>
-                                    <button className="button" onClick={() => { updateUser(myInfo.email, post?.email, ""); }} size="small">Follow</button>
+                                    <button
+                                      className="button"
+                                      onClick={() => {
+                                        updateUser(
+                                          myInfo.email,
+                                          post?.email,
+                                          "",
+                                        );
+                                      }}
+                                      size="small"
+                                    >
+                                      Follow
+                                    </button>
                                   </div>
                                 )}
                               </>
@@ -160,24 +225,66 @@ const Content: React.FC = () => {
                             )}
                           </div>
                         </div>
-                        <div onClick={() => { gotoTopic(post.id); }}>
-                          <ReactQuill style={{ color: "black" }} readOnly={true} theme="bubble" value={transformedTitle} />
-                          <ReactQuill className="small" style={{ color: "black" }} readOnly={true} theme="bubble" value={truncatedContent} />
+                        <div
+                          onClick={() => {
+                            gotoTopic(post.id);
+                          }}
+                        >
+                          <ReactQuill
+                            style={{ color: "black" }}
+                            readOnly={true}
+                            theme="bubble"
+                            value={transformedTitle}
+                          />
+                          <ReactQuill
+                            className="small"
+                            style={{ color: "black" }}
+                            readOnly={true}
+                            theme="bubble"
+                            value={truncatedContent}
+                          />
                         </div>
                       </div>
                       <div className="smallRow">
                         <div className="tinyRow">
                           <div className="voteRow">
-                            <IonIcon onClick={() => { addLike(post.id) }} icon={isLikedByUser(post?.likes) ? arrowUpCircle : arrowUpCircleOutline}></IonIcon>
-                            <div className="small">{calculateNetScore(post?.likes, post?.dislikes)}</div>
-                            <IonIcon onClick={() => { addDislike(post.id) }} icon={isDislikedByUser(post?.dislikes) ? arrowDownCircle : arrowDownCircleOutline}></IonIcon>
+                            <IonIcon
+                              onClick={() => {
+                                addLike(post.id);
+                              }}
+                              icon={
+                                isLikedByUser(post?.likes)
+                                  ? arrowUpCircle
+                                  : arrowUpCircleOutline
+                              }
+                            ></IonIcon>
+                            <div className="small">
+                              {calculateNetScore(post?.likes, post?.dislikes)}
+                            </div>
+                            <IonIcon
+                              onClick={() => {
+                                addDislike(post.id);
+                              }}
+                              icon={
+                                isDislikedByUser(post?.dislikes)
+                                  ? arrowDownCircle
+                                  : arrowDownCircleOutline
+                              }
+                            ></IonIcon>
                           </div>
-                          <IonIcon style={{ paddingRight: '5px' }} icon={chatbubbleOutline}></IonIcon>
+                          <IonIcon
+                            style={{ paddingRight: "5px" }}
+                            icon={chatbubbleOutline}
+                          ></IonIcon>
                           <div className="small">{post?.comments?.length}</div>
                         </div>
                         <div className="tinyRow">
                           <IonIcon icon={bookmarkOutline}></IonIcon>
-                          <IonIcon icon={shareOutline} onClick={openModal}></IonIcon> {/* Share button opens modal */}
+                          <IonIcon
+                            icon={shareOutline}
+                            onClick={openModal}
+                          ></IonIcon>{" "}
+                          {/* Share button opens modal */}
                         </div>
                       </div>
                     </IonCard>
@@ -192,11 +299,12 @@ const Content: React.FC = () => {
         )}
       </IonList>
 
-
       <IonModal isOpen={showModal}>
-        <IonButton slot="end" >Close</IonButton>
-        <button style={{ padding: '10px' }} onClick={closeModal}>close</button>
-        <input style={{ color: 'white' }} type="text" />
+        <IonButton slot="end">Close</IonButton>
+        <button style={{ padding: "10px" }} onClick={closeModal}>
+          close
+        </button>
+        <input style={{ color: "white" }} type="text" />
         <div>kale</div>
       </IonModal>
     </IonContent>

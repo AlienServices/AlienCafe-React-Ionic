@@ -58,16 +58,16 @@ interface PostContext {
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
-  setPosts: (posts) => { },
-  setMyPosts: (posts) => { },
-  updatePost: (post) => { },
-  addLike: (post) => { },
-  addDislike: (post) => { },
-  deletePost: (id) => { },
-  createPost: (value) => { },
-  setMyInfo: () => { },
-  getAllPosts: () => { },
-  setLoggedin: () => { },
+  setPosts: (posts) => {},
+  setMyPosts: (posts) => {},
+  updatePost: (post) => {},
+  addLike: (post) => {},
+  addDislike: (post) => {},
+  deletePost: (id) => {},
+  createPost: (value) => {},
+  setMyInfo: () => {},
+  getAllPosts: () => {},
+  setLoggedin: () => {},
   loggedIn: false,
   myInfo: {
     id: "",
@@ -77,10 +77,10 @@ const MyContext = createContext<PostContext>({
     following: [],
     username: "",
   },
-  updateUser: () => { },
-  setUserPosts: () => { },
+  updateUser: () => {},
+  setUserPosts: () => {},
   userPosts: [],
-  getUserPosts: (email) => { },
+  getUserPosts: (email) => {},
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -193,15 +193,14 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       // Update the state with the updated post
       setContent((prevContent) =>
         prevContent.map((post) =>
-          post.id === updatedPost.id ? result.update : post
-        )
+          post.id === updatedPost.id ? result.update : post,
+        ),
       );
       getMyPosts(); // Optionally refresh myPosts
     } catch (error) {
       console.log(error, "Error updating post");
     }
   };
-
 
   const addLike = async (id: string) => {
     const updatedPost = await post({
@@ -233,7 +232,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       console.error("Error adding dislike:", error); // Log any errors
     }
   };
-
 
   const deletePost = async (id: string) => {
     const updatedPost = await post({
@@ -368,7 +366,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     >
       {children}
     </MyContext.Provider>
-
   );
 };
 

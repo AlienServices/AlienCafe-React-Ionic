@@ -130,7 +130,7 @@ const CreateAccount = ({
           ></input>
         </IonItem>
         <div className="center">
-          <div style={{ width: '85%' }} className="columnButtons">
+          <div style={{ width: "85%" }} className="columnButtons">
             <IonButton
               shape="round"
               className="loginButtonRounded"
@@ -141,7 +141,9 @@ const CreateAccount = ({
               Create Account
             </IonButton>
             <div className="center">
-              <div style={{ margin: '10px', color: 'rgb(138,140,140)' }}>Or</div>
+              <div style={{ margin: "10px", color: "rgb(138,140,140)" }}>
+                Or
+              </div>
 
               <div
                 className="grayWord"
@@ -151,9 +153,7 @@ const CreateAccount = ({
               >
                 Already registered? <div className="blueWord">Login</div>
               </div>
-
             </div>
-
           </div>
         </div>
         <IonText>{/* {loggedIn} */}</IonText>
