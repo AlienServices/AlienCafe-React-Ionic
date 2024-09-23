@@ -65,7 +65,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
       });
       if (error) {
         console.log(error, "this is the login error");
-        setError("Incorrect Password");
+        setError("Email or Password Incorrect");
       }
       if (data.user?.email) {
         localStorage.setItem("user", data.user.email);
@@ -101,7 +101,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   };
 
   return (
-    <IonContent>
+    <IonContent >
       <IonList inset={true}>
         <IonItem lines="none">
           <input
@@ -129,13 +129,14 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
         <div className="center">
           <div style={{ width: "85%" }} className="columnButtons">
             <IonButton
-              className="loginButton"
+              className="loginButton"           
               onClick={() => {
                 handleLogin();
               }}
             >
               Sign In
             </IonButton>
+            <div style={{ textAlign: 'center' }}>{error}</div>
             <div className="center">
               <div style={{ margin: "10px", color: "rgb(138,140,140)" }}>
                 Or
@@ -151,7 +152,6 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
             </div>
           </div>
         </div>
-        <div>{error}</div>
       </IonList>
     </IonContent>
   );
