@@ -82,6 +82,7 @@ const Content: React.FC = () => {
   };
 
   const handleLogout = async () => {
+    console.log('hitting logout in all posts')
     try {
       const { error } = await supabase.auth.signOut();
       console.log("You Logged Out");
@@ -124,8 +125,7 @@ const Content: React.FC = () => {
     setShowModal(true);
   };
 
-  const closeModal = () => {
-    debugger;
+  const closeModal = () => {    
     setShowModal(false);
   };
 
@@ -301,9 +301,9 @@ const Content: React.FC = () => {
 
       <IonModal isOpen={showModal}>
         <IonButton slot="end">Close</IonButton>
-        <button style={{ padding: "10px" }} onClick={closeModal}>
+        <IonButton style={{ padding: "10px" }} onClick={closeModal}>
           close
-        </button>
+        </IonButton>
         <input style={{ color: "white" }} type="text" />
         <div>kale</div>
       </IonModal>

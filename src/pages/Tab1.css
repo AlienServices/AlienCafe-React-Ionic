@@ -64,6 +64,10 @@
   text-align: center;
 }
 
+.button{
+  color: white;
+}
+
 @media (max-width: 650px) {
   .quillCenter {
     width: 100%;

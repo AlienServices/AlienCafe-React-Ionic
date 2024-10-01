@@ -75,9 +75,12 @@ const Login: React.FC = () => {
   //   }
   // }, [user])
 
-  const handleLogout = async () => {
+  const handleLogout = async () => {    
+    console.log('hitting logout in login')
     try {
       const { error } = await supabase.auth.signOut();
+      localStorage.removeItem("user");
+      history.push("/tab1");
       console.log("You Logged Out");
       if (error) {
         console.log("this is logout error", error);
@@ -97,33 +100,30 @@ const Login: React.FC = () => {
         </IonHeader>
         <IonContent className="ion-padding">
           <div className="contentContainer">
-            <div className="flexSetting">
-              <IonIcon icon={settingsOutline}></IonIcon>
-              <div>Settings</div>
-            </div>
-            <div className="flexSetting">
-              <IonIcon icon={personOutline}></IonIcon>
-              <div>Profile</div>
-            </div>
-            <div className="flexSetting">
-              <IonIcon icon={createOutline}></IonIcon>
-              <div>Messages</div>
-            </div>
-            <div className="flexSetting">
-              <IonIcon icon={bookmarkOutline}></IonIcon>
-              <div>Bookmarks</div>
+            <div className="optionsContainer">
+              <div className="flexSetting">
+                <IonIcon icon={settingsOutline}></IonIcon>
+                <div className="setting">Settings</div>
+              </div>
+              <div className="flexSetting">
+                <IonIcon icon={personOutline}></IonIcon>
+                <div className="setting">Profile</div>
+              </div>
+              <div className="flexSetting">
+                <IonIcon icon={createOutline}></IonIcon>
+                <div className="setting">Messages</div>
+              </div>
+              <div className="flexSetting">
+                <IonIcon icon={bookmarkOutline}></IonIcon>
+                <div className="setting">Bookmarks</div>
+              </div>
             </div>
             <div>
-              <div>buttons</div>
               <IonMenuToggle>
-                <IonButton
-                  onClick={() => {
-                    handleLogout();
-                    localStorage.removeItem("user");
-                    history.push("/tab1");
-                  }}
+                <IonButton className="button" size="small"
+                  onClick={() => handleLogout}
                 >
-                  Logout
+                  Log
                 </IonButton>
               </IonMenuToggle>
             </div>

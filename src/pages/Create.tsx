@@ -67,7 +67,7 @@ const MyEditor = () => {
   // }, [])
 
   return (
-    <IonPage>
+    <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
       <div className="flexRow">
         <IonIcon
           onClick={() => {

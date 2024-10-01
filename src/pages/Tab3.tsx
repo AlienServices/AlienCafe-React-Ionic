@@ -24,7 +24,7 @@ import "swiper/css/pagination";
 import "./Tab3.css";
 
 const Tab3: React.FC = () => {
-  const { myInfo } = useContext(MyContext);
+  const { myInfo, setMyInfo } = useContext(MyContext);
   const history = useHistory();
   const menuRef = useRef<HTMLIonMenuElement>(null);
   const [categories, setCategories] = useState([
@@ -39,6 +39,7 @@ const Tab3: React.FC = () => {
   const [currentCategory, setCurrentCategory] = useState(categories[0]); // Track the current category
 
   const handleLogout = async () => {
+    console.log('hitting logout in tab 3')
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {
@@ -46,6 +47,7 @@ const Tab3: React.FC = () => {
       } else {
         menuRef.current?.close();
         localStorage.removeItem("user");
+        setMyInfo({ id: '', content: '', likes: [], email: '', bio: '', username: '', following: [], followers: [] })
         history.push("/tab1");
       }
     } catch (error) {
@@ -70,7 +72,7 @@ const Tab3: React.FC = () => {
             <div>Messages</div>
             <div>Bookmarks</div>
             <div>
-              <IonButton onClick={handleLogout}>Logout</IonButton>
+              <IonButton onClick={handleLogout}>LogTab3</IonButton>
             </div>
           </div>
         </IonContent>

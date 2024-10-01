@@ -1,5 +1,5 @@
 import { Redirect, Route } from "react-router-dom";
-import { add, chevronUp } from "ionicons/icons";
+import { add, chevronUp, search } from "ionicons/icons";
 import { IonNav } from "@ionic/react";
 import {
   IonApp,
@@ -45,6 +45,7 @@ import Chat from "./pages/Chat";
 import Quiz from "./subPages/Quiz";
 import CurrentChat from "./pages/CurrentChat";
 import Comment from "./pages/Comment/[id]";
+import Search from "./pages/Search";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -118,16 +119,21 @@ const App: React.FC = () => (
                     return <Post />;
                   }}
                 ></Route>
+                <Route path={`/search`} component={Search}></Route>
               </IonRouterOutlet>
               <IonTabBar slot="bottom">
                 <IonTabButton tab="tab1" href="/tab1">
                   <IonIcon aria-hidden="true" icon={beer} />
                   <IonLabel>Home</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab="tab4" href="/create">
+                <IonTabButton tab="search" href="/search">
+                  <IonIcon aria-hidden="true" icon={search} />
+                  <IonLabel>Search</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="create" href="/create">
                   <IonIcon aria-hidden="true" icon={flameOutline} />
                   <IonLabel>Create</IonLabel>
-                </IonTabButton>
+                </IonTabButton>                
                 <IonTabButton tab="tab3" href="/tab3">
                   <IonIcon aria-hidden="true" icon={giftOutline} />
                   <IonLabel>Messages</IonLabel>

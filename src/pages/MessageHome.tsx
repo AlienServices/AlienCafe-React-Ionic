@@ -16,7 +16,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
-import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { MessageContext } from "../providers/messageProvider";
 
 import "../theme/chat.css";
@@ -40,6 +40,30 @@ const MessageHome: React.FC = () => {
   // const { myConvos, getConvos } = useContext(MessageContext);
   const [myConvos, setMyConvos] = useState();
   const history = useHistory();
+  const DELETE_BTN_WIDTH = 15;
+  const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
+  const MESSAGE_DELETE_TRANSITION = {
+    opacity: {
+      transition: {
+        duration: 0,
+      },
+    },
+  };
+
+
+  const handleDragEnd = (info: any, messageId: string) => {
+    console.log('hit drag end')
+    const dragDistance = info.point.x;
+    console.log(dragDistance, 'testing drag end truthy')
+    console.log(-DELETE_BTN_WIDTH, 'testing drag end truthy')
+    if (dragDistance < DELETE_BTN_WIDTH) {
+      console.log('drag distance is right')
+      // deleteConvos(messageId);
+    }
+  };
+
+
+
 
   // useEffect(() => {
   //   getConvos();
@@ -93,21 +117,7 @@ const MessageHome: React.FC = () => {
 
   return (
     <IonPage>
-      <IonMenu contentId="mainContent">
-        <IonHeader>
-          <IonToolbar>Menu</IonToolbar>
-        </IonHeader>
-        <div className="centerButton">
-          <IonButton
-            onClick={() => {
-              localStorage.removeItem("user");
-              gotoTopic();
-            }}
-          >
-            Logout
-          </IonButton>
-        </div>
-      </IonMenu>
+     
       <IonPage>
         <IonHeader>
           <IonToolbar class="ion-text-center">
@@ -119,31 +129,38 @@ const MessageHome: React.FC = () => {
         </IonHeader>
         <IonContent>
           <ul>
-            <AnimatePresence>
-              {messageData?.map((convo, i) => {
-                const lastMessageDate = new Date(convo.date);
-                let hours = lastMessageDate.getHours();
-                const minutes = String(lastMessageDate.getMinutes()).padStart(
-                  2,
-                  "0",
-                );
-                const ampm = hours >= 12 ? "PM" : "AM";
-                hours = hours % 12 || 12; // Convert to 12-hour format
-                const time = `${hours}:${minutes} ${ampm}`;
+            <motion.li key={'props.id'}
+              exit={MESSAGE_DELETE_ANIMATION}
+              transition={MESSAGE_DELETE_TRANSITION}>
+              <motion.div drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                onDragEnd={(_, info) => handleDragEnd(info, 'props.conversationId')}
+                className="msg-container">
+                {messageData?.map((convo, i) => {
+                  const lastMessageDate = new Date(convo.date);
+                  let hours = lastMessageDate.getHours();
+                  const minutes = String(lastMessageDate.getMinutes()).padStart(
+                    2,
+                    "0",
+                  );
+                  const ampm = hours >= 12 ? "PM" : "AM";
+                  hours = hours % 12 || 12; // Convert to 12-hour format
+                  const time = `${hours}:${minutes} ${ampm}`;
 
-                return (
-                  <Test
-                    key={convo.conversationId}
-                    time={time}
-                    conversationId={convo.conversationId}
-                    message={convo.message}
-                    status={convo.status}
-                    userName={convo.userName}
-                    recipient={convo.recipient}
-                  />
-                );
-              })}
-            </AnimatePresence>
+                  return (
+                    <Test
+                      key={convo.conversationId}
+                      time={time}
+                      conversationId={convo.conversationId}
+                      message={convo.message}
+                      status={convo.status}
+                      userName={convo.userName}
+                      recipient={convo.recipient}
+                    />
+                  );
+                })}
+              </motion.div>
+            </motion.li>
           </ul>
           <div className="center">
             <div>Create A Conversation</div>

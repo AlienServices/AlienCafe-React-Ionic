@@ -75,6 +75,7 @@ const CreateAccount = ({
   };
 
   const handleLogout = async () => {
+    console.log('hitting logout in create account')
     try {
       const { error } = await supabase.auth.signOut();
       console.log("You Logged Out");

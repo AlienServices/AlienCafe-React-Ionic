@@ -100,6 +100,7 @@ const Category: React.FC<CategoryProps> = ({
   };
 
   const handleLogout = async () => {
+    console.log('hitting logout in category')
     try {
       const { error } = await supabase.auth.signOut();
       console.log("You Logged Out");

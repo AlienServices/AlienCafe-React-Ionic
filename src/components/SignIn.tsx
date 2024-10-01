@@ -79,6 +79,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   };
 
   const handleLogout = async () => {
+    console.log('hitting logout in all sign in')
     try {
       const { error } = await supabase.auth.signOut();
       console.log("You Logged Out");
