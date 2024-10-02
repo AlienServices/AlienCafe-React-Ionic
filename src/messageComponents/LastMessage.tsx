@@ -42,16 +42,16 @@ const LastMessage = ({
     }
   };
 
-  useEffect(() => {
-    if (conversationId) {
-      getLastMessage(conversationId);
-      const intervalId = setInterval(
-        () => getLastMessage(conversationId),
-        1000,
-      );
-      return () => clearInterval(intervalId);
-    }
-  }, [conversationId]);
+  // useEffect(() => {
+  //   if (conversationId) {
+  //     getLastMessage(conversationId);
+  //     const intervalId = setInterval(
+  //       () => getLastMessage(conversationId),
+  //       1000,
+  //     );
+  //     return () => clearInterval(intervalId);
+  //   }
+  // }, [conversationId]);
 
   return <div className="grayLetters">{lastMessage}</div>;
 };

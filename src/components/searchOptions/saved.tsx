@@ -25,10 +25,10 @@ import {
     useIonLoading,
     IonMenu,
     IonImg,
-    } from "@ionic/react";
+} from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 
-const Profiles = ({ search }: { search: string }) => {
+const Saved = ({ search }: { search: string }) => {
     const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
     const [editorHtml, setEditorHtml] = useState("");
 
@@ -46,13 +46,15 @@ const Profiles = ({ search }: { search: string }) => {
     } = useContext(MyContext);
     const contentQuillRef = useRef(null);
 
-
+    // useEffect(() => {
+    //   debugger
+    // }, [])
 
     return (
         <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
             <IonContent>
                 <div>
-                    Profiles
+                    Saved
                 </div>
             </IonContent>
         </IonPage>
@@ -60,4 +62,4 @@ const Profiles = ({ search }: { search: string }) => {
 };
 
 
-export default Profiles;
+export default Saved;
