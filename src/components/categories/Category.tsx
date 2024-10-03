@@ -54,6 +54,7 @@ const Category: React.FC<CategoryProps> = ({
     updateUser,
     getUserPosts,
     addDislike,
+    addBookmark
   } = useContext(MyContext);
   const [user, setUser] = useState({
     bio: "",
@@ -215,7 +216,7 @@ const Category: React.FC<CategoryProps> = ({
                             {myInfo?.email !== post?.email ? (
                               <>
                                 {myInfo?.following?.indexOf(post.email) !==
-                                -1 ? (
+                                  -1 ? (
                                   <div>
                                     <IonIcon
                                       icon={checkmarkCircleOutline}
@@ -298,7 +299,9 @@ const Category: React.FC<CategoryProps> = ({
                           <div className="small">{post?.comments?.length}</div>
                         </div>
                         <div className="tinyRow">
-                          <IonIcon icon={bookmarkOutline}></IonIcon>
+                          <IonIcon onClick={() => {                            
+                            addBookmark(myInfo.id, post.id)
+                          }} icon={bookmarkOutline}></IonIcon>
                           <IonIcon
                             icon={shareOutline}
                             onClick={openModal}

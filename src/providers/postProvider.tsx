@@ -52,22 +52,23 @@ interface PostContext {
   loggedIn: boolean;
   addLike: (id: string) => void; // Add addLike
   addDislike: (id: string) => void; // Add addDislike
+  addBookmark: (userId: string, postId: string) => void;
 }
 
 // const MyContext = createContext({ values: [], setValues: (posts) => { } });
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
-  setPosts: (posts) => {},
-  setMyPosts: (posts) => {},
-  updatePost: (post) => {},
-  addLike: (post) => {},
-  addDislike: (post) => {},
-  deletePost: (id) => {},
-  createPost: (value) => {},
-  setMyInfo: () => {},
-  getAllPosts: () => {},
-  setLoggedin: () => {},
+  setPosts: (posts) => { },
+  setMyPosts: (posts) => { },
+  updatePost: (post) => { },
+  addLike: (post) => { },
+  addDislike: (post) => { },
+  deletePost: (id) => { },
+  createPost: (value) => { },
+  setMyInfo: () => { },
+  getAllPosts: () => { },
+  setLoggedin: () => { },
   loggedIn: false,
   myInfo: {
     id: "",
@@ -77,10 +78,11 @@ const MyContext = createContext<PostContext>({
     following: [],
     username: "",
   },
-  updateUser: () => {},
-  setUserPosts: () => {},
+  updateUser: () => { },
+  setUserPosts: () => { },
   userPosts: [],
-  getUserPosts: (email) => {},
+  getUserPosts: (email) => { },
+  addBookmark: (userId, postId) => { }, // Placeholder function
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -157,6 +159,30 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       const posts = await result.json();
 
       setMyInfo(posts.Hello);
+    } catch (error) {
+      console.log(error, "this is the create user error");
+    }
+  };
+
+  const addBookmark = async (userId: string, postId: string) => {
+    console.log('hitting add bookmark')
+    try {
+      const result = await fetch(
+        `http://localhost:3000/api/addBookmark`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            postId
+          })
+        },
+      );
+      const posts = await result.json();
+
+      // setMyInfo(posts.Hello);
     } catch (error) {
       console.log(error, "this is the create user error");
     }
@@ -362,6 +388,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         userPosts: userPosts,
         getUserPosts: getUserPosts,
         setUserPosts: setUserPosts,
+        addBookmark: addBookmark, 
       }}
     >
       {children}

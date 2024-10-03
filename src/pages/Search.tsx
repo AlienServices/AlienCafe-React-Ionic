@@ -22,10 +22,13 @@ const Search = () => {
     const [searchInput, setSearchInput] = useState('');
     const { myInfo } = useContext(MyContext);
 
+
+    
+
     return (
         <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
             <IonContent>
-                <IonInput onIonChange={(e: CustomEvent) => { setSearchInput(e.detail.value!) }} placeholder="Search Here"></IonInput>
+                <input className='input' onChange={(e) => { setSearchInput(e.target.value!) }} placeholder="Search Here"></input>
                 <Swiper
                     modules={[Pagination]}
                     spaceBetween={50}
