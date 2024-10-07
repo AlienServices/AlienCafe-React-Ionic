@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 
 import "react-quill/dist/quill.snow.css";
 import { supabase } from "../supaBase";
-import "../../pages/Tab3.css";
+import "../../theme/PostComponents.css";
 import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
 import moment from "moment";
@@ -13,6 +13,8 @@ import {
     IonItem,
     IonLabel,
     IonButton,
+    IonCard,
+    IonImg
 } from "@ionic/react";
 
 // Define the props type for the Post component
@@ -49,15 +51,16 @@ const Profile: React.FC<Profile> = ({ profile }) => {
     const [showModal, setShowModal] = useState(false);
 
 
- 
 
 
-    return (
-        <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
-            <IonContent>
-                <div>{profile.username}</div>
-            </IonContent>
-        </IonPage>
+
+    return (        
+                <IonCard style={{boxShadow: 'none', margin: '10px'}}>
+                    <div className="row">
+                        <IonImg style={{ width: '40px', height: '40px' }} src="https://toolset.com/wp-content/uploads/2018/06/909657-profile_pic.png"></IonImg>
+                        <div style={{width: '175px'}} className="usernameSearch">{profile.username}</div>
+                    </div>
+                </IonCard>                
     );
 };
 

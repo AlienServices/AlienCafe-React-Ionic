@@ -11,13 +11,16 @@ import {
     IonItem,
     IonLabel,
     IonButton,
+    IonSelect,
+    IonSelectOption,
 } from "@ionic/react";
 import Post from "../postComponents/Post";
 
 const Posts = ({ search }: { search: string }) => {
     const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
     const [editorHtml, setEditorHtml] = useState("");
-    const [searchResults, setSearchResults] = useState<any[]>([]); // Initialize searchResults as an array
+    const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>(""); // Category selection state
     const titleQuillRef = useRef(null);
     const history = useHistory();
     const {
@@ -32,39 +35,61 @@ const Posts = ({ search }: { search: string }) => {
     } = useContext(MyContext);
     const contentQuillRef = useRef(null);
 
-    
+    const categories = ["Technology", "Health", "Sports", "Entertainment", "Covid", "Aliens", "Space", "9/11", "Test", "Israel"]; // Add your categories here
+
+    // Fetch posts based on search query
     const searchUsers = async () => {
         try {
             const result = await fetch(
-                `http://localhost:3000/api/searchPosts?search=${search}`
+                `http://localhost:3000/api/searchPosts?search=${search}&category=${selectedCategory}`
             );
             const users = await result.json();
-            setSearchResults(users.user); // Update state with the search results
+            console.log(users.posts)
+            setSearchResults(users.posts);
         } catch (err) {
             console.log("Error searching users:", err);
         }
     };
 
-    
+    // Search and filter posts when search or category changes
     useEffect(() => {
         if (search.length > 0) {
-            searchUsers(); 
+            searchUsers();
+        } else {
+            setSearchResults([])
         }
-    }, [search]);
+    }, [search, selectedCategory]); // Update when search or selectedCategory changes
 
-    console.log(searchResults, 'these are search results')
+    console.log(searchResults, 'these are search results');
 
     return (
         <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
             <IonContent>
-                <div>Posts</div>
-                {searchResults.length > 0 ? (
+                {/* Category Dropdown */}
+                <IonItem>
+                    <IonLabel>Select Categorys</IonLabel>
+                    <IonSelect
+                        multiple={true}
+                        value={selectedCategory}
+                        placeholder="Choose a category"
+                        onIonChange={(e) => setSelectedCategory(e.detail.value)}
+                    >
+                        {categories.map((category, index) => (
+                            <IonSelectOption key={index} value={category}>
+                                {category}
+                            </IonSelectOption>
+                        ))}
+                    </IonSelect>
+                </IonItem>
+
+                {/* Post Search Results */}
+                {searchResults?.length > 0 ? (
                     searchResults.map((user, index) => (
-                        <Post post={user} /> 
+                        <Post key={index} post={user} />
                     ))
                 ) : (
                     <IonItem>
-                        <IonLabel>No users found.</IonLabel>
+                        <IonLabel>No Posts found</IonLabel>
                     </IonItem>
                 )}
             </IonContent>

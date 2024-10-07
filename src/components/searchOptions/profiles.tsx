@@ -64,6 +64,8 @@ const Profiles = ({ search }: { search: string }) => {
   useEffect(() => {
     if (search.length > 0) {
         searchUsers(); 
+    } else {
+      setSearchResults([])
     }
 }, [search]);
 
@@ -72,8 +74,7 @@ console.log(searchResults, 'search results')
 
   return (
     <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
-      <IonContent>
-        <div>profiles</div>
+      <IonContent>        
         {searchResults.length > 0 ? (
           searchResults.map((user, index) => (
             <Profile profile={user} />

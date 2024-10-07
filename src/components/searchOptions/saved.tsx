@@ -1,38 +1,22 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import ReactQuill from "react-quill";
-import { MyContext } from "../../providers/postProvider";
-import { useHistory } from "react-router";
-import "react-quill/dist/quill.snow.css";
-import "../../theme/create.css";
 import {
   IonButton,
-  IonText,
-  IonButtons,
   IonContent,
-  IonHeader,
-  IonIcon,
-  IonNavLink,
-  IonMenuButton,
-  IonMenuToggle,
-  IonInput,
   IonItem,
   IonLabel,
-  IonList,
   IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonToast,
-  useIonLoading,
-  IonMenu,
-  IonImg,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/react";
-import { closeOutline } from "ionicons/icons";
-import Profile from "../postComponents/Profile";
+import { MyContext } from "../../providers/postProvider";
+import { useHistory } from "react-router";
+import Post from "../postComponents/Post";
 
 const Saved = ({ search }: { search: string }) => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
   const [editorHtml, setEditorHtml] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]); // Initialize searchResults as an array
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>(""); // State for selected category
   const titleQuillRef = useRef(null);
   const history = useHistory();
   const {
@@ -46,49 +30,67 @@ const Saved = ({ search }: { search: string }) => {
     createPost,
   } = useContext(MyContext);
   const contentQuillRef = useRef(null);
-
-  // useEffect(() => {
-  //   debugger
-  // }, [])
-
+  
+  
+  const categories = ["Technology", "Health", "Sports", "Entertainment"];
+  
 
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3000/api/searchPosts?search=${search}`
+        `http://localhost:3000/api/searchBookmarks?search=${search}&category=${selectedCategory}`
       );
       const users = await result.json();
-      setSearchResults(users.user); // Update state with the search results
+      console.log(users, 'these are users')
+      setSearchResults(users.bookmarks); // Update state with the search results
     } catch (err) {
       console.log("Error searching users:", err);
     }
   };
 
-
+  
   useEffect(() => {
     if (search.length > 0) {
       searchUsers();
+    } else {
+      setSearchResults([])
     }
-  }, [search]);
+  }, [search, selectedCategory]); 
   
 
+
   return (
-    <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
+    <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
       <IonContent>
-      <div>Bookmarks</div>
-        {searchResults.length > 0 ? (
+        {/* Category Dropdown */}
+        <IonItem>
+          <IonLabel>Select Categorys</IonLabel>
+          <IonSelect
+            value={selectedCategory}
+            placeholder="Choose a category"
+            onIonChange={(e) => setSelectedCategory(e.detail.value)}
+          >
+            {categories.map((category, index) => (
+              <IonSelectOption key={index} value={category}>
+                {category}
+              </IonSelectOption>
+            ))}
+          </IonSelect>
+        </IonItem>
+
+        {/* Display Search Results */}
+        {searchResults?.length > 0 ? (
           searchResults.map((user, index) => (
-            <Profile profile={user} />
+            <Post key={index} post={user.post} />
           ))
         ) : (
           <IonItem>
-            <IonLabel>No users found.</IonLabel>
+            <IonLabel>No Bookmarks found.</IonLabel>
           </IonItem>
         )}
       </IonContent>
     </IonPage>
   );
 };
-
 
 export default Saved;
