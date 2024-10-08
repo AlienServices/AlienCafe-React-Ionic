@@ -86,7 +86,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         }
     };
 
-    
+
     const handleLogout = async () => {
         try {
             const { error } = await supabase.auth.signOut();
@@ -143,7 +143,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     const truncatedContent = truncateContent(post.content, 400);
 
     return (
-        <IonContent className="page">
+        <>
             <IonList>
                 <div className="shadow" key={post.id}>
                     <IonCard
@@ -243,7 +243,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 <input style={{ color: "white" }} type="text" />
                 <div>kale</div>
             </IonModal>
-        </IonContent>
+        </>
     );
 };
 

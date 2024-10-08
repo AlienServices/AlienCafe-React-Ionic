@@ -64,8 +64,7 @@ const Posts = ({ search }: { search: string }) => {
 
     return (
         <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
-            <IonContent>
-                {/* Category Dropdown */}
+            <IonContent  className="page no-scrollbar" >
                 <IonItem>
                     <IonLabel>Select Categorys</IonLabel>
                     <IonSelect
@@ -82,7 +81,6 @@ const Posts = ({ search }: { search: string }) => {
                     </IonSelect>
                 </IonItem>
 
-                {/* Post Search Results */}
                 {searchResults?.length > 0 ? (
                     searchResults.map((user, index) => (
                         <Post key={index} post={user} />
