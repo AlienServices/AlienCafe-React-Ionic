@@ -20,13 +20,24 @@ import "./Tab2.css";
 import MyPosts from "../components/MyPosts";
 import Category from "../components/Category";
 import { logoIonic } from "ionicons/icons";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, SetStateAction } from "react";
 import { MyContext } from "../providers/postProvider";
 import Replies from "../components/Replies";
 import Page from "../pages/Edit";
 import UserComments from "../components/UserComments";
 
-const Tab2 = () => {
+interface EditProfileProps {
+  editProfileRef: any;
+  currProfileImage: string;
+  setProfileImageUri: React.Dispatch<SetStateAction<string>>;
+}
+
+
+const Tab2 = ({
+  editProfileRef,
+  currProfileImage,
+  setProfileImageUri,
+}: EditProfileProps) => {
   const [choices, setChoices] = useState({
     posts: 1,
     replies: 0,
@@ -47,7 +58,44 @@ const Tab2 = () => {
   const [likes, setLikes] = useState(1);
   const [categories, setCategories] = useState(0);
 
-  console.log(myInfo, "my posts");
+
+  async function uploadProfileImage(imageUri: string) {
+    try {
+      // Fetch the image from the URI
+      const response = await fetch(imageUri);
+      if (!response.ok) {
+        throw new Error("Failed to fetch the image");
+      }
+      const formData = new FormData();
+
+      formData.append("image", {
+        uri: imageUri,
+        type: "image/jpg",
+        name: `${myInfo.id}.jpg`,
+      } as any);
+      const uploadResponse = await fetch(`${getBaseUrl()}/api/supabase-s3?id=${myInfo.id}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!uploadResponse.ok) {
+        const errorText = await uploadResponse.text();
+        throw new Error(`Upload failed: ${errorText}`);
+      }
+      const result = await uploadResponse.json();
+      console.log("Upload successful:", result);
+      setProfileImageUri(
+        `${process.env.EXPO_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-images/${myInfo.id}.jpg?${Date.now()}`
+      );
+      setProfileImage(null);
+    } catch (error) {
+      console.error(
+        "Error uploading image:",
+        error instanceof Error ? error.message : error
+      );
+    }
+  }
+
+
 
   return (
     <IonPage>
