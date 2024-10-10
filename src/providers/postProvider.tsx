@@ -1,5 +1,7 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
 import { post } from "../utils/fetch";
+import { Platform } from "react-native";
+import { Capacitor } from "@capacitor/core";
 
 interface Post {
   email: string;
@@ -53,6 +55,7 @@ interface PostContext {
   addLike: (id: string) => void; // Add addLike
   addDislike: (id: string) => void; // Add addDislike
   addBookmark: (userId: string, postId: string) => void;
+  getBaseUrl: () => void;
 }
 
 // const MyContext = createContext({ values: [], setValues: (posts) => { } });
@@ -83,6 +86,7 @@ const MyContext = createContext<PostContext>({
   userPosts: [],
   getUserPosts: (email) => { },
   addBookmark: (userId, postId) => { }, // Placeholder function
+  getBaseUrl: () => {}
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -179,8 +183,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
             postId
           })
         },
-      );      
-      const posts = await result.json();      
+      );
+      const posts = await result.json();
     } catch (error) {
       console.log(error, "this is the create user error");
     }
@@ -310,6 +314,29 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+
+  const getBaseUrl = () => {
+    const platform = Capacitor.getPlatform();
+  
+    if (platform === "web") {
+      // Check if it's a local development environment
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+      ) {
+        return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; // Local development URL
+      } else {
+        // Production environment for web
+        return import.meta.env.VITE_APP_SERVER_BASE_URL; // Production URL for web
+      }
+    } else {
+      // Native platforms (iOS/Android)
+      return import.meta.env.VITE_APP_SERVER_BASE_URL; // URL for mobile
+    }
+  };
+
+
+
   const createPost = async (
     title: string,
     value: string,
@@ -386,7 +413,9 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         userPosts: userPosts,
         getUserPosts: getUserPosts,
         setUserPosts: setUserPosts,
-        addBookmark: addBookmark, 
+        addBookmark: addBookmark,
+        getBaseUrl: getBaseUrl
+        
       }}
     >
       {children}

@@ -14,6 +14,7 @@ import {
   IonLabel,
   IonCardSubtitle,
   IonIcon,
+  IonButton
 } from "@ionic/react";
 import ExploreContainer from "../components/ExploreContainer";
 import "./Tab2.css";
@@ -24,7 +25,10 @@ import { useEffect, useState, useContext, SetStateAction } from "react";
 import { MyContext } from "../providers/postProvider";
 import Replies from "../components/Replies";
 import Page from "../pages/Edit";
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import UserComments from "../components/UserComments";
+
+
 
 interface EditProfileProps {
   editProfileRef: any;
@@ -54,47 +58,77 @@ const Tab2 = ({
     getAllPosts,
     myInfo,
   } = useContext(MyContext);
+
   const [replies, setReplies] = useState(0);
   const [likes, setLikes] = useState(1);
   const [categories, setCategories] = useState(0);
+  const [profileImage, setProfileImage] = useState<any>(null);
+  const { getBaseUrl } = useContext(MyContext)
 
 
-  async function uploadProfileImage(imageUri: string) {
-    try {
-      // Fetch the image from the URI
-      const response = await fetch(imageUri);
-      if (!response.ok) {
-        throw new Error("Failed to fetch the image");
-      }
-      const formData = new FormData();
-
-      formData.append("image", {
-        uri: imageUri,
-        type: "image/jpg",
-        name: `${myInfo.id}.jpg`,
-      } as any);
-      const uploadResponse = await fetch(`${getBaseUrl()}/api/supabase-s3?id=${myInfo.id}`, {
-        method: "POST",
-        body: formData,
-      });
-      if (!uploadResponse.ok) {
-        const errorText = await uploadResponse.text();
-        throw new Error(`Upload failed: ${errorText}`);
-      }
-      const result = await uploadResponse.json();
-      console.log("Upload successful:", result);
-      setProfileImageUri(
-        `${process.env.EXPO_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-images/${myInfo.id}.jpg?${Date.now()}`
-      );
-      setProfileImage(null);
-    } catch (error) {
-      console.error(
-        "Error uploading image:",
-        error instanceof Error ? error.message : error
-      );
+  useEffect(() => {
+    if (profileImage) {
+      uploadProfileImage(profileImage)
     }
-  }
+  }, [profileImage])
 
+
+
+ async function uploadProfileImage(imageUri: string) {
+  try {
+    // Fetch the image from the URI for web, handle file reading differently for native
+    const response = await fetch(imageUri);
+    if (!response.ok) {
+      throw new Error("Failed to fetch the image");
+    }
+    const blob = await response.blob(); // Convert to blob for file upload
+
+    const formData = new FormData();
+    formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
+
+    const uploadResponse = await fetch(`http://localhost:3000/api/supabase-s3?id=${myInfo.id}`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!uploadResponse.ok) {
+      const errorText = await uploadResponse.text();
+      throw new Error(`Upload failed: ${errorText}`);
+    }
+
+    const result = await uploadResponse.json();
+    console.log("Upload successful:", result);
+
+    // Set the image URL using the correct environment variable
+    setProfileImageUri(
+      `http://localhost:3000/storage/v1/object/public/ProfilePhotos/${myInfo.id}?${Date.now()}`
+    );
+    setProfileImage(null);
+  } catch (error) {
+    console.error(
+      "Error uploading image:",
+      error instanceof Error ? error.message : error
+    );
+  }
+}
+
+  const pickImage = async () => {
+    try {
+      const result = await Camera.getPhoto({
+        quality: 2,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Prompt,
+      });
+
+      if (result && result.webPath) {
+        setProfileImage(result.webPath);
+        console.log('this is the photo', result.webPath)
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
+    }
+  };
 
 
   return (
@@ -128,6 +162,7 @@ const Tab2 = ({
             {/* <IonNavLink routerDirection="forward" component={() => <Page />}>
             <div>edit profile</div>
           </IonNavLink> */}
+
           </IonCardHeader>
           <IonCardContent>{myInfo?.bio}</IonCardContent>
           <div className="flexChoice">
@@ -213,6 +248,7 @@ const Tab2 = ({
           // <MyPosts></MyPosts>
           <></>
         )}
+        <IonButton onClick={() => { pickImage() }}>Click m</IonButton>
       </IonContent>
     </IonPage>
   );
