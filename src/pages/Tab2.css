@@ -95,3 +95,9 @@
 .row div {
   width: fit-content;
 }
+
+.profilePic {
+  border-radius: 100px;
+  width: 60px;
+  height: 60px;
+}

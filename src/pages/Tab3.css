@@ -531,6 +531,8 @@ div {
   /* Chrome, Safari, and Opera */
 }
 
+
+
 @media (max-width: 600px) {
   .quill .ql-container {
     height: 200px;

@@ -31,6 +31,7 @@ interface Profile {
 
 const Profile: React.FC<Profile> = ({ profile }) => {
     const history = useHistory();
+    // const [profileImage, setProfileImage] = useState<any>(null);
     const [searchResults, setSearchResults] = useState<any[]>([]); // Initialize searchResults as an array
     const {
         myInfo,
@@ -51,16 +52,22 @@ const Profile: React.FC<Profile> = ({ profile }) => {
     const [showModal, setShowModal] = useState(false);
 
 
+    const profileImage = (id: string) => {
+        if (id) {
+            const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+                }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+            return newProfileImageUri;
+        }
+    };
 
 
-
-    return (        
-                <IonCard style={{boxShadow: 'none', margin: '10px'}}>
-                    <div className="row">
-                        <IonImg style={{ width: '40px', height: '40px' }} src="https://toolset.com/wp-content/uploads/2018/06/909657-profile_pic.png"></IonImg>
-                        <div style={{width: '175px'}} className="usernameSearch">{profile.username}</div>
-                    </div>
-                </IonCard>                
+    return (
+        <IonCard style={{ boxShadow: 'none', margin: '10px' }}>
+            <div className="row">
+                <img className="profile-photo" src={profileImage(profile.id)} alt="" />
+                <div style={{ width: '175px' }} className="usernameSearch">{profile.username}</div>
+            </div>
+        </IonCard>
     );
 };
 

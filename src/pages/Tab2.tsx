@@ -14,7 +14,8 @@ import {
   IonLabel,
   IonCardSubtitle,
   IonIcon,
-  IonButton
+  IonButton,
+  IonImg
 } from "@ionic/react";
 import ExploreContainer from "../components/ExploreContainer";
 import "./Tab2.css";
@@ -74,48 +75,56 @@ const Tab2 = ({
 
 
 
- async function uploadProfileImage(imageUri: string) {
-  try {
-    // Fetch the image from the URI for web, handle file reading differently for native
-    const response = await fetch(imageUri);
-    if (!response.ok) {
-      throw new Error("Failed to fetch the image");
+  async function uploadProfileImage(imageUri: string) {
+    try {
+      // Fetch the image from the URI for web, handle file reading differently for native
+      const response = await fetch(imageUri);
+      if (!response.ok) {
+        throw new Error("Failed to fetch the image");
+      }
+      const blob = await response.blob(); // Convert to blob for file upload
+
+      const formData = new FormData();
+      formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
+
+      const uploadResponse = await fetch(`http://localhost:3000/api/supabase-s3?id=${myInfo.id}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!uploadResponse.ok) {
+        const errorText = await uploadResponse.text();
+        throw new Error(`Upload failed: ${errorText}`);
+      }
+
+      const result = await uploadResponse.json();
+      console.log("Upload successful:", result);
+
+      // Set the image URL using the correct environment variable
+      setProfileImage(
+        `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}?${Date.now()}`
+      );
+      setProfileImage(null);
+    } catch (error) {
+      console.error(
+        "Error uploading image:",
+        error instanceof Error ? error.message : error
+      );
     }
-    const blob = await response.blob(); // Convert to blob for file upload
-
-    const formData = new FormData();
-    formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
-
-    const uploadResponse = await fetch(`http://localhost:3000/api/supabase-s3?id=${myInfo.id}`, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!uploadResponse.ok) {
-      const errorText = await uploadResponse.text();
-      throw new Error(`Upload failed: ${errorText}`);
-    }
-
-    const result = await uploadResponse.json();
-    console.log("Upload successful:", result);
-
-    // Set the image URL using the correct environment variable
-    setProfileImageUri(
-      `http://localhost:3000/storage/v1/object/public/ProfilePhotos/${myInfo.id}?${Date.now()}`
-    );
-    setProfileImage(null);
-  } catch (error) {
-    console.error(
-      "Error uploading image:",
-      error instanceof Error ? error.message : error
-    );
   }
-}
+
+  useEffect(() => {
+    if (myInfo?.id) {
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}`;
+      console.log(newProfileImageUri)
+      setProfileImage(`${newProfileImageUri}.jpg`);
+    }
+  }, [myInfo]);
 
   const pickImage = async () => {
     try {
       const result = await Camera.getPhoto({
-        quality: 2,
+        quality: .1,
         allowEditing: true,
         resultType: CameraResultType.Uri,
         source: CameraSource.Prompt,
@@ -130,6 +139,7 @@ const Tab2 = ({
     }
   };
 
+  const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe'
 
   return (
     <IonPage>
@@ -139,12 +149,13 @@ const Tab2 = ({
             <IonCardTitle>{myInfo?.username}</IonCardTitle>
           </div>
           <div className="rowEven">
-            <img
-              style={{ marginLeft: "10px" }}
-              className="user-icon"
-              src={"https://ionicframework.com/docs/img/demos/avatar.svg"}
+            <img              
+              className="profilePic"
+              src={profileImage}
               alt="User icon"
+              aria-placeholder={blurhash}
             />
+            {/* <IonImg aria-placeholder={blurhash} src={profileImage} className="profilePic"  /> */}
             <div className="rowClose">
               <div>Posts</div>
               <div className="centerSmall">{myPosts?.length}</div>

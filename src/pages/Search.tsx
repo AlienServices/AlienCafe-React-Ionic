@@ -35,6 +35,8 @@ const Search = () => {
         }
     }, [currentCategory]);
 
+    const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe'
+
     return (
         <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
             <IonContent scrollY={false}>
@@ -43,7 +45,6 @@ const Search = () => {
                     onChange={(e) => { setSearchInput(e.target.value) }}
                     placeholder="Search Here"
                 />
-                {/* Indicator bar */}
                 <div className="indicator-bar">
                     {categories.map((category, index) => (
                         <div
