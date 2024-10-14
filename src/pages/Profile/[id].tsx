@@ -16,9 +16,7 @@ import {
   IonCardSubtitle,
   IonIcon,
 } from "@ionic/react";
-import ExploreContainer from "../../components/ExploreContainer";
-import "../Tab2.css";
-import MyPosts from "../../components/MyPosts";
+import "../../theme/Tab2.css";
 import {
   colorFill,
   heart,

@@ -4,7 +4,7 @@ import { useLocation, useHistory } from "react-router";
 import { IonButton, IonAvatar, IonCard, IonList, IonPage } from "@ionic/react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import "../pages/Tab3.css";
+import "../theme/Tab3.css";
 import { MyContext } from "../providers/postProvider";
 
 const Content: React.FC = () => {

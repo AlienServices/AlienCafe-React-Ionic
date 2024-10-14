@@ -1,31 +1,18 @@
 import {
   IonContent,
-  IonHeader,
   IonPage,
-  IonNavLink,
-  IonTitle,
-  IonToolbar,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonCardSubtitle,
-  IonIcon,
   IonButton,
-  IonImg
+  useIonViewWillEnter
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
-import "./Tab2.css";
+import "../theme/Tab2.css";
 import MyPosts from "../components/MyPosts";
 import Category from "../components/Category";
-import { logoIonic } from "ionicons/icons";
 import { useEffect, useState, useContext, SetStateAction } from "react";
 import { MyContext } from "../providers/postProvider";
-import Replies from "../components/Replies";
-import Page from "../pages/Edit";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import UserComments from "../components/UserComments";
 
@@ -76,31 +63,24 @@ const Tab2 = ({
 
 
   async function uploadProfileImage(imageUri: string) {
-    try {
-      // Fetch the image from the URI for web, handle file reading differently for native
+    try {      
       const response = await fetch(imageUri);
       if (!response.ok) {
         throw new Error("Failed to fetch the image");
       }
-      const blob = await response.blob(); // Convert to blob for file upload
-
+      const blob = await response.blob(); 
       const formData = new FormData();
       formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
-
       const uploadResponse = await fetch(`http://localhost:3000/api/supabase-s3?id=${myInfo.id}`, {
         method: "POST",
         body: formData,
       });
-
       if (!uploadResponse.ok) {
         const errorText = await uploadResponse.text();
         throw new Error(`Upload failed: ${errorText}`);
       }
-
       const result = await uploadResponse.json();
-      console.log("Upload successful:", result);
-
-      // Set the image URL using the correct environment variable
+      console.log("Upload successful:", result);      
       setProfileImage(
         `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}?${Date.now()}`
       );
@@ -113,13 +93,13 @@ const Tab2 = ({
     }
   }
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     if (myInfo?.id) {
       const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}`;
-      console.log(newProfileImageUri)
+      console.log(newProfileImageUri);
       setProfileImage(`${newProfileImageUri}.jpg`);
     }
-  }, [myInfo]);
+  });
 
   const pickImage = async () => {
     try {
@@ -149,7 +129,7 @@ const Tab2 = ({
             <IonCardTitle>{myInfo?.username}</IonCardTitle>
           </div>
           <div className="rowEven">
-            <img              
+            <img
               className="profilePic"
               src={profileImage}
               alt="User icon"

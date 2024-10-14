@@ -21,7 +21,7 @@ import { Pagination } from "swiper/modules";
 import Category from "../components/categories/Category";
 import "swiper/css";
 import "swiper/css/pagination";
-import "./Tab3.css";
+import "../theme/Tab3.css";
 
 const Tab3: React.FC = () => {
   const { myInfo, setMyInfo } = useContext(MyContext);
@@ -92,7 +92,7 @@ const Tab3: React.FC = () => {
         </IonHeader>
         <IonContent>
           <div className="middle">
-            <IonTitle>{currentCategory}</IonTitle>
+            <IonTitle>{currentCategory}</IonTitle>            
           </div>
           <Swiper
             modules={[Pagination]}
@@ -101,7 +101,7 @@ const Tab3: React.FC = () => {
             pagination={{ clickable: true }}
             onSlideChange={(swiper) =>
               setCurrentCategory(categories[swiper.activeIndex])
-            } // Update category on slide change
+            } 
             style={{ height: "100%" }}
           >
             {categories.map((category, index) => (

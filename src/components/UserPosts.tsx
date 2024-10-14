@@ -1,17 +1,4 @@
 import { useEffect, useState, useRef, useCallback, useContext } from "react";
-import { IonIcon } from "@ionic/react";
-import { useApi } from "../hooks/useApi";
-import {
-  colorFill,
-  heart,
-  heartCircle,
-  chatbubbleOutline,
-  ellipsisHorizontalOutline,
-  cartOutline,
-  bookmarkOutline,
-  shareOutline,
-  ellipsisHorizontal,
-} from "ionicons/icons";
 // import Editor from '../components/Editor';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -38,7 +25,7 @@ import {
   useIonToast,
   useIonLoading,
 } from "@ionic/react";
-import "../pages/Tab3.css";
+import "../theme/Tab3.css";
 import { post } from "../utils/fetch";
 import Page from "../pages/View/[id]";
 import { MyContext } from "../providers/postProvider";

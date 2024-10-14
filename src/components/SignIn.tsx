@@ -20,7 +20,7 @@ import {
   useIonToast,
   useIonLoading,
 } from "@ionic/react";
-import "../pages/Tab3.css";
+import "../theme/Tab3.css";
 import { MyContext } from "../providers/postProvider";
 
 const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {

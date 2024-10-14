@@ -1,45 +1,11 @@
 import { useEffect, useState, useRef, useCallback, useContext } from "react";
-import { Redirect, Route } from "react-router-dom";
-import { IonIcon } from "@ionic/react";
-import { useApi } from "../hooks/useApi";
-import {
-  colorFill,
-  heart,
-  heartCircle,
-  chatbubbleOutline,
-  bookmarkOutline,
-  shareOutline,
-  checkmarkOutline,
-} from "ionicons/icons";
-// import Editor from '../components/Editor';
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Quill from "quill/core";
-import Post from "../pages/View/[id]";
-import { supabase } from "./supaBase";
 import {
-  IonButton,
-  IonNav,
-  IonChip,
-  IonAvatar,
-  IonContent,
   IonCard,
-  IonNavLink,
-  IonRouterLink,
-  IonHeader,
-  IonRoute,
-  IonInput,
-  IonRouterOutlet,
   IonItem,
-  IonLabel,
   IonList,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonToast,
-  useIonLoading,
 } from "@ionic/react";
-import "../pages/Tab3.css";
+import "../theme/Tab3.css";
 import Page from "../pages/View/[id]";
 import Profile from "../pages/Profile/[id]";
 import { post } from "../utils/fetch";

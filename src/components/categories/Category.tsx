@@ -28,7 +28,7 @@ import {
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from "../supaBase";
-import "../../pages/Tab3.css";
+import "../../theme/Tab3.css";
 import Page from "../../pages/View/[id]";
 import Profile from "../../pages/Profile/[id]";
 import { MyContext } from "../../providers/postProvider";
@@ -183,6 +183,7 @@ const Category: React.FC<CategoryProps> = ({
 
                 return (
                   <div className="shadow" key={post.id}>
+                    
                     <IonCard
                       style={{ boxShadow: "none", paddingBottom: "10px" }}
                       className="card"

@@ -1,7 +1,7 @@
 import { IonPage, IonButton, IonCheckbox, IonContent } from "@ionic/react";
 import React, { useState } from "react";
 import "react-quill/dist/quill.snow.css";
-import "../pages/Tab2.css";
+import "../theme/Tab2.css";
 
 const Category = () => {
   // const [value, setValue] = useState('');

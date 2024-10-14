@@ -2,25 +2,17 @@ import { useEffect, useState, useContext } from "react";
 import { useApi } from "../hooks/useApi";
 import { useHistory } from "react-router";
 // import Editor from '../components/Editor';
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill/core";
 import alien from "../../public/alien.png";
 import {
-  colorFill,
-  heart,
-  heartCircle,
-  chatbubbleOutline,
   bookmarkOutline,
-  shareOutline,
-  checkmarkOutline,
   settingsOutline,
   personOutline,
   createOutline,
 } from "ionicons/icons";
 import {
   IonButton,
-  IonText,
   IonButtons,
   IonContent,
   IonHeader,
@@ -40,7 +32,7 @@ import {
   IonImg,
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
-import "./Tab1.css";
+import "../theme/Tab1.css";
 import SignIn from "../components/SignIn";
 import CreateAccount from "../components/CreateAccount";
 import { MyContext } from "../providers/postProvider";
@@ -58,14 +50,8 @@ const Login: React.FC = () => {
     getAllPosts,
     myInfo,
   } = useContext(MyContext);
-  const [localEmail, setLocalEmail] = useState(localStorage.getItem("user"));
-  const [menuType, setMenuType] = useState("overlay");
-  const [loggedIn, setLoggedIn] = useState("logged out");
-  const [email, setEmail] = useState("logged out");
-  const [userName, setUserName] = useState("logged out");
   const history = useHistory();
   const [loginToggle, setLoginToggle] = useState<boolean>(true);
-  const { createUser } = useApi();
 
   // useEffect(() => {
   //   if (user?.session.accessToken) {
@@ -75,7 +61,7 @@ const Login: React.FC = () => {
   //   }
   // }, [user])
 
-  const handleLogout = async () => {    
+  const handleLogout = async () => {
     console.log('hitting logout in login')
     try {
       const { error } = await supabase.auth.signOut();

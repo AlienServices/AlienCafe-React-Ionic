@@ -34,8 +34,8 @@ import {
   flameOutline,
 } from "ionicons/icons";
 // import Tab1 from './pages/Tab1';
-import Tab2 from "./pages/Tab2";
-import Tab3 from "./pages/Tab3";
+import Tab2 from "./pages/Profile";
+import Tab3 from "./pages/Homepage";
 import Login from "./pages/Login";
 import Create from "./pages/Create";
 import Post from "./pages/View/[id]";

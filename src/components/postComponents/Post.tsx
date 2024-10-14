@@ -22,7 +22,7 @@ import {
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from "../supaBase";
-import "../../pages/Tab3.css";
+import "../../theme/Tab3.css";
 import Profile from "../../pages/Profile/[id]";
 import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";

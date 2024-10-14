@@ -18,7 +18,7 @@ import {
   useIonToast,
   useIonLoading,
 } from "@ionic/react";
-import "../pages/Tab3.css";
+import "../theme/Tab3.css";
 
 const CreateAccount = ({
   setToggle,
