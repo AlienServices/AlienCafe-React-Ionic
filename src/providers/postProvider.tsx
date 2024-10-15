@@ -22,6 +22,7 @@ interface PostContext {
     bio: string;
     following: [];
     followers: [];
+    blurhash: string
   };
   setPosts: (post: Post[]) => void;
   setUserPosts: (post: Post[]) => void;
@@ -35,6 +36,7 @@ interface PostContext {
     username: string;
     following: [];
     followers: [];
+    blurhash: string
   }) => void;
   updatePost: (post: Post) => void;
   deletePost: (id: string) => void;
@@ -80,13 +82,14 @@ const MyContext = createContext<PostContext>({
     followers: [],
     following: [],
     username: "",
+    blurhash: ""
   },
   updateUser: () => { },
   setUserPosts: () => { },
   userPosts: [],
   getUserPosts: (email) => { },
   addBookmark: (userId, postId) => { }, // Placeholder function
-  getBaseUrl: () => {}
+  getBaseUrl: () => { }
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -127,6 +130,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     username: string;
     following: [];
     followers: [];
+    blurhash: string
   }>({
     id: "",
     content: "",
@@ -136,6 +140,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     username: "",
     following: [],
     followers: [],
+    blurhash: ''
   });
   const [loggedIn, setLoggedIn] = useState(true);
 
@@ -317,7 +322,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const getBaseUrl = () => {
     const platform = Capacitor.getPlatform();
-  
+
     if (platform === "web") {
       // Check if it's a local development environment
       if (
@@ -415,7 +420,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         setUserPosts: setUserPosts,
         addBookmark: addBookmark,
         getBaseUrl: getBaseUrl
-        
+
       }}
     >
       {children}

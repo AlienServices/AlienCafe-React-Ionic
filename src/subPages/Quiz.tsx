@@ -74,7 +74,7 @@ const Quiz = (props: TestProps) => {
                     yesAction,
                     noAction,
                     maybeAction,
-                    [selectedOption],
+                    selectedOption,
                   );
                   history?.push("/tab1");
                 }}

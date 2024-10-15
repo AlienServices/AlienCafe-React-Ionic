@@ -25,8 +25,8 @@ import {
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
 import "./Tab1.css";
-import SignIn from "../components/SignIn";
-import CreateAccount from "../components/CreateAccount";
+import SignIn from "../components/loginComponents/SignIn";
+import CreateAccount from "../components/loginComponents/CreateAccount";
 import { MyContext } from "../providers/postProvider";
 
 const Login: React.FC = () => {
@@ -70,7 +70,7 @@ const Login: React.FC = () => {
 
         <IonButton
           onClick={() => {
-            updateUser(userName, bio, myInfo.following, myInfo.email);
+            // updateUser(myInfo.email, myInfo.following, bio);
           }}
         >
           Done

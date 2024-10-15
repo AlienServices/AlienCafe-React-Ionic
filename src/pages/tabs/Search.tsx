@@ -7,15 +7,16 @@ import { IonContent, IonPage } from "@ionic/react";
 import Profiles from "../../components/searchOptions/profiles";
 import Saved from "../../components/searchOptions/saved";
 import Posts from "../../components/searchOptions/posts";
+import SwiperCore from 'swiper'; // Import SwiperCore to type the swiperRef
 
-const Search = () => {
+const Search: React.FC = () => {
     const categories = ["Profiles", "Posts", "Saved"];
-    const [currentCategory, setCurrentCategory] = useState(categories[0]);
-    const [searchInput, setSearchInput] = useState('');
-    const { myInfo } = useContext(MyContext);
-    const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+    const [currentCategory, setCurrentCategory] = useState<string>(categories[0]);
+    const [searchInput, setSearchInput] = useState<string>('');
+    const { myInfo } = useContext<any>(MyContext); // Ideally, type your context here
+    const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
     const indicatorRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const swiperRef = useRef(null);
+    const swiperRef = useRef<SwiperCore | null>(null); // Correct type for Swiper instance
 
     // Update indicator position
     useEffect(() => {
@@ -35,7 +36,7 @@ const Search = () => {
         }
     }, [currentCategory]);
 
-    const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe'
+    const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe';
 
     return (
         <IonPage style={{ paddingTop: '20px', padding: "15px" }}>

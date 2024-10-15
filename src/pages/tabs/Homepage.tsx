@@ -47,7 +47,7 @@ const Tab3: React.FC = () => {
       } else {
         menuRef.current?.close();
         localStorage.removeItem("user");
-        setMyInfo({ id: '', content: '', likes: [], email: '', bio: '', username: '', following: [], followers: [] })
+        setMyInfo({ id: '', content: '', likes: [], email: '', bio: '', username: '', following: [], followers: [], blurhash: '' })
         history.push("/tab1");
       }
     } catch (error) {
@@ -92,7 +92,7 @@ const Tab3: React.FC = () => {
         </IonHeader>
         <IonContent>
           <div className="middle">
-            <IonTitle>{currentCategory}</IonTitle>            
+            <IonTitle>{currentCategory}</IonTitle>
           </div>
           <Swiper
             modules={[Pagination]}
@@ -101,7 +101,7 @@ const Tab3: React.FC = () => {
             pagination={{ clickable: true }}
             onSlideChange={(swiper) =>
               setCurrentCategory(categories[swiper.activeIndex])
-            } 
+            }
             style={{ height: "100%" }}
           >
             {categories.map((category, index) => (

@@ -45,7 +45,7 @@ const MyEditor = () => {
     myInfo,
     createPost,
   } = useContext(MyContext);
-  const contentQuillRef = useRef(null);
+  const contentQuillRef = useRef<ReactQuill | null>(null);
 
   useEffect(() => {
     if (contentQuillRef.current) {
@@ -54,11 +54,11 @@ const MyEditor = () => {
     }
   }, []);
 
-  const handleChange = (html) => {
+  const handleChange = (html: string) => {
     setEditorHtml(html);
   };
 
-  const handleTitleChange = (html) => {
+  const handleTitleChange = (html: string) => {
     setEditorHtmlTitle(html);
   };
 
