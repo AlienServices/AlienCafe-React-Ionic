@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import Test from "./Test";
+import Test from ".././Test";
 import {
   useIonRouter,
   IonContent,
@@ -17,13 +17,13 @@ import {
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { motion } from "framer-motion";
-import { MessageContext } from "../providers/messageProvider";
+import { MessageContext } from "../../providers/messageProvider";
 
-import "../theme/chat.css";
-import "../theme/swiper.css";
-import "../theme/test.css";
-import "../theme/styles.scss";
-import "../theme/Home.css";
+import "../../theme/chat.css";
+import "../../theme/swiper.css";
+import "../../theme/test.css";
+import "../../theme/styles.scss";
+import "../../theme/Home.css";
 
 interface MessageData {
   conversationId: string;

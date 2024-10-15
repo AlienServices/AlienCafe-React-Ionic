@@ -1,7 +1,9 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useContext } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { supabase } from "./supaBase";
+import { useLocation, useHistory } from "react-router";
+import useNavigate from "react-router";
+import { supabase } from ".././supaBase";
 import {
   IonButton,
   IonContent,
@@ -18,39 +20,38 @@ import {
   useIonToast,
   useIonLoading,
 } from "@ionic/react";
-import "../theme/Tab3.css";
+import "../../theme/Tab3.css";
+import { MyContext } from "../../providers/postProvider";
 
-const CreateAccount = ({
-  setToggle,
-}: {
-  setToggle: (value: boolean) => void;
-}) => {
+const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   const [content, setContent] = useState<{ hello: [] }>();
   const [email, setEmail] = useState<string>("");
+  const {
+    posts,
+    myPosts,
+    setPosts,
+    setMyPosts,
+    updatePost,
+    getAllPosts,
+    setLoggedin,
+    loggedIn,
+  } = useContext(MyContext);
   const [userEmail, setUserEmail] = useState<any>(localStorage.getItem("user"));
   const [password, setPassword] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
-  const [value, setValue] = useState(
-    "<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>",
-  );
+  const [username, setUsername] = useState<string>();
+  const [error, setError] = useState<string>();
+  const history = useHistory();
 
-  const handleSignUp = async (userName: string, email: string) => {
+  // const [value, setValue] = useState('<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>');
+
+  const handleSignUp = async () => {
+    console.log("kale");
     try {
       const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
       });
-      const result = await fetch(`http://localhost:3000/api/createUser`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: userName,
-          email: email,
-        }),
-      });
-      console.log(result, "this is the responose to making a user in the db");
+      console.log(error, data, "create user info");
     } catch (error) {
       console.log(error);
     }
@@ -64,18 +65,21 @@ const CreateAccount = ({
       });
       if (error) {
         console.log(error, "this is the login error");
+        setError("Email or Password Incorrect");
       }
-      if (data) {
-        localStorage.setItem("user", JSON.stringify(data.user?.email));
+      if (data.user?.email) {
+        localStorage.setItem("user", data.user.email);
         console.log(data, "this is login data");
+        history.push("/tab3");
       }
+      setLoggedin(!loggedIn);
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleLogout = async () => {
-    console.log('hitting logout in create account')
+    console.log('hitting logout in all sign in')
     try {
       const { error } = await supabase.auth.signOut();
       console.log("You Logged Out");
@@ -98,23 +102,13 @@ const CreateAccount = ({
   };
 
   return (
-    <IonContent>
+    <IonContent >
       <IonList inset={true}>
         <IonItem lines="none">
           <input
             className="loginInput"
-            value={username}
-            placeholder="Username"
-            name="username"
-            onChange={(e) => setUsername(e.target.value ?? "")}
-            type="text"
-          ></input>
-        </IonItem>
-        <IonItem lines="none">
-          <input
-            className="loginInput"
             value={email}
-            placeholder="E`mail"
+            placeholder="Email"
             name="email"
             onChange={(e) => setEmail(e.target.value ?? "")}
             type="email"
@@ -130,37 +124,38 @@ const CreateAccount = ({
             type="password"
           ></input>
         </IonItem>
+        <div className="forgotPassword">
+          <div className="forgot">Forgot password?</div>
+        </div>
         <div className="center">
           <div style={{ width: "85%" }} className="columnButtons">
             <IonButton
-              shape="round"
-              className="loginButtonRounded"
+              className="loginButton"           
               onClick={() => {
-                handleSignUp(username, email);
+                handleLogin();
               }}
             >
-              Create Account
+              Sign In
             </IonButton>
+            <div style={{ textAlign: 'center' }}>{error}</div>
             <div className="center">
               <div style={{ margin: "10px", color: "rgb(138,140,140)" }}>
                 Or
               </div>
-
               <div
-                className="grayWord"
+                className="createAccount"
                 onClick={() => {
-                  setToggle(true);
+                  setToggle(false);
                 }}
               >
-                Already registered? <div className="blueWord">Login</div>
+                Create Account
               </div>
             </div>
           </div>
         </div>
-        <IonText>{/* {loggedIn} */}</IonText>
       </IonList>
     </IonContent>
   );
 };
 
-export default CreateAccount;
+export default SignIn;

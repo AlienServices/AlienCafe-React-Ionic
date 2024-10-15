@@ -33,8 +33,8 @@ import {
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
 import "../theme/Tab1.css";
-import SignIn from "../components/SignIn";
-import CreateAccount from "../components/CreateAccount";
+import SignIn from "../components/loginComponents/SignIn";
+import CreateAccount from "../components/loginComponents/CreateAccount";
 import { MyContext } from "../providers/postProvider";
 import Menu from "../components/Menu";
 

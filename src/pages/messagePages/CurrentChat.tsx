@@ -1,11 +1,11 @@
 import { useState, useRef, useContext, useDebugValue } from "react";
 import React, { useEffect } from "react";
-import supabase from "../messageComponents/supabaseClient";
+import supabase from "../../messageComponents/supabaseClient";
 import { createId } from "@paralleldrive/cuid2";
 import { sendOutline, returnUpBackOutline } from "ionicons/icons";
-import "../theme/chat.css";
+import "../../theme/chat.css";
 import { Keyboard } from "@capacitor/keyboard";
-import { MyContext } from "../providers/postProvider";
+import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
 import {
   IonContent,
@@ -20,7 +20,7 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import { useParams } from "react-router-dom";
-import { MessageContext } from "../providers/messageProvider";
+import { MessageContext } from "../../providers/messageProvider";
 
 type MessageStatus = "Delivered" | "Read";
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactQuill from "react-quill";
-import { MyContext } from "../providers/postProvider";
+import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
-import "../theme/create.css";
+import "../../theme/create.css";
 import {
   IonButton,
   IonText,
@@ -27,7 +27,7 @@ import {
   IonImg,
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
-import Quiz from "../subPages/Quiz";
+import Quiz from "../../subPages/Quiz";
 
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");

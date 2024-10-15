@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { MyContext } from "../providers/postProvider";
+import { MyContext } from "../../providers/postProvider";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import "../theme/create.css";
+import "../../theme/create.css";
 import { IonContent, IonPage } from "@ionic/react";
-import Profiles from "../components/searchOptions/profiles";
-import Saved from "../components/searchOptions/saved";
-import Posts from "../components/searchOptions/posts";
+import Profiles from "../../components/searchOptions/profiles";
+import Saved from "../../components/searchOptions/saved";
+import Posts from "../../components/searchOptions/posts";
 
 const Search = () => {
     const categories = ["Profiles", "Posts", "Saved"];

@@ -12,16 +12,16 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { useHistory } from "react-router";
-import { supabase } from "../components/supaBase";
-import alien from "../../public/alien.png";
-import AllPosts from "../components/AllPosts";
-import { MyContext } from "../providers/postProvider";
+import { supabase } from "../../components/supaBase";
+import alien from "../../../public/alien.png";
+import AllPosts from "../../components/AllPosts";
+import { MyContext } from "../../providers/postProvider";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import Category from "../components/categories/Category";
+import Category from "../../components/categories/Category";
 import "swiper/css";
 import "swiper/css/pagination";
-import "../theme/Tab3.css";
+import "../../theme/Tab3.css";
 
 const Tab3: React.FC = () => {
   const { myInfo, setMyInfo } = useContext(MyContext);

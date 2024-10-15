@@ -8,13 +8,13 @@ import {
   IonButton,
   useIonViewWillEnter
 } from "@ionic/react";
-import "../theme/Tab2.css";
-import MyPosts from "../components/MyPosts";
-import Category from "../components/Category";
+import "../../theme/Tab2.css";
+import MyPosts from "../../components/MyPosts";
+import Category from "../../components/Category";
 import { useEffect, useState, useContext, SetStateAction } from "react";
-import { MyContext } from "../providers/postProvider";
+import { MyContext } from "../../providers/postProvider";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import UserComments from "../components/UserComments";
+import UserComments from "../../components/UserComments";
 
 
 
@@ -25,7 +25,7 @@ interface EditProfileProps {
 }
 
 
-const Tab2 = ({
+const Profile = ({
   editProfileRef,
   currProfileImage,
   setProfileImageUri,
@@ -245,4 +245,4 @@ const Tab2 = ({
   );
 };
 
-export default Tab2;
+export default Profile;

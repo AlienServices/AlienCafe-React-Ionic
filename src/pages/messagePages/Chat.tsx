@@ -13,9 +13,9 @@ import {
   IonToolbar,
   IonTextarea,
 } from "@ionic/react";
-import { MessageContext } from "../providers/messageProvider";
-import { post } from "../utils/fetch";
-import "../theme/newChat.css";
+import { MessageContext } from "../../providers/messageProvider";
+import { post } from "../../utils/fetch";
+import "../../theme/newChat.css";
 
 type Message = {
   userName: string;

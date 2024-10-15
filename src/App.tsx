@@ -34,18 +34,18 @@ import {
   flameOutline,
 } from "ionicons/icons";
 // import Tab1 from './pages/Tab1';
-import Tab2 from "./pages/Profile";
-import Tab3 from "./pages/Homepage";
+import Tab2 from "../src/pages/tabs/Profile";
+import Tab3 from "../src/pages/tabs/Homepage";
 import Login from "./pages/Login";
-import Create from "./pages/Create";
+import Create from "../src/pages/tabs/Create";
 import Post from "./pages/View/[id]";
-import MessageHome from "./pages/MessageHome";
+import MessageHome from "../src/pages/tabs/MessageHome";
 import Menu from "./components/Menu";
-import Chat from "./pages/Chat";
+import Chat from "../src/pages/messagePages/Chat";
 import Quiz from "./subPages/Quiz";
-import CurrentChat from "./pages/CurrentChat";
+import CurrentChat from "../src/pages/messagePages/CurrentChat";
 import Comment from "./pages/Comment/[id]";
-import Search from "./pages/Search";
+import Search from "../src/pages/tabs/Search";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";

@@ -17,7 +17,7 @@ import {
   useIonAlert,
   IonTextarea,
 } from "@ionic/react";
-import Tab3 from "../pages/Homepage";
+import Tab3 from "../../src/pages/tabs/Homepage";
 import { MyContext } from "../providers/postProvider";
 
 interface TestProps {
