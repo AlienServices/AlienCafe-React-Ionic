@@ -78,44 +78,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <IonMenu side="start" contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>@{myInfo?.username}</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          <div className="contentContainer">
-            <div className="optionsContainer">
-              <div className="flexSetting">
-                <IonIcon icon={settingsOutline}></IonIcon>
-                <div className="setting">Settings</div>
-              </div>
-              <div className="flexSetting">
-                <IonIcon icon={personOutline}></IonIcon>
-                <div className="setting">Profile</div>
-              </div>
-              <div className="flexSetting">
-                <IonIcon icon={createOutline}></IonIcon>
-                <div className="setting">Messages</div>
-              </div>
-              <div className="flexSetting">
-                <IonIcon icon={bookmarkOutline}></IonIcon>
-                <div className="setting">Bookmarks</div>
-              </div>
-            </div>
-            <div>
-              <IonMenuToggle>
-                <IonButton className="button" size="small"
-                  onClick={() => handleLogout}
-                >
-                  Log
-                </IonButton>
-              </IonMenuToggle>
-            </div>
-          </div>
-        </IonContent>
-      </IonMenu>
+  
       <IonPage id="main-content">
         <IonHeader>
           <IonToolbar>

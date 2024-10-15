@@ -22,6 +22,7 @@ import Category from "../../components/categories/Category";
 import "swiper/css";
 import "swiper/css/pagination";
 import "../../theme/Tab3.css";
+import { Menu } from "../../components/Menu";
 
 const Tab3: React.FC = () => {
   const { myInfo, setMyInfo } = useContext(MyContext);
@@ -57,26 +58,7 @@ const Tab3: React.FC = () => {
 
   return (
     <>
-      <IonMenu side="start" contentId="main-content" ref={menuRef}>
-        <IonHeader>
-          <IonToolbar>
-            <div className="center">
-              <IonTitle>@{myInfo?.username}</IonTitle>
-            </div>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          <div className="contentContainer">
-            <div>Settings</div>
-            <div>Profile</div>
-            <div>Messages</div>
-            <div>Bookmarks</div>
-            <div>
-              <IonButton onClick={handleLogout}>LogTab3</IonButton>
-            </div>
-          </div>
-        </IonContent>
-      </IonMenu>
+      <Menu />
       <IonPage id="main-content">
         <IonHeader>
           <IonToolbar>

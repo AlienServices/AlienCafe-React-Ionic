@@ -7,7 +7,8 @@ import { IonContent, IonPage } from "@ionic/react";
 import Profiles from "../../components/searchOptions/profiles";
 import Saved from "../../components/searchOptions/saved";
 import Posts from "../../components/searchOptions/posts";
-import SwiperCore from 'swiper'; // Import SwiperCore to type the swiperRef
+import SwiperCore from 'swiper';
+import { Menu } from "../../components/Menu";
 
 const Search: React.FC = () => {
     const categories = ["Profiles", "Posts", "Saved"];
@@ -41,6 +42,7 @@ const Search: React.FC = () => {
     return (
         <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
             <IonContent scrollY={false}>
+            {/* <Menu /> */}
                 <input
                     className='input'
                     onChange={(e) => { setSearchInput(e.target.value) }}
