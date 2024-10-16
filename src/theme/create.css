@@ -1,6 +1,14 @@
 .ql-container.ql-snow {
   border: none;
 }
+.fullscreen {
+  margin-top: -20; 
+}
+
+.brown {
+  width: 100%;
+  background-color: rgb(80, 64, 58);
+}
 
 .custom-title-editor .ql-editor.ql-blank::before {
   font-size: 25px;
@@ -64,39 +72,44 @@
     outline: none;
     box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
   }
+
   .indicator-bar {
-    display: flex;    
+    display: flex;
     justify-content: space-around;
     margin: 15px 0;
     padding: 10px 0;
-    border-bottom: 2px solid #ddd; /* Optional: Add a bottom border to distinguish the bar */
-}
+    border-bottom: 2px solid #ddd;
+    /* Optional: Add a bottom border to distinguish the bar */
+  }
 
-.indicator-item {
+  .indicator-item {
     font-size: 16px;
     padding: 5px 10px;
     cursor: pointer;
-    color: #888; /* Inactive color */
-}
+    color: #888;
+    /* Inactive color */
+  }
 
-.indicator-item.active {
+  .indicator-item.active {
     font-weight: bold;
-    color: #26a7de; /* Active color */
-    border-bottom: 2px solid #26a7de; /* Optional: underline active item */
-}
+    color: #26a7de;
+    /* Active color */
+    border-bottom: 2px solid #26a7de;
+    /* Optional: underline active item */
+  }
 
-.no-scrollbar {
-  /* Hide scrollbar for Chrome, Safari, and Opera */
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* Internet Explorer 10+ */
-}
+  .no-scrollbar {
+    /* Hide scrollbar for Chrome, Safari, and Opera */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+  }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, and Opera */
-}
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, and Opera */
+  }
 
 
 }

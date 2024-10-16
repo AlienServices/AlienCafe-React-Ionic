@@ -40,14 +40,15 @@ const Search: React.FC = () => {
     const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe';
 
     return (
-        <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
-            <IonContent scrollY={false}>
-            {/* <Menu /> */}
-                <input
-                    className='input'
-                    onChange={(e) => { setSearchInput(e.target.value) }}
-                    placeholder="Search Here"
-                />
+        <IonPage className="fullscreen" style={{ paddingTop: '20px' }}>
+            <IonContent  scrollY={false}>
+                <div className="brown">                    
+                    <input
+                        className='input'
+                        onChange={(e) => { setSearchInput(e.target.value) }}
+                        placeholder="Search Here"
+                    />
+                </div>
                 <div className="indicator-bar">
                     {categories.map((category, index) => (
                         <div

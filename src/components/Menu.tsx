@@ -19,9 +19,11 @@ import {
   IonToolbar,
   IonButtons,
   IonMenuButton,
-  IonIcon
+  IonIcon,
+
 } from "@ionic/react";
 import supabase from "../messageComponents/supabaseClient";
+
 
 
 export const Menu = () => {
@@ -29,9 +31,8 @@ export const Menu = () => {
   const { myInfo, setMyInfo } = useContext(MyContext);
   const history = useHistory();
 
-
   const handleLogout = async () => {
-    console.log('hitting logout in tab 3')
+    console.log('hitting logout')
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {
@@ -46,6 +47,7 @@ export const Menu = () => {
       console.log(error);
     }
   };
+
   return (
     <>
       <IonMenu side="start" contentId="main-content">
@@ -57,27 +59,41 @@ export const Menu = () => {
         <IonContent className="ion-padding">
           <div className="contentContainer">
             <div className="optionsContainer">
-              <div className="flexSetting">
-                <IonIcon icon={settingsOutline}></IonIcon>
-                <div className="setting">Settings</div>
-              </div>
-              <div className="flexSetting">
-                <IonIcon icon={personOutline}></IonIcon>
-                <div className="setting">Profile</div>
-              </div>
-              <div className="flexSetting">
-                <IonIcon icon={createOutline}></IonIcon>
-                <div className="setting">Messages</div>
-              </div>
-              <div className="flexSetting">
-                <IonIcon icon={bookmarkOutline}></IonIcon>
-                <div className="setting">Bookmarks</div>
-              </div>
+              <IonMenuToggle>
+                <div onClick={() => {history.push('/settings')}} className="flexSetting">
+                  <IonIcon icon={settingsOutline}></IonIcon>
+                  <div className="setting">Settings</div>
+                </div>
+              </IonMenuToggle>
+              <IonMenuToggle>
+                <div onClick={() => {history.push('/tab2')}} className="flexSetting">
+                  <IonIcon icon={personOutline}></IonIcon>
+                  <div className="setting">Profile</div>
+                </div>
+              </IonMenuToggle>
+              <IonMenuToggle>
+                <div onClick={() => {history.push('/tab3')}} className="flexSetting">
+                  <IonIcon icon={createOutline}></IonIcon>
+                  <div className="setting">Messages</div>
+                </div>
+              </IonMenuToggle>
+              {/* <IonMenuToggle>
+                <div onClick={() => {history.push('/bookmarks')}} className="flexSetting">
+                  <IonIcon icon={bookmarkOutline}></IonIcon>
+                  <div className="setting">Bookmarks</div>
+                </div>
+              </IonMenuToggle> */}
+              <IonMenuToggle>
+                <div onClick={() => { history.push("/"); menuRef.current?.close(); }} className="flexSetting">
+                  <IonIcon icon={bookmarkOutline}></IonIcon>
+                  <div className="setting">Login</div>
+                </div>
+              </IonMenuToggle>
             </div>
             <div>
               <IonMenuToggle>
                 <IonButton className="button" size="small"
-                  onClick={() => handleLogout}
+                  onClick={handleLogout}
                 >
                   Logout
                 </IonButton>
