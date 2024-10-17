@@ -63,35 +63,34 @@ const Posts = ({ search }: { search: string }) => {
     console.log(searchResults, 'these are search results');
 
     return (
-        <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
-            <IonContent  className="page no-scrollbar" >
-                <IonItem>
-                    <IonLabel>Select Categorys</IonLabel>
-                    <IonSelect
-                        multiple={true}
-                        value={selectedCategory}
-                        placeholder="Choose a category"
-                        onIonChange={(e) => setSelectedCategory(e.detail.value)}
-                    >
-                        {categories.map((category, index) => (
-                            <IonSelectOption key={index} value={category}>
-                                {category}
-                            </IonSelectOption>
-                        ))}
-                    </IonSelect>
-                </IonItem>
-
+        <>
+            <>
+                <IonSelect
+                    className="custom-ion-select"
+                    multiple={true}
+                    value={selectedCategory}
+                    placeholder="Select Categorys"
+                    onIonChange={(e) => setSelectedCategory(e.detail.value)}
+                >
+                    {categories.map((category, index) => (
+                        <IonSelectOption key={index} value={category}>
+                            {category}
+                        </IonSelectOption>
+                    ))}
+                </IonSelect>
+            </>
+            <IonItem>
                 {searchResults?.length > 0 ? (
                     searchResults.map((user, index) => (
                         <Post key={index} post={user} />
                     ))
                 ) : (
-                    <IonItem>
+                    <div>
                         <IonLabel>No Posts found</IonLabel>
-                    </IonItem>
+                    </div>
                 )}
-            </IonContent>
-        </IonPage>
+            </IonItem>
+        </>
     );
 };
 

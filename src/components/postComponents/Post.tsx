@@ -143,6 +143,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
     const transformedTitle = transformTitleToH1(post.title);
     const truncatedContent = truncateContent(post.content, 400);
 
+    const profileImage = (id: string) => {
+        if (id) {
+            const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+                }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+            return newProfileImageUri;
+        }
+    };
+
     return (
         <>
             <IonList>
@@ -162,7 +170,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                                     >
                                         <img
                                             alt="Silhouette of a person's head"
-                                            src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                                            src={profileImage(myInfo.id)}
                                         />
                                     </IonAvatar>
                                     <IonNavLink

@@ -33,6 +33,7 @@ import Page from "../../pages/View/[id]";
 import Profile from "../../pages/Profile/[id]";
 import { MyContext } from "../../providers/postProvider";
 import moment from "moment";
+import Post from "../postComponents/Post";
 
 interface CategoryProps {
   category: string;
@@ -182,136 +183,7 @@ const Category: React.FC<CategoryProps> = ({
                 const formattedDate = `${month}/${day}/${year}`;
 
                 return (
-                  <div className="shadow" key={post.id}>
-                    
-                    <IonCard
-                      style={{ boxShadow: "none", paddingBottom: "10px" }}
-                      className="card"
-                    >
-                      <div className="space">
-                        <div className="around">
-                          <div className="emailContainer">
-                            <IonAvatar
-                              style={{
-                                height: "20px",
-                                width: "20px",
-                                marginLeft: "3px",
-                              }}
-                            >
-                              <img
-                                alt="Silhouette of a person's head"
-                                src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                              />
-                            </IonAvatar>
-                            <IonNavLink
-                              onClick={() => {
-                                getUserPosts(post.email);
-                              }}
-                              routerDirection="forward"
-                              component={() => <Profile id={post.email} />}
-                            >
-                              <div className="username">{post.email}</div>
-                            </IonNavLink>
-                          </div>
-                          <div>
-                            {myInfo?.email !== post?.email ? (
-                              <>
-                                {myInfo?.following?.indexOf(post.email) !==
-                                  -1 ? (
-                                  <div>
-                                    <IonIcon
-                                      icon={checkmarkCircleOutline}
-                                    ></IonIcon>
-                                  </div>
-                                ) : (
-                                  <div>
-                                    <button
-                                      className="button"
-                                      onClick={() => {
-                                        updateUser(
-                                          myInfo.email,
-                                          post?.email,
-                                          "",
-                                        );
-                                      }}
-                                      size="small"
-                                    >
-                                      Follow
-                                    </button>
-                                  </div>
-                                )}
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                          </div>
-                        </div>
-                        <div
-                          onClick={() => {
-                            gotoTopic(post.id);
-                          }}
-                        >
-                          <ReactQuill
-                            style={{ color: "black" }}
-                            readOnly={true}
-                            theme="bubble"
-                            value={transformedTitle}
-                          />
-                          <ReactQuill
-                            className="small"
-                            style={{ color: "black" }}
-                            readOnly={true}
-                            theme="bubble"
-                            value={truncatedContent}
-                          />
-                        </div>
-                      </div>
-                      <div className="smallRow">
-                        <div className="tinyRow">
-                          <div className="voteRow">
-                            <IonIcon
-                              onClick={() => {
-                                addLike(post.id);
-                              }}
-                              icon={
-                                isLikedByUser(post?.likes)
-                                  ? arrowUpCircle
-                                  : arrowUpCircleOutline
-                              }
-                            ></IonIcon>
-                            <div className="small">
-                              {calculateNetScore(post?.likes, post?.dislikes)}
-                            </div>
-                            <IonIcon
-                              onClick={() => {
-                                addDislike(post.id);
-                              }}
-                              icon={
-                                isDislikedByUser(post?.dislikes)
-                                  ? arrowDownCircle
-                                  : arrowDownCircleOutline
-                              }
-                            ></IonIcon>
-                          </div>
-                          <IonIcon
-                            style={{ paddingRight: "5px" }}
-                            icon={chatbubbleOutline}
-                          ></IonIcon>
-                          <div className="small">{post?.comments?.length}</div>
-                        </div>
-                        <div className="tinyRow">
-                          <IonIcon onClick={() => {                            
-                            addBookmark(myInfo.id, post.id)
-                          }} icon={bookmarkOutline}></IonIcon>
-                          <IonIcon
-                            icon={shareOutline}
-                            onClick={openModal}
-                          ></IonIcon>{" "}
-                          {/* Share button opens modal */}
-                        </div>
-                      </div>
-                    </IonCard>
-                  </div>
+                  <Post post={post} />
                 );
               })}
           </>

@@ -30,10 +30,10 @@ const Saved = ({ search }: { search: string }) => {
     createPost,
   } = useContext(MyContext);
   const contentQuillRef = useRef(null);
-  
-  
+
+
   const categories = ["Technology", "Health", "Sports", "Entertainment"];
-  
+
 
   const searchUsers = async () => {
     try {
@@ -48,26 +48,25 @@ const Saved = ({ search }: { search: string }) => {
     }
   };
 
-  
+
   useEffect(() => {
     if (search.length > 0) {
       searchUsers();
     } else {
       setSearchResults([])
     }
-  }, [search, selectedCategory]); 
-  
+  }, [search, selectedCategory]);
+
 
 
   return (
-    <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
-      <IonContent>
-        {/* Category Dropdown */}
-        <IonItem>
-          <IonLabel>Select Categorys</IonLabel>
+    <>      
+        <>
           <IonSelect
+            className="custom-ion-select"
+            multiple={true}
             value={selectedCategory}
-            placeholder="Choose a category"
+            placeholder="Select Categorys"
             onIonChange={(e) => setSelectedCategory(e.detail.value)}
           >
             {categories.map((category, index) => (
@@ -76,7 +75,7 @@ const Saved = ({ search }: { search: string }) => {
               </IonSelectOption>
             ))}
           </IonSelect>
-        </IonItem>
+        </>
 
         {/* Display Search Results */}
         {searchResults?.length > 0 ? (
@@ -87,9 +86,8 @@ const Saved = ({ search }: { search: string }) => {
           <IonItem>
             <IonLabel>No Bookmarks found.</IonLabel>
           </IonItem>
-        )}
-      </IonContent>
-    </IonPage>
+        )}      
+    </>
   );
 };
 
