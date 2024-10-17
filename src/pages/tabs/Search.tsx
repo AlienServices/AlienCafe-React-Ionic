@@ -11,7 +11,7 @@ import SwiperCore from 'swiper';
 import { Menu } from "../../components/Menu";
 
 const Search: React.FC = () => {
-    const categories = ["Profiles", "Posts", "Saved"];
+    const categories = ["Profile", "Post", "Saved"];
     const [currentCategory, setCurrentCategory] = useState<string>(categories[0]);
     const [searchInput, setSearchInput] = useState<string>('');
     const { myInfo } = useContext<any>(MyContext); // Ideally, type your context here
@@ -41,24 +41,24 @@ const Search: React.FC = () => {
 
     return (
         <IonPage className="fullscreen" style={{ paddingTop: '20px' }}>
-            <IonContent  scrollY={false}>
-                <div className="brown">                    
+            <IonContent className="center" scrollY={false}>
+                <div className="brown">
                     <input
                         className='input'
                         onChange={(e) => { setSearchInput(e.target.value) }}
-                        placeholder="Search Here"
+                        placeholder="Search Here..."
                     />
                 </div>
                 <div className="indicator-bar">
-                    {categories.map((category, index) => (
-                        <div
-                            key={category}
-                            ref={(el) => (indicatorRefs.current[index] = el)}
-                            className={`indicator-item ${currentCategory === category ? 'active' : ''}`}
-                            onClick={() => setCurrentCategory(category)}
-                        >
-                            {category}
-                        </div>
+                    {categories.map((category, index) => (                        
+                            <div
+                                key={category}
+                                ref={(el) => (indicatorRefs.current[index] = el)}
+                                className={`indicator-item ${currentCategory === category ? 'active' : ''}`}
+                                onClick={() => setCurrentCategory(category)}
+                            >
+                                {category}
+                            </div>                        
                     ))}
                     <div
                         className="indicator-slide"

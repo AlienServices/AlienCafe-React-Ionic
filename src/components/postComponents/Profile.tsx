@@ -62,10 +62,13 @@ const Profile: React.FC<Profile> = ({ profile }) => {
 
 
     return (
-        <IonCard style={{ boxShadow: 'none', margin: '10px' }}>
+        <IonCard  style={{ boxShadow: 'none', margin: '10px' }}>
             <div className="row">
                 <img className="profile-photo" src={profileImage(profile.id)} alt="" />
-                <div style={{ width: '175px' }} className="usernameSearch">{profile.username}</div>
+                <div className="center">
+                    <div className="username">{profile.username}</div>
+                    <div className="tag">{profile.username}</div>
+                </div>
             </div>
         </IonCard>
     );

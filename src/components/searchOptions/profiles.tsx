@@ -55,7 +55,7 @@ const Profiles = ({ search }: { search: string }) => {
       );
       const users = await result.json();
       console.log(users);
-        setSearchResults(users.user);
+      setSearchResults(users.user);
     } catch (err) {
       console.log("oops");
     }
@@ -63,27 +63,29 @@ const Profiles = ({ search }: { search: string }) => {
 
   useEffect(() => {
     if (search.length > 0) {
-        searchUsers(); 
+      searchUsers();
     } else {
       setSearchResults([])
     }
-}, [search]);
+  }, [search]);
 
 
-console.log(searchResults, 'search results')
+  console.log(searchResults, 'search results')
 
   return (
     <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
-      <IonContent>        
-        {searchResults.length > 0 ? (
-          searchResults.map((user, index) => (
-            <Profile profile={user} />
-          ))
-        ) : (
-          <IonItem>
-            <IonLabel>No users found.</IonLabel>
-          </IonItem>
-        )}
+      <IonContent>
+        <IonItem>
+          {searchResults.length > 0 ? (
+            searchResults.map((user, index) => (
+              <Profile profile={user} />
+            ))
+          ) : (
+            <IonItem>
+              <IonLabel>No users found.</IonLabel>
+            </IonItem>
+          )}
+        </IonItem>
       </IonContent>
     </IonPage>
   );

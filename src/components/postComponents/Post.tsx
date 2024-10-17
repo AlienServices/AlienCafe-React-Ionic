@@ -108,6 +108,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         if (pTag) {
             const h1Tag = document.createElement("h1");
             h1Tag.innerHTML = pTag.innerHTML;
+            h1Tag.classList.add('quillH1')
             pTag.parentNode?.replaceChild(h1Tag, pTag);
         }
 
@@ -155,9 +156,8 @@ const Post: React.FC<PostProps> = ({ post }) => {
                                 <div className="emailContainer">
                                     <IonAvatar
                                         style={{
-                                            height: "20px",
-                                            width: "20px",
-                                            marginLeft: "3px",
+                                            height: "35px",
+                                            width: "35px",
                                         }}
                                     >
                                         <img
@@ -172,7 +172,10 @@ const Post: React.FC<PostProps> = ({ post }) => {
                                         routerDirection="forward"
                                         component={() => <Profile id={post.email} />}
                                     >
-                                        <div className="username">{post.email}</div>
+                                        <div className="usernameColumn">
+                                            <div className="username">{post.email}</div>
+                                            <div className="tag">{post.email}</div>
+                                        </div>
                                     </IonNavLink>
                                 </div>
                                 <div>
@@ -196,6 +199,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                             </div>
                             <div onClick={() => gotoTopic(post.id)}>
                                 <ReactQuill
+                                
                                     style={{ color: "black" }}
                                     readOnly={true}
                                     theme="bubble"
