@@ -40,7 +40,7 @@
     /* Customize the dropdown icon color */
 }
 
-.custom-ion-select .select-wrapper .select-wrapper-inner {
+.custom-ion-select > .select-wrapper-inner {
     display: flex;
     justify-content: space-between;
     width: 90%;
