@@ -21,11 +21,29 @@
 
 .brown {
   display: flex;
-  align-items: end;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  align-items: end;  
   width: 100%;
   padding-top: 40px;
-  height: 110px;
+  margin-bottom: 20px;
+  height: 130px;
   background-color: rgb(80, 64, 58);
+}
+
+.logoContainer {
+  background-color: white;
+  padding: 8px;  
+  position: absolute;  
+  left: 40%;
+  top: 80px;
+  border-radius: 40px;
+}
+
+.leftMiddle{
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
 }
 
 .titleEditor {
@@ -50,11 +68,7 @@
   width: 100%;
 }
 
-.logoContainer {
-  background-color: white;
-  padding: 10px;
-  border-radius: 35px;
-}
+
 
 .whiteButton {
   background-color: white;

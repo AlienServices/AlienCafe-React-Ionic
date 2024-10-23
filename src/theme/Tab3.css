@@ -335,6 +335,7 @@ div {
 
 .commentRow {
   display: flex;
+  align-items: end;  
   width: 95%;
 }
 
@@ -394,7 +395,8 @@ div {
 .bottomImage {
   display: flex;
   height: 100%;
-  align-items: center;
+  justify-content: end;
+  align-items: end;
 }
 
 .parentInfo {

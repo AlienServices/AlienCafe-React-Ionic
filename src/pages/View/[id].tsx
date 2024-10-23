@@ -25,8 +25,10 @@ import {
   IonPage,
   IonRouterLink,
   IonToolbar,
+  IonImg
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
+import { closeOutline, arrowBackCircleOutline } from "ionicons/icons";
 import "../../theme/id.module.css";
 
 const Post = () => {
@@ -35,15 +37,18 @@ const Post = () => {
   const [comment, setComment] = useState<string>("");
   const [myVote, setMyVote] = useState<string>("");
   const [value, setValue] = useState("");
+  const [image, setImage] = useState("");
   const { myInfo } = useContext(MyContext);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
   const [totalCount, setTotalCount] = useState<number>(0);
   const { id } = useParams<{ id: string }>();
 
+
   useEffect(() => {
     getOnePost();
   }, []);
+
 
   const getOnePost = async () => {
     try {
@@ -57,6 +62,7 @@ const Post = () => {
         },
       );
       const post = await result.json();
+      setImage(post.post.owner.id)
       setContent([post.post]);
       setMyVote(post.userVote?.vote || "");
     } catch (error) {
@@ -75,6 +81,16 @@ const Post = () => {
       getOnePost(); // Re-fetch the post data to trigger re-render
     }, 500); // The delay should match the CSS transition duration
   };
+
+
+  const profileImage = (id: string) => {
+    if (id) {
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      return newProfileImageUri;
+    }
+  };
+
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -104,6 +120,7 @@ const Post = () => {
     });
   };
 
+
   const getMyVote = async (id: string, postId: string) => {
     try {
       const result = await fetch(
@@ -129,6 +146,7 @@ const Post = () => {
     }
   };
 
+
   useEffect(() => {
     getMyVote(myInfo?.id, id);
   }, []);
@@ -138,13 +156,26 @@ const Post = () => {
   return (
     <IonPage>
       <IonContent>
-        <IonHeader>
-          <IonToolbar>
-            <IonRouterLink href={`/tab1`}>
-              <IonIcon size="large" icon={arrowBackOutline}></IonIcon>
-            </IonRouterLink>
-          </IonToolbar>
-        </IonHeader>
+        <div className="brown">
+          <div className="leftMiddle">
+            <div style={{
+              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
+              height: '45px', alignItems: 'center', margin: '10px'
+            }}>
+              <IonIcon
+                style={{
+                  fontSize: '28px',
+                  color: 'black',
+                }}
+                color="primary"
+                icon={arrowBackCircleOutline}>
+              </IonIcon>
+            </div>
+            <div className="logoContainer">
+              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            </div>
+          </div>
+        </div>
         {Array.isArray(content) &&
           content.map((post: any, index: number) => {
             const transformedTitle = transformTitleToH1(post.title);
@@ -157,19 +188,20 @@ const Post = () => {
                   }}
                   className="card"
                 >
+
                   <div className="around">
                     <div className="emailContainer">
                       <IonAvatar
                         style={{
-                          height: "20px",
-                          width: "20px",
+                          height: "40px",
+                          width: "40px",
                           marginLeft: "5px",
                           marginRight: "5px",
                         }}
                       >
                         <img
                           alt="Silhouette of a person's head"
-                          src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                          src={profileImage(image)}
                         />
                       </IonAvatar>
                       <div className="username">{post?.email}</div>

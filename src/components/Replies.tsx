@@ -185,9 +185,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const getColor = (vote: string) => {
     switch (vote) {
       case "yes":
-        return "green";
+        return "rgb(178,222,178";
       case "no":
-        return "red";
+        return "rgb(207,151,134)";
       case "maybe":
         return "#fffc69";
       default:
@@ -218,11 +218,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
           >
             <div className="rowReply">
               <div className="bottomImage">
-                <img
+                {/* <img
                   className="user-icon-small"
                   alt="User avatar"
                   src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                />
+                /> */}
               </div>
 
               <IonCard
