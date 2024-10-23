@@ -6,6 +6,19 @@
   margin-top: -20;
 }
 
+.centerRow {
+  display: flex;
+  align-items: center;
+  width: 55%;
+  justify-content: space-evenly;
+}
+
+.tagStart {
+  display: flex;
+  justify-content: flex-start;
+  width: 90%;
+}
+
 .brown {
   display: flex;
   align-items: end;
@@ -19,14 +32,11 @@
   border: .5px solid rgb(97, 95, 95);
   width: 90%;
   border-radius: 15px;
-
-
 }
 
 .contentEditor {
   border: .5px solid rgb(97, 95, 95);
   width: 90%;
-  padding-top: 10px;
   font-size: 13px;
   border-radius: 15px;
 }
@@ -55,7 +65,7 @@
 }
 
 .custom-title-editor .ql-editor.ql-blank::before {
-  font-size: 21px;
+  font-size: 18px;
 }
 
 .custom-title-editor .ql-editor.ql-blank {
@@ -78,9 +88,14 @@
   white-space: nowrap;
 }
 
+.custom-content-editor .ql-editor.ql-blank::before {
+  font-size: 16px;
+}
+
+
 .custom-content-editor p {
   color: rgb(92, 89, 89);
-  font-weight: 350;
+  font-weight: 250;
   padding: 8px;
 }
 

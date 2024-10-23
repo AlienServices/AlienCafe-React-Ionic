@@ -37,6 +37,8 @@ const Search: React.FC = () => {
         }
     }, [currentCategory]);
 
+    
+
     const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe';
 
     return (

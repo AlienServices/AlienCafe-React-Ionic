@@ -66,6 +66,15 @@ const MyEditor = () => {
   //   debugger
   // }, [])
 
+  const profileImage = (id: string) => {
+    if (id) {
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      return newProfileImageUri;
+    }
+  };
+
+
   return (
     <IonPage style={{ paddingTop: '10px' }}>
       <IonContent>
@@ -113,7 +122,14 @@ const MyEditor = () => {
             </IonButton>
           </IonNavLink> */}
         </div>
+        <div className="centerRow">
+          <img className="profile-photo" src={profileImage(myInfo.id)} alt="" />
+          {myInfo?.username}
+        </div>
         <div className="editorContainer">
+          <div className="tagStart">
+            Post Title
+          </div>
           <div className="titleEditor">
             <ReactQuill
               className="custom-title-editor"
@@ -126,7 +142,7 @@ const MyEditor = () => {
               style={{ height: "fit-content", minHeight: "50px", border: "none" }}
             />
           </div>
-
+          <div className="tagStart"> Description </div>
           <div className="contentEditor">
             <ReactQuill
               className="custom-content-editor"
