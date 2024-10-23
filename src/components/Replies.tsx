@@ -195,6 +195,14 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
+  const profileImage = (id: string) => {
+    if (id) {
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      return newProfileImageUri;
+    }
+  };
+
   const gotoTopic = (postId: string, id: string) => {
     console.log(postId, id);
     history.push(`/Comment/${id}/${myVote}/${postId}`);
@@ -405,14 +413,15 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         ?.filter((comment) => comment.parentId === null)
         .map((comment) => (
           <div className="commentColumn" key={comment.id}>
+            <div className="bottomImage">
+              <img
+                className="user-icon-small"
+                alt="User avatar"
+                src="https://ionicframework.com/docs/img/demos/avatar.svg"
+              />
+            </div>
             <div className="commentRow">
-              <div className="bottomImage">
-                <img
-                  className="user-icon-small"
-                  alt="User avatar"
-                  src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                />
-              </div>
+
               <div className="columnWide">
                 <IonCard
                   className={`${"cardComment"}`}
@@ -508,6 +517,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     </div>
                   </div>
                 </IonCard>
+              </div>
                 {comments.some((reply) => reply.parentId === comment.id) && (
                   <div
                     className="seeMore"
@@ -518,7 +528,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       : "+ See All Replies"}
                   </div>
                 )}
-              </div>
             </div>
             {replyToggle[comment.id] && renderReplies(comment.id)}
           </div>
