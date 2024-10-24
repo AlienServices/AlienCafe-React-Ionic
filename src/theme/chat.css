@@ -245,6 +245,13 @@
   border-radius: 10px;
 }
 
+.answers {
+  display: flex;
+  height: 30%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .quiz {
   display: flex;
   flex-direction: column;
@@ -254,7 +261,7 @@
   margin: 8px;
 }
 
-.answerWidth {  
+.answerWidth {
   font-size: 14px;
 }
 

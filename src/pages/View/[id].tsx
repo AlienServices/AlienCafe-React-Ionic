@@ -231,7 +231,7 @@ const Post = () => {
           })}
 
         {hasVoted ? (
-          <>
+          <div className="answers">
             <div className="vote">
               {myVote === "yes" && (
                 <div className="action">{content[0]?.yesAction}</div>
@@ -250,7 +250,7 @@ const Post = () => {
               )}
             </div>
             <Replies postId={id} myVote={myVote} />
-          </>
+          </div>
         ) : (
           <div className="centerMiddle">
             <div className="centerThesis">
@@ -298,9 +298,9 @@ const Post = () => {
                 <div className="answerWidth">No! This is Propaganda. 100% False</div>
               </div>
               <div className={`${!hasVoted ? "middle" : "none"}`}>
-                <button className="noPadding" onClick={handleVote}>
+                <IonButton style={{ backgroundColor: 'black', padding: '0px' }}  onClick={handleVote}>
                   Submit
-                </button>
+                </IonButton>
               </div>
             </div>
           </div>

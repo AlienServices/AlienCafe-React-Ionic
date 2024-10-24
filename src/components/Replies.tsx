@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { IonButton, IonItem, IonCard, IonList, IonIcon } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
-import { sendOutline, trashBin } from "ionicons/icons";
+import { send, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonNavLink } from "@ionic/react";
 import {
@@ -191,7 +191,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       case "maybe":
         return "#fffc69";
       default:
-        return "grey";
+        return "#b2b2b2";
     }
   };
 
@@ -235,11 +235,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
               <IonCard
                 style={{
-                  border: `2px solid ${getColor(reply.vote)}`,
+                  border: `1px solid ${getColor(reply.vote)}`,
                 }}
                 className={`${"cardComment"} ${getColor(reply.vote)}`}
               >
-                <div style={{ width: "95%" }}>
+                <div style={{ width: "100%" }}>
                   <div className="rowUser">
                     <div className="userName">{reply.username}</div>
                     {myInfo?.username === reply.username && (
@@ -394,18 +394,18 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         />
         <button
           className="noPadding"
-          onClick={() =>
-            addComment(
-              comment,
-              myInfo?.username,
-              postId,
-              myInfo?.id,
-              null,
-              myVote,
-            )
-          }
+          // onClick={() =>
+          //   addComment(
+          //     comment,
+          //     myInfo?.username,
+          //     postId,
+          //     myInfo?.id,
+          //     null,
+          //     myVote,
+          //   )
+          // }
         >
-          <IonIcon icon={sendOutline}></IonIcon>
+          <IonIcon size="small" icon={send}></IonIcon>
         </button>
       </div>
 
@@ -425,7 +425,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
               <div className="columnWide">
                 <IonCard
                   className={`${"cardComment"}`}
-                  style={{ border: `2px solid ${getColor(comment.vote)}` }}
+                  style={{ border: `1px solid ${getColor(comment.vote)}` }}
                 >
                   <div style={{ width: "95%", padding: "3px" }}>
                     <div className="rowUser">
