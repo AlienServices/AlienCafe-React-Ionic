@@ -10,8 +10,11 @@ import {
   IonImg,
   IonMenuButton,
   IonToolbar,
-  
+  IonIcon
 } from "@ionic/react";
+import {
+  arrowBackCircleOutline,
+} from "ionicons/icons";
 import { useHistory } from "react-router";
 import { supabase } from "../../components/supaBase";
 import alien from "../../../public/alien.png";
@@ -61,18 +64,28 @@ const Tab3: React.FC = () => {
     <>
       <Menu />
       <IonPage id="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton />
-            </IonButtons>
-            <div className="centerAlien">
-              <div className="imageContainer">
-                <IonImg src={alien} />
-              </div>
+        <div className="brown">
+          <div className="leftMiddle">
+            <div style={{
+              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
+              alignItems: 'center', margin: '10px'
+            }}>
+              {/* <IonIcon
+                style={{
+                  fontSize: '28px',
+                  color: 'black',
+                }}
+                color="primary"
+                icon={arrowBackCircleOutline}>
+              </IonIcon> */}
+              <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
             </div>
-          </IonToolbar>
-        </IonHeader>
+            <div className="logoContainer">
+              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            </div>
+          </div>
+        </div>
+
         <IonContent>
           <div className="middle">
             <IonTitle>{currentCategory}</IonTitle>

@@ -237,9 +237,12 @@
 
 .checkSpace {
   display: flex;
-  justify-content: space-evenly;
-  width: 80%;
+  width: 100%;
+  align-items: center;
+  padding: 10px;
   margin: 10px;
+  border: 1px solid rgb(216, 215, 215);
+  border-radius: 10px;
 }
 
 .quiz {
@@ -251,9 +254,8 @@
   margin: 8px;
 }
 
-.answerWidth {
-  width: 200px;
-  font-size: 13px;
+.answerWidth {  
+  font-size: 14px;
 }
 
 .middle {

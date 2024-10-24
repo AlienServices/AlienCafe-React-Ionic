@@ -25,7 +25,9 @@ import {
   IonPage,
   IonRouterLink,
   IonToolbar,
-  IonImg
+  IonImg,
+  IonInput,
+  IonCheckbox
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
 import { closeOutline, arrowBackCircleOutline } from "ionicons/icons";
@@ -36,8 +38,10 @@ const Post = () => {
   const [comments, setComments] = useState<string[]>([]);
   const [comment, setComment] = useState<string>("");
   const [myVote, setMyVote] = useState<string>("");
+  const [selected, setSelected] = useState(null);
   const [value, setValue] = useState("");
   const [image, setImage] = useState("");
+  const [isChecked, setIsChecked] = useState(false)
   const { myInfo } = useContext(MyContext);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
@@ -232,47 +236,66 @@ const Post = () => {
               {myVote === "yes" && (
                 <div className="action">{content[0]?.yesAction}</div>
               )}
-              {myVote === "no" && (
+              {myVote === "probably true" && (
                 <div className="action">{content[0]?.noAction}</div>
               )}
-              {myVote === "maybe" && (
+              {myVote === "neutral" && (
                 <div className="action">{content[0]?.maybeAction}</div>
+              )}
+              {myVote === "probably false" && (
+                <div className="action">{content[0]?.yesAction}</div>
+              )}
+              {myVote === "no" && (
+                <div className="action">{content[0]?.noAction}</div>
               )}
             </div>
             <Replies postId={id} myVote={myVote} />
           </>
         ) : (
-          <>
+          <div className="centerMiddle">
             <div className="centerThesis">
               <div className="question">{content[0]?.thesis}</div>
             </div>
             <div className="quizCenter">
               <div className="checkSpace">
-                <input
-                  type="radio"
-                  value="yes"
-                  checked={selectedOption === "yes"}
-                  onChange={handleOptionChange}
-                />
-                <div className="answerWidth">Definitely Yes</div>
+                <IonCheckbox
+                  checked={selected === 1}
+                  onIonChange={() => { setSelected(1); handleOptionChange('true') }}
+                  style={{ '--border-radius': '4px', padding: '5px' }}
+                ></IonCheckbox>
+                <div className="answerWidth">Yes Absolutely 100% True!</div>
               </div>
               <div className="checkSpace">
-                <input
-                  type="radio"
-                  value="maybe"
-                  checked={selectedOption === "maybe"}
-                  onChange={handleOptionChange}
-                />
-                <div className="answerWidth">Neutral</div>
+                <IonCheckbox
+                  checked={selected === 2}
+                  onIonChange={() => { setSelected(2); handleOptionChange('probably true') }}
+                  style={{ '--border-radius': '4px', padding: '5px' }}
+                ></IonCheckbox>
+                <div className="answerWidth">Probably True</div>
               </div>
               <div className="checkSpace">
-                <input
-                  type="radio"
-                  value="no"
-                  checked={selectedOption === "no"}
-                  onChange={handleOptionChange}
-                />
-                <div className="answerWidth">Definitely No</div>
+                <IonCheckbox
+                  checked={selected === 3}
+                  onIonChange={() => { setSelected(3); handleOptionChange('neutral') }}
+                  style={{ '--border-radius': '4px', padding: '5px' }}
+                ></IonCheckbox>
+                <div className="answerWidth">Not Sure/Need More Info</div>
+              </div>
+              <div className="checkSpace">
+                <IonCheckbox
+                  checked={selected === 4}
+                  onIonChange={() => { setSelected(4); handleOptionChange('probably false') }}
+                  style={{ '--border-radius': '4px', padding: '5px' }}
+                ></IonCheckbox>
+                <div className="answerWidth">Probably False</div>
+              </div>
+              <div className="checkSpace">
+                <IonCheckbox
+                  checked={selected === 5}
+                  onIonChange={() => { setSelected(5); handleOptionChange('false') }}
+                  style={{ '--border-radius': '4px', padding: '5px' }}
+                ></IonCheckbox>
+                <div className="answerWidth">No! This is Propaganda. 100% False</div>
               </div>
               <div className={`${!hasVoted ? "middle" : "none"}`}>
                 <button className="noPadding" onClick={handleVote}>
@@ -280,7 +303,7 @@ const Post = () => {
                 </button>
               </div>
             </div>
-          </>
+          </div>
         )}
       </IonContent>
     </IonPage>
