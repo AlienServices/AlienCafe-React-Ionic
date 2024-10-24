@@ -19,6 +19,13 @@
   padding: 10px;  
 }
 
+.rowSmall{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 30%;
+}
+
 .action {
   font-size: 13px;
   color: purple;

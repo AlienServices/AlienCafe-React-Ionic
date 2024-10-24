@@ -330,8 +330,8 @@ div {
 
 .reply {
   padding-top: 10px;
-  margin: 5px 5px 5px 3px;
-  font-size: 12px;
+  margin-left: 5px;
+  font-size: 10px;
   color: rgb(75, 75, 75);
 }
 
@@ -382,7 +382,7 @@ div {
 
 .noPadding {
   background-color: black;
-  color: white;  
+  color: white;
   position: absolute;
   padding: 8px;
   right: 20px;
@@ -493,8 +493,14 @@ div {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 20%;
-  padding: 3px;
+  width: 95%;
+}
+
+.arrowRowSmall {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 40%;
 }
 
 .optionsContainer {

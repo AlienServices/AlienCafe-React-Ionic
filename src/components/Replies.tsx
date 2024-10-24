@@ -186,12 +186,14 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     switch (vote) {
       case "yes":
         return "rgb(178,222,178";
-      case "no":
+      case "probably true":
+        return "rgb(178,222,178";
+      case "neutral":
+        return "rgb(178,222,178";
+      case "probably false":
         return "rgb(207,151,134)";
-      case "maybe":
-        return "#fffc69";
-      default:
-        return "#b2b2b2";
+      case "no":
+        return "#fffc69";      
     }
   };
 
@@ -202,6 +204,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       return newProfileImageUri;
     }
   };
+  
 
   const gotoTopic = (postId: string, id: string) => {
     console.log(postId, id);
@@ -368,8 +371,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
     return likes.length - dislikes.length;
   };
-
-  console.log(comments[0], "all the comments");
+  
+  console.log(comments, 'these are the comments')
 
   return (
     <>
@@ -394,16 +397,16 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         />
         <button
           className="noPadding"
-          // onClick={() =>
-          //   addComment(
-          //     comment,
-          //     myInfo?.username,
-          //     postId,
-          //     myInfo?.id,
-          //     null,
-          //     myVote,
-          //   )
-          // }
+        onClick={() =>
+          addComment(
+            comment,
+            myInfo?.username,
+            postId,
+            myInfo?.id,
+            null,
+            myVote,
+          )
+        }
         >
           <IonIcon size="small" icon={send}></IonIcon>
         </button>
@@ -417,7 +420,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
               <img
                 className="user-icon-small"
                 alt="User avatar"
-                src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                src={profileImage(comment.userId)}
               />
             </div>
             <div className="commentRow">
@@ -430,11 +433,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                   <div style={{ width: "95%", padding: "3px" }}>
                     <div className="rowUser">
                       <div className="userName">{comment.username}</div>
-                      {myInfo?.username === comment.username && (
-                        <button onClick={() => deleteComment(comment.id)}>
-                          <IonIcon icon={trashBin}></IonIcon>
-                        </button>
-                      )}
+
                     </div>
                     <div
                       style={{ width: "100%" }}
@@ -488,46 +487,62 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     </div>
                   )}
                   <div className="voteRowSmall">
-                    <IonIcon
-                      onClick={() => {
-                        addCommentLike(myInfo.id, comment.id);
-                      }}
-                      icon={
-                        isLikedByUser(comment?.likes)
-                          ? arrowUpCircle
-                          : arrowUpCircleOutline
-                      }
-                    ></IonIcon>
-                    <div className="small">
-                      {calculateNetScore(comment?.likes, comment?.dislikes)}
-                    </div>
-                    <IonIcon
-                      onClick={() => {
-                        addCommentDisike(myInfo.id, comment.id);
-                      }}
-                      icon={
-                        isDislikedByUser(comment?.dislikes)
-                          ? arrowDownCircle
-                          : arrowDownCircleOutline
-                      }
-                    ></IonIcon>
-                    <div>
-                      {/* <IonIcon size="small" onClick={() => {  }} icon={chatbubbleOutline}></IonIcon>
+                    <div className="rowSmall">
+                      <div className="arrowRowSmall">
+                        <IonIcon
+                          onClick={() => {
+                            addCommentLike(myInfo.id, comment.id);
+                          }}
+                          icon={
+                            isLikedByUser(comment?.likes)
+                              ? arrowUpCircle
+                              : arrowUpCircleOutline
+                          }
+                        ></IonIcon>
+                        <div className="small">
+                          {calculateNetScore(comment?.likes, comment?.dislikes)}
+                        </div>
+                      </div>
+                      <div className="arrowRowSmall">
+                        <IonIcon
+                          onClick={() => {
+                            addCommentDisike(myInfo.id, comment.id);
+                          }}
+                          icon={
+                            isDislikedByUser(comment?.dislikes)
+                              ? arrowDownCircle
+                              : arrowDownCircleOutline
+                          }
+                        ></IonIcon>
+                        <div className="small">
+                          {calculateNetScore(comment?.likes, comment?.dislikes)}
+                        </div>
+                      </div>
+                      <div>
+                        {/* <IonIcon size="small" onClick={() => {  }} icon={chatbubbleOutline}></IonIcon>
                       {comment.replies.length} */}
+                      </div>
+                    </div>
+                    <div>
+                      {myInfo?.username === comment.username && (
+                        <button onClick={() => deleteComment(comment.id)}>
+                          <IonIcon icon={trashBin}></IonIcon>
+                        </button>
+                      )}
                     </div>
                   </div>
                 </IonCard>
               </div>
-                {comments.some((reply) => reply.parentId === comment.id) && (
-                  <div
-                    className="seeMore"
-                    onClick={() => toggleReplies(comment.id)}
-                  >
-                    {replyToggle[comment.id]
-                      ? "- Hide Replies"
-                      : "+ See All Replies"}
-                  </div>
-                )}
+              {comments.some((reply) => reply.parentId === comment.id) && (
+                <div
+                  className="seeMore"
+                  onClick={() => toggleReplies(comment.id)}
+                >
+                  {replyToggle[comment.id]
+                    ? "- Hide Replies"
+                    : "+ See All Replies"}
+                </div>
+              )}
             </div>
             {replyToggle[comment.id] && renderReplies(comment.id)}
           </div>

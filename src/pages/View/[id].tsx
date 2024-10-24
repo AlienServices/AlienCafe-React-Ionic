@@ -9,6 +9,7 @@ import {
   bookmarkOutline,
   shareOutline,
 } from "ionicons/icons";
+import { useHistory } from 'react-router-dom';
 import Replies from "../../components/Replies";
 import "react-quill/dist/quill.snow.css";
 import {
@@ -34,6 +35,7 @@ import { closeOutline, arrowBackCircleOutline } from "ionicons/icons";
 import "../../theme/id.module.css";
 
 const Post = () => {
+  const history = useHistory();
   const [content, setContent] = useState<any[]>([]); // Initialize as an empty array
   const [comments, setComments] = useState<string[]>([]);
   const [comment, setComment] = useState<string>("");
@@ -53,6 +55,10 @@ const Post = () => {
     getOnePost();
   }, []);
 
+
+  const goBack = () => {
+    history.goBack();
+  };
 
   const getOnePost = async () => {
     try {
@@ -75,15 +81,16 @@ const Post = () => {
   };
 
   const handleOptionChange = (e: any) => {
-    setSelectedOption(e.target.value);
+    setSelectedOption(e);
   };
 
   const handleVote = async () => {
+    console.log(selectedOption, 'this is the selected option')
     setHasVoted(true);
     setTimeout(async () => {
-      await updateVote(id, myInfo?.email, selectedOption);
-      getOnePost(); // Re-fetch the post data to trigger re-render
-    }, 500); // The delay should match the CSS transition duration
+      await updateVote(id, myInfo?.id, selectedOption);
+      getOnePost(); 
+    }, 500); 
   };
 
 
@@ -110,13 +117,12 @@ const Post = () => {
     return doc.body.innerHTML;
   };
 
-  const updateVote = async (id: string, email: string, vote: string) => {
-    console.log(email, "this is email");
+  const updateVote = async (id: string, userId: string, vote: string) => {
+    console.log(vote, "this is email");
     const updateUser = await post({
       url: "http://localhost:3000/api/addVote",
-      body: { vote: selectedOption, id, email: myInfo?.id },
+      body: { vote, id, userId },
     });
-    console.log(updateUser, "this is the updated user");
     setMyVote(selectedOption);
     await post({
       url: "http://localhost:3000/api/updateUser",
@@ -150,12 +156,12 @@ const Post = () => {
     }
   };
 
-
   useEffect(() => {
     getMyVote(myInfo?.id, id);
   }, []);
 
-  console.log(id, "post id");
+
+  console.log(id, 'this is post id')
 
   return (
     <IonPage>
@@ -167,6 +173,9 @@ const Post = () => {
               height: '45px', alignItems: 'center', margin: '10px'
             }}>
               <IonIcon
+                onClick={() => {
+                  goBack()
+                }}
                 style={{
                   fontSize: '28px',
                   color: 'black',
@@ -298,7 +307,7 @@ const Post = () => {
                 <div className="answerWidth">No! This is Propaganda. 100% False</div>
               </div>
               <div className={`${!hasVoted ? "middle" : "none"}`}>
-                <IonButton style={{ backgroundColor: 'black', padding: '0px' }}  onClick={handleVote}>
+                <IonButton style={{ backgroundColor: 'black', padding: '0px' }} onClick={handleVote}>
                   Submit
                 </IonButton>
               </div>
