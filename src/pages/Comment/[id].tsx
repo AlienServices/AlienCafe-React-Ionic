@@ -15,6 +15,7 @@ import {
   IonLabel,
   IonCardSubtitle,
   IonIcon,
+  IonImg
 } from "@ionic/react";
 import {
   heartCircle,
@@ -23,6 +24,7 @@ import {
   shareOutline,
   checkmarkCircleOutline,
   arrowDownCircleOutline,
+  arrowBackCircleOutline,
   arrowUpCircleOutline,
   arrowUpCircle,
   arrowDownCircle,
@@ -30,6 +32,7 @@ import {
 import { MyContext } from "../../providers/postProvider";
 import { useParams } from "react-router-dom";
 import { sendOutline, trashBin } from "ionicons/icons";
+import { useHistory } from 'react-router-dom';
 import { useEffect, useState, useContext } from "react";
 import "../../theme/comment.css";
 
@@ -37,6 +40,7 @@ const Comment = () => {
   const { myInfo } = useContext(MyContext);
   const [comments, setComments] = useState<any | null>(null); // Adjust type as needed
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const { myVote } = useParams<{ myVote: string }>();
   const { postId } = useParams<{ postId: string }>();
   const [replyComment, setReplyComment] = useState<string>("");
@@ -149,6 +153,8 @@ const Comment = () => {
       console.log("No parentId provided");
       return null;
     }
+
+
 
     // Function to recursively find the parent comment
     const findParent = (commentsObj: any, parentId: string): any => {
@@ -352,17 +358,37 @@ const Comment = () => {
       [commentId]: !prevState[commentId],
     }));
   };
-
+  const goBack = () => {
+    history.goBack();
+  };
   console.log(comments, "responded comments");
 
   return (
     <IonPage>
       <IonContent>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Alien Head</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        <div className="brown">
+          <div className="leftMiddle">
+            <div style={{
+              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
+              height: '45px', alignItems: 'center', margin: '10px'
+            }}>
+              <IonIcon
+                onClick={() => {
+                  goBack()
+                }}
+                style={{
+                  fontSize: '28px',
+                  color: 'black',
+                }}
+                color="primary"
+                icon={arrowBackCircleOutline}>
+              </IonIcon>
+            </div>
+            <div className="logoContainer">
+              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            </div>
+          </div>
+        </div>
         {comments && (
           <div className="padding">
             <IonCard

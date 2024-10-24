@@ -184,7 +184,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const getColor = (vote: string) => {
     switch (vote) {
-      case "yes":
+      case "true":
         return "rgb(178,222,178";
       case "probably true":
         return "rgb(178,222,178";
@@ -192,8 +192,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         return "rgb(178,222,178";
       case "probably false":
         return "rgb(207,151,134)";
-      case "no":
-        return "#fffc69";      
+      case "false":
+        return "#fffc69";
     }
   };
 
@@ -204,7 +204,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       return newProfileImageUri;
     }
   };
-  
+
 
   const gotoTopic = (postId: string, id: string) => {
     console.log(postId, id);
@@ -371,7 +371,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
     return likes.length - dislikes.length;
   };
-  
+
   console.log(comments, 'these are the comments')
 
   return (
@@ -397,16 +397,16 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         />
         <button
           className="noPadding"
-        onClick={() =>
-          addComment(
-            comment,
-            myInfo?.username,
-            postId,
-            myInfo?.id,
-            null,
-            myVote,
-          )
-        }
+          onClick={() =>
+            addComment(
+              comment,
+              myInfo?.username,
+              postId,
+              myInfo?.id,
+              null,
+              myVote,
+            )
+          }
         >
           <IonIcon size="small" icon={send}></IonIcon>
         </button>
