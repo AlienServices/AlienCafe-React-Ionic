@@ -15,7 +15,9 @@ import {
   IonLabel,
   IonCardSubtitle,
   IonIcon,
-  IonImg
+  IonImg,
+  IonFooter,
+  IonInput
 } from "@ionic/react";
 import {
   heartCircle,
@@ -33,7 +35,7 @@ import { MyContext } from "../../providers/postProvider";
 import { useParams } from "react-router-dom";
 import { sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from 'react-router-dom';
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import "../../theme/comment.css";
 
 const Comment = () => {
@@ -41,9 +43,11 @@ const Comment = () => {
   const [comments, setComments] = useState<any | null>(null); // Adjust type as needed
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
+  const [isReplying, setIsReplying] = useState(false);
   const { myVote } = useParams<{ myVote: string }>();
   const { postId } = useParams<{ postId: string }>();
   const [replyComment, setReplyComment] = useState<string>("");
+  const inputRef = useRef<HTMLIonInputElement>(null);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
@@ -106,7 +110,15 @@ const Comment = () => {
   };
 
   const handleReplyClick = (commentId: string) => {
-    setReplyingTo((prevId) => (prevId === commentId ? null : commentId));
+    setReplyingTo(commentId);
+
+    setTimeout(() => {
+      setIsReplying(true);
+
+      setTimeout(() => {
+        inputRef.current?.setFocus();
+      }, 100);
+    }, 300);
   };
 
   useEffect(() => {
@@ -220,12 +232,19 @@ const Comment = () => {
   };
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    // Check if the likes array includes your user ID
     return dislikes.includes(myInfo.id);
   };
 
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
     return likes.length - dislikes.length;
+  };
+
+  const profileImage = (id: string) => {
+    if (id) {
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      return newProfileImageUri;
+    }
   };
 
   const renderReplies = (replies: any[], isFirstLevel = true) => {
@@ -352,16 +371,20 @@ const Comment = () => {
     });
   };
 
+
+
   const toggleReplies = (commentId: string) => {
     setReplyToggle((prevState) => ({
       ...prevState,
       [commentId]: !prevState[commentId],
     }));
   };
+
+
   const goBack = () => {
     history.goBack();
   };
-  console.log(comments, "responded comments");
+
 
   return (
     <IonPage>
@@ -390,18 +413,52 @@ const Comment = () => {
           </div>
         </div>
         {comments && (
-          <div className="padding">
-            <IonCard
-              style={{ border: `2px solid ${getColor(comments?.vote)}` }}
-            >
-              <div style={{ width: "95%", padding: "3px" }}>
-                <div className="rowUserNoSpace">
-                  <img
-                    className="user-icon-small"
-                    alt="User avatar"
-                    src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                  />
-                  <div className="userName">{comments?.username}</div>
+          <div style={{ display: 'flex', alignItems: 'end' }}>
+            <img
+              className="user-icon-small"
+              alt="User avatar"
+              src={profileImage(comments.userId)}
+            />
+            <div className="padding">
+              <IonCard
+                style={{ border: `1px solid ${getColor(comments?.vote)}`, boxShadow: 'none', borderBottomLeftRadius: '0px' }}
+              >
+                <div style={{ width: "95%", padding: "3px" }}>
+                  <div className="rowUserNoSpace">
+
+                    <div className="userName">{comments?.username}</div>
+                  </div>
+                  <div className="comment">{comments?.comment}</div>
+                  <div
+                    className="reply"
+                    onClick={() => handleReplyClick(comments?.id)}
+                  >
+                    Reply
+                  </div>
+                </div>
+
+                <div className="voteRowSmall">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+                    <IonIcon
+                      onClick={() => addCommentLike(myInfo.id, comments.id)}
+                      icon={
+                        isLikedByUser(comments?.likes)
+                          ? arrowUpCircle
+                          : arrowUpCircleOutline
+                      }
+                    ></IonIcon>
+                    <div className="small">
+                      {calculateNetScore(comments?.likes, comments?.dislikes)}
+                    </div>
+                    <IonIcon
+                      onClick={() => addCommentDisike(myInfo.id, comments.id)}
+                      icon={
+                        isDislikedByUser(comments?.dislikes)
+                          ? arrowDownCircle
+                          : arrowDownCircleOutline
+                      }
+                    ></IonIcon>
+                  </div>
                   {myInfo?.username === comments?.username && (
                     <button>
                       <IonIcon
@@ -411,82 +468,31 @@ const Comment = () => {
                     </button>
                   )}
                 </div>
-                <div className="comment">{comments?.comment}</div>
-                <div
-                  className="reply"
-                  onClick={() => handleReplyClick(comments?.id)}
-                >
-                  Reply
-                </div>
-              </div>
-              {replyingTo === comments?.id && (
-                <div className="replyInput">
-                  <input
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        addComment(
-                          replyComment,
-                          myInfo?.username,
-                          postId,
-                          myInfo?.id,
-                          comments.id,
-                          myVote,
-                        );
-                      }
-                    }}
-                    className="inputReply"
-                    onChange={(e) => setReplyComment(e.target.value)}
-                    placeholder="Reply..."
-                  />
-                  <button
-                    className="noPadding"
-                    onClick={() => {
-                      addComment(
-                        replyComment,
-                        myInfo?.username,
-                        postId,
-                        myInfo?.id,
-                        comments.id,
-                        myVote,
-                      );
-                    }}
-                  >
-                    Send
-                  </button>
-                </div>
-              )}
-              <div className="voteRowSmall">
-                <IonIcon
-                  onClick={() => addCommentLike(myInfo.id, comments.id)}
-                  icon={
-                    isLikedByUser(comments?.likes)
-                      ? arrowUpCircle
-                      : arrowUpCircleOutline
-                  }
-                ></IonIcon>
-                <div className="small">
-                  {calculateNetScore(comments?.likes, comments?.dislikes)}
-                </div>
-                <IonIcon
-                  onClick={() => addCommentDisike(myInfo.id, comments.id)}
-                  icon={
-                    isDislikedByUser(comments?.dislikes)
-                      ? arrowDownCircle
-                      : arrowDownCircleOutline
-                  }
-                ></IonIcon>
-              </div>
-              {comments?.replies && comments?.replies.length > 0 && (
-                <div>
-                  {replyToggle[comments.id] && renderReplies(comments?.replies)}
-                </div>
-              )}
-            </IonCard>
 
-            {comments?.replies &&
-              comments?.replies.length > 0 &&
-              renderReplies(comments?.replies)}
+                {comments?.replies && comments?.replies.length > 0 && (
+                  <div>
+                    {replyToggle[comments.id] && renderReplies(comments?.replies)}
+                  </div>
+                )}
+              </IonCard>
+
+              {comments?.replies &&
+                comments?.replies.length > 0 &&
+                renderReplies(comments?.replies)}
+            </div>
           </div>
+        )}
+        {isReplying && (
+          <IonFooter className="message-input-container">
+            <IonInput
+              onBlur={() => { setIsReplying(false) }}
+              ref={inputRef}
+              value={replyComment}
+              onIonChange={(e) => setReplyComment(e.detail.value!)}
+              placeholder="Type your reply..."
+            />
+            <IonIcon icon={sendOutline} />
+          </IonFooter>
         )}
       </IonContent>
     </IonPage>

@@ -264,6 +264,7 @@ div {
   width: 100%;
   box-shadow: none;
   border-radius: 8px;
+  border-bottom-left-radius: 0px;
   margin-bottom: 10px;
   background-color: #f9f9f9;
 }

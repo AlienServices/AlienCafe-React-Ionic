@@ -1,6 +1,7 @@
 .padding {
-  margin: 5px;
-  margin-top: 20px;
+  margin-right: 3px;
+  margin-top: 5px;
+  width: 90%;
 }
 
 .rowUser {
@@ -10,11 +11,35 @@
 
 .commentColumn {
   display: flex;
-  justify-content: end;  
-  align-items: end;  
+  justify-content: end;
+  align-items: end;
 }
 
 .rowUserNoSpace {
   display: flex;
+  flex-direction: row;
   align-items: center;
+}
+.message-input-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--ion-background-color);
+  padding: 8px;
+  z-index: 10;
+  
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper ion-input {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.input-wrapper ion-button {
+  padding: 0;
 }
