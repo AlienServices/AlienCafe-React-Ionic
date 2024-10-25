@@ -17,7 +17,8 @@ import {
   IonIcon,
   IonImg,
   IonFooter,
-  IonInput
+  IonInput,
+  IonTextarea
 } from "@ionic/react";
 import {
   heartCircle,
@@ -113,7 +114,7 @@ const Comment = () => {
     setReplyingTo(commentId);
 
     setTimeout(() => {
-      setIsReplying(true);
+      setIsReplying(!isReplying);
 
       setTimeout(() => {
         inputRef.current?.setFocus();
@@ -249,17 +250,17 @@ const Comment = () => {
 
   const renderReplies = (replies: any[], isFirstLevel = true) => {
     return replies.map((reply) => {
-      const parentInfo = getParentComment(reply.parentId, comments);
+      const parentInfo = getParentComment(reply.parentId, comments);      
       const parentColor = parentInfo
         ? getColor(parentInfo.vote)
-        : "transparent";
-
+        : "transparent";      
       return (
         <>
           <div
             key={reply.id}
             style={{
               marginTop: "10px",
+              marginLeft: '10px',
               display: "flex",
               alignItems: "flex-start",
             }}
@@ -267,14 +268,16 @@ const Comment = () => {
             <img
               className="user-icon-small"
               alt="User avatar"
-              src="https://ionicframework.com/docs/img/demos/avatar.svg"
+              src={profileImage(reply.userId)}
               style={{ marginRight: "10px" }}
             />
             <div style={{ flex: 1 }}>
               <div
                 style={{
-                  border: `2px solid ${getColor(reply.vote)}`,
+                  border: `1px solid ${getColor(reply.vote)}`,
                   padding: "10px",
+                  borderRadius: '5px',
+                  borderBottomLeftRadius: '0px'
                 }}
               >
                 <div className="rowUserNoSpace">
@@ -385,6 +388,12 @@ const Comment = () => {
     history.goBack();
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      addComment(replyComment, myInfo.username, id, myInfo.id,)
+    }
+  };
+
 
   return (
     <IonPage>
@@ -413,85 +422,96 @@ const Comment = () => {
           </div>
         </div>
         {comments && (
-          <div style={{ display: 'flex', alignItems: 'end' }}>
-            <img
-              className="user-icon-small"
-              alt="User avatar"
-              src={profileImage(comments.userId)}
-            />
-            <div className="padding">
-              <IonCard
-                style={{ border: `1px solid ${getColor(comments?.vote)}`, boxShadow: 'none', borderBottomLeftRadius: '0px' }}
-              >
-                <div style={{ width: "95%", padding: "3px" }}>
-                  <div className="rowUserNoSpace">
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{display: 'flex'}}>
+              <img
+                className="user-icon-small"
+                alt="User avatar"
+                src={profileImage(comments.userId)}
+              />
+              <div className="padding">
+                <IonCard
+                  style={{ border: `1px solid ${getColor(comments?.vote)}`, boxShadow: 'none', borderBottomLeftRadius: '0px' }}
+                >
+                  <div style={{ width: "95%", padding: "3px" }}>
+                    <div className="rowUserNoSpace">
 
-                    <div className="userName">{comments?.username}</div>
-                  </div>
-                  <div className="comment">{comments?.comment}</div>
-                  <div
-                    className="reply"
-                    onClick={() => handleReplyClick(comments?.id)}
-                  >
-                    Reply
-                  </div>
-                </div>
-
-                <div className="voteRowSmall">
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
-                    <IonIcon
-                      onClick={() => addCommentLike(myInfo.id, comments.id)}
-                      icon={
-                        isLikedByUser(comments?.likes)
-                          ? arrowUpCircle
-                          : arrowUpCircleOutline
-                      }
-                    ></IonIcon>
-                    <div className="small">
-                      {calculateNetScore(comments?.likes, comments?.dislikes)}
+                      <div className="userName">{comments?.username}</div>
                     </div>
-                    <IonIcon
-                      onClick={() => addCommentDisike(myInfo.id, comments.id)}
-                      icon={
-                        isDislikedByUser(comments?.dislikes)
-                          ? arrowDownCircle
-                          : arrowDownCircleOutline
-                      }
-                    ></IonIcon>
+                    <div className="comment">{comments?.comment}</div>
+                    <div
+                      className="reply"
+                      onClick={() => handleReplyClick(comments?.id)}
+                    >
+                      Reply
+                    </div>
                   </div>
-                  {myInfo?.username === comments?.username && (
-                    <button>
-                      <IonIcon
-                        onClick={() => deleteComment(id)}
-                        icon={trashBin}
-                      ></IonIcon>
-                    </button>
-                  )}
-                </div>
 
-                {comments?.replies && comments?.replies.length > 0 && (
+                  <div className="voteRowSmall">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+                      <IonIcon
+                        onClick={() => addCommentLike(myInfo.id, comments.id)}
+                        icon={
+                          isLikedByUser(comments?.likes)
+                            ? arrowUpCircle
+                            : arrowUpCircleOutline
+                        }
+                      ></IonIcon>
+                      <div className="small">
+                        {calculateNetScore(comments?.likes, comments?.dislikes)}
+                      </div>
+                      <IonIcon
+                        onClick={() => addCommentDisike(myInfo.id, comments.id)}
+                        icon={
+                          isDislikedByUser(comments?.dislikes)
+                            ? arrowDownCircle
+                            : arrowDownCircleOutline
+                        }
+                      ></IonIcon>
+                    </div>
+                    {myInfo?.username === comments?.username && (
+                      <button>
+                        <IonIcon
+                          onClick={() => deleteComment(id)}
+                          icon={trashBin}
+                        ></IonIcon>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* {comments?.replies && comments?.replies.length > 0 && (
                   <div>
                     {replyToggle[comments.id] && renderReplies(comments?.replies)}
                   </div>
-                )}
-              </IonCard>
+                )} */}
+                </IonCard>
 
-              {comments?.replies &&
-                comments?.replies.length > 0 &&
-                renderReplies(comments?.replies)}
+              </div>
             </div>
+            {comments?.replies &&
+              comments?.replies.length > 0 &&
+              renderReplies(comments?.replies)}
           </div>
         )}
         {isReplying && (
           <IonFooter className="message-input-container">
-            <IonInput
+            <IonTextarea
               onBlur={() => { setIsReplying(false) }}
               ref={inputRef}
+              // onKeyDown={}              
               value={replyComment}
               onIonChange={(e) => setReplyComment(e.detail.value!)}
               placeholder="Type your reply..."
             />
-            <IonIcon icon={sendOutline} />
+            <IonIcon style={{ marginLeft: '3px', padding: '5px' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
+              addComment(
+                replyComment,
+                myInfo?.username,
+                postId,
+                myInfo?.id,
+                id,
+                myVote,)
+            }} />
           </IonFooter>
         )}
       </IonContent>

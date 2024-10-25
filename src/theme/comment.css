@@ -1,7 +1,7 @@
 .padding {
   margin-right: 3px;
   margin-top: 5px;
-  width: 90%;
+  width: 90%;  
 }
 
 .rowUser {
@@ -22,8 +22,11 @@
 }
 .message-input-container {
   position: fixed;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   bottom: 0;
-  width: 100%;
+  width: 95%;
   background-color: var(--ion-background-color);
   padding: 8px;
   z-index: 10;
