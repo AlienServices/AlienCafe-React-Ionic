@@ -1,31 +1,13 @@
 import {
   IonContent,
-  IonHeader,
-  IonRouterLink,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonCard,
-  IonButton,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonCardSubtitle,
   IonIcon,
   IonImg,
   IonFooter,
-  IonInput,
   IonTextarea
 } from "@ionic/react";
 import {
-  heartCircle,
-  chatbubbleOutline,
-  bookmarkOutline,
-  shareOutline,
-  checkmarkCircleOutline,
   arrowDownCircleOutline,
   arrowBackCircleOutline,
   arrowUpCircleOutline,
@@ -110,8 +92,7 @@ const Comment = () => {
     }
   };
 
-  const handleReplyClick = (commentId: string) => {
-    setReplyingTo(commentId);
+  const handleReplyClick = () => {
 
     setTimeout(() => {
       setIsReplying(!isReplying);
@@ -122,9 +103,20 @@ const Comment = () => {
     }, 300);
   };
 
+  const handleCommentReplyClick = (commentId: string) => {
+    setReplyingTo(commentId);
+
+    setTimeout(() => {
+      setTimeout(() => {
+        inputRef.current?.setFocus();
+      }, 100);
+    }, 300);
+  };
+
   useEffect(() => {
     fetchComments();
   }, [id]);
+
 
   const addComment = async (
     comment: string,
@@ -169,14 +161,10 @@ const Comment = () => {
 
 
 
-    // Function to recursively find the parent comment
     const findParent = (commentsObj: any, parentId: string): any => {
-      // Check if this is the parent comment
       if (commentsObj.id === parentId) {
         return commentsObj;
       }
-
-      // If there are replies, search them recursively
       if (commentsObj.replies && commentsObj.replies.length > 0) {
         for (let reply of commentsObj.replies) {
           const parentComment = findParent(reply, parentId);
@@ -186,10 +174,9 @@ const Comment = () => {
 
       return null;
     };
-
-    // Start the search from the top-level comments object
     return findParent(comments, parentId);
   };
+
 
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
@@ -207,6 +194,7 @@ const Comment = () => {
       console.error("Error adding like to comment:", error);
     }
   };
+
 
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
@@ -232,13 +220,16 @@ const Comment = () => {
     return likes.includes(myInfo.id);
   };
 
+
   const isDislikedByUser = (dislikes: string[]): boolean => {
     return dislikes.includes(myInfo.id);
   };
 
+
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
     return likes.length - dislikes.length;
   };
+
 
   const profileImage = (id: string) => {
     if (id) {
@@ -248,12 +239,13 @@ const Comment = () => {
     }
   };
 
+
   const renderReplies = (replies: any[], isFirstLevel = true) => {
     return replies.map((reply) => {
-      const parentInfo = getParentComment(reply.parentId, comments);      
+      const parentInfo = getParentComment(reply.parentId, comments);
       const parentColor = parentInfo
         ? getColor(parentInfo.vote)
-        : "transparent";      
+        : "transparent";
       return (
         <>
           <div
@@ -269,27 +261,19 @@ const Comment = () => {
               className="user-icon-small"
               alt="User avatar"
               src={profileImage(reply.userId)}
-              style={{ marginRight: "10px" }}
             />
             <div style={{ flex: 1 }}>
               <div
                 style={{
                   border: `1px solid ${getColor(reply.vote)}`,
-                  padding: "10px",
+                  padding: "3px",
                   borderRadius: '5px',
+                  width: '98%',
                   borderBottomLeftRadius: '0px'
                 }}
               >
                 <div className="rowUserNoSpace">
                   <div className="userName">{reply.username}</div>
-                  {myInfo?.username === reply.username && (
-                    <button>
-                      <IonIcon
-                        onClick={() => deleteComment(reply.id)}
-                        icon={trashBin}
-                      ></IonIcon>
-                    </button>
-                  )}
                 </div>
                 {parentInfo && (
                   <div
@@ -303,30 +287,40 @@ const Comment = () => {
                 <div className="comment">{reply.comment}</div>
                 <div
                   className="reply"
-                  onClick={() => handleReplyClick(reply.id)}
+                  onClick={() => handleCommentReplyClick(reply.id)}
                 >
                   Reply
                 </div>
                 <div className="voteRowSmall">
-                  <IonIcon
-                    onClick={() => addCommentLike(myInfo.id, reply.id)}
-                    icon={
-                      isLikedByUser(reply?.likes)
-                        ? arrowUpCircle
-                        : arrowUpCircleOutline
-                    }
-                  ></IonIcon>
-                  <div className="small">
-                    {calculateNetScore(reply?.likes, reply?.dislikes)}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', width: '20%' }}>
+                    <IonIcon
+                      onClick={() => addCommentLike(myInfo.id, reply.id)}
+                      icon={
+                        isLikedByUser(reply?.likes)
+                          ? arrowUpCircle
+                          : arrowUpCircleOutline
+                      }
+                    ></IonIcon>
+                    <div className="small" >
+                      {calculateNetScore(reply?.likes, reply?.dislikes)}
+                    </div>
+                    <IonIcon
+                      onClick={() => addCommentDisike(myInfo.id, reply.id)}
+                      icon={
+                        isDislikedByUser(reply?.dislikes)
+                          ? arrowDownCircle
+                          : arrowDownCircleOutline
+                      }
+                    ></IonIcon>
                   </div>
-                  <IonIcon
-                    onClick={() => addCommentDisike(myInfo.id, reply.id)}
-                    icon={
-                      isDislikedByUser(reply?.dislikes)
-                        ? arrowDownCircle
-                        : arrowDownCircleOutline
-                    }
-                  ></IonIcon>
+                  {myInfo?.username === reply.username && (
+                    <button>
+                      <IonIcon
+                        onClick={() => deleteComment(reply.id)}
+                        icon={trashBin}
+                      ></IonIcon>
+                    </button>
+                  )}
                 </div>
 
                 {reply.replies && reply.replies.length > 0 && (
@@ -342,27 +336,25 @@ const Comment = () => {
                   </div>
                 )}
                 {replyingTo === reply.id && (
-                  <div className="replyInput">
-                    <input
-                      className="inputReply"
-                      onChange={(e) => setReplyComment(e.target.value)}
-                      placeholder="Reply..."
+                  <div className="message-input-container" style={{}}>
+                    <IonTextarea
+                      onBlur={() => { setReplyingTo(null) }}
+                      ref={inputRef}
+                      // onKeyDown={}              
+                      value={replyComment}
+                      onIonChange={(e) => setReplyComment(e.detail.value!)}
+                      placeholder="Type your reply..."
                     />
-                    <button
-                      className="noPadding"
-                      onClick={() =>
-                        addComment(
-                          replyComment,
-                          myInfo?.username,
-                          postId,
-                          myInfo?.id,
-                          reply.id,
-                          myVote,
-                        )
-                      }
-                    >
-                      Send
-                    </button>
+                    <IonIcon style={{ marginLeft: '3px', padding: '5px' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
+                      addComment(
+                        replyComment,
+                        myInfo?.username,
+                        postId,
+                        myInfo?.id,
+                        reply.id,
+                        myVote,
+                      )
+                    }} />
                   </div>
                 )}
               </div>
@@ -373,7 +365,6 @@ const Comment = () => {
       );
     });
   };
-
 
 
   const toggleReplies = (commentId: string) => {
@@ -387,6 +378,7 @@ const Comment = () => {
   const goBack = () => {
     history.goBack();
   };
+
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
@@ -423,7 +415,7 @@ const Comment = () => {
         </div>
         {comments && (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex' }}>
               <img
                 className="user-icon-small"
                 alt="User avatar"
@@ -448,8 +440,9 @@ const Comment = () => {
                   </div>
 
                   <div className="voteRowSmall">
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', width: '20%' }}>
                       <IonIcon
+                        style={{ color: 'black' }}
                         onClick={() => addCommentLike(myInfo.id, comments.id)}
                         icon={
                           isLikedByUser(comments?.likes)
@@ -457,10 +450,11 @@ const Comment = () => {
                             : arrowUpCircleOutline
                         }
                       ></IonIcon>
-                      <div className="small">
+                      <div className="small" style={{ color: 'black' }}>
                         {calculateNetScore(comments?.likes, comments?.dislikes)}
                       </div>
                       <IonIcon
+                        style={{ color: 'black' }}
                         onClick={() => addCommentDisike(myInfo.id, comments.id)}
                         icon={
                           isDislikedByUser(comments?.dislikes)

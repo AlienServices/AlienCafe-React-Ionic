@@ -302,7 +302,8 @@ div {
 .comment {
   color: black;
   font-size: 12px;
-  margin: 5px 5px 5px 3px;
+  margin: 1px;
+  margin-left: 2px;
   letter-spacing: 0.8px;
 }
 
@@ -316,7 +317,7 @@ div {
   margin-left: 15px;
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 95%;
 }
 
 .columnCommentWideNo {
@@ -329,9 +330,8 @@ div {
   font-size: 12px;
 }
 
-.reply {
-  padding-top: 10px;
-  margin-left: 5px;
+.reply {  
+  margin-left: 3px;
   font-size: 10px;
   color: rgb(75, 75, 75);
 }
@@ -424,7 +424,7 @@ div {
   color: black;
   font-weight: 500;
   font-size: 12px;
-  margin: 0px 5px 5px 3px;
+  margin: 2px;
 }
 
 .loginInput {
