@@ -89,6 +89,7 @@ const Comment = () => {
       // } else {
       //   console.error("Failed to delete comment");
       // }
+      fetchComments();
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
@@ -128,6 +129,7 @@ const Comment = () => {
     commentId: string | null,
     vote: string,
   ) => {
+    console.log(comment, "this is the comment");
     try {
       const response = await fetch(
         `http://localhost:3000/api/addComment?id=${id}`,
@@ -147,7 +149,7 @@ const Comment = () => {
         },
       );
       const post = await response.json();
-      console.log(post, "this is the post response");
+      setReplyComment("");
       setComments(post.comment);
       fetchComments();
     } catch (error) {
@@ -388,6 +390,8 @@ const Comment = () => {
     }
   };
 
+  console.log(replyComment, "this is the reply comment");
+
 
   return (
     <IonPage>
@@ -425,7 +429,7 @@ const Comment = () => {
               />
               <div className="padding">
                 <IonCard
-                  style={{ border: `1px solid ${getColor(comments?.vote)}`, boxShadow: 'none', borderBottomLeftRadius: '0px' }}
+                  style={{ border: `1px solid ${getColor(comments?.vote)}`, boxShadow: 'none', borderBottomLeftRadius: '0px', padding: '4px' }}
                 >
                   <div style={{ width: "95%", padding: "3px" }}>
                     <div className="rowUserNoSpace">
@@ -443,6 +447,9 @@ const Comment = () => {
 
                   <div className="voteRowSmall">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', width: '20%' }}>
+                      <div className="small" style={{ color: 'black' }}>
+                        {calculateNetScore(comments?.likes, comments?.dislikes)}
+                      </div>
                       <IonIcon
                         style={{ color: 'black' }}
                         onClick={() => addCommentLike(myInfo.id, comments.id)}
@@ -495,19 +502,32 @@ const Comment = () => {
               className="textAreaWhite"
               onBlur={() => { setIsReplying(false) }}
               ref={inputRef}
-              // onKeyDown={}              
+              // onKeyDown={(e: React.KeyboardEvent<HTMLIonTextareaElement>) => {
+              //   if (e.key === "Enter") {
+              //     e.preventDefault();
+              //     addComment(
+              //       e.target.value,
+              //       myInfo?.username,
+              //       postId,
+              //       myInfo?.id,
+              //       id,
+              //       myVote,
+              //     );
+              //   }
+              // }}
               value={replyComment}
-              onIonChange={(e) => setReplyComment(e.detail.value!)}
+              onInput={(e) => setReplyComment(e.target.value!)}
               placeholder="Type your reply..."
             />
-            <IonIcon style={{ position: 'relative', right: '40px', zIndex: '10' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
+            <IonIcon style={{ position: 'relative', right: '20px', zIndex: '10' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
               addComment(
                 replyComment,
                 myInfo?.username,
                 postId,
                 myInfo?.id,
                 id,
-                myVote,)
+                myVote,
+              );
             }} />
           </IonFooter>
         )}

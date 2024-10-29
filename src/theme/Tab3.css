@@ -307,14 +307,6 @@ div {
   letter-spacing: 0.8px;
 }
 
-.textAreaWhite {
-  background-color: white;
-  position: relative;
-  border-radius: 15px;
-  width: 100%;
-  padding: 5px;
-  border: 1px solid rgb(194, 191, 191, 0.45);
-}
 
 .columnWide {
   display: flex;

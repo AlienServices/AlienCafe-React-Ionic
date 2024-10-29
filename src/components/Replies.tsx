@@ -567,10 +567,22 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       {isReplying && (
         <IonFooter className="message-input-container">
           <IonTextarea
+
             className="textAreaWhite"
             onBlur={() => { setIsReplying(false) }}
             ref={inputRef}
-            // onKeyDown={}              
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault(); // Prevents new line on Enter
+                addComment(
+                  replyComment,
+                  myInfo?.username,
+                  postId,
+                  myInfo?.id,
+                  comment.id,
+                  myVote,)
+              }
+            }}
             value={replyComment}
             onIonChange={(e) => setReplyComment(e.detail.value!)}
             placeholder="Type your reply..."

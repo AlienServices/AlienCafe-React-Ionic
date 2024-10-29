@@ -8,6 +8,7 @@
 
 .centerRow {
   display: flex;
+  height: 50px;
   align-items: center;
   width: 55%;
   justify-content: space-evenly;
@@ -23,7 +24,7 @@
   display: flex;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  align-items: end;  
+  align-items: end;
   width: 100%;
   padding-top: 40px;
   margin-bottom: 20px;
@@ -33,14 +34,14 @@
 
 .logoContainer {
   background-color: white;
-  padding: 8px;  
-  position: absolute;  
+  padding: 8px;
+  position: absolute;
   left: 40%;
   top: 80px;
   border-radius: 40px;
 }
 
-.leftMiddle{
+.leftMiddle {
   display: flex;
   justify-content: space-between;
   width: 60%;

@@ -28,15 +28,32 @@
 
 .message-input-container {
   position: fixed;
+  left: 10px;
   align-items: center;
   display: flex;
   bottom: 0;
-  width: 105%;
-  background-color: var(--ion-background-color);
+  height: 80px;
+  border-radius: 15px;
+  border: 1px solid rgb(194, 191, 191, 0.45);
+  width: 95%;
+  background-color: white;
   padding-left: 10px;
   z-index: 10;
+}
+
+.textAreaWhite {
+  background-color: white;
+  position: relative;
+  border-radius: 15px;
+  -ms-overflow-style: none;
+  /* Hides scrollbar in Internet Explorer */
+  scrollbar-width: none;
+  width: 100%;
+  padding: 3px;
+  padding-right: 40px;
 
 }
+
 
 .input-wrapper {
   display: flex;

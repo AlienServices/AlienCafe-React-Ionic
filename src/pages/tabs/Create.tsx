@@ -85,7 +85,7 @@ const MyEditor = () => {
           }}>
             <IonIcon
               style={{
-                fontSize: '28px',
+                fontSize: '25px',
                 color: 'black',
               }}
               color="primary"
@@ -112,17 +112,7 @@ const MyEditor = () => {
               Next
             </IonButton>
           </IonNavLink>
-        </div>
-        <div className="flexRow">
-          {/* <IonIcon
-            onClick={() => {
-              history.push("/tab1");
-            }}
-            size="large"
-            icon={closeOutline}
-          ></IonIcon> */}
-
-        </div>
+        </div>      
         <div className="centerRow">
           <img className="profile-photo" src={profileImage(myInfo.id)} alt="" />
           {myInfo?.username}
