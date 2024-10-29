@@ -307,6 +307,15 @@ div {
   letter-spacing: 0.8px;
 }
 
+.textAreaWhite {
+  background-color: white;
+  position: relative;
+  border-radius: 15px;
+  width: 100%;
+  padding: 5px;
+  border: 1px solid rgb(194, 191, 191, 0.45);
+}
+
 .columnWide {
   display: flex;
   flex-direction: column;
@@ -330,7 +339,7 @@ div {
   font-size: 12px;
 }
 
-.reply {  
+.reply {
   margin-left: 3px;
   font-size: 10px;
   color: rgb(75, 75, 75);

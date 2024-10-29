@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import { MyContext } from "../../providers/postProvider";
@@ -28,10 +28,11 @@ import {
   IonToolbar,
   IonImg,
   IonInput,
-  IonCheckbox
+  IonCheckbox,
+  IonFooter
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
-import { closeOutline, arrowBackCircleOutline } from "ionicons/icons";
+import { closeOutline, arrowBackCircleOutline, sendOutline } from "ionicons/icons";
 import "../../theme/id.module.css";
 
 const Post = () => {
@@ -40,11 +41,15 @@ const Post = () => {
   const [comments, setComments] = useState<string[]>([]);
   const [comment, setComment] = useState<string>("");
   const [myVote, setMyVote] = useState<string>("");
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<number | null>(null);
   const [value, setValue] = useState("");
   const [image, setImage] = useState("");
   const [isChecked, setIsChecked] = useState(false)
   const { myInfo } = useContext(MyContext);
+  const [isReplying, setIsReplying] = useState(false);  
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyComment, setReplyComment] = useState<string>("");
+  const inputRef = useRef<HTMLIonTextareaElement>(null);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -161,6 +166,65 @@ const Post = () => {
   }, []);
 
 
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/getComment?id=${id}`, // Adjust API endpoint as necessary
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const data = await response.json();
+      setComments(data.comment);
+      console.log(data.comment, "these are comments");
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+
+  const addComment = async (
+    comment: string,
+    userName: string,
+    postId: string,
+    userId: string,
+    commentId: string | null,
+    vote: string,
+  ) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/addComment?id=${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            comment,
+            userName,
+            postId,
+            userId,
+            commentId,
+            vote,
+          }),
+        },
+      );
+      const post = await response.json();
+      console.log(post, "this is the post response");
+      setComments(post.comment);
+      fetchComments();
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
+
+
+
+
+
   console.log(id, 'this is post id')
 
   return (
@@ -241,7 +305,7 @@ const Post = () => {
 
         {hasVoted ? (
           <div className="answers">
-            <div className="vote">
+            <div className="vote">              
               {myVote === "true" && (
                 <div className="action">{content[0]?.yesAction}</div>
               )}
@@ -257,7 +321,7 @@ const Post = () => {
               {myVote === "false" && (
                 <div className="action">{content[0]?.noAction}</div>
               )}
-            </div>
+            </div>            
             <Replies postId={id} myVote={myVote} />
           </div>
         ) : (

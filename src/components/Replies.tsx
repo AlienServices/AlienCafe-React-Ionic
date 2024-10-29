@@ -1,15 +1,10 @@
-import { useState, useEffect, useContext } from "react";
-import { IonButton, IonItem, IonCard, IonList, IonIcon } from "@ionic/react";
+import { useState, useEffect, useContext, useRef } from "react";
+import { IonButton, IonItem, IonCard, IonList, IonIcon, IonFooter, IonTextarea } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
-import { send, trashBin } from "ionicons/icons";
+import { send, sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonNavLink } from "@ionic/react";
 import {
-  heartCircle,
-  chatbubbleOutline,
-  bookmarkOutline,
-  shareOutline,
-  checkmarkCircleOutline,
   arrowDownCircleOutline,
   arrowUpCircleOutline,
   arrowUpCircle,
@@ -39,9 +34,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
   );
+  const inputRef = useRef<HTMLIonTextareaElement>(null);
 
   useEffect(() => {
     fetchComments();
@@ -174,7 +171,21 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const handleReplyClick = (commentId: string) => {
-    setReplyingTo((prevId) => (prevId === commentId ? null : commentId));
+    setIsReplying(!isReplying);
+    // setReplyingTo(commentId);
+    setTimeout(() => {
+      inputRef.current?.setFocus();
+    }, 400);
+  };
+
+  const handleCommentReplyClick = (commentId: string) => {
+    setReplyingTo(commentId);
+
+    setTimeout(() => {
+      setTimeout(() => {
+        inputRef.current?.setFocus();
+      }, 100);
+    }, 300);
   };
 
   const getParentComment = (parentId: string | null) => {
@@ -204,7 +215,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       return newProfileImageUri;
     }
   };
-
 
   const gotoTopic = (postId: string, id: string) => {
     console.log(postId, id);
@@ -276,7 +286,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                   >
                     Reply
                   </div>
-                  {replyingTo === reply.id && (
+                  {/* {replyingTo === reply.id && (
                     <div className="replyInput">
                       <input
                         className="inputReply"
@@ -299,7 +309,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                         Send
                       </button>
                     </div>
-                  )}
+                  )} */}
                   {comments.some((r) => r.parentId === reply.id) && (
                     <div
                       className="seeMore"
@@ -456,7 +466,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                         Reply
                       </div>
                     </div>
-                    {replyingTo === comment.id && (
+                    {/* {replyingTo === comment.id && (
                       <div className="replyInput">
                         <input
                           onKeyDown={(e) => {
@@ -491,7 +501,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                           Send
                         </button>
                       </div>
-                    )}
+                    )} */}
                     <div className="voteRowSmall">
                       <div className="rowSmall">
                         <div className="arrowRowSmall">
@@ -554,6 +564,28 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             {replyToggle[comment.id] && renderReplies(comment.id)}
           </div>
         ))}
+      {isReplying && (
+        <IonFooter className="message-input-container">
+          <IonTextarea
+            className="textAreaWhite"
+            onBlur={() => { setIsReplying(false) }}
+            ref={inputRef}
+            // onKeyDown={}              
+            value={replyComment}
+            onIonChange={(e) => setReplyComment(e.detail.value!)}
+            placeholder="Type your reply..."
+          />
+          <IonIcon style={{ position: 'relative', right: '40px', zIndex: '10' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
+            addComment(
+              replyComment,
+              myInfo?.username,
+              postId,
+              myInfo?.id,
+              comment.id,
+              myVote,)
+          }} />
+        </IonFooter>
+      )}
     </>
   );
 };

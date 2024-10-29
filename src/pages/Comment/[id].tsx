@@ -30,7 +30,7 @@ const Comment = () => {
   const { myVote } = useParams<{ myVote: string }>();
   const { postId } = useParams<{ postId: string }>();
   const [replyComment, setReplyComment] = useState<string>("");
-  const inputRef = useRef<HTMLIonInputElement>(null);
+  const inputRef = useRef<HTMLIonTextareaElement>(null);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
@@ -57,14 +57,16 @@ const Comment = () => {
 
   const getColor = (vote: string) => {
     switch (vote) {
-      case "yes":
-        return "green";
-      case "no":
-        return "red";
-      case "maybe":
+      case "true":
+        return "rgb(178,222,178, 0.6)";
+      case "probably true":
+        return "rgb(178,222,178, 0.6)";
+      case "neutral":
+        return "rgb(178,222,178, 0.6)";
+      case "probably false":
+        return "rgb(207,151,134, 0.6)";
+      case "false":
         return "#fffc69";
-      default:
-        return "grey";
     }
   };
 
@@ -490,6 +492,7 @@ const Comment = () => {
         {isReplying && (
           <IonFooter className="message-input-container">
             <IonTextarea
+              className="textAreaWhite"
               onBlur={() => { setIsReplying(false) }}
               ref={inputRef}
               // onKeyDown={}              
@@ -497,7 +500,7 @@ const Comment = () => {
               onIonChange={(e) => setReplyComment(e.detail.value!)}
               placeholder="Type your reply..."
             />
-            <IonIcon style={{ marginLeft: '3px', padding: '5px' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
+            <IonIcon style={{ position: 'relative', right: '40px', zIndex: '10' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
               addComment(
                 replyComment,
                 myInfo?.username,
