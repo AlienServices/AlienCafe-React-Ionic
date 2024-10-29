@@ -115,13 +115,10 @@ const Post: React.FC<PostProps> = ({ post }) => {
         return doc.body.innerHTML;
     };
 
-    const truncateContent = (content: string, length: number) => {
+    const truncateContent = (content: string, length: number = 170) => {
         const doc = new DOMParser().parseFromString(content, "text/html");
         let text = doc.body.textContent || "";
-        return (
-            text.split(" ").slice(0, length).join(" ") +
-            (text.split(" ").length > length ? "..." : "")
-        );
+        return text.length > length ? text.slice(0, length) + "..." : text;
     };
 
     const gotoTopic = (id: string) => {
@@ -207,7 +204,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                             </div>
                             <div onClick={() => gotoTopic(post.id)}>
                                 <ReactQuill
-                                
+
                                     style={{ color: "black" }}
                                     readOnly={true}
                                     theme="bubble"
@@ -220,7 +217,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                                     theme="bubble"
                                     value={truncatedContent}
                                 />
-                            </div>
+                            </div>                            
                         </div>
                         <div className="smallRow">
                             <div className="tinyRow">

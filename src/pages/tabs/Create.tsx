@@ -76,8 +76,8 @@ const MyEditor = () => {
 
 
   return (
-    <IonPage style={{ paddingTop: '10px' }}>
-      <IonContent>
+    <IonPage style={{ paddingBottom: '50px' }}>
+      <IonContent fullscreen >
         <div className="brown">
           <div style={{
             borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
@@ -95,16 +95,7 @@ const MyEditor = () => {
           {/* <div className="logoContainer">
             <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
           </div> */}
-        </div>
-        <div className="flexRow">
-          {/* <IonIcon
-            onClick={() => {
-              history.push("/tab1");
-            }}
-            size="large"
-            icon={closeOutline}
-          ></IonIcon> */}
-          {/* <IonNavLink
+          <IonNavLink
             routerDirection="forward"
             component={() => (
               <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
@@ -120,7 +111,17 @@ const MyEditor = () => {
             >
               Next
             </IonButton>
-          </IonNavLink> */}
+          </IonNavLink>
+        </div>
+        <div className="flexRow">
+          {/* <IonIcon
+            onClick={() => {
+              history.push("/tab1");
+            }}
+            size="large"
+            icon={closeOutline}
+          ></IonIcon> */}
+
         </div>
         <div className="centerRow">
           <img className="profile-photo" src={profileImage(myInfo.id)} alt="" />

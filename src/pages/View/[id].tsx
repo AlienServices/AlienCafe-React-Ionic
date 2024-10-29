@@ -89,8 +89,8 @@ const Post = () => {
     setHasVoted(true);
     setTimeout(async () => {
       await updateVote(id, myInfo?.id, selectedOption);
-      getOnePost(); 
-    }, 500); 
+      getOnePost();
+    }, 500);
   };
 
 
@@ -242,7 +242,7 @@ const Post = () => {
         {hasVoted ? (
           <div className="answers">
             <div className="vote">
-              {myVote === "yes" && (
+              {myVote === "true" && (
                 <div className="action">{content[0]?.yesAction}</div>
               )}
               {myVote === "probably true" && (
@@ -254,7 +254,7 @@ const Post = () => {
               {myVote === "probably false" && (
                 <div className="action">{content[0]?.yesAction}</div>
               )}
-              {myVote === "no" && (
+              {myVote === "false" && (
                 <div className="action">{content[0]?.noAction}</div>
               )}
             </div>
