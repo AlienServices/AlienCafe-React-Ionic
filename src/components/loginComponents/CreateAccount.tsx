@@ -133,6 +133,7 @@ const CreateAccount = ({
         <div className="center">
           <div style={{ width: "85%" }} className="columnButtons">
             <IonButton
+              color={'secondary'}
               shape="round"
               className="loginButtonRounded"
               onClick={() => {

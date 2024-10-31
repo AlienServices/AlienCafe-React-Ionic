@@ -84,13 +84,15 @@
 
 .loginButton {
   display: flex;
-  width: 100%;
+  background-color: rgb(80, 64, 58);
+  width: 100%;  
   justify-content: space-evenly;
   margin: 5px;
 }
 
 .loginButtonRounded {
   display: flex;
+  background-color: white;
   width: 100%;
   justify-content: space-evenly;
   margin: 5px;

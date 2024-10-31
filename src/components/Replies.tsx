@@ -310,14 +310,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       </button>
                     </div>
                   )} */}
-                  {comments.some((r) => r.parentId === reply.id) && (
-                    <div
-                      className="seeMore"
-                      onClick={() => toggleReplies(reply.id)}
-                    >
-                      {replyToggle[reply.id] ? "" : "+ See More"}
-                    </div>
-                  )}
+
                   <div className="voteRowSmall">
                     <div className="rowSmall">
                       <IonIcon
@@ -353,6 +346,14 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                 </div>
               </IonCard>
             </div>
+            {comments.some((r) => r.parentId === reply.id) && (
+              <div
+                className="seeMore"
+                onClick={() => toggleReplies(reply.id)}
+              >
+                {replyToggle[reply.id] ? "" : "+ See More"}
+              </div>
+            )}
             {replyToggle[reply.id] && renderReplies(reply.id, nestedDepth + 1)}
           </div>
         );
@@ -387,8 +388,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
     return likes.length - dislikes.length;
   };
-
-  console.log(comments, 'these are the comments')
 
   return (
     <>
@@ -567,7 +566,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       {isReplying && (
         <IonFooter className="message-input-container">
           <IonTextarea
-
             className="textAreaWhite"
             onBlur={() => { setIsReplying(false) }}
             ref={inputRef}

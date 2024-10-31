@@ -449,6 +449,7 @@ div {
 
 .columnButtons {
   display: flex;
+  background-color: white;
   flex-direction: column;
   justify-content: space-evenly;
 }

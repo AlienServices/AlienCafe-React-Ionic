@@ -1,34 +1,16 @@
 import { useEffect, useState, useContext } from "react";
-import { useApi } from "../hooks/useApi";
 import { useHistory } from "react-router";
-// import Editor from '../components/Editor';
 import "react-quill/dist/quill.snow.css";
-import Quill from "quill/core";
-import alien from "../../public/alien.png";
 import {
-  bookmarkOutline,
-  settingsOutline,
-  personOutline,
-  createOutline,
+  arrowBackCircleOutline,
 } from "ionicons/icons";
 import {
-  IonButton,
-  IonButtons,
   IonContent,
-  IonHeader,
-  IonIcon,
   IonMenuButton,
-  IonMenuToggle,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonPage,
-  IonTitle,
-  IonToolbar,
+  IonIcon,
   useIonToast,
   useIonLoading,
-  IonMenu,
   IonImg,
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
@@ -36,7 +18,6 @@ import "../theme/Tab1.css";
 import SignIn from "../components/loginComponents/SignIn";
 import CreateAccount from "../components/loginComponents/CreateAccount";
 import { MyContext } from "../providers/postProvider";
-import Menu from "../components/Menu";
 
 const Login: React.FC = () => {
   const [showLoading, hideLoading] = useIonLoading();
@@ -53,6 +34,7 @@ const Login: React.FC = () => {
   const history = useHistory();
   const [loginToggle, setLoginToggle] = useState<boolean>(true);
 
+
   // useEffect(() => {
   //   if (user?.session.accessToken) {
   //     console.log('logged in')
@@ -60,6 +42,7 @@ const Login: React.FC = () => {
   //     getUser()
   //   }
   // }, [user])
+
 
   const handleLogout = async () => {
     console.log('hitting logout in login')
@@ -76,22 +59,22 @@ const Login: React.FC = () => {
     }
   };
 
+
   return (
     <>
-  
       <IonPage id="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton></IonMenuButton>
-            </IonButtons>
-            <div className="centerAlien">
-              <div className="imageContainer">
-                <IonImg src={alien}></IonImg>
-              </div>
+        <div className="brown">
+          <div className="leftMiddle">
+            <div style={{
+              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
+              alignItems: 'center', margin: '10px'
+            }}>
             </div>
-          </IonToolbar>
-        </IonHeader>
+            <div className="logoContainer">
+              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            </div>
+          </div>
+        </div>
         <IonContent>
           {loginToggle ? (
             <>
