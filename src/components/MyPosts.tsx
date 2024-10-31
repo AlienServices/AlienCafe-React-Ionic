@@ -6,6 +6,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../theme/Tab3.css";
 import { MyContext } from "../providers/postProvider";
+import { trashOutline } from "ionicons/icons";
 
 const Content: React.FC = () => {
   const { myPosts, deletePost } = useContext(MyContext);
@@ -100,14 +101,7 @@ const Content: React.FC = () => {
                         <div className="username">{post.email}</div>
                       </div>
                       <div>
-                        <IonButton
-                          onClick={() => {
-                            deletePost(post.id);
-                          }}
-                          size="small"
-                        >
-                          Trash
-                        </IonButton>
+                        <IonIcon icon={trashOutline}></IonIcon>
                       </div>
                     </div>
                     <div

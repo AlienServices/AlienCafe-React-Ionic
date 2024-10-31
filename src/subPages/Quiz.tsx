@@ -5,17 +5,14 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
-  IonCheckbox,
-  IonList,
   IonNavLink,
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonContent,
   IonPage,
   IonButton,
   useIonAlert,
-  IonTextarea,
+  IonImg,
 } from "@ionic/react";
 import Tab3 from "../../src/pages/tabs/Homepage";
 import { MyContext } from "../providers/postProvider";
@@ -50,41 +47,40 @@ const Quiz = (props: TestProps) => {
   };
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <div className="flexRowCenter">
-            <IonNavLink routerDirection="back" component={Tab3}>
-              <IonButton
-                onClick={() => {
-                  history.push("/tab1");
-                }}
-              >
-                Back
-              </IonButton>
-            </IonNavLink>
-            <IonNavLink routerDirection="back" component={Tab3}>
-              <IonButton
-                onClick={() => {
-                  console.log(selectedOption, "selected option");
-                  createPost(
-                    props.quizTitle,
-                    props.content,
-                    thesis,
-                    yesAction,
-                    noAction,
-                    maybeAction,
-                    selectedOption,
-                  );
-                  history?.push("/tab1");
-                }}
-              >
-                Create
-              </IonButton>
-            </IonNavLink>
-          </div>
-        </IonToolbar>
-      </IonHeader>
+    <IonPage >
+      <div style={{ height: '90px', padding: '5px' }} className="brown">
+        <div className="flexRowCenter">
+          <IonNavLink routerDirection="back" component={Tab3}>
+            <button className="nextButton" onClick={() => {
+              history.push("/tab1");
+            }}>Back</button>
+          </IonNavLink>
+
+        </div>
+        <div style={{ top: '50px' }} className="logoContainer">
+          <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+        </div>
+        <IonNavLink routerDirection="back" component={Tab3}>
+          <button
+            className="nextButton"
+            onClick={() => {
+              console.log(selectedOption, "selected option");
+              createPost(
+                props.quizTitle,
+                props.content,
+                thesis,
+                yesAction,
+                noAction,
+                maybeAction,
+                selectedOption,
+              );
+              history?.push("/tab1");
+            }}
+          >
+            Create
+          </button>
+        </IonNavLink>
+      </div>
       <IonContent className="ion-padding">
         <IonItem>
           <IonLabel>Choose Category</IonLabel>

@@ -1,20 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
-
+import React, {  useState, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
-import { supabase } from "../supaBase";
 import "../../theme/PostComponents.css";
 import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
-import moment from "moment";
 import {
-    IonPage,
-    IonContent,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonButton,
-    IonCard,
-    IonImg
+    IonCard,    
 } from "@ionic/react";
 
 // Define the props type for the Post component
@@ -41,15 +31,6 @@ const Profile: React.FC<Profile> = ({ profile }) => {
         getUserPosts,
     } = useContext(MyContext);
 
-    const [user, setUser] = useState({
-        bio: "",
-        email: "",
-        followers: [],
-        following: [],
-        id: "",
-        username: "",
-    });
-    const [showModal, setShowModal] = useState(false);
 
 
     const profileImage = (id: string) => {

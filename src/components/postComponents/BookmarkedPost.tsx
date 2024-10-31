@@ -26,7 +26,6 @@ import "../../pages/Tab3.css";
 import Profile from "../../pages/Profile/[id]";
 import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
-import moment from "moment";
 
 // Define the props type for the Post component
 interface PostProps {
@@ -86,19 +85,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
         }
     };
 
-    
-    const handleLogout = async () => {
-        try {
-            const { error } = await supabase.auth.signOut();
-            if (error) {
-                console.log("this is logout error", error);
-            } else {
-                console.log("You Logged Out");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     const transformTitleToH1 = (title: string) => {
         const parser = new DOMParser();

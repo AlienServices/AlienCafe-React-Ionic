@@ -3,7 +3,6 @@ import {
     IonIcon,
     IonModal,
     IonAvatar,
-    IonContent,
     IonCard,
     IonNavLink,
     IonList,
@@ -21,14 +20,11 @@ import {
 } from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { supabase } from "../supaBase";
 import "../../theme/Tab3.css";
 import Profile from "../../pages/Profile/[id]";
 import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
-import moment from "moment";
 
-// Define the props type for the Post component
 interface PostProps {
     post: {
         id: string;
@@ -83,20 +79,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
             console.log(userInfo, "this is user result");
         } catch (error) {
             console.log(error, "this is the create user error");
-        }
-    };
-
-
-    const handleLogout = async () => {
-        try {
-            const { error } = await supabase.auth.signOut();
-            if (error) {
-                console.log("this is logout error", error);
-            } else {
-                console.log("You Logged Out");
-            }
-        } catch (error) {
-            console.log(error);
         }
     };
 

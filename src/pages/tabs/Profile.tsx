@@ -6,6 +6,7 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonButton,
+  IonImg,
   useIonViewWillEnter
 } from "@ionic/react";
 import "../../theme/Tab2.css";
@@ -15,7 +16,6 @@ import { useEffect, useState, useContext, SetStateAction } from "react";
 import { MyContext } from "../../providers/postProvider";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import UserComments from "../../components/UserComments";
-
 
 
 interface EditProfileProps {
@@ -36,23 +36,13 @@ const Profile = ({
     likes: 0,
     categories: 0,
   });
-  // const [posts, setPosts] = useState(0)
+
   const {
-    posts,
     myPosts,
-    setPosts,
-    setMyPosts,
-    updatePost,
-    getAllPosts,
     myInfo,
   } = useContext(MyContext);
 
-  const [replies, setReplies] = useState(0);
-  const [likes, setLikes] = useState(1);
-  const [categories, setCategories] = useState(0);
   const [profileImage, setProfileImage] = useState<any>(null);
-  const { getBaseUrl } = useContext(MyContext)
-
 
   useEffect(() => {
     if (profileImage) {
@@ -63,12 +53,12 @@ const Profile = ({
 
 
   async function uploadProfileImage(imageUri: string) {
-    try {      
+    try {
       const response = await fetch(imageUri);
       if (!response.ok) {
         throw new Error("Failed to fetch the image");
       }
-      const blob = await response.blob(); 
+      const blob = await response.blob();
       const formData = new FormData();
       formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
       const uploadResponse = await fetch(`http://localhost:3000/api/supabase-s3?id=${myInfo.id}`, {
@@ -80,7 +70,7 @@ const Profile = ({
         throw new Error(`Upload failed: ${errorText}`);
       }
       const result = await uploadResponse.json();
-      console.log("Upload successful:", result);      
+      console.log("Upload successful:", result);
       setProfileImage(
         `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}?${Date.now()}`
       );
@@ -124,7 +114,14 @@ const Profile = ({
   return (
     <IonPage>
       <IonContent>
-        <IonCard className="noMargin" color={"light"}>
+        <div className="brown" style={{height: '90px'}}>
+          <div className="leftMiddle">            
+            <div className="logoContainer" style={{top: '40px'}}>
+              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            </div>
+          </div>
+        </div>
+        <IonCard className="noMargin">
           <div className="paddingCenter">
             <IonCardTitle>{myInfo?.username}</IonCardTitle>
           </div>

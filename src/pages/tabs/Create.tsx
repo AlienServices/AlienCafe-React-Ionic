@@ -78,41 +78,27 @@ const MyEditor = () => {
   return (
     <IonPage style={{ paddingBottom: '50px' }}>
       <IonContent fullscreen >
-        <div className="brown">
-          <div style={{
-            borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
-            height: '45px', alignItems: 'center', margin: '10px'
-          }}>
-            <IonIcon
-              style={{
-                fontSize: '25px',
-                color: 'black',
-              }}
-              color="primary"
-              icon={arrowBackCircleOutline}>
-            </IonIcon>
-          </div>
-          {/* <div className="logoContainer">
+        <div style={{ height: '90px' }} className="brown">
+          <div style={{ top: '40px' }} className="logoContainer">
             <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
-          </div> */}
+          </div>
           <IonNavLink
             routerDirection="forward"
             component={() => (
               <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
             )}
           >
-            <IonButton
-              shape="round"
-              size="small"
+            <button
+              className="nextButton"
               onClick={() => {
                 setEditorHtml("");
                 setEditorHtmlTitle("");
               }}
             >
               Next
-            </IonButton>
+            </button>
           </IonNavLink>
-        </div>      
+        </div>
         <div className="centerRow">
           <img className="profile-photo" src={profileImage(myInfo.id)} alt="" />
           {myInfo?.username}

@@ -24,9 +24,10 @@
   display: flex;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  align-items: end;
+  align-items: center;
+  justify-content: end;  
   width: 100%;
-  padding-top: 40px;
+  padding-top: 40px;  
   margin-bottom: 20px;
   height: 130px;
   background-color: rgb(80, 64, 58);
@@ -37,14 +38,14 @@
   padding: 8px;
   position: absolute;
   left: 40%;
-  top: 80px;
+  top: 80px;  
   border-radius: 40px;
 }
 
 .leftMiddle {
   display: flex;
-  justify-content: space-between;
-  width: 60%;
+  justify-content: end;
+  width: 95%;
 }
 
 .titleEditor {
@@ -190,4 +191,13 @@
 .browBackground {
   background-color: rgb(80, 64, 58);
   padding: 10px;
+}
+
+.nextButton {
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 8px 15px;
+  background-color: white;
 }
