@@ -68,9 +68,7 @@ const Profiles = ({ search }: { search: string }) => {
       setSearchResults([])
     }
   }, [search]);
-
-
-  console.log(searchResults, 'search results')
+  
 
   return (
     <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
@@ -81,7 +79,7 @@ const Profiles = ({ search }: { search: string }) => {
               <Profile profile={user} />
             ))
           ) : (
-            <IonItem>
+            <IonItem style={{ width: '100%' }}>
               <IonLabel>No users found.</IonLabel>
             </IonItem>
           )}

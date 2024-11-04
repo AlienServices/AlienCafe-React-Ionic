@@ -121,6 +121,9 @@ const Content: React.FC = () => {
   const gotoTopic = (id: string) => {
     history.push(`/view/${id}`);
   };
+  const gotoProfile = (id: string) => {
+    history.push(`/profile/${id}`);
+  };
 
   const openModal = () => {
     setShowModal(true);
@@ -183,15 +186,9 @@ const Content: React.FC = () => {
                                 src="https://ionicframework.com/docs/img/demos/avatar.svg"
                               />
                             </IonAvatar>
-                            <IonNavLink
-                              onClick={() => {
-                                getUserPosts(post.email);
-                              }}
-                              routerDirection="forward"
-                              component={() => <Profile id={post.email} />}
-                            >
+                            <div onClick={() => {gotoProfile(post?.email)}}>
                               <div className="username">{post.email}</div>
-                            </IonNavLink>
+                            </div>
                           </div>
                           <div>
                             {myInfo?.email !== post?.email ? (

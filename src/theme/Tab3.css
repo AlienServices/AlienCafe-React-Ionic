@@ -118,11 +118,11 @@
 .emailContainer {
   width: fit-content;
   display: flex;
-  width: 80%;
-  align-items: center;
+  width: 100%;
+  align-items: center;  
   justify-content: normal;
-  padding-top: 10px;
-  padding-bottom: 20px;
+  padding-top: 5px;
+  padding-bottom: 15px;  
 }
 
 .ql-bubble .ql-editor h1 {
@@ -201,9 +201,9 @@ div {
 }
 
 .MyPostsTitle {
-  font-size: 30px;
-  padding: 10px;
-  border-bottom: 1px solid black;
+  font-size: 20px;
+  padding-left: 10px;
+  padding-top: 10px;
 }
 
 .user-icon {

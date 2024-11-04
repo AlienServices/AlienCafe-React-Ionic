@@ -37,12 +37,12 @@ const Search: React.FC = () => {
         }
     }, [currentCategory]);
 
-    
+
 
     const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe';
 
     return (
-        <IonPage className="fullscreen" style={{ paddingTop: '20px' }}>
+        <IonPage className="fullscreen">
             <IonContent className="center" scrollY={false}>
                 <div className="brown">
                     <input
@@ -52,15 +52,15 @@ const Search: React.FC = () => {
                     />
                 </div>
                 <div className="indicator-bar">
-                    {categories.map((category, index) => (                        
-                            <div
-                                key={category}
-                                ref={(el) => (indicatorRefs.current[index] = el)}
-                                className={`indicator-item ${currentCategory === category ? 'active' : ''}`}
-                                onClick={() => setCurrentCategory(category)}
-                            >
-                                {category}
-                            </div>                        
+                    {categories.map((category, index) => (
+                        <div
+                            key={category}
+                            ref={(el) => (indicatorRefs.current[index] = el)}
+                            className={`indicator-item ${currentCategory === category ? 'active' : ''}`}
+                            onClick={() => setCurrentCategory(category)}
+                        >
+                            {category}
+                        </div>
                     ))}
                     <div
                         className="indicator-slide"

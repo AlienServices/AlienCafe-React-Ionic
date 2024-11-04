@@ -14,6 +14,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonImg,
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { motion } from "framer-motion";
@@ -117,16 +118,29 @@ const MessageHome: React.FC = () => {
 
   return (
     <IonPage>
-     
+
       <IonPage>
-        <IonHeader>
-          <IonToolbar class="ion-text-center">
-            <IonButtons id="mainContent" slot="start">
-              <IonMenuButton></IonMenuButton>
-            </IonButtons>
-            <IonTitle>{localStorage.getItem("user")}</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        <div className="brown" style={{height: '110px'}}>
+          <div className="leftMiddle">
+            <div style={{
+              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
+              alignItems: 'center', margin: '10px'
+            }}>
+              {/* <IonIcon
+                style={{
+                  fontSize: '28px',
+                  color: 'black',
+                }}
+                color="primary"
+                icon={arrowBackCircleOutline}>
+              </IonIcon> */}
+              <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
+            </div>
+            <div className="logoContainer" style={{ top: '60px' }}>
+              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            </div>
+          </div>
+        </div>
         <IonContent>
           <ul>
             <motion.li key={'props.id'}

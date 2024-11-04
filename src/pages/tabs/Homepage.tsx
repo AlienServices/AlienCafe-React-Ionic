@@ -65,7 +65,7 @@ const Tab3: React.FC = () => {
       <Menu />
       <IonPage id="main-content">
         <IonContent>
-          <div className="brown">
+          <div className="brown" style={{height: '110px'}}>
             <div className="leftMiddle">
               <div style={{
                 borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
@@ -81,7 +81,7 @@ const Tab3: React.FC = () => {
               </IonIcon> */}
                 <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
               </div>
-              <div className="logoContainer">
+              <div className="logoContainer" style={{ top: '60px' }}>
                 <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
               </div>
             </div>

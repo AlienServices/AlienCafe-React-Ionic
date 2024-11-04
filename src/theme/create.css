@@ -44,8 +44,8 @@
 
 .leftMiddle {
   display: flex;
-  justify-content: end;
-  width: 95%;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .titleEditor {

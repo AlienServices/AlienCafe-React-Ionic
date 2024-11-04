@@ -48,7 +48,7 @@ const Quiz = (props: TestProps) => {
 
   return (
     <IonPage >
-      <div style={{ height: '90px', padding: '5px' }} className="brown">
+      <div style={{ height: '140px', paddingTop: '5px' }} className="brown">
         <div className="flexRowCenter">
           <IonNavLink routerDirection="back" component={Tab3}>
             <button className="nextButton" onClick={() => {
@@ -57,7 +57,7 @@ const Quiz = (props: TestProps) => {
           </IonNavLink>
 
         </div>
-        <div style={{ top: '50px' }} className="logoContainer">
+        <div style={{ top: '80px' }} className="logoContainer">
           <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
         </div>
         <IonNavLink routerDirection="back" component={Tab3}>

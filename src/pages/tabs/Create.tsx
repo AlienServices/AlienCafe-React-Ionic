@@ -78,8 +78,8 @@ const MyEditor = () => {
   return (
     <IonPage style={{ paddingBottom: '50px' }}>
       <IonContent fullscreen >
-        <div style={{ height: '90px' }} className="brown">
-          <div style={{ top: '40px' }} className="logoContainer">
+        <div style={{ height: '110px' }} className="brown">
+          <div style={{ top: '60px' }} className="logoContainer">
             <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
           </div>
           <IonNavLink
@@ -89,6 +89,7 @@ const MyEditor = () => {
             )}
           >
             <button
+              style={{ margin: '10px' }}
               className="nextButton"
               onClick={() => {
                 setEditorHtml("");

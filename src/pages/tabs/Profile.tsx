@@ -12,7 +12,7 @@ import {
 import "../../theme/Tab2.css";
 import MyPosts from "../../components/MyPosts";
 import Category from "../../components/Category";
-import { useEffect, useState, useContext, SetStateAction } from "react";
+import { useEffect, useState, useContext, SetStateAction, useMemo } from "react";
 import { MyContext } from "../../providers/postProvider";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import UserComments from "../../components/UserComments";
@@ -36,6 +36,7 @@ const Profile = ({
     likes: 0,
     categories: 0,
   });
+  
 
   const {
     myPosts,
@@ -44,44 +45,54 @@ const Profile = ({
 
   const [profileImage, setProfileImage] = useState<any>(null);
 
-  useEffect(() => {
-    if (profileImage) {
-      uploadProfileImage(profileImage)
+  // useEffect(() => {
+  //   if (profileImage) {
+  //     uploadProfileImage(profileImage)
+  //   }
+  // }, [profileImage])
+
+
+  const profileImageUri = useMemo(() => {
+    if (myInfo?.id) {
+      return `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}.jpg`;
     }
-  }, [profileImage])
+  }, [myInfo?.id]);
+
+  
 
 
 
-  async function uploadProfileImage(imageUri: string) {
-    try {
-      const response = await fetch(imageUri);
-      if (!response.ok) {
-        throw new Error("Failed to fetch the image");
-      }
-      const blob = await response.blob();
-      const formData = new FormData();
-      formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
-      const uploadResponse = await fetch(`http://localhost:3000/api/supabase-s3?id=${myInfo.id}`, {
-        method: "POST",
-        body: formData,
-      });
-      if (!uploadResponse.ok) {
-        const errorText = await uploadResponse.text();
-        throw new Error(`Upload failed: ${errorText}`);
-      }
-      const result = await uploadResponse.json();
-      console.log("Upload successful:", result);
-      setProfileImage(
-        `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}?${Date.now()}`
-      );
-      setProfileImage(null);
-    } catch (error) {
-      console.error(
-        "Error uploading image:",
-        error instanceof Error ? error.message : error
-      );
-    }
-  }
+  // async function uploadProfileImage(imageUri: string) {
+  //   try {
+  //     const response = await fetch(imageUri);
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch the image");
+  //     }
+  //     const blob = await response.blob();
+  //     const formData = new FormData();
+  //     formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
+  //     const uploadResponse = await fetch(`http://localhost:3000/api/supabase-s3?id=${myInfo.id}`, {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+  //     if (!uploadResponse.ok) {
+  //       const errorText = await uploadResponse.text();
+  //       throw new Error(`Upload failed: ${errorText}`);
+  //     }
+  //     const result = await uploadResponse.json();
+  //     console.log("Upload successful:", result);
+  //     setProfileImage(
+  //       `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}?${Date.now()}`
+  //     );
+  //     setProfileImage(null);
+  //   } catch (error) {
+  //     console.error(
+  //       "Error uploading image:",
+  //       error instanceof Error ? error.message : error
+  //     );
+  //   }
+  // }
+
 
   useIonViewWillEnter(() => {
     if (myInfo?.id) {
@@ -111,40 +122,44 @@ const Profile = ({
 
   const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe'
 
+
+  console.log('uri', profileImageUri)
+  console.log('id', myInfo?.id)
+
   return (
     <IonPage>
       <IonContent>
-        <div className="brown" style={{height: '90px'}}>
-          <div className="leftMiddle">            
-            <div className="logoContainer" style={{top: '40px'}}>
+        <div className="brown" style={{ height: '110px' }}>
+          <div className="leftMiddle">
+            <div className="logoContainer" style={{ top: '60px' }}>
               <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
             </div>
           </div>
         </div>
-        <IonCard className="noMargin">
-          <div className="paddingCenter">
-            <IonCardTitle>{myInfo?.username}</IonCardTitle>
-          </div>
+        <IonCard style={{ boxShadow: 'none' }} className="noMargin">
           <div className="rowEven">
             <img
               className="profilePic"
-              src={profileImage}
+              src={profileImageUri}
               alt="User icon"
               aria-placeholder={blurhash}
             />
             {/* <IonImg aria-placeholder={blurhash} src={profileImage} className="profilePic"  /> */}
             <div className="rowClose">
-              <div>Posts</div>
+              <div style={{ fontSize: '14px' }}>Posts</div>
               <div className="centerSmall">{myPosts?.length}</div>
             </div>
             <div className="rowClose">
-              <div>Following</div>
+              <div style={{ fontSize: '14px' }}>Following</div>
               <div className="centerSmall">{myInfo?.following.length}</div>
             </div>
             <div className="rowClose">
-              <div>Followers</div>
+              <div style={{ fontSize: '14px' }}>Followers</div>
               <div className="centerSmall">{myInfo?.followers.length}</div>
             </div>
+          </div>
+          <div className="paddingCenter">
+            <div style={{ fontSize: '18px', fontWeight: '600', color: 'black', paddingTop: '10px' }}>{myInfo?.username}</div>
           </div>
           <IonCardHeader>
             {/* <IonNavLink routerDirection="forward" component={() => <Page />}>
@@ -153,10 +168,10 @@ const Profile = ({
 
           </IonCardHeader>
           <IonCardContent>{myInfo?.bio}</IonCardContent>
-          <div className="flexChoice">
+          <div className="indicator-bar-profile">
             <div
               className={
-                !choices.posts ? "smallTitleChoice" : "smallTitleChoiceLine"
+                `indicator-item-profile ${choices.posts ? "active" : ""}`
               }
               onClick={() => {
                 setChoices({
@@ -171,7 +186,7 @@ const Profile = ({
             </div>
             <div
               className={
-                !choices.replies ? "smallTitleChoice" : "smallTitleChoiceLine"
+                `indicator-item-profile ${choices.replies ? "active" : ""}`
               }
               onClick={() => {
                 setChoices({
@@ -186,7 +201,7 @@ const Profile = ({
             </div>
             <div
               className={
-                !choices.likes ? "smallTitleChoice" : "smallTitleChoiceLine"
+                `indicator-item-profile ${choices.likes ? "active" : ""}`
               }
               onClick={() => {
                 setChoices({
@@ -201,9 +216,7 @@ const Profile = ({
             </div>
             <div
               className={
-                !choices.categories
-                  ? "smallTitleChoice"
-                  : "smallTitleChoiceLine"
+                `indicator-item-profile ${choices.categories ? "active" : ""}`
               }
               onClick={() => {
                 setChoices({
