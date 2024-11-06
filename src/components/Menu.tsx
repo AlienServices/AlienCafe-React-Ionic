@@ -40,8 +40,7 @@ export const Menu = () => {
       } else {
         menuRef.current?.close();
         localStorage.removeItem("user");
-        setMyInfo({ id: '', content: '', likes: [], email: '', bio: '', username: '', following: [], followers: [], blurhash: '' })
-        history.push("/tab1");
+        setMyInfo({ id: '', content: '', likes: [], email: '', bio: '', username: '', following: [], followers: [], blurhash: '' })        
       }
     } catch (error) {
       console.log(error);
@@ -86,21 +85,16 @@ export const Menu = () => {
                 </div>
               </IonMenuToggle> */}
               <IonMenuToggle>
-                <div onClick={() => { history.push("/"); menuRef.current?.close(); }} className="flexSetting">
+                {myInfo?.id ? <div onClick={() => { history.push("/"); menuRef.current?.close(); handleLogout() }} className="flexSetting">
+                  <IonIcon icon={bookmarkOutline}></IonIcon>
+                  <div className="setting">Logout</div>
+                </div> : <div onClick={() => { history.push("/"); menuRef.current?.close(); }} className="flexSetting">
                   <IonIcon icon={bookmarkOutline}></IonIcon>
                   <div className="setting">Login</div>
-                </div>
+                </div>}
+
               </IonMenuToggle>
-            </div>
-            <div>
-              <IonMenuToggle>
-                <IonButton className="button" size="small"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </IonButton>
-              </IonMenuToggle>
-            </div>
+            </div>            
           </div>
         </IonContent>
       </IonMenu>

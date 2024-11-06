@@ -85,7 +85,7 @@ const Tab3: React.FC = () => {
             </div>
           </div>
         </div>
-        <IonContent>
+        <IonContent >
           <div className="middle">
             <IonTitle>{currentCategory}</IonTitle>
           </div>

@@ -21,6 +21,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonFooter,
   useIonToast,
   useIonLoading,
   IonMenu,
@@ -28,6 +29,7 @@ import {
 } from "@ionic/react";
 import { closeOutline, arrowBackCircleOutline } from "ionicons/icons";
 import Quiz from "../../subPages/Quiz";
+import { UserContext } from "../../providers/userProvider";
 
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
@@ -42,9 +44,9 @@ const MyEditor = () => {
     setMyPosts,
     updatePost,
     getAllPosts,
-    myInfo,
     createPost,
   } = useContext(MyContext);
+  const { myInfo } = useContext(UserContext);
   const contentQuillRef = useRef<ReactQuill | null>(null);
 
   useEffect(() => {
@@ -62,52 +64,54 @@ const MyEditor = () => {
     setEditorHtmlTitle(html);
   };
 
-  // useEffect(() => {
-  //   debugger
-  // }, [])
-
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
 
-
   return (
-    <IonPage style={{ paddingBottom: '50px' }}>
-      <div style={{ height: '110px', zIndex: 1000 }} className="brown">
-        <div style={{ top: '60px' }} className="logoContainer">
-          <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
-        </div>
-        <IonNavLink
-          routerDirection="forward"
-          component={() => (
-            <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
-          )}
-        >
-          <button
-            style={{ margin: '10px' }}
-            className="nextButton"
-            onClick={() => {
-              setEditorHtml("");
-              setEditorHtmlTitle("");
-            }}
+    <IonPage style={{ overflow: 'hidden' }}>
+      <IonHeader>
+        <div style={{ height: '110px', zIndex: 1000 }} className="brown">
+          <div style={{ top: '60px' }} className="logoContainer">
+            <IonImg
+              style={{ width: '60px', height: '60px' }}
+              src="/AlienCafeLogo1.png"
+            ></IonImg>
+          </div>
+          <IonNavLink
+            routerDirection="forward"
+            component={() => (
+              <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
+            )}
           >
-            Next
-          </button>
-        </IonNavLink>
-      </div>
-      <IonContent fullscreen >
+            <button
+              style={{ margin: '10px' }}
+              className="nextButton"
+              onClick={() => {
+                setEditorHtml("");
+                setEditorHtmlTitle("");
+              }}
+            >
+              Next
+            </button>
+          </IonNavLink>
+        </div>
+      </IonHeader>
+
+      <IonContent fullscreen>
         <div className="centerRow">
-          <img className="profile-photo" src={profileImage(myInfo.id)} alt="" />
+          <img
+            className="profile-photo"
+            src={profileImage(myInfo?.id)}
+            alt=""
+          />
           {myInfo?.username}
         </div>
-        <div className="editorContainer">
-          <div className="tagStart">
-            Post Title
-          </div>
+        <div className="editorContainer" style={{ marginTop: '100px' }}>
+          <div className="tagStart">Post Title</div>
           <div className="titleEditor">
             <ReactQuill
               className="custom-title-editor"
@@ -117,10 +121,14 @@ const MyEditor = () => {
               onChange={handleTitleChange}
               modules={MyEditor.titleModules}
               formats={MyEditor.titleFormats}
-              style={{ height: "fit-content", minHeight: "50px", border: "none" }}
+              style={{
+                height: "fit-content",
+                minHeight: "50px",
+                border: "none",
+              }}
             />
           </div>
-          <div className="tagStart"> Description </div>
+          <div className="tagStart">Description</div>
           <div className="contentEditor">
             <ReactQuill
               className="custom-content-editor"
@@ -134,17 +142,19 @@ const MyEditor = () => {
             />
           </div>
         </div>
+      </IonContent>
+
+      <IonFooter>
         <div
           id="toolbar"
           style={{
-            position: "fixed",
-            bottom: "0px",
-            width: "70%",
+            width: "100%",
             border: "none",
             background: "white",
             zIndex: 1000,
             display: "flex",
             justifyContent: "space-between",
+            padding: "10px",
           }}
         >
           <button className="ql-bold"></button>
@@ -153,7 +163,7 @@ const MyEditor = () => {
           <button className="ql-image"></button>
           <button className="ql-list" value="bullet"></button>
         </div>
-      </IonContent>
+      </IonFooter>
     </IonPage>
   );
 };

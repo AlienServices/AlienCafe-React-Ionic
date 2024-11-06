@@ -165,7 +165,7 @@ const Category: React.FC<CategoryProps> = ({
   };
 
   return (
-    <IonContent>
+    <IonContent >
       <IonList slot="fixed">
         {posts ? (
           <>
