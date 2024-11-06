@@ -1,7 +1,9 @@
-import { createContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useState, ReactNode, useEffect, useContext } from "react";
 import { post } from "../utils/fetch";
 import { Platform } from "react-native";
 import { Capacitor } from "@capacitor/core";
+import { supabase } from "../components/supaBase";
+import { UserContext } from "./userProvider";
 
 interface Post {
   email: string;
@@ -15,29 +17,9 @@ interface PostContext {
   posts: Post[];
   myPosts: Post[];
   userPosts: Post[];
-  myInfo: {
-    id: string;
-    email: string;
-    username: string;
-    bio: string;
-    following: [];
-    followers: [];
-    blurhash: string
-  };
   setPosts: (post: Post[]) => void;
   setUserPosts: (post: Post[]) => void;
   setMyPosts: (post: Post[]) => void;
-  setMyInfo: (user: {
-    id: string;
-    content: string;
-    likes: string[];
-    email: string;
-    bio: string;
-    username: string;
-    following: [];
-    followers: [];
-    blurhash: string
-  }) => void;
   updatePost: (post: Post) => void;
   deletePost: (id: string) => void;
   createPost: (
@@ -48,8 +30,7 @@ interface PostContext {
     noAction: string,
     maybeAction: string,
     categories: string,
-  ) => void;
-  updateUser: (userEmail: string, followUserEmail: string, bio: string) => void;
+  ) => void;  
   getAllPosts: () => void;
   getUserPosts: (email: string) => void;
   setLoggedin: (value: boolean) => void;
@@ -70,21 +51,10 @@ const MyContext = createContext<PostContext>({
   addLike: (post) => { },
   addDislike: (post) => { },
   deletePost: (id) => { },
-  createPost: (value) => { },
-  setMyInfo: () => { },
+  createPost: (value) => { },  
   getAllPosts: () => { },
   setLoggedin: () => { },
-  loggedIn: false,
-  myInfo: {
-    id: "",
-    email: "",
-    bio: "",
-    followers: [],
-    following: [],
-    username: "",
-    blurhash: ""
-  },
-  updateUser: () => { },
+  loggedIn: false,  
   setUserPosts: () => { },
   userPosts: [],
   getUserPosts: (email) => { },
@@ -142,36 +112,19 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     followers: [],
     blurhash: ''
   });
-  const [loggedIn, setLoggedIn] = useState(true);
-
+  
+  const { loggedIn, setLoggedIn } = useContext(UserContext);  
+  
   useEffect(() => {
     getAllPosts();
   }, [myPosts]);
 
+
   useEffect(() => {
-    getMyPosts();
-    getAllPosts();
-    userInfo();
+    getMyPosts()
   }, [loggedIn]);
 
-  const userInfo = async () => {
-    try {
-      const result = await fetch(
-        `http://localhost:3000/api/myInfo?email=${localStorage.getItem("user")}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      const posts = await result.json();
 
-      setMyInfo(posts.Hello);
-    } catch (error) {
-      console.log(error, "this is the create user error");
-    }
-  };
 
   const addBookmark = async (userId: string, postId: string) => {
     console.log('hitting add bookmark')
@@ -377,25 +330,28 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const updateUser = async (
-    userEmail: string,
-    followUserEmail: string,
-    bio: string,
-  ) => {
+
+  async function getSession() {
     try {
-      const updateUser = await post({
-        url: `http://localhost:3000/api/updateUsers`,
-        body: {
-          userEmail,
-          followUserEmail,
-          bio: bio,
-        },
-      });
-      userInfo();
+      const { data, error } = await supabase.auth.getUser();
+      if (error) {
+        console.log("Error fetching session:", error);
+        setLoggedIn(false);
+        localStorage.removeItem('user')
+        return null;
+      }
+      setLoggedIn(true);
+      if (data) {
+        // getUser();
+      }
+      return data;
     } catch (err) {
-      console.log(err);
+      console.error("Unexpected error:", err);
+      return null;
     }
-  };
+  }
+
+
 
   return (
     <MyContext.Provider
@@ -408,13 +364,10 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         addLike: addLike,
         addDislike: addDislike,
         deletePost: deletePost,
-        createPost: createPost,
-        myInfo: myInfo,
-        setMyInfo: setMyInfo,
+        createPost: createPost,                
         getAllPosts: getAllPosts,
         setLoggedin: setLoggedIn,
-        loggedIn: loggedIn,
-        updateUser: updateUser,
+        loggedIn: loggedIn,        
         userPosts: userPosts,
         getUserPosts: getUserPosts,
         setUserPosts: setUserPosts,

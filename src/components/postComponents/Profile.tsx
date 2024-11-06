@@ -2,6 +2,7 @@ import React, {  useState, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/PostComponents.css";
 import { MyContext } from "../../providers/postProvider";
+import { UserContext } from "../../providers/userProvider";
 import { useHistory } from "react-router";
 import {
     IonCard,    
@@ -23,14 +24,12 @@ const Profile: React.FC<Profile> = ({ profile }) => {
     const history = useHistory();
     // const [profileImage, setProfileImage] = useState<any>(null);
     const [searchResults, setSearchResults] = useState<any[]>([]); // Initialize searchResults as an array
-    const {
-        myInfo,
+    const {        
         addLike,
-        addDislike,
-        updateUser,
+        addDislike,        
         getUserPosts,
     } = useContext(MyContext);
-
+    const { myInfo, updateUser } = useContext(UserContext);
 
 
     const profileImage = (id: string) => {

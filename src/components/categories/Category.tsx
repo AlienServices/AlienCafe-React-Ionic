@@ -34,6 +34,7 @@ import Profile from "../../pages/Profile/[id]";
 import { MyContext } from "../../providers/postProvider";
 import moment from "moment";
 import Post from "../postComponents/Post";
+import { UserContext } from "../../providers/userProvider";
 
 interface CategoryProps {
   category: string;
@@ -50,13 +51,12 @@ const Category: React.FC<CategoryProps> = ({
     myPosts,
     setMyPosts,
     addLike,
-    getAllPosts,
-    myInfo,
-    updateUser,
+    getAllPosts,    
     getUserPosts,
     addDislike,
     addBookmark
   } = useContext(MyContext);
+  const { myInfo, updateUser } = useContext(UserContext);
   const [user, setUser] = useState({
     bio: "",
     email: "",

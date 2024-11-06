@@ -9,14 +9,14 @@ import {
   IonList,
 } from "@ionic/react";
 import "../../theme/Tab3.css";
-import { MyContext } from "../../providers/postProvider";
+import { UserContext } from "../../providers/userProvider";
 
 const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   const [email, setEmail] = useState<string>("");
   const {
-    setLoggedin,
+    setLoggedIn,
     loggedIn,
-  } = useContext(MyContext);
+  } = useContext(UserContext);
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>();
   const history = useHistory();
@@ -33,11 +33,10 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
         setError("Email or Password Incorrect");
       }
       if (data.user?.email) {
-        localStorage.setItem("user", data.user.email);
-        console.log(data, "this is login data");
+        localStorage.setItem("user", data.user.email);        
         history.push("/tab1");
       }
-      setLoggedin(!loggedIn);
+      setLoggedIn(!loggedIn);
     } catch (error) {
       console.log(error);
     }

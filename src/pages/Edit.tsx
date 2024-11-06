@@ -28,6 +28,7 @@ import "./Tab1.css";
 import SignIn from "../components/loginComponents/SignIn";
 import CreateAccount from "../components/loginComponents/CreateAccount";
 import { MyContext } from "../providers/postProvider";
+import { UserContext } from "../providers/userProvider";
 
 const Login: React.FC = () => {
   const [showLoading, hideLoading] = useIonLoading();
@@ -39,9 +40,8 @@ const Login: React.FC = () => {
     setMyPosts,
     updatePost,
     getAllPosts,
-    updateUser,
-    myInfo,
   } = useContext(MyContext);
+  const { myInfo, updateUser } = useContext(UserContext);
   const [bio, setBio] = useState("");
   const history = useHistory();
   const [userName, setUserName] = useState("");

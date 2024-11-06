@@ -42,8 +42,8 @@ const Search: React.FC = () => {
     const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe';
 
     return (
-        <IonPage className="fullscreen">
-            <IonContent className="center" scrollY={false}>
+        <IonPage className="fullscreen" style={{ paddingTop: '20px' }}>
+            <IonContent className="center" >
                 <div className="brown">
                     <input
                         className='input'
@@ -68,6 +68,7 @@ const Search: React.FC = () => {
                     />
                 </div>
                 <Swiper
+                
                     modules={[Pagination]}
                     spaceBetween={50}
                     slidesPerView={1}
@@ -80,14 +81,20 @@ const Search: React.FC = () => {
                     }}
                     style={{ height: "100%" }}
                 >
-                    <SwiperSlide key="profiles">
-                        <Profiles search={searchInput} />
+                    <SwiperSlide style={{height: '100%'}} key="profiles">
+                        <IonContent scrollY={true}>
+                            <Profiles search={searchInput} />
+                        </IonContent>
                     </SwiperSlide>
-                    <SwiperSlide key="posts">
-                        <Posts search={searchInput} />
+                    <SwiperSlide style={{height: '100%'}} key="posts">
+                        <IonContent style={{height: '100%'}} scrollY={true}>
+                            <Posts search={searchInput} />
+                        </IonContent>
                     </SwiperSlide>
-                    <SwiperSlide key="saved">
-                        <Saved search={searchInput} />
+                    <SwiperSlide style={{height: '100%'}} key="saved">
+                        <IonContent  scrollY={true}>
+                            <Saved search={searchInput} />
+                        </IonContent>
                     </SwiperSlide>
                 </Swiper>
             </IonContent>

@@ -33,6 +33,7 @@ import Page from "../pages/View/[id]";
 import Profile from "../pages/Profile/[id]";
 import { MyContext } from "../providers/postProvider";
 import moment from "moment";
+import { UserContext } from "../providers/userProvider";
 
 const Content: React.FC = () => {
   const history = useHistory();
@@ -42,13 +43,12 @@ const Content: React.FC = () => {
     setPosts,
     setMyPosts,
     addLike,
-    getAllPosts,
-    myInfo,
-    updateUser,
+    getAllPosts,    
     getUserPosts,
     addDislike,
     addBookmark
   } = useContext(MyContext);
+  const { myInfo, setMyInfo, updateUser } = useContext(UserContext);
   const [user, setUser] = useState({
     bio: "",
     email: "",
@@ -299,7 +299,6 @@ const Content: React.FC = () => {
           </>
         )}
       </IonList>
-
       <IonModal isOpen={showModal}>
         <IonButton slot="end">Close</IonButton>
         <IonButton style={{ padding: "10px" }} onClick={closeModal}>

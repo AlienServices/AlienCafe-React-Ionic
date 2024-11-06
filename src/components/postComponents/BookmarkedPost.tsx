@@ -26,6 +26,7 @@ import "../../pages/Tab3.css";
 import Profile from "../../pages/Profile/[id]";
 import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
+import { UserContext } from "../../providers/userProvider";
 
 // Define the props type for the Post component
 interface PostProps {
@@ -42,14 +43,12 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post }) => {
     const history = useHistory();
-    const {
-        myInfo,
+    const {        
         addLike,
-        addDislike,
-        updateUser,
+        addDislike,        
         getUserPosts,
     } = useContext(MyContext);
-
+    const { myInfo, updateUser } = useContext(UserContext);
     const [user, setUser] = useState({
         bio: "",
         email: "",

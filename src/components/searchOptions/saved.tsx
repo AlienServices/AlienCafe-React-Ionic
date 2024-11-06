@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import {
-  IonButton,
-  IonContent,
+  IonList,
   IonItem,
-  IonLabel,
-  IonPage,
+  IonLabel,  
   IonSelect,
   IonSelectOption,
 } from "@ionic/react";
@@ -12,28 +10,10 @@ import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
 import Post from "../postComponents/Post";
 
-const Saved = ({ search }: { search: string }) => {
-  const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
-  const [editorHtml, setEditorHtml] = useState("");
+const Saved = ({ search }: { search: string }) => {  
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>(""); // State for selected category
-  const titleQuillRef = useRef(null);
-  const history = useHistory();
-  const {
-    posts,
-    myPosts,
-    setPosts,
-    setMyPosts,
-    updatePost,
-    getAllPosts,
-    myInfo,
-    createPost,
-  } = useContext(MyContext);
-  const contentQuillRef = useRef(null);
-
-
+  const [selectedCategory, setSelectedCategory] = useState<string>(""); 
   const categories = ["Technology", "Health", "Sports", "Entertainment"];
-
 
   const searchUsers = async () => {
     try {
@@ -60,24 +40,24 @@ const Saved = ({ search }: { search: string }) => {
 
 
   return (
-    <>      
-        <>
-          <IonSelect
-            className="custom-ion-select"
-            multiple={true}
-            value={selectedCategory}
-            placeholder="Select Categorys"
-            onIonChange={(e) => setSelectedCategory(e.detail.value)}
-          >
-            {categories.map((category, index) => (
-              <IonSelectOption key={index} value={category}>
-                {category}
-              </IonSelectOption>
-            ))}
-          </IonSelect>
-        </>
+    <>
+      <>
+        <IonSelect
+          className="custom-ion-select"
+          multiple={true}
+          value={selectedCategory}
+          placeholder="Select Categorys"
+          onIonChange={(e) => setSelectedCategory(e.detail.value)}
+        >
+          {categories.map((category, index) => (
+            <IonSelectOption key={index} value={category}>
+              {category}
+            </IonSelectOption>
+          ))}
+        </IonSelect>
+      </>
 
-        {/* Display Search Results */}
+      <IonList>
         {searchResults?.length > 0 ? (
           searchResults.map((user, index) => (
             <Post key={index} post={user.post} />
@@ -86,7 +66,8 @@ const Saved = ({ search }: { search: string }) => {
           <IonItem>
             <IonLabel>No Bookmarks found.</IonLabel>
           </IonItem>
-        )}      
+        )}
+      </IonList>
     </>
   );
 };

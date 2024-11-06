@@ -1,43 +1,18 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
-import ReactQuill from "react-quill";
-import { MyContext } from "../../providers/postProvider";
-import { useHistory } from "react-router";
-import "react-quill/dist/quill.snow.css";
-import "../../theme/create.css";
-import {
-    IonPage,
-    IonContent,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonButton,
+import React, { useState, useEffect } from "react";
+import {    
+    IonLabel,    
     IonSelect,
     IonSelectOption,
+    IonList,
 } from "@ionic/react";
 import Post from "../postComponents/Post";
 
-const Posts = ({ search }: { search: string }) => {
-    const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
-    const [editorHtml, setEditorHtml] = useState("");
+const Posts = ({ search }: { search: string }) => {    
     const [searchResults, setSearchResults] = useState<any[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState<string>(""); // Category selection state
-    const titleQuillRef = useRef(null);
-    const history = useHistory();
-    const {
-        posts,
-        myPosts,
-        setPosts,
-        setMyPosts,
-        updatePost,
-        getAllPosts,
-        myInfo,
-        createPost,
-    } = useContext(MyContext);
-    const contentQuillRef = useRef(null);
+    const [selectedCategory, setSelectedCategory] = useState<string>(""); // Category selection state           
+    const categories = ["Technology", "Health", "Sports", "Entertainment", "Covid", "Aliens", "Space", "9/11", "Test", "Israel"]; 
 
-    const categories = ["Technology", "Health", "Sports", "Entertainment", "Covid", "Aliens", "Space", "9/11", "Test", "Israel"]; // Add your categories here
-
-    // Fetch posts based on search query
+    
     const searchUsers = async () => {
         try {
             const result = await fetch(
@@ -50,20 +25,19 @@ const Posts = ({ search }: { search: string }) => {
             console.log("Error searching users:", err);
         }
     };
-
-    // Search and filter posts when search or category changes
+    
     useEffect(() => {
         if (search.length > 0) {
             searchUsers();
         } else {
             setSearchResults([])
         }
-    }, [search, selectedCategory]); // Update when search or selectedCategory changes
+    }, [search, selectedCategory]); 
 
     console.log(searchResults, 'these are search results');
 
     return (
-        <>
+        <div style={{paddingBottom: '200px'}}>
             <>
                 <IonSelect
                     className="custom-ion-select"
@@ -79,7 +53,8 @@ const Posts = ({ search }: { search: string }) => {
                     ))}
                 </IonSelect>
             </>
-            <IonItem>
+            
+            <IonList>
                 {searchResults?.length > 0 ? (
                     searchResults.map((user, index) => (
                         <Post key={index} post={user} />
@@ -89,8 +64,8 @@ const Posts = ({ search }: { search: string }) => {
                         <IonLabel>No Posts found</IonLabel>
                     </div>
                 )}
-            </IonItem>
-        </>
+            </IonList>            
+        </div>
     );
 };
 

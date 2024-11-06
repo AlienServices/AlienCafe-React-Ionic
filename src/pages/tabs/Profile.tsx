@@ -16,7 +16,7 @@ import { useEffect, useState, useContext, SetStateAction, useMemo } from "react"
 import { MyContext } from "../../providers/postProvider";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import UserComments from "../../components/UserComments";
-
+import { UserContext } from "../../providers/userProvider";
 
 interface EditProfileProps {
   editProfileRef: any;
@@ -36,13 +36,10 @@ const Profile = ({
     likes: 0,
     categories: 0,
   });
-  
 
-  const {
-    myPosts,
-    myInfo,
-  } = useContext(MyContext);
 
+  const { myPosts } = useContext(MyContext);
+  const { myInfo } = useContext(UserContext);
   const [profileImage, setProfileImage] = useState<any>(null);
 
   // useEffect(() => {
@@ -58,7 +55,7 @@ const Profile = ({
     }
   }, [myInfo?.id]);
 
-  
+
 
 
 
@@ -128,14 +125,14 @@ const Profile = ({
 
   return (
     <IonPage>
-      <IonContent>
-        <div className="brown" style={{ height: '110px' }}>
-          <div className="leftMiddle">
-            <div className="logoContainer" style={{ top: '60px' }}>
-              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
-            </div>
+      <div className="brown" style={{ height: '110px' }}>
+        <div className="leftMiddle">
+          <div className="logoContainer" style={{ top: '60px' }}>
+            <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
           </div>
         </div>
+      </div>
+      <IonContent>
         <IonCard style={{ boxShadow: 'none' }} className="noMargin">
           <div className="rowEven">
             <img

@@ -77,29 +77,29 @@ const MyEditor = () => {
 
   return (
     <IonPage style={{ paddingBottom: '50px' }}>
-      <IonContent fullscreen >
-        <div style={{ height: '110px' }} className="brown">
-          <div style={{ top: '60px' }} className="logoContainer">
-            <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
-          </div>
-          <IonNavLink
-            routerDirection="forward"
-            component={() => (
-              <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
-            )}
-          >
-            <button
-              style={{ margin: '10px' }}
-              className="nextButton"
-              onClick={() => {
-                setEditorHtml("");
-                setEditorHtmlTitle("");
-              }}
-            >
-              Next
-            </button>
-          </IonNavLink>
+      <div style={{ height: '110px', zIndex: 1000 }} className="brown">
+        <div style={{ top: '60px' }} className="logoContainer">
+          <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
         </div>
+        <IonNavLink
+          routerDirection="forward"
+          component={() => (
+            <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
+          )}
+        >
+          <button
+            style={{ margin: '10px' }}
+            className="nextButton"
+            onClick={() => {
+              setEditorHtml("");
+              setEditorHtmlTitle("");
+            }}
+          >
+            Next
+          </button>
+        </IonNavLink>
+      </div>
+      <IonContent fullscreen >
         <div className="centerRow">
           <img className="profile-photo" src={profileImage(myInfo.id)} alt="" />
           {myInfo?.username}

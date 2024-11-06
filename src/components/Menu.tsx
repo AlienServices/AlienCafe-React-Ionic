@@ -1,13 +1,12 @@
 import React from "react";
 import { useContext, useRef } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import {
   bookmarkOutline,
   settingsOutline,
   personOutline,
   createOutline,
 } from "ionicons/icons";
-import { MyContext } from "../providers/postProvider";
 import {
   IonButton,
   IonContent,
@@ -23,12 +22,13 @@ import {
 
 } from "@ionic/react";
 import supabase from "../messageComponents/supabaseClient";
+import { UserContext } from "../providers/userProvider";
 
 
 
 export const Menu = () => {
   const menuRef = useRef<HTMLIonMenuElement>(null);
-  const { myInfo, setMyInfo } = useContext(MyContext);
+  const { myInfo, setMyInfo } = useContext(UserContext);
   const history = useHistory();
 
   const handleLogout = async () => {
@@ -48,11 +48,13 @@ export const Menu = () => {
     }
   };
 
+  console.log(myInfo)
+
   return (
     <>
       <IonMenu side="start" contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
+        <IonHeader color="tertiary" style={{ backgroundColor: 'black' }}>
+          <IonToolbar style={{ backgroundColor: 'black' }}>
             <IonTitle>@{myInfo?.username}</IonTitle>
           </IonToolbar>
         </IonHeader>
@@ -60,19 +62,19 @@ export const Menu = () => {
           <div className="contentContainer">
             <div className="optionsContainer">
               <IonMenuToggle>
-                <div onClick={() => {history.push('/settings')}} className="flexSetting">
+                <div onClick={() => { history.push('/settings') }} className="flexSetting">
                   <IonIcon icon={settingsOutline}></IonIcon>
                   <div className="setting">Settings</div>
                 </div>
               </IonMenuToggle>
               <IonMenuToggle>
-                <div onClick={() => {history.push('/tab2')}} className="flexSetting">
+                <div onClick={() => { history.push('/tab2') }} className="flexSetting">
                   <IonIcon icon={personOutline}></IonIcon>
                   <div className="setting">Profile</div>
                 </div>
               </IonMenuToggle>
               <IonMenuToggle>
-                <div onClick={() => {history.push('/tab3')}} className="flexSetting">
+                <div onClick={() => { history.push('/tab3') }} className="flexSetting">
                   <IonIcon icon={createOutline}></IonIcon>
                   <div className="setting">Messages</div>
                 </div>

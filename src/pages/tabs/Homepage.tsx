@@ -64,14 +64,13 @@ const Tab3: React.FC = () => {
     <>
       <Menu />
       <IonPage id="main-content">
-        <IonContent>
-          <div className="brown" style={{height: '110px'}}>
-            <div className="leftMiddle">
-              <div style={{
-                borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
-                alignItems: 'center', margin: '10px'
-              }}>
-                {/* <IonIcon
+        <div className="brown" style={{ height: '110px' }}>
+          <div className="leftMiddle">
+            <div style={{
+              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
+              alignItems: 'center', margin: '10px'
+            }}>
+              {/* <IonIcon
                 style={{
                   fontSize: '28px',
                   color: 'black',
@@ -79,15 +78,14 @@ const Tab3: React.FC = () => {
                 color="primary"
                 icon={arrowBackCircleOutline}>
               </IonIcon> */}
-                <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
-              </div>
-              <div className="logoContainer" style={{ top: '60px' }}>
-                <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
-              </div>
+              <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
+            </div>
+            <div className="logoContainer" style={{ top: '60px' }}>
+              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
             </div>
           </div>
-
-
+        </div>
+        <IonContent>
           <div className="middle">
             <IonTitle>{currentCategory}</IonTitle>
           </div>
