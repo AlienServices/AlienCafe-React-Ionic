@@ -34,6 +34,8 @@ import { UserContext } from "../../providers/userProvider";
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
   const [editorHtml, setEditorHtml] = useState("");
+  const inputRef = useRef<HTMLIonTextareaElement>(null);
+  const [isReplying, setIsReplying] = useState(false);
 
   const titleQuillRef = useRef(null);
   const history = useHistory();
@@ -71,37 +73,44 @@ const MyEditor = () => {
     }
   };
 
-  return (
-    <IonPage style={{ overflow: 'hidden' }}>
-      <IonHeader>
-        <div style={{ height: '110px', zIndex: 1000 }} className="brown">
-          <div style={{ top: '60px' }} className="logoContainer">
-            <IonImg
-              style={{ width: '60px', height: '60px' }}
-              src="/AlienCafeLogo1.png"
-            ></IonImg>
-          </div>
-          <IonNavLink
-            routerDirection="forward"
-            component={() => (
-              <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
-            )}
-          >
-            <button
-              style={{ margin: '10px' }}
-              className="nextButton"
-              onClick={() => {
-                setEditorHtml("");
-                setEditorHtmlTitle("");
-              }}
-            >
-              Next
-            </button>
-          </IonNavLink>
-        </div>
-      </IonHeader>
+  const handleReplyClick = () => {
+    setIsReplying(!isReplying);
+    // setReplyingTo(commentId);
+    setTimeout(() => {
+      contentQuillRef.current?.getEditor();
+    }, 400);
+  };
 
-      <IonContent fullscreen>
+  return (
+    <IonPage>
+      <div style={{ height: 'fit-content', zIndex: 1000 }} className="brown">
+        <div style={{ top: '60px' }} className="logoContainer">
+          <IonImg
+            style={{ width: '60px', height: '60px' }}
+            src="/AlienCafeLogo1.png"
+          ></IonImg>
+        </div>
+        <IonNavLink
+          routerDirection="forward"
+          component={() => (
+            <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
+          )}
+        >
+          <button
+            style={{ margin: '10px' }}
+            className="nextButton"
+            onClick={() => {
+              setEditorHtml("");
+              setEditorHtmlTitle("");
+            }}
+          >
+            Next
+          </button>
+        </IonNavLink>
+      </div>
+
+
+      <IonContent>
         <div className="centerRow">
           <img
             className="profile-photo"
@@ -110,7 +119,7 @@ const MyEditor = () => {
           />
           {myInfo?.username}
         </div>
-        <div className="editorContainer" style={{ marginTop: '100px' }}>
+        <div className="editorContainer">
           <div className="tagStart">Post Title</div>
           <div className="titleEditor">
             <ReactQuill
@@ -121,16 +130,13 @@ const MyEditor = () => {
               onChange={handleTitleChange}
               modules={MyEditor.titleModules}
               formats={MyEditor.titleFormats}
-              style={{
-                height: "fit-content",
-                minHeight: "50px",
-                border: "none",
-              }}
             />
           </div>
           <div className="tagStart">Description</div>
           <div className="contentEditor">
             <ReactQuill
+              onFocus={() => { handleReplyClick() }}
+              onBlur={() => { handleReplyClick() }}
               className="custom-content-editor"
               ref={contentQuillRef}
               value={editorHtml}
@@ -138,32 +144,30 @@ const MyEditor = () => {
               onChange={handleChange}
               modules={MyEditor.modules}
               formats={MyEditor.formats}
-              style={{ minHeight: "300px", border: "none" }}
             />
           </div>
         </div>
+        <IonFooter className={isReplying ? "message-input-container" : "none"}>
+          <div
+            id="toolbar"
+            style={{
+              width: "80%",
+              border: "none",
+              background: "white",
+              zIndex: 1000,
+              display: isReplying ? "flex" : "none", // Controls visibility based on isReplying
+              justifyContent: "space-between",
+              padding: "10px",
+            }}
+          >
+            <button className="ql-bold"></button>
+            <button className="ql-underline"></button>
+            <button className="ql-link"></button>
+            <button className="ql-image"></button>
+            <button className="ql-list" value="bullet"></button>
+          </div>
+        </IonFooter>
       </IonContent>
-
-      <IonFooter>
-        <div
-          id="toolbar"
-          style={{
-            width: "100%",
-            border: "none",
-            background: "white",
-            zIndex: 1000,
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "10px",
-          }}
-        >
-          <button className="ql-bold"></button>
-          <button className="ql-underline"></button>
-          <button className="ql-link"></button>
-          <button className="ql-image"></button>
-          <button className="ql-list" value="bullet"></button>
-        </div>
-      </IonFooter>
     </IonPage>
   );
 };

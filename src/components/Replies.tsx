@@ -32,8 +32,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisliked, setIsDisliked] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
