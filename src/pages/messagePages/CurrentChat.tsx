@@ -63,7 +63,7 @@ const CurrentChat: React.FC = () => {
 
   const updatedMessage = async (id: string, status: MessageStatus) => {
     try {
-      const convos = await fetch(`http://localhost:3000/api/updateMessage`, {
+      const convos = await fetch(`http://10.1.10.233:3000/api/updateMessage`, {
         method: "POST",
         body: JSON.stringify({
           id,
@@ -94,7 +94,7 @@ const CurrentChat: React.FC = () => {
   const updateMessagesRead = async (id: string) => {
     try {
       const convos = await fetch(
-        `http://localhost:3000/api/updateMessageRead?`,
+        `http://10.1.10.233:3000/api/updateMessageRead?`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -194,7 +194,7 @@ const CurrentChat: React.FC = () => {
   const getConvo = async () => {
     try {
       const convos = await fetch(
-        `http://localhost:3000/api/getConvo?id=${id}`,
+        `http://10.1.10.233:3000/api/getConvo?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -212,7 +212,7 @@ const CurrentChat: React.FC = () => {
   const getConvoDetails = async () => {
     try {
       const convos = await fetch(
-        `http://localhost:3000/api/getSingleConvo?id=${id}`,
+        `http://10.1.10.233:3000/api/getSingleConvo?id=${id}`,
         {
           method: "GET",
           headers: {

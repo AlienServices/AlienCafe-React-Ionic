@@ -75,7 +75,7 @@ const MessageHome: React.FC = () => {
   const getConvos = async () => {
     try {
       const convos = await fetch(
-        `http://localhost:3000/api/getConvos?email=${localStorage.getItem("user")}`,
+        `http://10.1.10.233:3000/api/getConvos?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
@@ -93,7 +93,7 @@ const MessageHome: React.FC = () => {
   const getConvoData = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3000/api/getConvoData?ids=${myConvos?.map((convo: { id: string }) => convo.id)}`,
+        `http://10.1.10.233:3000/api/getConvoData?ids=${myConvos?.map((convo: { id: string }) => convo.id)}`,
         {
           method: "GET",
           headers: {
@@ -120,7 +120,7 @@ const MessageHome: React.FC = () => {
     <IonPage>
 
       <IonPage>
-        <div className="brown" style={{height: '110px'}}>
+        <div className="brown" style={{height: '150px'}}>
           <div className="leftMiddle">
             <div style={{
               borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
@@ -136,8 +136,23 @@ const MessageHome: React.FC = () => {
               </IonIcon> */}
               <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
             </div>
-            <div className="logoContainer" style={{ top: '60px' }}>
-              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            <div className="logoContainer" style={{ top: '90px' }}>
+            <div
+                style={{
+                  borderRadius: '50%', 
+                  overflow: 'hidden', 
+                  width: '60px',
+                  height: '60px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <IonImg
+                  style={{ width: '100%', height: '100%' }} 
+                  src="/alienLogo.svg"
+                />
+              </div>
             </div>
           </div>
         </div>

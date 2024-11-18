@@ -47,7 +47,7 @@ const Profile = ({ id }: { id: string }) => {
   const getUserInfo = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3000/api/myInfo?email=${id}`,
+        `http://10.1.10.233:3000/api/myInfo?email=${id}`,
         {
           method: "GET",
           headers: {

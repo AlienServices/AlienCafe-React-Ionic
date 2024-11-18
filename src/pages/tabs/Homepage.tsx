@@ -31,6 +31,7 @@ import { Menu } from "../../components/Menu";
 const Tab3: React.FC = () => {
   const { myInfo, setMyInfo } = useContext(MyContext);
   const history = useHistory();
+  const [toggle, setToggle] = useState(true)
   const menuRef = useRef<HTMLIonMenuElement>(null);
   const [categories, setCategories] = useState([
     "Aliens",
@@ -43,7 +44,7 @@ const Tab3: React.FC = () => {
   ]);
   const [currentCategory, setCurrentCategory] = useState(categories[0]); // Track the current category
 
-  const handleLogout = async () => {
+  const handleLogout = async () => {   
     console.log('hitting logout in tab 3')
     try {
       const { error } = await supabase.auth.signOut();
@@ -62,9 +63,9 @@ const Tab3: React.FC = () => {
 
   return (
     <>
-      <Menu />
-      <IonPage id="main-content">
-        <div className="brown" style={{ height: '110px' }}>
+      <Menu />      
+      <IonPage id="main-content" style={{display: toggle? "flex" : "none"}}>
+        <div className="brown" style={{ height: '150px' }}>
           <div className="leftMiddle">
             <div style={{
               borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
@@ -80,8 +81,23 @@ const Tab3: React.FC = () => {
               </IonIcon> */}
               <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
             </div>
-            <div className="logoContainer" style={{ top: '60px' }}>
-              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            <div className="logoContainer" style={{ top: '90px' }}>
+            <div
+                style={{
+                  borderRadius: '50%', 
+                  overflow: 'hidden', 
+                  width: '60px',
+                  height: '60px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <IonImg
+                  style={{ width: '100%', height: '100%' }} 
+                  src="/alienLogo.svg"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -101,7 +117,7 @@ const Tab3: React.FC = () => {
           >
             {categories.map((category, index) => (
               <SwiperSlide key={index}>
-                <Category category={category} />
+                <Category toggle category={category} />
               </SwiperSlide>
             ))}
           </Swiper>

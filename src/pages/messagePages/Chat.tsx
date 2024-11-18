@@ -50,7 +50,7 @@ const Chat: React.FC = () => {
 
   const createConversation = async () => {
     const response = await post({
-      url: `http://localhost:3000/api/createConversation`,
+      url: `http://10.1.10.233:3000/api/createConversation`,
       body: {
         messages: {
           message,

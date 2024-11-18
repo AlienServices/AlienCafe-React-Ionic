@@ -68,7 +68,7 @@ const Post = () => {
   const getOnePost = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3000/api/getPost?id=${id}&userId=${myInfo?.id}`,
+        `http://10.1.10.233:3000/api/getPost?id=${id}&userId=${myInfo?.id}`,
         {
           method: "GET",
           headers: {
@@ -125,12 +125,12 @@ const Post = () => {
   const updateVote = async (id: string, userId: string, vote: string) => {
     console.log(vote, "this is email");
     const updateUser = await post({
-      url: "http://localhost:3000/api/addVote",
+      url: "http://10.1.10.233:3000/api/addVote",
       body: { vote, id, userId },
     });
     setMyVote(selectedOption);
     await post({
-      url: "http://localhost:3000/api/updateUser",
+      url: "http://10.1.10.233:3000/api/updateUser",
       body: { vote: selectedOption, id, email: myInfo?.email },
     });
   };
@@ -139,7 +139,7 @@ const Post = () => {
   const getMyVote = async (id: string, postId: string) => {
     try {
       const result = await fetch(
-        `http://localhost:3000/api/getVote?postId=${postId}&userId=${id}`,
+        `http://10.1.10.233:3000/api/getVote?postId=${postId}&userId=${id}`,
         {
           method: "GET",
           headers: {
@@ -169,7 +169,7 @@ const Post = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/getComment?id=${id}`, // Adjust API endpoint as necessary
+        `http://10.1.10.233:3000/api/getComment?id=${id}`, // Adjust API endpoint as necessary
         {
           method: "GET",
           headers: {
@@ -196,7 +196,7 @@ const Post = () => {
   ) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/addComment?id=${id}`,
+        `http://10.1.10.233:3000/api/addComment?id=${id}`,
         {
           method: "POST",
           headers: {
@@ -249,7 +249,22 @@ const Post = () => {
               </IonIcon>
             </div>
             <div className="logoContainer">
-              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            <div
+                style={{
+                  borderRadius: '50%', 
+                  overflow: 'hidden', 
+                  width: '60px',
+                  height: '60px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <IonImg
+                  style={{ width: '100%', height: '100%' }} 
+                  src="/alienLogo.svg"
+                />
+              </div>
             </div>
           </div>
         </div>

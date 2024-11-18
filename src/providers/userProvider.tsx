@@ -74,7 +74,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const userInfo = async () => {
         try {
             const result = await fetch(
-                `http://localhost:3000/api/myInfo?email=${localStorage.getItem("user")}`,
+                `http://10.1.10.233:3000/api/myInfo?email=${localStorage.getItem("user")}`,
                 {
                     method: "GET",
                     headers: {
@@ -96,7 +96,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     ) => {
         try {
             await post({
-                url: `http://localhost:3000/api/updateUsers`,
+                url: `http://10.1.10.233:3000/api/updateUsers`,
                 body: { userEmail, followUserEmail, bio },
             });
             userInfo();

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import {
   IonItem,
   IonLabel,
@@ -30,6 +30,8 @@ const Quiz = (props: TestProps) => {
   const [yesAction, setYesAction] = useState("");
   const [noAction, setNoAction] = useState("");
   const [maybeAction, setMaybeAction] = useState("");
+  const location = useLocation();
+  const { quizTitle, content } = location.state || {};
   const history = useHistory();
 
   const options = [
@@ -58,7 +60,22 @@ const Quiz = (props: TestProps) => {
 
         </div>
         <div style={{ top: '80px' }} className="logoContainer">
-          <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+        <div
+                style={{
+                  borderRadius: '50%', 
+                  overflow: 'hidden', 
+                  width: '60px',
+                  height: '60px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <IonImg
+                  style={{ width: '100%', height: '100%' }} 
+                  src="/alienLogo.svg"
+                />
+              </div>
         </div>
         <IonNavLink routerDirection="back" component={Tab3}>
           <button
@@ -66,8 +83,8 @@ const Quiz = (props: TestProps) => {
             onClick={() => {
               console.log(selectedOption, "selected option");
               createPost(
-                props.quizTitle,
-                props.content,
+                quizTitle,
+                content,
                 thesis,
                 yesAction,
                 noAction,

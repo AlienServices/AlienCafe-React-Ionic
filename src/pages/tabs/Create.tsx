@@ -5,29 +5,12 @@ import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/create.css";
 import {
-  IonButton,
-  IonText,
-  IonButtons,
   IonContent,
-  IonHeader,
-  IonIcon,
   IonNavLink,
-  IonMenuButton,
-  IonMenuToggle,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonFooter,
-  useIonToast,
-  useIonLoading,
-  IonMenu,
   IonImg,
 } from "@ionic/react";
-import { closeOutline, arrowBackCircleOutline } from "ionicons/icons";
 import Quiz from "../../subPages/Quiz";
 import { UserContext } from "../../providers/userProvider";
 
@@ -36,20 +19,13 @@ const MyEditor = () => {
   const [editorHtml, setEditorHtml] = useState("");
   const inputRef = useRef<HTMLIonTextareaElement>(null);
   const [isReplying, setIsReplying] = useState(false);
-
-  const titleQuillRef = useRef(null);
   const history = useHistory();
-  const {
-    posts,
-    myPosts,
-    setPosts,
-    setMyPosts,
-    updatePost,
-    getAllPosts,
-    createPost,
-  } = useContext(MyContext);
   const { myInfo } = useContext(UserContext);
   const contentQuillRef = useRef<ReactQuill | null>(null);
+  const titleQuillRef = useRef<ReactQuill | null>(null);
+  const QuizPage = () => <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />;
+
+
 
   useEffect(() => {
     if (contentQuillRef.current) {
@@ -73,40 +49,59 @@ const MyEditor = () => {
     }
   };
 
-  const handleReplyClick = () => {
-    setIsReplying(!isReplying);
+  const handleReplyClick = (e: boolean) => {
+    setIsReplying(e);
     // setReplyingTo(commentId);
     setTimeout(() => {
       contentQuillRef.current?.getEditor();
     }, 400);
   };
 
+
+  const handleTitleReplyClick = (e: boolean) => {
+    setIsReplying(e);
+    setTimeout(() => {
+      titleQuillRef.current?.getEditor();
+    }, 400);
+  };
+
+  console.log(myInfo)
+
+
   return (
     <IonPage>
-      <div style={{ height: 'fit-content', zIndex: 1000 }} className="brown">
-        <div style={{ top: '60px' }} className="logoContainer">
-          <IonImg
-            style={{ width: '60px', height: '60px' }}
-            src="/AlienCafeLogo1.png"
-          ></IonImg>
+      <div style={{ height: '150px', zIndex: 1000, }} className="brown">
+        <div style={{ top: '90px' }} className="logoContainer">
+          <div
+            style={{
+              borderRadius: '50%',
+              overflow: 'hidden',
+              width: '60px',
+              height: '60px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <IonImg
+              style={{ width: '100%', height: '100%' }}
+              src="/alienLogo.svg"
+            />
+          </div>
         </div>
-        <IonNavLink
-          routerDirection="forward"
-          component={() => (
-            <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
-          )}
-        >
+        
           <button
             style={{ margin: '10px' }}
             className="nextButton"
             onClick={() => {
               setEditorHtml("");
               setEditorHtmlTitle("");
+              history.push("/quiz", { quizTitle: editorHtmlTitle, content: editorHtml });
             }}
           >
             Next
           </button>
-        </IonNavLink>
+        
       </div>
 
 
@@ -120,23 +115,24 @@ const MyEditor = () => {
           {myInfo?.username}
         </div>
         <div className="editorContainer">
-          <div className="tagStart">Post Title</div>
+
           <div className="titleEditor">
             <ReactQuill
               className="custom-title-editor"
+              onFocus={() => { handleTitleReplyClick(true) }}
+              onBlur={() => { handleTitleReplyClick(false) }}
               ref={titleQuillRef}
               value={editorHtmlTitle}
-              placeholder="Enter Title/Thesis/Question"
+              placeholder="Title/Thesis"
               onChange={handleTitleChange}
               modules={MyEditor.titleModules}
               formats={MyEditor.titleFormats}
             />
           </div>
-          <div className="tagStart">Description</div>
           <div className="contentEditor">
             <ReactQuill
-              onFocus={() => { handleReplyClick() }}
-              onBlur={() => { handleReplyClick() }}
+              onFocus={() => { handleReplyClick(true) }}
+              onBlur={() => { handleReplyClick(false) }}
               className="custom-content-editor"
               ref={contentQuillRef}
               value={editorHtml}
@@ -151,7 +147,7 @@ const MyEditor = () => {
           <div
             id="toolbar"
             style={{
-              width: "80%",
+              width: "100%",
               border: "none",
               background: "white",
               zIndex: 1000,

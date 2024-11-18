@@ -39,7 +39,7 @@ const Comment = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/getComment?id=${id}`, // Adjust API endpoint as necessary
+        `http://10.1.10.233:3000/api/getComment?id=${id}`, // Adjust API endpoint as necessary
         {
           method: "GET",
           headers: {
@@ -72,7 +72,7 @@ const Comment = () => {
 
   const deleteComment = async (commentId: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/deleteComment`, {
+      const response = await fetch(`http://10.1.10.233:3000/api/deleteComment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -132,7 +132,7 @@ const Comment = () => {
     console.log(comment, "this is the comment");
     try {
       const response = await fetch(
-        `http://localhost:3000/api/addComment?id=${id}`,
+        `http://10.1.10.233:3000/api/addComment?id=${id}`,
         {
           method: "POST",
           headers: {
@@ -184,7 +184,7 @@ const Comment = () => {
 
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/addCommentLike`, {
+      const response = await fetch(`http://10.1.10.233:3000/api/addCommentLike`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -203,7 +203,7 @@ const Comment = () => {
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/addCommentDislike`,
+        `http://10.1.10.233:3000/api/addCommentDislike`,
         {
           method: "POST",
           headers: {
@@ -414,8 +414,21 @@ const Comment = () => {
                 icon={arrowBackCircleOutline}>
               </IonIcon>
             </div>
-            <div className="logoContainer">
-              <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+            <div
+              style={{
+                borderRadius: '50%',
+                overflow: 'hidden',
+                width: '60px',
+                height: '60px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <IonImg
+                style={{ width: '100%', height: '100%' }}
+                src="/alienLogo.svg"
+              />
             </div>
           </div>
         </div>

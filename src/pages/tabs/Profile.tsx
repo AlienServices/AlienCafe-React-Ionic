@@ -71,7 +71,7 @@ const Profile = ({
   //     const blob = await response.blob();
   //     const formData = new FormData();
   //     formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
-  //     const uploadResponse = await fetch(`http://localhost:3000/api/supabase-s3?id=${myInfo.id}`, {
+  //     const uploadResponse = await fetch(`http://10.1.10.233:3000/api/supabase-s3?id=${myInfo.id}`, {
   //       method: "POST",
   //       body: formData,
   //     });
@@ -125,11 +125,26 @@ const Profile = ({
 
   return (
     <IonPage>
-      <div className="brown" style={{ height: '110px' }}>
-        <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
+      <div className="brownBetween" style={{ height: '150px' }}>
+        <IonMenuButton style={{ backgroundColor: 'white', marginLeft: "7px" }} color={'primary'} />
         <div style={{ padding: '10px' }}>
-          <div className="logoContainer" style={{ top: '60px' }}>
-            <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+          <div className="logoContainer" style={{ top: '90px' }}>
+          <div
+                style={{
+                  borderRadius: '50%', 
+                  overflow: 'hidden', 
+                  width: '60px',
+                  height: '60px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <IonImg
+                  style={{ width: '100%', height: '100%' }} 
+                  src="/alienLogo.svg"
+                />
+              </div>
           </div>
           <IonIcon color="light" style={{ paddingTop: '10px' }} size="large" onClick={() => { pickImage() }} icon={ellipsisVertical}></IonIcon>
         </div>

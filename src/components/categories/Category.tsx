@@ -1,49 +1,28 @@
 import { useEffect, useState, useContext } from "react";
 import {
-  IonIcon,
   IonModal,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonButton,
-  IonAvatar,
   IonContent,
-  IonCard,
-  IonNavLink,
   IonList,
 } from "@ionic/react";
-import { useParams } from "react-router-dom";
-import { useLocation, useHistory } from "react-router";
-import {
-  heartCircle,
-  chatbubbleOutline,
-  bookmarkOutline,
-  shareOutline,
-  checkmarkCircleOutline,
-  arrowDownCircleOutline,
-  arrowUpCircleOutline,
-  arrowUpCircle,
-  arrowDownCircle,
-} from "ionicons/icons";
-import ReactQuill from "react-quill";
+import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from "../supaBase";
 import "../../theme/Tab3.css";
-import Page from "../../pages/View/[id]";
-import Profile from "../../pages/Profile/[id]";
 import { MyContext } from "../../providers/postProvider";
-import moment from "moment";
 import Post from "../postComponents/Post";
 import { UserContext } from "../../providers/userProvider";
 
 interface CategoryProps {
   category: string;
+  toggle: boolean
 }
 
 const Category: React.FC<CategoryProps> = ({
-  category,
+  category, toggle
 }: {
   category: string;
+  toggle: boolean
 }) => {
   const history = useHistory();
   const [posts, setPosts] = useState([]);
@@ -74,7 +53,7 @@ const Category: React.FC<CategoryProps> = ({
   const getPosts = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3000/api/getPostCategory?category=${category}`,
+        `http://10.1.10.233:3000/api/getPostCategory?category=${category}`,
         {
           method: "GET",
           headers: {
@@ -183,7 +162,7 @@ const Category: React.FC<CategoryProps> = ({
                 const formattedDate = `${month}/${day}/${year}`;
 
                 return (
-                  <Post post={post} />
+                  <Post toggle post={post} />
                 );
               })}
           </>

@@ -45,7 +45,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/getComments?id=${postId}`,
+        `http://10.1.10.233:3000/api/getComments?id=${postId}`,
         {
           method: "GET",
           headers: {
@@ -80,7 +80,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   ) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/addComment?id=${postId}`,
+        `http://10.1.10.233:3000/api/addComment?id=${postId}`,
         {
           method: "POST",
           headers: {
@@ -109,7 +109,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const deleteComment = async (commentId: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/deleteComment`, {
+      const response = await fetch(`http://10.1.10.233:3000/api/deleteComment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +133,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/addCommentLike`, {
+      const response = await fetch(`http://10.1.10.233:3000/api/addCommentLike`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -151,7 +151,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/addCommentDislike`,
+        `http://10.1.10.233:3000/api/addCommentDislike`,
         {
           method: "POST",
           headers: {

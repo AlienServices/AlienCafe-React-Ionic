@@ -91,30 +91,10 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       date: Date;
     }[]
   >([]);
-  const [myInfo, setMyInfo] = useState<{
-    id: string;
-    content: string;
-    likes: string[];
-    email: string;
-    bio: string;
-    username: string;
-    following: [];
-    followers: [];
-    blurhash: string
-  }>({
-    id: "",
-    content: "",
-    likes: [],
-    email: "",
-    bio: "",
-    username: "",
-    following: [],
-    followers: [],
-    blurhash: ''
-  });
+ 
   
   const { loggedIn, setLoggedIn } = useContext(UserContext);  
-  
+  const { myInfo } = useContext(UserContext);
   useEffect(() => {
     getAllPosts();
   }, [myPosts]);
@@ -130,7 +110,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     console.log('hitting add bookmark')
     try {
       const result = await fetch(
-        `http://localhost:3000/api/addBookmark`,
+        `http://10.1.10.233:3000/api/addBookmark`,
         {
           method: "POST",
           headers: {
@@ -150,7 +130,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const getAllPosts = async () => {
     try {
-      const result = await fetch(`http://localhost:3000/api/getPosts`, {
+      const result = await fetch(`http://10.1.10.233:3000/api/getPosts`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -172,7 +152,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       // Send the updated post data to your backend
       const result = await post({
-        url: `http://localhost:3000/api/updatePost?id=${updatedPost.id}`,
+        url: `http://10.1.10.233:3000/api/updatePost?id=${updatedPost.id}`,
         body: updatedPost,
       });
 
@@ -190,7 +170,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const addLike = async (id: string) => {
     const updatedPost = await post({
-      url: `http://localhost:3000/api/addPostLike?id=${id}`,
+      url: `http://10.1.10.233:3000/api/addPostLike?id=${id}`,
       body: {
         id: id,
         userId: myInfo.id,
@@ -207,7 +187,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const addDislike = async (id: string) => {
     try {
       const dislikedPost = await post({
-        url: `http://localhost:3000/api/addPostDislike`,
+        url: `http://10.1.10.233:3000/api/addPostDislike`,
         body: {
           id,
           userId: myInfo?.id,
@@ -221,7 +201,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const deletePost = async (id: string) => {
     const updatedPost = await post({
-      url: `http://localhost:3000/api/updatePosts?id=${id}`,
+      url: `http://10.1.10.233:3000/api/updatePosts?id=${id}`,
       body: {
         content: content,
       },
@@ -237,7 +217,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const getMyPosts = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3000/api/getMyPosts?email=${localStorage.getItem("user")}`,
+        `http://10.1.10.233:3000/api/getMyPosts?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
@@ -257,7 +237,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     console.log(email, "this is the email");
     try {
       const result = await fetch(
-        `http://localhost:3000/api/getMyPosts?email=${email}`,
+        `http://10.1.10.233:3000/api/getMyPosts?email=${email}`,
         {
           method: "GET",
           headers: {
@@ -304,8 +284,9 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     maybeAction: string,
     categories: string,
   ) => {
+
     try {
-      const test = await fetch("http://localhost:3000/api/createPost", {
+      const test = await fetch("http://10.1.10.233:3000/api/createPost", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -315,6 +296,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           thesis,
           content: value,
           email: localStorage.getItem("user"),
+          owner: myInfo?.id,
           date: new Date(),
           yesAction,
           noAction,
@@ -350,8 +332,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       return null;
     }
   }
-
-
 
   return (
     <MyContext.Provider
