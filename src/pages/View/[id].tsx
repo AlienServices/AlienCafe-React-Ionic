@@ -1,58 +1,40 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import { MyContext } from "../../providers/postProvider";
-import {
-  arrowBackOutline,
-  chatbubbleOutline,
-  heartCircle,
-  bookmarkOutline,
-  shareOutline,
-} from "ionicons/icons";
 import { useHistory } from 'react-router-dom';
 import Replies from "../../components/Replies";
 import "react-quill/dist/quill.snow.css";
 import {
   IonButton,
-  IonTextarea,
   IonAvatar,
   IonIcon,
   IonCard,
   IonContent,
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
   IonPage,
-  IonRouterLink,
-  IonToolbar,
   IonImg,
-  IonInput,
   IonCheckbox,
-  IonFooter
+  IonList,
+  IonListHeader,
+  IonSkeletonText,
+  IonItem,
+  IonThumbnail,
+  IonLabel,
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
-import { closeOutline, arrowBackCircleOutline, sendOutline } from "ionicons/icons";
+import { arrowBackCircleOutline } from "ionicons/icons";
 import "../../theme/id.module.css";
 
 const Post = () => {
   const history = useHistory();
-  const [content, setContent] = useState<any[]>([]); // Initialize as an empty array
-  const [comments, setComments] = useState<string[]>([]);
-  const [comment, setComment] = useState<string>("");
+  const [content, setContent] = useState<any[]>([]);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [myVote, setMyVote] = useState<string>("");
   const [selected, setSelected] = useState<number | null>(null);
-  const [value, setValue] = useState("");
   const [image, setImage] = useState("");
-  const [isChecked, setIsChecked] = useState(false)
   const { myInfo } = useContext(MyContext);
-  const [isReplying, setIsReplying] = useState(false);  
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
-  const [replyComment, setReplyComment] = useState<string>("");
-  const inputRef = useRef<HTMLIonTextareaElement>(null);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
-  const [totalCount, setTotalCount] = useState<number>(0);
   const { id } = useParams<{ id: string }>();
 
 
@@ -80,6 +62,7 @@ const Post = () => {
       setImage(post.post.owner.id)
       setContent([post.post]);
       setMyVote(post.userVote?.vote || "");
+      setLoaded(true)
     } catch (error) {
       console.log(error, "this is the create user error");
     }
@@ -249,10 +232,10 @@ const Post = () => {
               </IonIcon>
             </div>
             <div className="logoContainer">
-            <div
+              <div
                 style={{
-                  borderRadius: '50%', 
-                  overflow: 'hidden', 
+                  borderRadius: '50%',
+                  overflow: 'hidden',
                   width: '60px',
                   height: '60px',
                   display: 'flex',
@@ -261,66 +244,84 @@ const Post = () => {
                 }}
               >
                 <IonImg
-                  style={{ width: '100%', height: '100%' }} 
+                  style={{ width: '100%', height: '100%' }}
                   src="/alienLogo.svg"
                 />
               </div>
             </div>
           </div>
         </div>
-        {Array.isArray(content) &&
-          content.map((post: any, index: number) => {
-            const transformedTitle = transformTitleToH1(post.title);
+        {
+          loaded ? <> {Array.isArray(content) &&
+            content.map((post: any, index: number) => {
+              const transformedTitle = transformTitleToH1(post.title);
 
-            return (
-              <div className="shadow" key={index}>
-                <IonCard
-                  style={{
-                    marginBottom: "25px",
-                  }}
-                  className="card"
-                >
+              return (
+                <div className="shadow" key={index}>
+                  <IonCard
+                    style={{
+                      marginBottom: "25px",
+                    }}
+                    className="card"
+                  >
 
-                  <div className="around">
-                    <div className="emailContainer">
-                      <IonAvatar
-                        style={{
-                          height: "40px",
-                          width: "40px",
-                          marginLeft: "5px",
-                          marginRight: "5px",
-                        }}
-                      >
-                        <img
-                          alt="Silhouette of a person's head"
-                          src={profileImage(image)}
-                        />
-                      </IonAvatar>
-                      <div className="username">{post?.email}</div>
+                    <div className="around">
+                      <div className="emailContainer">
+                        <IonAvatar
+                          style={{
+                            height: "40px",
+                            width: "40px",
+                            marginLeft: "5px",
+                            marginRight: "5px",
+                          }}
+                        >
+                          <img
+                            alt="Silhouette of a person's head"
+                            src={profileImage(image)}
+                          />
+                        </IonAvatar>
+                        <div className="username">{post?.email}</div>
+                      </div>
                     </div>
-                  </div>
-                  <ReactQuill
-                    className="quillTitle"
-                    style={{ color: "black" }}
-                    readOnly={true}
-                    theme="bubble"
-                    value={transformedTitle}
-                  />
-                  <ReactQuill
-                    className="small"
-                    style={{ color: "black" }}
-                    readOnly={true}
-                    theme="bubble"
-                    value={post?.content}
-                  />
-                </IonCard>
-              </div>
-            );
-          })}
+                    <ReactQuill
+                      className="quillTitle"
+                      style={{ color: "black" }}
+                      readOnly={true}
+                      theme="bubble"
+                      value={transformedTitle}
+                    />
+                    <ReactQuill
+                      className="small"
+                      style={{ color: "black" }}
+                      readOnly={true}
+                      theme="bubble"
+                      value={post?.content}
+                    />
+                  </IonCard>
+                </div>
+              );
+            })}</> :
+            <IonList style={{height: '400px'}}>
+              <IonItem lines="none" style={{height: '100%', display: 'flex', justifyContent: 'space-between'}}>
+                <IonLabel>
+                  <h3>
+                    <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
+                  </h3>
+                  <p>
+                    <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
+                  </p>
+                  <p>
+                    <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
+                  </p>
+                </IonLabel>
+              </IonItem>
+            </IonList>
+        }
+
 
         {hasVoted ? (
           <div className="answers">
-            <div className="vote">              
+            <div className="vote">
               {myVote === "true" && (
                 <div className="action">{content[0]?.yesAction}</div>
               )}
@@ -336,7 +337,7 @@ const Post = () => {
               {myVote === "false" && (
                 <div className="action">{content[0]?.noAction}</div>
               )}
-            </div>            
+            </div>
             <Replies postId={id} myVote={myVote} />
           </div>
         ) : (

@@ -36,10 +36,10 @@ interface PostProps {
         dislikes: string[];
         comments: any[];
     };
-    toggle: boolean
+    setToggle: (value: boolean) => void;
 }
 
-const Post: React.FC<PostProps> = ({ post, toggle }) => {
+const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     const history = useHistory();
     const {        
         addLike,
@@ -65,6 +65,8 @@ const Post: React.FC<PostProps> = ({ post, toggle }) => {
     useEffect(() => {
         getUser();
     }, []);
+
+
 
 
     const getUser = async () => {
@@ -108,6 +110,7 @@ const Post: React.FC<PostProps> = ({ post, toggle }) => {
     };
 
     const gotoTopic = (id: string) => {
+        setToggle(false)
         history.push(`/view/${id}`);
     };
 

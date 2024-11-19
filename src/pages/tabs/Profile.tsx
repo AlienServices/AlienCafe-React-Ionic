@@ -9,7 +9,9 @@ import {
   IonImg,
   useIonViewWillEnter,
   IonIcon,
-  IonMenuButton
+  IonMenuButton,
+  useIonViewDidLeave,
+  useIonViewWillLeave
 } from "@ionic/react";
 import "../../theme/Tab2.css";
 import MyPosts from "../../components/MyPosts";
@@ -40,7 +42,7 @@ const Profile = ({
     categories: 0,
   });
 
-
+  const [toggle, setToggle] = useState(true)
   const { myPosts } = useContext(MyContext);
   const { myInfo } = useContext(UserContext);
   const [profileImage, setProfileImage] = useState<any>(null);
@@ -120,11 +122,26 @@ const Profile = ({
     }
   };
 
+
+  useIonViewWillLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(false)
+  });
+
+
+
+  useIonViewDidLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(true)
+  });
+
+
+
   const blurhash = myInfo?.blurhash || 'U~I#+9xuRjj[_4t7aej[xvjYoej[WCWAkCoe'
 
 
   return (
-    <IonPage>
+    <IonPage style={{opacity: toggle? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
       <div className="brownBetween" style={{ height: '150px' }}>
         <IonMenuButton style={{ backgroundColor: 'white', marginLeft: "7px" }} color={'primary'} />
         <div style={{ padding: '10px' }}>

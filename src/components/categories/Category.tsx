@@ -15,35 +15,21 @@ import { UserContext } from "../../providers/userProvider";
 
 interface CategoryProps {
   category: string;
-  toggle: boolean
+  setToggle: (value: boolean) => void;
 }
 
 const Category: React.FC<CategoryProps> = ({
-  category, toggle
+  category, setToggle
 }: {
   category: string;
-  toggle: boolean
+  setToggle: (value: boolean) => void;
 }) => {
   const history = useHistory();
   const [posts, setPosts] = useState([]);
   const {
     myPosts,
-    setMyPosts,
-    addLike,
-    getAllPosts,    
-    getUserPosts,
-    addDislike,
-    addBookmark
   } = useContext(MyContext);
   const { myInfo, updateUser } = useContext(UserContext);
-  const [user, setUser] = useState({
-    bio: "",
-    email: "",
-    followers: [],
-    following: [],
-    id: "",
-    username: "",
-  });
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -64,19 +50,19 @@ const Category: React.FC<CategoryProps> = ({
 
       const userInfo = await result.json();
 
-      // Check if userInfo is an array and set posts accordingly
+      
       if (Array.isArray(userInfo)) {
         setPosts(userInfo);
       } else if (userInfo?.posts && Array.isArray(userInfo.posts)) {
         setPosts(userInfo.posts);
       } else {
-        setPosts([]); // Fallback to empty array if the response structure is unexpected
+        setPosts([]);
       }
 
       console.log(userInfo, "this is user result");
     } catch (error) {
       console.log(error, "this is the create user error");
-      setPosts([]); // Fallback to empty array on error
+      setPosts([]); 
     }
   };
 
@@ -130,12 +116,10 @@ const Category: React.FC<CategoryProps> = ({
   };
 
   const isLikedByUser = (likes: string[]): boolean => {
-    // Check if the likes array includes your user ID
     return likes.includes(myInfo.id);
   };
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    // Check if the likes array includes your user ID
     return dislikes.includes(myInfo.id);
   };
 
@@ -144,7 +128,7 @@ const Category: React.FC<CategoryProps> = ({
   };
 
   return (
-    <IonContent >
+    <IonContent>
       <IonList slot="fixed">
         {posts ? (
           <>
@@ -162,7 +146,7 @@ const Category: React.FC<CategoryProps> = ({
                 const formattedDate = `${month}/${day}/${year}`;
 
                 return (
-                  <Post toggle post={post} />
+                  <Post setToggle={setToggle} post={post} />
                 );
               })}
           </>

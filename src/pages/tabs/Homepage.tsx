@@ -1,24 +1,16 @@
 import React, { useContext, useRef, useState } from "react";
 import {
   IonContent,
-  IonHeader,
   IonPage,
   IonTitle,
-  IonMenu,
-  IonButton,
-  IonButtons,
+  useIonViewWillLeave,
+  useIonViewDidLeave,
+  useIonViewWillEnter,
   IonImg,
   IonMenuButton,
-  IonToolbar,
-  IonIcon
 } from "@ionic/react";
-import {
-  arrowBackCircleOutline,
-} from "ionicons/icons";
 import { useHistory } from "react-router";
 import { supabase } from "../../components/supaBase";
-import alien from "../../../public/alien.png";
-import AllPosts from "../../components/AllPosts";
 import { MyContext } from "../../providers/postProvider";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
@@ -42,7 +34,7 @@ const Tab3: React.FC = () => {
     "Covid",
     "Israel",
   ]);
-  const [currentCategory, setCurrentCategory] = useState(categories[0]); // Track the current category
+  const [currentCategory, setCurrentCategory] = useState(categories[0]); 
 
   const handleLogout = async () => {   
     console.log('hitting logout in tab 3')
@@ -61,11 +53,21 @@ const Tab3: React.FC = () => {
     }
   };
 
+  useIonViewWillLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(false)
+  });
+
+  useIonViewDidLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(true)
+  });
+
   return (
     <>
       <Menu />      
-      <IonPage id="main-content" style={{display: toggle? "flex" : "none"}}>
-        <div className="brown" style={{ height: '150px' }}>
+      <IonPage id="main-content" style={{opacity: toggle? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
+        <div className="brown" style={{ height: '150px', opacity: toggle? "1": "0", transition: "opacity 0.3s ease-in-out" }}>
           <div className="leftMiddle">
             <div style={{
               borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
@@ -113,14 +115,15 @@ const Tab3: React.FC = () => {
             onSlideChange={(swiper) =>
               setCurrentCategory(categories[swiper.activeIndex])
             }
-            style={{ height: "100%" }}
+            style={{ height: "115%" }}
           >
             {categories.map((category, index) => (
               <SwiperSlide key={index}>
-                <Category toggle category={category} />
+                <Category setToggle={(value) => setToggle(value)} category={category} />
               </SwiperSlide>
             ))}
           </Swiper>
+          
         </IonContent>
       </IonPage>
     </>
