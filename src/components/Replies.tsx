@@ -1,9 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { IonButton, IonItem, IonCard, IonList, IonIcon, IonFooter, IonTextarea } from "@ionic/react";
-import { MyContext } from "../providers/postProvider";
+import { IonCard, IonIcon, IonFooter, IonTextarea, IonSkeletonText, IonLabel, IonList, IonItem } from "@ionic/react";
 import { send, sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
-import { IonNavLink } from "@ionic/react";
 import {
   arrowDownCircleOutline,
   arrowUpCircleOutline,
@@ -11,6 +9,7 @@ import {
   arrowDownCircle,
 } from "ionicons/icons";
 import Comment from "../pages/Comment/[id]";
+import { UserContext } from "../providers/userProvider";
 
 interface Comment {
   id: string;
@@ -26,12 +25,13 @@ interface RepliesProps {
 }
 
 const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
-  const { myInfo } = useContext(MyContext);
+  const { myInfo } = useContext(UserContext);
   const [comments, setComments] = useState<Comment[]>([]);
   const history = useHistory();
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [isReplying, setIsReplying] = useState(false);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
@@ -43,6 +43,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   }, []);
 
   const fetchComments = async () => {
+    console.log('hitting fetch comments')
     try {
       const response = await fetch(
         `http://10.1.10.233:3000/api/getComments?id=${postId}`,
@@ -54,6 +55,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         },
       );
       const post = await response.json();
+      setCommentsLoaded(true)
       setComments(post.comment as Comment[]);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -61,12 +63,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const isLikedByUser = (likes: string[]): boolean => {
-    // Check if the likes array includes your user ID
     return likes.includes(myInfo.id);
   };
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    // Check if the likes array includes your user ID
     return dislikes.includes(myInfo.id);
   };
 
@@ -176,15 +176,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }, 400);
   };
 
-  const handleCommentReplyClick = (commentId: string) => {
-    setReplyingTo(commentId);
-
-    setTimeout(() => {
-      setTimeout(() => {
-        inputRef.current?.setFocus();
-      }, 100);
-    }, 300);
-  };
 
   const getParentComment = (parentId: string | null) => {
     if (!parentId) return null;
@@ -228,7 +219,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         const parentInfo = getParentComment(reply.parentId);
         const parentColor = parentInfo
           ? getColor(parentInfo.vote)
-          : "transparent"; // Get the color of the parent comment
+          : "transparent";
 
         return (
           <div
@@ -389,7 +380,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   return (
     <>
-      <div className="rowWide">
+      {commentsLoaded ? <div className="rowWide">
         <input
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -423,10 +414,24 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         >
           <IonIcon size="small" icon={send}></IonIcon>
         </button>
-      </div>
+      </div> : <IonList style={{ height: '400px' }}>
+        <IonItem lines="none" style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
+          <IonLabel>
+            <h3>
+              <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
+            </h3>
+            <p>
+              <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
+            </p>
+            <p>
+              <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
+            </p>
+          </IonLabel>
+        </IonItem>
+      </IonList>}
 
-      {comments
-        ?.filter((comment) => comment.parentId === null)
+
+      {comments?.filter((comment) => comment.parentId === null)
         .map((comment) => (
           <div className="column">
             <div className="imageRow" key={comment.id}>

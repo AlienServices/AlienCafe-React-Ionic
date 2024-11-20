@@ -138,7 +138,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     };
 
     return (
-        <>
+        <div style={{minHeight: '300px'}}>
             <IonList>
                 <div className="shadow" key={post.id}>
                     <IonCard
@@ -154,10 +154,10 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                                             width: "35px",
                                         }}
                                     >
-                                        <img
+                                        {/* <img
                                             alt="Silhouette of a person's head"
                                             src={profileImage(myInfo?.id)}
-                                        />
+                                        /> */}
                                     </IonAvatar>
                                     <IonNavLink
                                         onClick={() => {
@@ -241,7 +241,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                 <input style={{ color: "white" }} type="text" />
                 <div>kale</div>
             </IonModal>
-        </>
+        </div>
     );
 };
 

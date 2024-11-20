@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactQuill from "react-quill";
-import { MyContext } from "../../providers/postProvider";
 import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/create.css";
 import {
   IonContent,
-  IonNavLink,
   IonPage,
   IonFooter,
   IonImg,
@@ -17,7 +15,11 @@ import { UserContext } from "../../providers/userProvider";
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
   const [editorHtml, setEditorHtml] = useState("");
-  const inputRef = useRef<HTMLIonTextareaElement>(null);
+  // const inputRef = useRef<HTMLIonTextareaElement>(null);
+  const {
+    setLoggedIn,
+    loggedIn,
+  } = useContext(UserContext);
   const [isReplying, setIsReplying] = useState(false);
   const history = useHistory();
   const { myInfo } = useContext(UserContext);
@@ -89,31 +91,39 @@ const MyEditor = () => {
             />
           </div>
         </div>
-        
-          <button
-            style={{ margin: '10px' }}
-            className="nextButton"
-            onClick={() => {
-              setEditorHtml("");
-              setEditorHtmlTitle("");
-              history.push("/quiz", { quizTitle: editorHtmlTitle, content: editorHtml });
-            }}
-          >
-            Next
-          </button>
-        
+
+        <button
+          style={{ margin: '10px' }}
+          className="nextButton"
+          onClick={() => {
+            setEditorHtml("");
+            setEditorHtmlTitle("");
+            history.push("/quiz", { quizTitle: editorHtmlTitle, content: editorHtml });
+          }}
+        >
+          Next
+        </button>
+
       </div>
 
 
       <IonContent>
-        <div className="centerRow">
+        {loggedIn ? <div className="centerRow">
           <img
             className="profile-photo"
             src={profileImage(myInfo?.id)}
             alt=""
           />
           {myInfo?.username}
-        </div>
+        </div> : <div className="centerRow">
+          <img
+            className="profile-photo"
+            src={profileImage("https://www.macrumors.com/how-to/create-guest-account-macos/")}
+            alt=""
+          />
+          Log In!
+        </div>}
+
         <div className="editorContainer">
 
           <div className="titleEditor">

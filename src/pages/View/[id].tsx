@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
-import { MyContext } from "../../providers/postProvider";
 import { useHistory } from 'react-router-dom';
 import Replies from "../../components/Replies";
 import "react-quill/dist/quill.snow.css";
@@ -15,24 +14,24 @@ import {
   IonImg,
   IonCheckbox,
   IonList,
-  IonListHeader,
   IonSkeletonText,
   IonItem,
-  IonThumbnail,
   IonLabel,
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
 import { arrowBackCircleOutline } from "ionicons/icons";
 import "../../theme/id.module.css";
+import { UserContext } from "../../providers/userProvider";
 
 const Post = () => {
   const history = useHistory();
   const [content, setContent] = useState<any[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
+  const [commentsLoaded, setCommentsLoaded] = useState<boolean>(false);
   const [myVote, setMyVote] = useState<string>("");
   const [selected, setSelected] = useState<number | null>(null);
   const [image, setImage] = useState("");
-  const { myInfo } = useContext(MyContext);
+  const { myInfo } = useContext(UserContext);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
   const { id } = useParams<{ id: string }>();
@@ -149,67 +148,6 @@ const Post = () => {
   }, []);
 
 
-  const fetchComments = async () => {
-    try {
-      const response = await fetch(
-        `http://10.1.10.233:3000/api/getComment?id=${id}`, // Adjust API endpoint as necessary
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      const data = await response.json();
-      setComments(data.comment);
-      console.log(data.comment, "these are comments");
-    } catch (error) {
-      console.error("Error fetching comments:", error);
-    }
-  };
-
-
-  const addComment = async (
-    comment: string,
-    userName: string,
-    postId: string,
-    userId: string,
-    commentId: string | null,
-    vote: string,
-  ) => {
-    try {
-      const response = await fetch(
-        `http://10.1.10.233:3000/api/addComment?id=${id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            comment,
-            userName,
-            postId,
-            userId,
-            commentId,
-            vote,
-          }),
-        },
-      );
-      const post = await response.json();
-      console.log(post, "this is the post response");
-      setComments(post.comment);
-      fetchComments();
-    } catch (error) {
-      console.error("Error adding comment:", error);
-    }
-  };
-
-
-
-
-
-  console.log(id, 'this is post id')
-
   return (
     <IonPage>
       <IonContent>
@@ -301,8 +239,8 @@ const Post = () => {
                 </div>
               );
             })}</> :
-            <IonList style={{height: '400px'}}>
-              <IonItem lines="none" style={{height: '100%', display: 'flex', justifyContent: 'space-between'}}>
+            <IonList style={{ height: '400px' }}>
+              <IonItem lines="none" style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
                 <IonLabel>
                   <h3>
                     <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
@@ -319,8 +257,8 @@ const Post = () => {
         }
 
 
-        {hasVoted ? (
-          <div className="answers">
+        {hasVoted ?
+          < div className="answers">
             <div className="vote">
               {myVote === "true" && (
                 <div className="action">{content[0]?.yesAction}</div>
@@ -340,62 +278,62 @@ const Post = () => {
             </div>
             <Replies postId={id} myVote={myVote} />
           </div>
-        ) : (
-          <div className="centerMiddle">
-            <div className="centerThesis">
-              <div className="question">{content[0]?.thesis}</div>
+          : (
+            <div className="centerMiddle">
+              <div className="centerThesis">
+                <div className="question">{content[0]?.thesis}</div>
+              </div>
+              <div className="quizCenter">
+                <div className="checkSpace">
+                  <IonCheckbox
+                    checked={selected === 1}
+                    onIonChange={() => { setSelected(1); handleOptionChange('true') }}
+                    style={{ '--border-radius': '4px', padding: '5px' }}
+                  ></IonCheckbox>
+                  <div className="answerWidth">Yes Absolutely 100% True!</div>
+                </div>
+                <div className="checkSpace">
+                  <IonCheckbox
+                    checked={selected === 2}
+                    onIonChange={() => { setSelected(2); handleOptionChange('probably true') }}
+                    style={{ '--border-radius': '4px', padding: '5px' }}
+                  ></IonCheckbox>
+                  <div className="answerWidth">Probably True</div>
+                </div>
+                <div className="checkSpace">
+                  <IonCheckbox
+                    checked={selected === 3}
+                    onIonChange={() => { setSelected(3); handleOptionChange('neutral') }}
+                    style={{ '--border-radius': '4px', padding: '5px' }}
+                  ></IonCheckbox>
+                  <div className="answerWidth">Not Sure/Need More Info</div>
+                </div>
+                <div className="checkSpace">
+                  <IonCheckbox
+                    checked={selected === 4}
+                    onIonChange={() => { setSelected(4); handleOptionChange('probably false') }}
+                    style={{ '--border-radius': '4px', padding: '5px' }}
+                  ></IonCheckbox>
+                  <div className="answerWidth">Probably False</div>
+                </div>
+                <div className="checkSpace">
+                  <IonCheckbox
+                    checked={selected === 5}
+                    onIonChange={() => { setSelected(5); handleOptionChange('false') }}
+                    style={{ '--border-radius': '4px', padding: '5px' }}
+                  ></IonCheckbox>
+                  <div className="answerWidth">No! This is Propaganda. 100% False</div>
+                </div>
+                <div className={`${!hasVoted ? "middle" : "none"}`}>
+                  <IonButton style={{ backgroundColor: 'black', padding: '0px' }} onClick={handleVote}>
+                    Submit
+                  </IonButton>
+                </div>
+              </div>
             </div>
-            <div className="quizCenter">
-              <div className="checkSpace">
-                <IonCheckbox
-                  checked={selected === 1}
-                  onIonChange={() => { setSelected(1); handleOptionChange('true') }}
-                  style={{ '--border-radius': '4px', padding: '5px' }}
-                ></IonCheckbox>
-                <div className="answerWidth">Yes Absolutely 100% True!</div>
-              </div>
-              <div className="checkSpace">
-                <IonCheckbox
-                  checked={selected === 2}
-                  onIonChange={() => { setSelected(2); handleOptionChange('probably true') }}
-                  style={{ '--border-radius': '4px', padding: '5px' }}
-                ></IonCheckbox>
-                <div className="answerWidth">Probably True</div>
-              </div>
-              <div className="checkSpace">
-                <IonCheckbox
-                  checked={selected === 3}
-                  onIonChange={() => { setSelected(3); handleOptionChange('neutral') }}
-                  style={{ '--border-radius': '4px', padding: '5px' }}
-                ></IonCheckbox>
-                <div className="answerWidth">Not Sure/Need More Info</div>
-              </div>
-              <div className="checkSpace">
-                <IonCheckbox
-                  checked={selected === 4}
-                  onIonChange={() => { setSelected(4); handleOptionChange('probably false') }}
-                  style={{ '--border-radius': '4px', padding: '5px' }}
-                ></IonCheckbox>
-                <div className="answerWidth">Probably False</div>
-              </div>
-              <div className="checkSpace">
-                <IonCheckbox
-                  checked={selected === 5}
-                  onIonChange={() => { setSelected(5); handleOptionChange('false') }}
-                  style={{ '--border-radius': '4px', padding: '5px' }}
-                ></IonCheckbox>
-                <div className="answerWidth">No! This is Propaganda. 100% False</div>
-              </div>
-              <div className={`${!hasVoted ? "middle" : "none"}`}>
-                <IonButton style={{ backgroundColor: 'black', padding: '0px' }} onClick={handleVote}>
-                  Submit
-                </IonButton>
-              </div>
-            </div>
-          </div>
-        )}
+          )}
       </IonContent>
-    </IonPage>
+    </IonPage >
   );
 };
 

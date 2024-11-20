@@ -36,6 +36,7 @@ const Category: React.FC<CategoryProps> = ({
     getPosts();
   }, [myPosts]);
 
+
   const getPosts = async () => {
     try {
       const result = await fetch(
@@ -49,8 +50,6 @@ const Category: React.FC<CategoryProps> = ({
       );
 
       const userInfo = await result.json();
-
-      
       if (Array.isArray(userInfo)) {
         setPosts(userInfo);
       } else if (userInfo?.posts && Array.isArray(userInfo.posts)) {
@@ -58,52 +57,10 @@ const Category: React.FC<CategoryProps> = ({
       } else {
         setPosts([]);
       }
-
-      console.log(userInfo, "this is user result");
     } catch (error) {
       console.log(error, "this is the create user error");
-      setPosts([]); 
+      setPosts([]);
     }
-  };
-
-  const handleLogout = async () => {
-    console.log('hitting logout in category')
-    try {
-      const { error } = await supabase.auth.signOut();
-      console.log("You Logged Out");
-      if (error) {
-        console.log("this is logout error", error);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const transformTitleToH1 = (title: string) => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(title, "text/html");
-    const pTag = doc.querySelector("p");
-
-    if (pTag) {
-      const h1Tag = document.createElement("h1");
-      h1Tag.innerHTML = pTag.innerHTML;
-      pTag.parentNode?.replaceChild(h1Tag, pTag);
-    }
-
-    return doc.body.innerHTML;
-  };
-
-  const truncateContent = (content: string, length: number) => {
-    const doc = new DOMParser().parseFromString(content, "text/html");
-    let text = doc.body.textContent || "";
-    return (
-      text.split(" ").slice(0, 20).join(" ") +
-      (text.split(" ").length > 20 ? "..." : "")
-    );
-  };
-
-  const gotoTopic = (id: string) => {
-    history.push(`/view/${id}`);
   };
 
   const openModal = () => {
@@ -111,40 +68,19 @@ const Category: React.FC<CategoryProps> = ({
   };
 
   const closeModal = () => {
-    debugger;
     setShowModal(false);
   };
 
-  const isLikedByUser = (likes: string[]): boolean => {
-    return likes.includes(myInfo.id);
-  };
-
-  const isDislikedByUser = (dislikes: string[]): boolean => {
-    return dislikes.includes(myInfo.id);
-  };
-
-  const calculateNetScore = (likes: string[], dislikes: string[]): number => {
-    return likes.length - dislikes.length;
-  };
+  console.log(posts)
 
   return (
-    <IonContent>
-      <IonList slot="fixed">
+    <div style={{height: 'fit-content'}}>      
         {posts ? (
           <>
             {posts
               ?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
-              .map((post: any, index: number) => {
-                const transformedTitle = transformTitleToH1(post.title);
-                const truncatedContent = truncateContent(post.content, 400);
-
-                const date = new Date(post.date);
-                const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-                const day = String(date.getUTCDate()).padStart(2, "0");
-                const year = date.getUTCFullYear();
-
-                const formattedDate = `${month}/${day}/${year}`;
-
+              .map((post: any) => {
+                console.log(post)                
                 return (
                   <Post setToggle={setToggle} post={post} />
                 );
@@ -154,18 +90,8 @@ const Category: React.FC<CategoryProps> = ({
           <>
             <div>You aint got no post{category}</div>
           </>
-        )}
-      </IonList>
-
-      <IonModal isOpen={showModal}>
-        <IonButton slot="end">Close</IonButton>
-        <button style={{ padding: "10px" }} onClick={closeModal}>
-          close
-        </button>
-        <input style={{ color: "white" }} type="text" />
-        <div>kale</div>
-      </IonModal>
-    </IonContent>
+        )}      
+    </div>
   );
 };
 

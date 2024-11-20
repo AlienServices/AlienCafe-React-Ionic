@@ -10,8 +10,6 @@ import {
   IonMenuButton,
 } from "@ionic/react";
 import { useHistory } from "react-router";
-import { supabase } from "../../components/supaBase";
-import { MyContext } from "../../providers/postProvider";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import Category from "../../components/categories/Category";
@@ -19,10 +17,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "../../theme/Tab3.css";
 import { Menu } from "../../components/Menu";
+import { UserContext } from "../../providers/userProvider";
 
 const Tab3: React.FC = () => {
-  const { myInfo, setMyInfo } = useContext(MyContext);
-  const history = useHistory();
   const [toggle, setToggle] = useState(true)
   const menuRef = useRef<HTMLIonMenuElement>(null);
   const [categories, setCategories] = useState([
@@ -34,24 +31,7 @@ const Tab3: React.FC = () => {
     "Covid",
     "Israel",
   ]);
-  const [currentCategory, setCurrentCategory] = useState(categories[0]); 
-
-  const handleLogout = async () => {   
-    console.log('hitting logout in tab 3')
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.log("Logout error:", error);
-      } else {
-        menuRef.current?.close();
-        localStorage.removeItem("user");
-        setMyInfo({ id: '', content: '', likes: [], email: '', bio: '', username: '', following: [], followers: [], blurhash: '' })
-        history.push("/tab1");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [currentCategory, setCurrentCategory] = useState(categories[0]);
 
   useIonViewWillLeave(() => {
     console.log("Cleaning up resources...");
@@ -63,11 +43,13 @@ const Tab3: React.FC = () => {
     setToggle(true)
   });
 
+
+
   return (
     <>
-      <Menu />      
-      <IonPage id="main-content" style={{opacity: toggle? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
-        <div className="brown" style={{ height: '150px', opacity: toggle? "1": "0", transition: "opacity 0.3s ease-in-out" }}>
+      <Menu />
+      <IonPage id="main-content" style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
+        <div className="brown" style={{ height: '150px', opacity: toggle ? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
           <div className="leftMiddle">
             <div style={{
               borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
@@ -84,10 +66,10 @@ const Tab3: React.FC = () => {
               <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
             </div>
             <div className="logoContainer" style={{ top: '90px' }}>
-            <div
+              <div
                 style={{
-                  borderRadius: '50%', 
-                  overflow: 'hidden', 
+                  borderRadius: '50%',
+                  overflow: 'hidden',
                   width: '60px',
                   height: '60px',
                   display: 'flex',
@@ -96,34 +78,42 @@ const Tab3: React.FC = () => {
                 }}
               >
                 <IonImg
-                  style={{ width: '100%', height: '100%' }} 
+                  style={{ width: '100%', height: '100%' }}
                   src="/alienLogo.svg"
                 />
               </div>
             </div>
           </div>
         </div>
-        <IonContent >
+        <IonContent>
           <div className="middle">
             <IonTitle>{currentCategory}</IonTitle>
           </div>
-          <Swiper
-            modules={[Pagination]}
-            spaceBetween={50}
-            slidesPerView={1}
-            pagination={{ clickable: true }}
-            onSlideChange={(swiper) =>
-              setCurrentCategory(categories[swiper.activeIndex])
-            }
-            style={{ height: "115%" }}
-          >
-            {categories.map((category, index) => (
-              <SwiperSlide key={index}>
-                <Category setToggle={(value) => setToggle(value)} category={category} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          
+            <Swiper
+              modules={[Pagination]}
+              spaceBetween={10}
+              slidesPerView={1}
+              pagination={{ clickable: true }}
+              onSlideChange={(swiper) =>
+                setCurrentCategory(categories[swiper.activeIndex])
+              }
+              // style={{ height: "170%" }}
+            >
+              {categories.map((category, index) => (
+                <SwiperSlide
+                  key={index}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "fit-content",
+                    justifyContent: "flex-start",
+                    marginBottom: '50px'
+                  }}
+                >
+                  <Category setToggle={(value) => setToggle(value)} category={category}/>
+                </SwiperSlide>
+              ))}
+            </Swiper>          
         </IonContent>
       </IonPage>
     </>
