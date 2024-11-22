@@ -43,6 +43,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const [person, setPerson] = useState<string>("");
   const [myConvos, setMyConvos] = useState<any[]>([]);
   const [convoId, setConvoId] = useState<any[]>([]);
+
+  
   const getConvos = async () => {
     try {
       const convos = await fetch(

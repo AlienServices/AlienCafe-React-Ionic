@@ -17,6 +17,8 @@ import {
   IonSkeletonText,
   IonItem,
   IonLabel,
+  useIonViewWillLeave,
+  useIonViewDidLeave,
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
 import { arrowBackCircleOutline } from "ionicons/icons";
@@ -32,6 +34,7 @@ const Post = () => {
   const [selected, setSelected] = useState<number | null>(null);
   const [image, setImage] = useState("");
   const { myInfo } = useContext(UserContext);
+  const [toggle, setToggle] = useState(true)
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
   const { id } = useParams<{ id: string }>();
@@ -148,8 +151,21 @@ const Post = () => {
   }, []);
 
 
+
+  useIonViewWillLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(false)
+  });
+
+  useIonViewDidLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(true)
+  });
+  
+
+
   return (
-    <IonPage>
+    <IonPage id="main-content" style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.1s ease-in-out" }}>
       <IonContent>
         <div className="brown">
           <div className="leftMiddle">

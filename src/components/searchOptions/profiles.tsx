@@ -1,51 +1,17 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import ReactQuill from "react-quill";
-import { MyContext } from "../../providers/postProvider";
-import { useHistory } from "react-router";
+import React, { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/create.css";
 import {
-  IonButton,
-  IonText,
-  IonButtons,
   IonContent,
-  IonHeader,
-  IonIcon,
-  IonNavLink,
-  IonMenuButton,
-  IonMenuToggle,
-  IonInput,
   IonItem,
   IonLabel,
-  IonList,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonToast,
-  useIonLoading,
-  IonMenu,
-  IonImg,
+  IonPage,  
 } from "@ionic/react";
-import { closeOutline } from "ionicons/icons";
 import Profile from "../postComponents/Profile";
 
+
 const Profiles = ({ search }: { search: string }) => {
-  const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
-  const [editorHtml, setEditorHtml] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]); // Initialize searchResults as an array
-  const titleQuillRef = useRef(null);
-  const history = useHistory();
-  const {
-    posts,
-    myPosts,
-    setPosts,
-    setMyPosts,
-    updatePost,
-    getAllPosts,
-    myInfo,
-    createPost,
-  } = useContext(MyContext);
-  const contentQuillRef = useRef(null);
+  const [searchResults, setSearchResults] = useState<any[]>([]); 
 
 
   const searchUsers = async () => {
@@ -76,7 +42,7 @@ const Profiles = ({ search }: { search: string }) => {
         <IonItem>
           {searchResults.length > 0 ? (
             searchResults.map((user, index) => (
-              <Profile profile={user} />
+              <Profile profile={user} key={user?.id} />
             ))
           ) : (
             <IonItem style={{ width: '100%' }}>

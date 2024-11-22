@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { IonCard, IonIcon, IonFooter, IonTextarea, IonSkeletonText, IonLabel, IonList, IonItem } from "@ionic/react";
+import { IonCard, IonIcon, IonFooter, IonTextarea, IonSkeletonText, IonLabel, IonList, IonItem, useIonViewWillLeave, useIonViewDidLeave } from "@ionic/react";
 import { send, sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import {
@@ -30,7 +30,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const history = useHistory();
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);  
   const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [isReplying, setIsReplying] = useState(false);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
@@ -210,7 +210,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     history.push(`/Comment/${id}/${myVote}/${postId}`);
   };
 
-  console.log(comments, 'these are comments')
+
 
   const renderReplies = (commentId: string, nestedDepth = 0) => {
     return comments
@@ -379,7 +379,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   return (
-    <>
+    <div>
       {commentsLoaded ? <div className="rowWide">
         <input
           onKeyDown={(e) => {
@@ -599,7 +599,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
           }} />
         </IonFooter>
       )}
-    </>
+    </div>
   );
 };
 

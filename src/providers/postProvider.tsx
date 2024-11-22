@@ -4,6 +4,9 @@ import { Platform } from "react-native";
 import { Capacitor } from "@capacitor/core";
 import { supabase } from "../components/supaBase";
 import { UserContext } from "./userProvider";
+import {
+  useIonViewDidEnter,  
+} from "@ionic/react";
 
 interface Post {
   email: string;
@@ -31,7 +34,7 @@ interface PostContext {
     maybeAction: string,
     categories: string,
   ) => void;  
-  getAllPosts: () => void;
+  getMyPosts: () => void;
   getUserPosts: (email: string) => void;
   setLoggedin: (value: boolean) => void;
   loggedIn: boolean;
@@ -52,7 +55,7 @@ const MyContext = createContext<PostContext>({
   addDislike: (post) => { },
   deletePost: (id) => { },
   createPost: (value) => { },  
-  getAllPosts: () => { },
+  getMyPosts: () => { },
   setLoggedin: () => { },
   loggedIn: false,  
   setUserPosts: () => { },
@@ -95,17 +98,22 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   
   const { loggedIn, setLoggedIn } = useContext(UserContext);  
   const { myInfo } = useContext(UserContext);
-  useEffect(() => {
-    getAllPosts();
-  }, [myPosts]);
+
+  
+  // useEffect(() => {
+  //   getAllPosts();
+  // }, [myPosts]);
 
 
-  useEffect(() => {
-    getMyPosts()
-  }, [loggedIn]);
+  // useEffect(() => {
+  //   getMyPosts()    
+  // }, [loggedIn]);
 
 
-
+  // useIonViewDidEnter(() => {
+  //   getMyPosts()    
+  // }, [])
+  
   const addBookmark = async (userId: string, postId: string) => {
     console.log('hitting add bookmark')
     try {
@@ -128,25 +136,26 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const getAllPosts = async () => {
-    try {
-      const result = await fetch(`http://10.1.10.233:3000/api/getPosts`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const posts = await result.json();
-      setContent(
-        posts.Posts.map((post: any) => ({
-          ...post,
-          date: new Date(post.date),
-        })),
-      );
-    } catch (error) {
-      console.log(error, "this is the create user error");
-    }
-  };
+
+  // const getAllPosts = async () => {
+  //   try {
+  //     const result = await fetch(`http://10.1.10.233:3000/api/getPosts`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     const posts = await result.json();
+  //     setContent(
+  //       posts.Posts.map((post: any) => ({
+  //         ...post,
+  //         date: new Date(post.date),
+  //       })),
+  //     );
+  //   } catch (error) {
+  //     console.log(error, "this is the create user error");
+  //   }
+  // };
 
   const updatePost = async (updatedPost: Post) => {
     try {
@@ -162,11 +171,12 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           post.id === updatedPost.id ? result.update : post,
         ),
       );
-      getMyPosts(); // Optionally refresh myPosts
+      // getAllPosts(); // Optionally refresh myPosts
     } catch (error) {
       console.log(error, "Error updating post");
     }
   };
+
 
   const addLike = async (id: string) => {
     const updatedPost = await post({
@@ -184,6 +194,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+
   const addDislike = async (id: string) => {
     try {
       const dislikedPost = await post({
@@ -198,6 +209,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       console.error("Error adding dislike:", error); // Log any errors
     }
   };
+
 
   const deletePost = async (id: string) => {
     const updatedPost = await post({
@@ -214,6 +226,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  
   const getMyPosts = async () => {
     try {
       const result = await fetch(
@@ -227,12 +240,13 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       );
       const posts = await result.json();
       setMyPosts(posts.Posts);
-      getAllPosts();
+      // getAllPosts();
     } catch (error) {
       console.log(error, "this is the create user error");
     }
   };
 
+  
   const getUserPosts = async (email: string) => {
     console.log(email, "this is the email");
     try {
@@ -345,7 +359,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         addDislike: addDislike,
         deletePost: deletePost,
         createPost: createPost,                
-        getAllPosts: getAllPosts,
+        getMyPosts: getMyPosts,
         setLoggedin: setLoggedIn,
         loggedIn: loggedIn,        
         userPosts: userPosts,

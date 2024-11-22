@@ -1,17 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import {
-  IonModal,
-  IonButton,
-  IonContent,
-  IonList,
+  useIonViewWillEnter
 } from "@ionic/react";
-import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
-import { supabase } from "../supaBase";
 import "../../theme/Tab3.css";
-import { MyContext } from "../../providers/postProvider";
 import Post from "../postComponents/Post";
-import { UserContext } from "../../providers/userProvider";
 
 interface CategoryProps {
   category: string;
@@ -24,17 +17,13 @@ const Category: React.FC<CategoryProps> = ({
   category: string;
   setToggle: (value: boolean) => void;
 }) => {
-  const history = useHistory();
   const [posts, setPosts] = useState([]);
-  const {
-    myPosts,
-  } = useContext(MyContext);
-  const { myInfo, updateUser } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
+
+  useIonViewWillEnter(() => {
     getPosts();
-  }, [myPosts]);
+  }, []);
 
 
   const getPosts = async () => {
@@ -71,7 +60,7 @@ const Category: React.FC<CategoryProps> = ({
     setShowModal(false);
   };
 
-  console.log(posts)
+  console.log('test')
 
   return (
     <div style={{height: 'fit-content'}}>      

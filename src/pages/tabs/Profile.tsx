@@ -16,7 +16,7 @@ import {
 import "../../theme/Tab2.css";
 import MyPosts from "../../components/MyPosts";
 import Category from "../../components/Category";
-import { useEffect, useState, useContext, SetStateAction, useMemo } from "react";
+import { useEffect, useState, useContext, SetStateAction, useMemo,  } from "react";
 import { MyContext } from "../../providers/postProvider";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import UserComments from "../../components/UserComments";
@@ -43,6 +43,7 @@ const Profile = ({
   });
 
   const [toggle, setToggle] = useState(true)
+  const {getMyPosts} = useContext(MyContext)
   const { myPosts } = useContext(MyContext);
   const { myInfo } = useContext(UserContext);
   const [profileImage, setProfileImage] = useState<any>(null);
@@ -96,8 +97,9 @@ const Profile = ({
   // }
 
 
-  useIonViewWillEnter(() => {
+  useIonViewWillEnter(() => {    
     if (myInfo?.id) {
+      getMyPosts()
       const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}`;
       console.log(newProfileImageUri);
       setProfileImage(`${newProfileImageUri}.jpg`);
@@ -191,11 +193,11 @@ const Profile = ({
             </div>
             <div className="rowClose">
               <div style={{ fontSize: '14px' }}>Following</div>
-              <div className="centerSmall">{myInfo?.following.length}</div>
+              <div className="centerSmall">{myInfo?.following?.length}</div>
             </div>
             <div className="rowClose">
               <div style={{ fontSize: '14px' }}>Followers</div>
-              <div className="centerSmall">{myInfo?.followers.length}</div>
+              <div className="centerSmall">{myInfo?.followers?.length}</div>
             </div>
           </div>
           <div className="paddingCenter">

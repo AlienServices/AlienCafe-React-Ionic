@@ -41,53 +41,11 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     const history = useHistory();
-    const {        
-        addLike,
-        addDislike,    
-        getUserPosts,
-    } = useContext(MyContext);
-    const {
-        myInfo,
-        updateUser,
-    } = useContext(UserContext);
-
-    const [user, setUser] = useState({
-        bio: "",
-        email: "",
-        followers: [],
-        following: [],
-        id: "",
-        username: "",
-    });
+    const { addLike, addDislike, getUserPosts } = useContext(MyContext);
+    const { myInfo, updateUser } = useContext(UserContext);
     const [showModal, setShowModal] = useState(false);
 
-
-    useEffect(() => {
-        getUser();
-    }, []);
-
-
-
-
-    const getUser = async () => {
-        try {
-            const result = await fetch(
-                `http://10.1.10.233:3000/api/myInfo?email=${localStorage.getItem("user")}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            const userInfo = await result.json();
-            setUser(userInfo.Hello);
-            console.log(userInfo, "this is user result");
-        } catch (error) {
-            console.log(error, "this is the create user error");
-        }
-    };
-
+    
     const transformTitleToH1 = (title: string) => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(title, "text/html");
@@ -138,7 +96,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     };
 
     return (
-        <div style={{minHeight: '300px'}}>
+        <div style={{ minHeight: '300px' }}>
             <IonList>
                 <div className="shadow" key={post.id}>
                     <IonCard
@@ -154,10 +112,10 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                                             width: "35px",
                                         }}
                                     >
-                                        {/* <img
+                                        <img
                                             alt="Silhouette of a person's head"
-                                            src={profileImage(myInfo?.id)}
-                                        /> */}
+                                            src={profileImage(post?.userId)}
+                                        />
                                     </IonAvatar>
                                     <IonNavLink
                                         onClick={() => {
@@ -175,7 +133,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                                 <div>
                                     {myInfo?.email !== post?.email ? (
                                         <>
-                                            {myInfo?.following?.indexOf(post.email) !== -1 ? (
+                                            {myInfo?.following?.indexOf(post?.email) !== -1 ? (
                                                 <IonIcon icon={checkmarkCircleOutline}></IonIcon>
                                             ) : (
                                                 <button
@@ -206,7 +164,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                                     theme="bubble"
                                     value={truncatedContent}
                                 />
-                            </div>                            
+                            </div>
                         </div>
                         <div className="smallRow">
                             <div className="tinyRow">

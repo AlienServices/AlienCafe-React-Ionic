@@ -14,21 +14,22 @@ import {
   arrowUpCircle,
   arrowDownCircle,
 } from "ionicons/icons";
-import { MyContext } from "../../providers/postProvider";
+import { Keyboard } from '@capacitor/keyboard';
 import { useParams } from "react-router-dom";
 import { sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState, useContext, useRef } from "react";
 import "../../theme/comment.css";
+import { UserContext } from "../../providers/userProvider";
 
 const Comment = () => {
-  const { myInfo } = useContext(MyContext);
-  const [comments, setComments] = useState<any | null>(null); // Adjust type as needed
+  const { myInfo } = useContext(UserContext);
+  const [comments, setComments] = useState<any | null>(null);
   const { id } = useParams<{ id: string }>();
-  const history = useHistory();
-  const [isReplying, setIsReplying] = useState(false);
   const { myVote } = useParams<{ myVote: string }>();
   const { postId } = useParams<{ postId: string }>();
+  const history = useHistory();
+  const [isReplying, setIsReplying] = useState(false);
   const [replyComment, setReplyComment] = useState<string>("");
   const inputRef = useRef<HTMLIonTextareaElement>(null);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
@@ -39,7 +40,7 @@ const Comment = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/getComment?id=${id}`, // Adjust API endpoint as necessary
+        `http://10.1.10.233:3000/api/getComment?id=${id}`, 
         {
           method: "GET",
           headers: {
@@ -49,7 +50,6 @@ const Comment = () => {
       );
       const data = await response.json();
       setComments(data.comment);
-      console.log(data.comment, "these are comments");
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -129,7 +129,7 @@ const Comment = () => {
     commentId: string | null,
     vote: string,
   ) => {
-    console.log(comment, "this is the comment");
+    console.log(userName, "this is the comment");
     try {
       const response = await fetch(
         `http://10.1.10.233:3000/api/addComment?id=${id}`,
@@ -221,12 +221,12 @@ const Comment = () => {
   };
 
   const isLikedByUser = (likes: string[]): boolean => {
-    return likes.includes(myInfo.id);
+    return likes.includes(myInfo?.id);
   };
 
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    return dislikes.includes(myInfo.id);
+    return dislikes.includes(myInfo?.id);
   };
 
 
@@ -253,6 +253,9 @@ const Comment = () => {
       return (
         <>
           <div
+          onClick={() => {
+            gotoTopic(postId, reply.id)
+          }}
             key={reply.id}
             style={{
               marginTop: "10px",
@@ -390,7 +393,10 @@ const Comment = () => {
     }
   };
 
-  console.log(replyComment, "this is the reply comment");
+  const gotoTopic = (postId: string, id: string) => {
+    console.log(postId, id);
+    history.push(`/Comment/${id}/${myVote}/${postId}`);
+  };
 
 
   return (
@@ -541,6 +547,8 @@ const Comment = () => {
                 id,
                 myVote,
               );
+              Keyboard.hide()
+              setIsReplying(false)
             }} />
           </IonFooter>
         )}

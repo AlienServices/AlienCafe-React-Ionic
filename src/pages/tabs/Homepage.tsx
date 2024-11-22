@@ -48,7 +48,7 @@ const Tab3: React.FC = () => {
   return (
     <>
       <Menu />
-      <IonPage id="main-content" style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
+      <IonPage id="main-content" style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.4s ease-in-out" }}>
         <div className="brown" style={{ height: '150px', opacity: toggle ? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
           <div className="leftMiddle">
             <div style={{
@@ -96,8 +96,7 @@ const Tab3: React.FC = () => {
               pagination={{ clickable: true }}
               onSlideChange={(swiper) =>
                 setCurrentCategory(categories[swiper.activeIndex])
-              }
-              // style={{ height: "170%" }}
+              }              
             >
               {categories.map((category, index) => (
                 <SwiperSlide
@@ -110,7 +109,7 @@ const Tab3: React.FC = () => {
                     marginBottom: '50px'
                   }}
                 >
-                  <Category setToggle={(value) => setToggle(value)} category={category}/>
+                  <Category key={category} setToggle={(value) => setToggle(value)} category={category}/>
                 </SwiperSlide>
               ))}
             </Swiper>          

@@ -42,7 +42,7 @@ interface UserContext {
 
 export const UserContext = createContext<UserContext>({
     user: null,
-    setUser: () => {},
+    setUser: () => { },
     myInfo: {
         id: "",
         content: "",
@@ -54,10 +54,10 @@ export const UserContext = createContext<UserContext>({
         followers: [],
         blurhash: ""
     },
-    setMyInfo: () => {},
-    updateUser: () => {},
+    setMyInfo: () => { },
+    updateUser: () => { },
     loggedIn: false,
-    setLoggedIn: () => {}
+    setLoggedIn: () => { }
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -66,9 +66,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
-        if (loggedIn) {
-            userInfo();
-        }
+        userInfo();
     }, [loggedIn]);
 
     const userInfo = async () => {
@@ -82,8 +80,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                     },
                 }
             );
-            const posts = await result.json();
-            setMyInfo(posts.Hello);
+            const myInfo = await result.json();            
+            setMyInfo(myInfo.user);
         } catch (error) {
             console.log(error, "this is the create user error");
         }
