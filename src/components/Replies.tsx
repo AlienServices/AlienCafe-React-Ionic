@@ -30,7 +30,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const history = useHistory();
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);  
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [isReplying, setIsReplying] = useState(false);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
@@ -213,140 +213,96 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
 
   const renderReplies = (commentId: string, nestedDepth = 0) => {
-    return comments
-      .filter((reply) => reply.parentId === commentId)
-      .map((reply) => {
-        const parentInfo = getParentComment(reply.parentId);
-        const parentColor = parentInfo
-          ? getColor(parentInfo.vote)
-          : "transparent";
+    return (
+      <div
+        className={`reply-container ${replyToggle[commentId] ? "open" : ""
+          }`}
+      >
+        {comments
+          .filter((reply) => reply.parentId === commentId)
+          .map((reply) => {
+            const parentInfo = getParentComment(reply.parentId);
+            const parentColor = parentInfo
+              ? getColor(parentInfo.vote)
+              : "transparent";
 
-        return (
-          <div
-            key={reply.id}
-            className={
-              nestedDepth < 1 ? "columnCommentWide" : `columnCommentWideNo`
-            }
-          >
-            <div className="rowReply">
-              <div className="bottomImage">
-                <img
-                  className="user-icon-small"
-                  alt="User avatar"
-                  src={profileImage(reply.userId)}
-                />
-              </div>
-
-              <IonCard
-                style={{
-                  border: `1px solid ${getColor(reply.vote)}`,
-                }}
-                className={`${"cardComment"} ${getColor(reply.vote)}`}
-              >
-                <div style={{ width: "100%" }}>
-                  <div className="rowUser">
-                    <div className="userName">{reply.username}</div>
-
-                  </div>
-
-                  {parentInfo && (
-                    <div
-                      style={{ borderLeft: `4px solid ${parentColor}` }}
-                      className="parentInfo"
-                    >
-                      <div className="parentUsername">
-                        {parentInfo.username}
-                      </div>
-                      <div className="parentComment">{parentInfo.comment}</div>
-                    </div>
-                  )}
-                  <div
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                      gotoTopic(postId, reply.id);
-                    }}
-                  >
-                    <div className="comment">{reply.comment}</div>
-                  </div>
-                  <div
-                    style={{ paddingTop: '3px', paddingBottom: '3px' }}
-                    className="reply"
-                    onClick={() => handleReplyClick(reply.id)}
-                  >
-                    Reply
-                  </div>
-                  {/* {replyingTo === reply.id && (
-                    <div className="replyInput">
-                      <input
-                        className="inputReply"
-                        onChange={(e) => setReplyComment(e.target.value)}
-                        placeholder="Reply..."
-                      />
-                      <button
-                        className="noPadding"
-                        onClick={() =>
-                          addComment(
-                            replyComment,
-                            myInfo?.username,
-                            postId,
-                            myInfo?.id,
-                            reply.id,
-                            myVote,
-                          )
-                        }
-                      >
-                        Send
-                      </button>
-                    </div>
-                  )} */}
-
-                  <div className="voteRowSmall">
-                    <div className="rowSmall">
-                      <IonIcon
-                        onClick={() => {
-                          addCommentLike(myInfo.id, reply.id);
-                        }}
-                        icon={
-                          isLikedByUser(reply?.likes)
-                            ? arrowUpCircle
-                            : arrowUpCircleOutline
-                        }
-                      ></IonIcon>
-                      <div className="small">
-                        {calculateNetScore(reply?.likes, reply?.dislikes)}
-                      </div>
-                      <IonIcon
-                        onClick={() => {
-                          addCommentDisike(myInfo.id, reply.id);
-                        }}
-                        icon={
-                          isDislikedByUser(reply?.dislikes)
-                            ? arrowDownCircle
-                            : arrowDownCircleOutline
-                        }
-                      ></IonIcon>
-                    </div>
-                    {myInfo?.username === reply.username && (
-                      <button onClick={() => deleteComment(reply.id)}>
-                        <IonIcon icon={trashBin}></IonIcon>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </IonCard>
-            </div>
-            {comments.some((r) => r.parentId === reply.id) && (
+            return (
               <div
-                className="seeMore"
-                onClick={() => toggleReplies(reply.id)}
+                key={reply.id}
+                className={
+                  nestedDepth < 1
+                    ? "columnCommentWide"
+                    : `columnCommentWideNo`
+                }
               >
-                {replyToggle[reply.id] ? "" : "+ See More"}
+                <div className="rowReply">
+                  <div className="bottomImage">
+                    <img
+                      className="user-icon-small"
+                      alt="User avatar"
+                      src={profileImage(reply.userId)}
+                    />
+                  </div>
+
+                  <IonCard
+                    style={{
+                      border: `1px solid ${getColor(reply.vote)}`,
+                    }}
+                    className={`${"cardComment"} ${getColor(reply.vote)}`}
+                  >
+                    <div style={{ width: "100%" }}>
+                      <div className="rowUser">
+                        <div className="userName">{reply.username}</div>
+                      </div>
+                      {parentInfo && (
+                        <div
+                          style={{ borderLeft: `4px solid ${parentColor}` }}
+                          className="parentInfo"
+                        >
+                          <div className="parentUsername">
+                            {parentInfo.username}
+                          </div>
+                          <div className="parentComment">
+                            {parentInfo.comment}
+                          </div>
+                        </div>
+                      )}
+                      <div
+                        style={{ width: "100%" }}
+                        onClick={() => {
+                          gotoTopic(postId, reply.id);
+                        }}
+                      >
+                        <div className="comment">{reply.comment}</div>
+                      </div>
+                      <div
+                        style={{
+                          paddingTop: "3px",
+                          paddingBottom: "3px",
+                        }}
+                        className="reply"
+                        onClick={() => handleReplyClick(reply.id)}
+                      >
+                        Reply
+                      </div>
+                    </div>
+                  </IonCard>
+                </div>
+                {comments.some((r) => r.parentId === reply.id) && (
+                  <div
+                    className="seeMore"
+                    onClick={() => toggleReplies(reply.id)}
+                  >
+                    {replyToggle[reply.id] ? "- Hide Replies" : "+ See More"}
+                  </div>
+                )}
+                {replyToggle[reply.id] &&
+                  renderReplies(reply.id, nestedDepth + 1)}
               </div>
-            )}
-            {replyToggle[reply.id] && renderReplies(reply.id, nestedDepth + 1)}
-          </div>
-        );
-      });
+            );
+          })}
+      </div>
+    );
   };
 
   const toggleReplies = (commentId: string) => {
@@ -381,7 +337,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   return (
     <div>
       {commentsLoaded ? <div className="rowWide">
-        <input
+        <textarea
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               addComment(
@@ -566,8 +522,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             {replyToggle[comment.id] && renderReplies(comment.id)}
           </div>
         ))}
-      {isReplying && (
-        <IonFooter className="message-input-container">
+      {/* {isReplying && ()} */}
+      <IonFooter className="message-input-container">
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
           <IonTextarea
             className="textAreaWhite"
             onBlur={() => { setIsReplying(false) }}
@@ -597,8 +554,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
               comment.id,
               myVote,)
           }} />
-        </IonFooter>
-      )}
+        </div>
+      </IonFooter>
+
     </div>
   );
 };

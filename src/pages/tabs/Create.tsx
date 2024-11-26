@@ -11,6 +11,7 @@ import {
 } from "@ionic/react";
 import Quiz from "../../subPages/Quiz";
 import { UserContext } from "../../providers/userProvider";
+import HeaderAlien from "../../components/preRender/Header";
 
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
@@ -72,41 +73,7 @@ const MyEditor = () => {
 
   return (
     <IonPage>
-      <div style={{ height: '150px', zIndex: 1000, }} className="brown">
-        <div style={{ top: '90px' }} className="logoContainer">
-          <div
-            style={{
-              borderRadius: '50%',
-              overflow: 'hidden',
-              width: '60px',
-              height: '60px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <IonImg
-              style={{ width: '100%', height: '100%' }}
-              src="/alienLogo.svg"
-            />
-          </div>
-        </div>
-
-        <button
-          style={{ margin: '10px' }}
-          className="nextButton"
-          onClick={() => {
-            setEditorHtml("");
-            setEditorHtmlTitle("");
-            history.push("/quiz", { quizTitle: editorHtmlTitle, content: editorHtml });
-          }}
-        >
-          Next
-        </button>
-
-      </div>
-
-
+    <HeaderAlien backArrowToggle={false}/>
       <IonContent>
         {loggedIn ? <div className="centerRow">
           <img

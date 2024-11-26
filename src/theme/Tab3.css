@@ -255,7 +255,7 @@ div {
   position: relative;
   justify-content: space-evenly;
   width: 100%;
-  height: 30%;
+  
 }
 
 .cardComment {
@@ -377,6 +377,7 @@ div {
 
 .seeMore {
   display: flex;
+  padding: 5px;
   justify-content: center;
   color: rgb(59, 57, 57);
   font-size: 12px;
@@ -566,6 +567,15 @@ div {
   /* Chrome, Safari, and Opera */
 }
 
+.reply-container {
+  max-height: 0;
+  overflow: hidden;  
+  transition: max-height 0.3s ease-in;
+}
+
+.reply-container.open {
+  max-height: 500px; /* Adjust to the maximum expected height */
+}
 
 
 @media (max-width: 600px) {

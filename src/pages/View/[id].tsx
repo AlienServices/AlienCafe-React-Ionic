@@ -24,6 +24,7 @@ import { post } from "../../utils/fetch";
 import { arrowBackCircleOutline } from "ionicons/icons";
 import "../../theme/id.module.css";
 import { UserContext } from "../../providers/userProvider";
+import HeaderAlien from "../../components/preRender/Header";
 
 const Post = () => {
   const history = useHistory();
@@ -161,50 +162,13 @@ const Post = () => {
     console.log("Cleaning up resources...");
     setToggle(true)
   });
-  
+
 
 
   return (
     <IonPage id="main-content" style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.1s ease-in-out" }}>
       <IonContent>
-        <div className="brown">
-          <div className="leftMiddle">
-            <div style={{
-              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
-              height: '45px', alignItems: 'center', margin: '10px'
-            }}>
-              <IonIcon
-                onClick={() => {
-                  goBack()
-                }}
-                style={{
-                  fontSize: '28px',
-                  color: 'black',
-                }}
-                color="primary"
-                icon={arrowBackCircleOutline}>
-              </IonIcon>
-            </div>
-            <div className="logoContainer">
-              <div
-                style={{
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  width: '60px',
-                  height: '60px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <IonImg
-                  style={{ width: '100%', height: '100%' }}
-                  src="/alienLogo.svg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <HeaderAlien backArrowToggle={true} />
         {
           loaded ? <> {Array.isArray(content) &&
             content.map((post: any, index: number) => {
@@ -218,7 +182,6 @@ const Post = () => {
                     }}
                     className="card"
                   >
-
                     <div className="around">
                       <div className="emailContainer">
                         <IonAvatar
@@ -292,7 +255,9 @@ const Post = () => {
                 <div className="action">{content[0]?.noAction}</div>
               )}
             </div>
-            <Replies postId={id} myVote={myVote} />
+            <div style={{paddingBottom: '100px'}}>
+              <Replies postId={id} myVote={myVote} />
+            </div>
           </div>
           : (
             <div className="centerMiddle">

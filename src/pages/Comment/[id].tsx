@@ -5,7 +5,9 @@ import {
   IonIcon,
   IonImg,
   IonFooter,
-  IonTextarea
+  IonTextarea,
+  useIonViewDidLeave,
+  useIonViewWillLeave
 } from "@ionic/react";
 import {
   arrowDownCircleOutline,
@@ -21,12 +23,14 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState, useContext, useRef } from "react";
 import "../../theme/comment.css";
 import { UserContext } from "../../providers/userProvider";
+import HeaderAlien from "../../components/preRender/Header";
 
 const Comment = () => {
   const { myInfo } = useContext(UserContext);
   const [comments, setComments] = useState<any | null>(null);
   const { id } = useParams<{ id: string }>();
   const { myVote } = useParams<{ myVote: string }>();
+  const [toggle, setToggle] = useState(true)
   const { postId } = useParams<{ postId: string }>();
   const history = useHistory();
   const [isReplying, setIsReplying] = useState(false);
@@ -40,7 +44,7 @@ const Comment = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/getComment?id=${id}`, 
+        `http://10.1.10.233:3000/api/getComment?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -244,6 +248,18 @@ const Comment = () => {
   };
 
 
+  useIonViewWillLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(false)
+  });
+
+  useIonViewDidLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(true)
+  });
+
+
+
   const renderReplies = (replies: any[], isFirstLevel = true) => {
     return replies.map((reply) => {
       const parentInfo = getParentComment(reply.parentId, comments);
@@ -253,9 +269,6 @@ const Comment = () => {
       return (
         <>
           <div
-          onClick={() => {
-            gotoTopic(postId, reply.id)
-          }}
             key={reply.id}
             style={{
               marginTop: "10px",
@@ -286,6 +299,9 @@ const Comment = () => {
                   <div
                     style={{ borderLeft: `4px solid ${parentColor}` }}
                     className="parentInfo"
+                    onClick={() => {
+                      gotoTopic(postId, reply.id)
+                    }}
                   >
                     <div className="parentUsername">{parentInfo.username}</div>
                     <div className="parentComment">{parentInfo.comment}</div>
@@ -294,7 +310,7 @@ const Comment = () => {
                 <div className="comment">{reply.comment}</div>
                 <div
                   className="reply"
-                  onClick={() => handleCommentReplyClick(reply.id)}
+                  onClick={(e) => { e.preventDefault(); handleCommentReplyClick(reply.id) }}
                 >
                   Reply
                 </div>
@@ -400,44 +416,9 @@ const Comment = () => {
 
 
   return (
-    <IonPage>
+    <IonPage style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
       <IonContent>
-        <div className="brown">
-          <div className="leftMiddle">
-            <div style={{
-              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
-              height: '45px', alignItems: 'center', margin: '10px'
-            }}>
-              <IonIcon
-                onClick={() => {
-                  goBack()
-                }}
-                style={{
-                  fontSize: '28px',
-                  color: 'black',
-                }}
-                color="primary"
-                icon={arrowBackCircleOutline}>
-              </IonIcon>
-            </div>
-            <div
-              style={{
-                borderRadius: '50%',
-                overflow: 'hidden',
-                width: '60px',
-                height: '60px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <IonImg
-                style={{ width: '100%', height: '100%' }}
-                src="/alienLogo.svg"
-              />
-            </div>
-          </div>
-        </div>
+        <HeaderAlien backArrowToggle={true}/>
         {comments && (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex' }}>
@@ -507,7 +488,6 @@ const Comment = () => {
                   </div>
                 )} */}
                 </IonCard>
-
               </div>
             </div>
             {comments?.replies &&
@@ -521,19 +501,19 @@ const Comment = () => {
               className="textAreaWhite"
               onBlur={() => { setIsReplying(false) }}
               ref={inputRef}
-              // onKeyDown={(e: React.KeyboardEvent<HTMLIonTextareaElement>) => {
-              //   if (e.key === "Enter") {
-              //     e.preventDefault();
-              //     addComment(
-              //       e.target.value,
-              //       myInfo?.username,
-              //       postId,
-              //       myInfo?.id,
-              //       id,
-              //       myVote,
-              //     );
-              //   }
-              // }}
+              onKeyDown={(e: React.KeyboardEvent<HTMLIonTextareaElement>) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addComment(
+                    e.target.value,
+                    myInfo?.username,
+                    postId,
+                    myInfo?.id,
+                    id,
+                    myVote,
+                  );
+                }
+              }}
               value={replyComment}
               onInput={(e) => setReplyComment(e.target.value!)}
               placeholder="Type your reply..."

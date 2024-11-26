@@ -25,6 +25,7 @@ import "../../theme/swiper.css";
 import "../../theme/test.css";
 import "../../theme/styles.scss";
 import "../../theme/Home.css";
+import HeaderAlien from "../../components/preRender/Header";
 
 interface MessageData {
   conversationId: string;
@@ -118,44 +119,8 @@ const MessageHome: React.FC = () => {
 
   return (
     <IonPage>
-
       <IonPage>
-        <div className="brown" style={{height: '150px'}}>
-          <div className="leftMiddle">
-            <div style={{
-              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
-              alignItems: 'center', margin: '10px'
-            }}>
-              {/* <IonIcon
-                style={{
-                  fontSize: '28px',
-                  color: 'black',
-                }}
-                color="primary"
-                icon={arrowBackCircleOutline}>
-              </IonIcon> */}
-              <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
-            </div>
-            <div className="logoContainer" style={{ top: '90px' }}>
-            <div
-                style={{
-                  borderRadius: '50%', 
-                  overflow: 'hidden', 
-                  width: '60px',
-                  height: '60px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <IonImg
-                  style={{ width: '100%', height: '100%' }} 
-                  src="/alienLogo.svg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <HeaderAlien backArrowToggle={false} />
         <IonContent>
           <ul>
             <motion.li key={'props.id'}
