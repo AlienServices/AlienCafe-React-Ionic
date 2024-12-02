@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { IonCard, IonIcon, IonFooter, IonTextarea, IonSkeletonText, IonLabel, IonList, IonItem, useIonViewWillLeave, useIonViewDidLeave } from "@ionic/react";
+import { IonCard, IonIcon, IonFooter, IonTextarea, IonSkeletonText, IonLabel, IonList, IonItem, IonToast, IonButton, useIonToast } from "@ionic/react";
 import { send, sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import {
@@ -33,6 +33,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [isReplying, setIsReplying] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false); // State to control toast visibility
+  const [toastMessage, setToastMessage] = useState(""); 
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
   );
@@ -42,8 +44,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     fetchComments();
   }, []);
 
+  useEffect(() => {
+    console.log("Updated comments:", comments);
+  }, [comments]);
+
   const fetchComments = async () => {
-    console.log('hitting fetch comments')
     try {
       const response = await fetch(
         `http://10.1.10.233:3000/api/getComments?id=${postId}`,
@@ -97,11 +102,14 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         },
       );
       const post = await response.json();
-      console.log(post, "this is the post");
-      setComments(post.comments as Comment[]);
+      setComments((prevComments) => {
+        return [...prevComments, post.comment];
+      });
       setComment("");
       setReplyingTo(null);
-      await fetchComments();
+      setToastMessage("Comment successfully added!");
+      setToastVisible(true);
+      // await fetchComments();
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -142,7 +150,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       });
 
       const updatedComment = await response.json();
-      await fetchComments();
+      // await fetchComments();
     } catch (error) {
       console.error("Error adding like to comment:", error);
     }
@@ -162,7 +170,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       );
 
       const updatedComment = await response.json();
-      await fetchComments();
+      // await fetchComments();
     } catch (error) {
       console.error("Error adding like to comment:", error);
     }
@@ -211,6 +219,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
 
+  function autoResize(textarea: any) {
+    textarea.style.height = "auto"; // Reset height to calculate the new height
+    textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
+  }
+
 
   const renderReplies = (commentId: string, nestedDepth = 0) => {
     return (
@@ -218,6 +231,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         className={`reply-container ${replyToggle[commentId] ? "open" : ""
           }`}
       >
+
         {comments
           .filter((reply) => reply.parentId === commentId)
           .map((reply) => {
@@ -335,9 +349,17 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   return (
-    <div>
+    <div>      
+      <IonToast
+        isOpen={toastVisible}
+        onDidDismiss={() => setToastVisible(false)} // Hide toast when dismissed
+        message={toastMessage}
+        duration={1000}
+        position="top"
+        cssClass="custom-toast"
+      />
       {commentsLoaded ? <div className="rowWide">
-        <textarea
+        {/* <textarea
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               addComment(
@@ -369,7 +391,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
           }
         >
           <IonIcon size="small" icon={send}></IonIcon>
-        </button>
+        </button> */}
       </div> : <IonList style={{ height: '400px' }}>
         <IonItem lines="none" style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
           <IonLabel>
@@ -524,8 +546,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         ))}
       {/* {isReplying && ()} */}
       <IonFooter className="message-input-container">
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
-          <IonTextarea
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', backgroundColor: 'white' }}>
+          <textarea
             className="textAreaWhite"
             onBlur={() => { setIsReplying(false) }}
             ref={inputRef}
@@ -542,17 +564,18 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
               }
             }}
             value={replyComment}
-            onIonChange={(e) => setReplyComment(e.detail.value!)}
+            onChange={(e) => { setReplyComment(e.target.value!); autoResize(e.target); }}
             placeholder="Type your reply..."
           />
-          <IonIcon style={{ position: 'relative', right: '40px', zIndex: '10' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
+          <IonIcon style={{ position: 'relative', zIndex: '10' }} size="small" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
             addComment(
               replyComment,
               myInfo?.username,
               postId,
               myInfo?.id,
               comment.id,
-              myVote,)
+              myVote,);
+            setReplyComment('')
           }} />
         </div>
       </IonFooter>

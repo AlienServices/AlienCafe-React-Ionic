@@ -27,19 +27,20 @@
 }
 
 .message-input-container {
-  position: fixed;  
+  position: fixed;
   align-items: center;
-  background-color: black;
+  background-color: white;
   display: flex;
+  padding: 15px;
   justify-content: center;
-  bottom: -15px;  
-  min-height: 75px;
+  bottom: -5px;
   height: fit-content;
-  border-radius: 15px;  
+  border-radius: 15px;
   width: 100%;
-  background-color: transparent;  
+  /* background-color: transparent; */
   z-index: 1000;
 }
+
 .message-input-container-create {
   position: fixed;
   left: 10px;
@@ -52,25 +53,41 @@
   z-index: 10;
 }
 
-.textAreaWhite {  
+.textAreaWhite {
   background-color: rgb(230, 230, 230);
-  position: relative;  
-  border-radius: 25px;
-  height: 20px;
-  max-height: fit-content;
-  height: fit-content;  
-  -ms-overflow-style: none;
-  /* Hides scrollbar in Internet Explorer */
-  scrollbar-width: none;
+  position: relative;
+  overflow-y: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  height: 30px;
+  padding: 5px;
+  margin-right: 5px;
+  /* line-height: 18px; */
+  /* padding-top: 10px;
+  padding-bottom: 5px; */
   width: 100%;
-  padding-left: 15px;    
-}::placeholder {
-  font-size: 14px
+  padding-left: 8px;
+  font-size: 16px;
+}
+
+::placeholder {
+  font-size: 12px
+}
+
+.custom-toast::part(container) {
+  background-color: white; /* Green background */
+  color: rgb(83, 81, 81);             /* White text */
+  border-radius: 15px;       /* Rounded corners */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Shadow for better visibility */
+  margin-top: 16px;         /* Add margin from the top */
 }
 
 
+.textAreaWhite:focus {
+  border: none;
+}
 
-.textAreaWhiteCreate {  
+.textAreaWhiteCreate {
   position: relative;
   border-radius: 15px;
   -ms-overflow-style: none;
