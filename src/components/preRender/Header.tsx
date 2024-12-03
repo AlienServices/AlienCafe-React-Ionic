@@ -25,7 +25,7 @@ import { AlienLogoSVG } from "./SVG";
 
 
 
-const HeaderAlien = ({ backArrowToggle }: { backArrowToggle: boolean }) => {
+const HeaderAlien = ({ backArrowToggle, next, content, title }: { backArrowToggle: boolean, next: boolean, content: string, title: string }) => {
     const history = useHistory();
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -34,11 +34,11 @@ const HeaderAlien = ({ backArrowToggle }: { backArrowToggle: boolean }) => {
     };
 
 
-//   useEffect(() => {
-//     const logo = new Image();
-//     logo.src = '/alienLogo.svg';
-//     logo.onload = () => setIsLoaded(true);
-//   }, []);
+    //   useEffect(() => {
+    //     const logo = new Image();
+    //     logo.src = '/alienLogo.svg';
+    //     logo.onload = () => setIsLoaded(true);
+    //   }, []);
 
     return (
         <div className="brown" >
@@ -53,7 +53,7 @@ const HeaderAlien = ({ backArrowToggle }: { backArrowToggle: boolean }) => {
                             color: 'black',
                         }}
                         color="primary"
-                        onClick={() => {goBack()}}
+                        onClick={() => { goBack() }}
                         icon={arrowBackCircleOutline}>
                     </IonIcon> : <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />}
                 </div>
@@ -74,9 +74,12 @@ const HeaderAlien = ({ backArrowToggle }: { backArrowToggle: boolean }) => {
                             src="/alienLogo.svg"
                             rel="preload"
                         /> */}
-                        <AlienLogoSVG/>
+                        <AlienLogoSVG />
                     </div>
                 </div>
+                {next ? <button onClick={() =>
+                    history.push("/quiz", { quizTitle: title, content })
+                } className="button">next</button> : <></>}
             </div>
         </div>
     )

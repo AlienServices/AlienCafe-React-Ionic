@@ -30,15 +30,17 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const history = useHistory();
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
+  const [replyCommentId, setReplyCommentId] = useState<string>("");
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyingToUsername, setReplyingToUsername] = useState<string | null>(null);
   const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [isReplying, setIsReplying] = useState(false);
   const [toastVisible, setToastVisible] = useState(false); // State to control toast visibility
-  const [toastMessage, setToastMessage] = useState(""); 
+  const [toastMessage, setToastMessage] = useState("");
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
   );
-  const inputRef = useRef<HTMLIonTextareaElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     fetchComments();
@@ -68,11 +70,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const isLikedByUser = (likes: string[]): boolean => {
-    return likes.includes(myInfo.id);
+    return likes.includes(myInfo?.id);
   };
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    return dislikes.includes(myInfo.id);
+    return dislikes.includes(myInfo?.id);
   };
 
   const addComment = async (
@@ -83,6 +85,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     commentId: string | null,
     vote: string,
   ) => {
+    let myId = myInfo?.id
     try {
       const response = await fetch(
         `http://10.1.10.233:3000/api/addComment?id=${postId}`,
@@ -93,9 +96,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
           },
           body: JSON.stringify({
             comment,
-            userName,
+            username: userName,
             postId,
-            userId,
+            userId: myId,
             commentId,
             vote,
           }),
@@ -177,17 +180,22 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const handleReplyClick = (commentId: string) => {
-    setIsReplying(!isReplying);
-    // setReplyingTo(commentId);
+    console.log(inputRef.current, 'this is inout ref')
+    setIsReplying(true);
+    setReplyingTo(commentId);
+
+
     setTimeout(() => {
-      inputRef.current?.setFocus();
-    }, 400);
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 100);
   };
 
 
   const getParentComment = (parentId: string | null) => {
     if (!parentId) return null;
-    return comments.find((comment) => comment.id === parentId);
+    return comments.find((comment) => comment?.id === parentId);
   };
 
   const getColor = (vote: string) => {
@@ -242,7 +250,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
             return (
               <div
-                key={reply.id}
+                key={reply?.id}
                 className={
                   nestedDepth < 1
                     ? "columnCommentWide"
@@ -254,7 +262,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     <img
                       className="user-icon-small"
                       alt="User avatar"
-                      src={profileImage(reply.userId)}
+                      src={profileImage(reply?.userId)}
                     />
                   </div>
 
@@ -284,10 +292,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       <div
                         style={{ width: "100%" }}
                         onClick={() => {
-                          gotoTopic(postId, reply.id);
+                          gotoTopic(postId, reply?.id);
                         }}
                       >
-                        <div className="comment">{reply.comment}</div>
+                        <div className="comment">{reply?.comment}</div>
                       </div>
                       <div
                         style={{
@@ -295,23 +303,23 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                           paddingBottom: "3px",
                         }}
                         className="reply"
-                        onClick={() => handleReplyClick(reply.id)}
+                        onClick={() => handleReplyClick(reply?.id)}
                       >
                         Reply
                       </div>
                     </div>
                   </IonCard>
                 </div>
-                {comments.some((r) => r.parentId === reply.id) && (
+                {comments.some((r) => r.parentId === reply?.id) && (
                   <div
                     className="seeMore"
-                    onClick={() => toggleReplies(reply.id)}
+                    onClick={() => toggleReplies(reply?.id)}
                   >
-                    {replyToggle[reply.id] ? "- Hide Replies" : "+ See More"}
+                    {replyToggle[reply?.id] ? "- Hide Replies" : "+ See More"}
                   </div>
                 )}
-                {replyToggle[reply.id] &&
-                  renderReplies(reply.id, nestedDepth + 1)}
+                {replyToggle[reply?.id] &&
+                  renderReplies(reply?.id, nestedDepth + 1)}
               </div>
             );
           })}
@@ -328,9 +336,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         .forEach((comment) => {
           setReplyToggle((prevState) => ({
             ...prevState,
-            [comment.id]: false,
+            [comment?.id]: false,
           }));
-          hideNestedReplies(comment.id);
+          hideNestedReplies(comment?.id);
         });
     };
 
@@ -348,8 +356,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     return likes.length - dislikes.length;
   };
 
+
+  
+
   return (
-    <div>      
+    <div>
       <IonToast
         isOpen={toastVisible}
         onDidDismiss={() => setToastVisible(false)} // Hide toast when dismissed
@@ -409,15 +420,15 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       </IonList>}
 
 
-      {comments?.filter((comment) => comment.parentId === null)
+      {comments?.filter((comment) => comment?.parentId === null)
         .map((comment) => (
           <div className="column">
-            <div className="imageRow" key={comment.id}>
+            <div className="imageRow" key={comment?.id}>
               <div className="bottomImage">
                 <img
                   className="user-icon-small"
                   alt="User avatar"
-                  src={profileImage(comment.userId)}
+                  src={profileImage(comment?.userId)}
                 />
               </div>
               <div className="commentRow" style={{ flexDirection: 'column', alignItems: 'center' }}>
@@ -434,21 +445,22 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       <div
                         style={{ width: "100%" }}
                         onClick={() => {
-                          gotoTopic(postId, comment.id);
+                          gotoTopic(postId, comment?.id);
                         }}
                       >
-                        <div className="comment">{comment.comment}</div>
+                        <div className="comment">{comment?.comment}</div>
                       </div>
                       <div
                         className="reply"
-                        onClick={() => handleReplyClick(comment.id)}
+                        onClick={() => {handleReplyClick(comment?.id); setReplyingToUsername(comment?.username); setReplyCommentId(comment.id)}}
                       >
                         Reply
                       </div>
                     </div>
-                    {/* {replyingTo === comment.id && (
+                    {replyingTo === comment?.id && (
                       <div className="replyInput">
                         <input
+                        ref={inputRef}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               addComment(
@@ -481,7 +493,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                           Send
                         </button>
                       </div>
-                    )} */}
+                    )}
                     <div className="voteRowSmall">
                       <div className="rowSmall">
                         <div className="arrowRowSmall">
@@ -529,7 +541,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     </div>
                   </IonCard>
                 </div>
-                {comments.some((reply) => reply.parentId === comment.id) && (
+                {comments.some((reply) => reply?.parentId === comment?.id) && (
                   <div
                     className="seeMore"
                     onClick={() => toggleReplies(comment.id)}
@@ -541,11 +553,12 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                 )}
               </div>
             </div>
-            {replyToggle[comment.id] && renderReplies(comment.id)}
+            {replyToggle[comment?.id] && renderReplies(comment?.id)}
           </div>
         ))}
       {/* {isReplying && ()} */}
       <IonFooter className="message-input-container">
+        {isReplying && replyingToUsername? <div style={{marginBottom: '10px', fontSize: '14px'}}>Replying To @{replyingToUsername}</div> : <></>}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', backgroundColor: 'white' }}>
           <textarea
             className="textAreaWhite"
@@ -559,8 +572,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                   myInfo?.username,
                   postId,
                   myInfo?.id,
-                  comment.id,
+                  replyCommentId,
                   myVote,)
+                setReplyComment("")
               }
             }}
             value={replyComment}
@@ -573,9 +587,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
               myInfo?.username,
               postId,
               myInfo?.id,
-              comment.id,
+              replyCommentId,
               myVote,);
             setReplyComment('')
+            setReplyingToUsername('')
           }} />
         </div>
       </IonFooter>

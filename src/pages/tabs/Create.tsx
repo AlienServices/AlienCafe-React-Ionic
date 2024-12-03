@@ -8,6 +8,7 @@ import {
   IonPage,
   IonFooter,
   IonImg,
+  useIonViewWillLeave,
 } from "@ionic/react";
 import Quiz from "../../subPages/Quiz";
 import { UserContext } from "../../providers/userProvider";
@@ -17,13 +18,9 @@ const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
   const [editorHtml, setEditorHtml] = useState("");
   // const inputRef = useRef<HTMLIonTextareaElement>(null);
-  const {
-    setLoggedIn,
-    loggedIn,
-  } = useContext(UserContext);
   const [isReplying, setIsReplying] = useState(false);
   const history = useHistory();
-  const { myInfo } = useContext(UserContext);
+  const { setLoggedIn, loggedIn, myInfo } = useContext(UserContext);
   const contentQuillRef = useRef<ReactQuill | null>(null);
   const titleQuillRef = useRef<ReactQuill | null>(null);
   const QuizPage = () => <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />;
@@ -68,12 +65,15 @@ const MyEditor = () => {
     }, 400);
   };
 
-  console.log(myInfo)
+  useIonViewWillLeave(() => {
+    setEditorHtml("")
+    setEditorHtmlTitle("")
+  }, [])
 
 
   return (
     <IonPage>
-    <HeaderAlien backArrowToggle={false}/>
+      <HeaderAlien backArrowToggle={false} next={true} content={editorHtml} title={editorHtmlTitle} />
       <IonContent>
         {loggedIn ? <div className="centerRow">
           <img

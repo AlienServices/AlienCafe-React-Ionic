@@ -99,6 +99,10 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const { loggedIn, setLoggedIn } = useContext(UserContext);  
   const { myInfo } = useContext(UserContext);
 
+  useEffect(() => {
+    getSession()
+  }, [myInfo])
+
   
   // useEffect(() => {
   //   getAllPosts();

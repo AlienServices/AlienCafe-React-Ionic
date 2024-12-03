@@ -13,6 +13,7 @@ import {
   IonButton,
   useIonAlert,
   IonImg,
+  useIonViewWillLeave,
 } from "@ionic/react";
 import Tab3 from "../../src/pages/tabs/Homepage";
 import { MyContext } from "../providers/postProvider";
@@ -47,6 +48,15 @@ const Quiz = (props: TestProps) => {
   const handleOptionChange = (e: CustomEvent) => {
     setSelectedOption(e.detail.value);
   };
+
+  useIonViewWillLeave(() => {
+    setThesis("")
+    setYesAction("")
+    setMaybeAction("")
+    setNoAction("")
+  }, [])
+
+  
 
   return (
     <IonPage >

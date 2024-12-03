@@ -28,9 +28,10 @@
 
 .message-input-container {
   position: fixed;
-  align-items: center;
+  align-items: flex-start;
   background-color: white;
   display: flex;
+  flex-direction: column-reverse;
   padding: 15px;
   justify-content: center;
   bottom: -5px;

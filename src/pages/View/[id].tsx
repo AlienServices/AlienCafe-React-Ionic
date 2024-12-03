@@ -125,7 +125,7 @@ const Post = () => {
   const getMyVote = async (id: string, postId: string) => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/getVote?postId=${postId}&userId=${id}`,
+        `http://10.1.10.233:3000/api/getVote?postId=${postId}&userId=${myInfo?.id}`,
         {
           method: "GET",
           headers: {
