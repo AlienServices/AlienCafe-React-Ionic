@@ -357,7 +357,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
 
-  
+
 
   return (
     <div>
@@ -452,48 +452,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       </div>
                       <div
                         className="reply"
-                        onClick={() => {handleReplyClick(comment?.id); setReplyingToUsername(comment?.username); setReplyCommentId(comment.id)}}
+                        onClick={() => { handleReplyClick(comment?.id); setReplyingToUsername(comment?.username); setReplyCommentId(comment.id) }}
                       >
                         Reply
                       </div>
-                    </div>
-                    {replyingTo === comment?.id && (
-                      <div className="replyInput">
-                        <input
-                        ref={inputRef}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              addComment(
-                                replyComment,
-                                myInfo?.username,
-                                postId,
-                                myInfo?.id,
-                                comment.id,
-                                myVote,
-                              );
-                            }
-                          }}
-                          className="inputReply"
-                          onChange={(e) => setReplyComment(e.target.value)}
-                          placeholder="Reply..."
-                        />
-                        <button
-                          className="noPadding"
-                          onClick={() =>
-                            addComment(
-                              replyComment,
-                              myInfo?.username,
-                              postId,
-                              myInfo?.id,
-                              comment.id,
-                              myVote,
-                            )
-                          }
-                        >
-                          Send
-                        </button>
-                      </div>
-                    )}
+                    </div>                    
                     <div className="voteRowSmall">
                       <div className="rowSmall">
                         <div className="arrowRowSmall">
@@ -555,14 +518,13 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             </div>
             {replyToggle[comment?.id] && renderReplies(comment?.id)}
           </div>
-        ))}
-      {/* {isReplying && ()} */}
-      <IonFooter className="message-input-container">
-        {isReplying && replyingToUsername? <div style={{marginBottom: '10px', fontSize: '14px'}}>Replying To @{replyingToUsername}</div> : <></>}
+        ))}      
+      <div className="message-input-container">
+        {isReplying && replyingToUsername ? <div style={{ marginBottom: '10px', fontSize: '14px' }}>Replying To @{replyingToUsername}</div> : <></>}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', backgroundColor: 'white' }}>
           <textarea
             className="textAreaWhite"
-            onBlur={() => { setIsReplying(false) }}
+            onBlur={() => { setIsReplying(false); setReplyingToUsername("") }}
             ref={inputRef}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -593,7 +555,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             setReplyingToUsername('')
           }} />
         </div>
-      </IonFooter>
+      </div>
 
     </div>
   );
