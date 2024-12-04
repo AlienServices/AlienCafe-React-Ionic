@@ -31,7 +31,7 @@
   align-items: flex-start;
   background-color: white;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   padding: 15px;
   justify-content: center;
   bottom: -5px;
@@ -72,17 +72,16 @@
 }
 
 ::placeholder {
-  font-size: 12px
+  font-size: 12px;
 }
 
 .custom-toast::part(container) {
   background-color: white; /* Green background */
-  color: rgb(83, 81, 81);             /* White text */
-  border-radius: 15px;       /* Rounded corners */
+  color: rgb(83, 81, 81); /* White text */
+  border-radius: 15px; /* Rounded corners */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Shadow for better visibility */
-  margin-top: 16px;         /* Add margin from the top */
+  margin-top: 16px; /* Add margin from the top */
 }
-
 
 .textAreaWhite:focus {
   border: none;
@@ -97,9 +96,7 @@
   width: 100%;
   padding: 3px;
   padding-right: 40px;
-
 }
-
 
 .input-wrapper {
   display: flex;

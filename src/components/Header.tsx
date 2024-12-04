@@ -20,20 +20,9 @@ import {
   IonButtons,
   IonMenuButton,
   IonIcon,
-
 } from "@ionic/react";
 import supabase from "../messageComponents/supabaseClient";
 
-
-
 export const Menu = () => {
-  
-
-
-  return (
-    <div>
-        
-    </div>
-  );
-}
-
+  return <div></div>;
+};

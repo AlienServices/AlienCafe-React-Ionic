@@ -1,5 +1,17 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { IonCard, IonIcon, IonFooter, IonTextarea, IonSkeletonText, IonLabel, IonList, IonItem, IonToast, IonButton, useIonToast } from "@ionic/react";
+import {
+  IonCard,
+  IonIcon,
+  IonFooter,
+  IonTextarea,
+  IonSkeletonText,
+  IonLabel,
+  IonList,
+  IonItem,
+  IonToast,
+  IonButton,
+  useIonToast,
+} from "@ionic/react";
 import { send, sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import {
@@ -32,8 +44,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const [replyComment, setReplyComment] = useState<string>("");
   const [replyCommentId, setReplyCommentId] = useState<string>("");
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
-  const [replyingToUsername, setReplyingToUsername] = useState<string | null>(null);
-  const [commentsLoaded, setCommentsLoaded] = useState(false)
+  const [replyingToUsername, setReplyingToUsername] = useState<string | null>(
+    null,
+  );
+  const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [toastVisible, setToastVisible] = useState(false); // State to control toast visibility
   const [toastMessage, setToastMessage] = useState("");
@@ -62,7 +76,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         },
       );
       const post = await response.json();
-      setCommentsLoaded(true)
+      setCommentsLoaded(true);
       setComments(post.comment as Comment[]);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -85,7 +99,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     commentId: string | null,
     vote: string,
   ) => {
-    let myId = myInfo?.id
+    let myId = myInfo?.id;
     try {
       const response = await fetch(
         `http://10.1.10.233:3000/api/addComment?id=${postId}`,
@@ -120,13 +134,16 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const deleteComment = async (commentId: string) => {
     try {
-      const response = await fetch(`http://10.1.10.233:3000/api/deleteComment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://10.1.10.233:3000/api/deleteComment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: commentId }),
         },
-        body: JSON.stringify({ id: commentId }),
-      });
+      );
 
       if (response.ok) {
         const updatedComments = comments.filter(
@@ -144,13 +161,16 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
-      const response = await fetch(`http://10.1.10.233:3000/api/addCommentLike`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://10.1.10.233:3000/api/addCommentLike`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, commentId }),
         },
-        body: JSON.stringify({ userId, commentId }),
-      });
+      );
 
       const updatedComment = await response.json();
       // await fetchComments();
@@ -180,10 +200,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const handleReplyClick = (commentId: string) => {
-    console.log(inputRef.current, 'this is inout ref')
+    console.log(inputRef.current, "this is inout ref");
     setIsReplying(true);
     setReplyingTo(commentId);
-
 
     setTimeout(() => {
       if (inputRef.current) {
@@ -191,7 +210,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       }
     }, 100);
   };
-
 
   const getParentComment = (parentId: string | null) => {
     if (!parentId) return null;
@@ -215,8 +233,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${
+        import.meta.env.VITE_APP_SUPABASE_URL
+      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
@@ -226,20 +245,16 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     history.push(`/Comment/${id}/${myVote}/${postId}`);
   };
 
-
   function autoResize(textarea: any) {
     textarea.style.height = "auto"; // Reset height to calculate the new height
     textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
   }
 
-
   const renderReplies = (commentId: string, nestedDepth = 0) => {
     return (
       <div
-        className={`reply-container ${replyToggle[commentId] ? "open" : ""
-          }`}
+        className={`reply-container ${replyToggle[commentId] ? "open" : ""}`}
       >
-
         {comments
           .filter((reply) => reply.parentId === commentId)
           .map((reply) => {
@@ -252,9 +267,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
               <div
                 key={reply?.id}
                 className={
-                  nestedDepth < 1
-                    ? "columnCommentWide"
-                    : `columnCommentWideNo`
+                  nestedDepth < 1 ? "columnCommentWide" : `columnCommentWideNo`
                 }
               >
                 <div className="rowReply">
@@ -356,9 +369,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     return likes.length - dislikes.length;
   };
 
-
-
-
   return (
     <div>
       <IonToast
@@ -369,8 +379,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         position="top"
         cssClass="custom-toast"
       />
-      {commentsLoaded ? <div className="rowWide">
-        {/* <textarea
+      {commentsLoaded ? (
+        <div className="rowWide">
+          {/* <textarea
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               addComment(
@@ -403,24 +414,43 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         >
           <IonIcon size="small" icon={send}></IonIcon>
         </button> */}
-      </div> : <IonList style={{ height: '400px' }}>
-        <IonItem lines="none" style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
-          <IonLabel>
-            <h3>
-              <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
-            </h3>
-            <p>
-              <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
-            </p>
-            <p>
-              <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
-            </p>
-          </IonLabel>
-        </IonItem>
-      </IonList>}
+        </div>
+      ) : (
+        <IonList style={{ height: "400px" }}>
+          <IonItem
+            lines="none"
+            style={{
+              height: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <IonLabel>
+              <h3>
+                <IonSkeletonText
+                  animated={true}
+                  style={{ width: "100%" }}
+                ></IonSkeletonText>
+              </h3>
+              <p>
+                <IonSkeletonText
+                  animated={true}
+                  style={{ width: "100%" }}
+                ></IonSkeletonText>
+              </p>
+              <p>
+                <IonSkeletonText
+                  animated={true}
+                  style={{ width: "100%" }}
+                ></IonSkeletonText>
+              </p>
+            </IonLabel>
+          </IonItem>
+        </IonList>
+      )}
 
-
-      {comments?.filter((comment) => comment?.parentId === null)
+      {comments
+        ?.filter((comment) => comment?.parentId === null)
         .map((comment) => (
           <div className="column">
             <div className="imageRow" key={comment?.id}>
@@ -431,7 +461,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                   src={profileImage(comment?.userId)}
                 />
               </div>
-              <div className="commentRow" style={{ flexDirection: 'column', alignItems: 'center' }}>
+              <div
+                className="commentRow"
+                style={{ flexDirection: "column", alignItems: "center" }}
+              >
                 <div className="columnWide">
                   <IonCard
                     className={`${"cardComment"}`}
@@ -440,7 +473,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     <div style={{ width: "95%", padding: "3px" }}>
                       <div className="rowUser">
                         <div className="userName">{comment.username}</div>
-
                       </div>
                       <div
                         style={{ width: "100%" }}
@@ -452,11 +484,15 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       </div>
                       <div
                         className="reply"
-                        onClick={() => { handleReplyClick(comment?.id); setReplyingToUsername(comment?.username); setReplyCommentId(comment.id) }}
+                        onClick={() => {
+                          handleReplyClick(comment?.id);
+                          setReplyingToUsername(comment?.username);
+                          setReplyCommentId(comment.id);
+                        }}
                       >
                         Reply
                       </div>
-                    </div>                    
+                    </div>
                     <div className="voteRowSmall">
                       <div className="rowSmall">
                         <div className="arrowRowSmall">
@@ -471,7 +507,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                             }
                           ></IonIcon>
                           <div className="small">
-                            {calculateNetScore(comment?.likes, comment?.dislikes)}
+                            {calculateNetScore(
+                              comment?.likes,
+                              comment?.dislikes,
+                            )}
                           </div>
                         </div>
                         <div className="arrowRowSmall">
@@ -486,7 +525,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                             }
                           ></IonIcon>
                           <div className="small">
-                            {calculateNetScore(comment?.likes, comment?.dislikes)}
+                            {calculateNetScore(
+                              comment?.likes,
+                              comment?.dislikes,
+                            )}
                           </div>
                         </div>
                         <div>
@@ -518,13 +560,30 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             </div>
             {replyToggle[comment?.id] && renderReplies(comment?.id)}
           </div>
-        ))}      
+        ))}
       <div className="message-input-container">
-        {isReplying && replyingToUsername ? <div style={{ marginBottom: '10px', fontSize: '14px' }}>Replying To @{replyingToUsername}</div> : <></>}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', backgroundColor: 'white' }}>
+        {isReplying && replyingToUsername ? (
+          <div style={{ marginBottom: "10px", fontSize: "14px" }}>
+            Replying To @{replyingToUsername}
+          </div>
+        ) : (
+          <></>
+        )}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            backgroundColor: "white",
+          }}
+        >
           <textarea
             className="textAreaWhite"
-            onBlur={() => { setIsReplying(false); setReplyingToUsername("") }}
+            onBlur={() => {
+              setIsReplying(false);
+              setReplyingToUsername("");
+            }}
             ref={inputRef}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -535,28 +594,38 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                   postId,
                   myInfo?.id,
                   replyCommentId,
-                  myVote,)
-                setReplyComment("")
+                  myVote,
+                );
+                setReplyComment("");
               }
             }}
             value={replyComment}
-            onChange={(e) => { setReplyComment(e.target.value!); autoResize(e.target); }}
+            onChange={(e) => {
+              setReplyComment(e.target.value!);
+              autoResize(e.target);
+            }}
             placeholder="Type your reply..."
           />
-          <IonIcon style={{ position: 'relative', zIndex: '10' }} size="small" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
-            addComment(
-              replyComment,
-              myInfo?.username,
-              postId,
-              myInfo?.id,
-              replyCommentId,
-              myVote,);
-            setReplyComment('')
-            setReplyingToUsername('')
-          }} />
+          <IonIcon
+            style={{ position: "relative", zIndex: "10" }}
+            size="small"
+            icon={sendOutline}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              addComment(
+                replyComment,
+                myInfo?.username,
+                postId,
+                myInfo?.id,
+                replyCommentId,
+                myVote,
+              );
+              setReplyComment("");
+              setReplyingToUsername("");
+            }}
+          />
         </div>
       </div>
-
     </div>
   );
 };

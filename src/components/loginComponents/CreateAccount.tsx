@@ -1,25 +1,17 @@
-import {  useState } from "react";
+import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from ".././supaBase";
-import {
-  IonButton,
-  IonContent,  
-  IonText,
-  IonItem,  
-  IonList,  
-} from "@ionic/react";
+import { IonButton, IonContent, IonText, IonItem, IonList } from "@ionic/react";
 import "../../theme/Tab3.css";
 
 const CreateAccount = ({
   setToggle,
 }: {
   setToggle: (value: boolean) => void;
-}) => {  
-  const [email, setEmail] = useState<string>("");  
+}) => {
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
-
-
 
   const handleSignUp = async (userName: string, email: string) => {
     try {
@@ -43,8 +35,6 @@ const CreateAccount = ({
     }
   };
 
-
-  
   return (
     <IonContent>
       <IonList inset={true}>
@@ -81,7 +71,7 @@ const CreateAccount = ({
         <div className="center">
           <div style={{ width: "85%" }} className="columnButtons">
             <IonButton
-              color={'secondary'}
+              color={"secondary"}
               shape="round"
               className="loginButtonRounded"
               onClick={() => {
@@ -105,7 +95,7 @@ const CreateAccount = ({
               </div>
             </div>
           </div>
-        </div>        
+        </div>
       </IonList>
     </IonContent>
   );

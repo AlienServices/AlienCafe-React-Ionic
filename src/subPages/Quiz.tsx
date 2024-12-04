@@ -50,42 +50,44 @@ const Quiz = (props: TestProps) => {
   };
 
   useIonViewWillLeave(() => {
-    setThesis("")
-    setYesAction("")
-    setMaybeAction("")
-    setNoAction("")
-  }, [])
-
-  
+    setThesis("");
+    setYesAction("");
+    setMaybeAction("");
+    setNoAction("");
+  }, []);
 
   return (
-    <IonPage >
-      <div style={{ height: '140px', paddingTop: '5px' }} className="brown">
+    <IonPage>
+      <div style={{ height: "140px", paddingTop: "5px" }} className="brown">
         <div className="flexRowCenter">
           <IonNavLink routerDirection="back" component={Tab3}>
-            <button className="nextButton" onClick={() => {
-              history.push("/tab1");
-            }}>Back</button>
+            <button
+              className="nextButton"
+              onClick={() => {
+                history.push("/tab1");
+              }}
+            >
+              Back
+            </button>
           </IonNavLink>
-
         </div>
-        <div style={{ top: '80px' }} className="logoContainer">
-        <div
-                style={{
-                  borderRadius: '50%', 
-                  overflow: 'hidden', 
-                  width: '60px',
-                  height: '60px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <IonImg
-                  style={{ width: '100%', height: '100%' }} 
-                  src="/alienLogo.svg"
-                />
-              </div>
+        <div style={{ top: "80px" }} className="logoContainer">
+          <div
+            style={{
+              borderRadius: "50%",
+              overflow: "hidden",
+              width: "60px",
+              height: "60px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <IonImg
+              style={{ width: "100%", height: "100%" }}
+              src="/alienLogo.svg"
+            />
+          </div>
         </div>
         <IonNavLink routerDirection="back" component={Tab3}>
           <button

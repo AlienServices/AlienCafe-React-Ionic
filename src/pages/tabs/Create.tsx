@@ -23,9 +23,9 @@ const MyEditor = () => {
   const { setLoggedIn, loggedIn, myInfo } = useContext(UserContext);
   const contentQuillRef = useRef<ReactQuill | null>(null);
   const titleQuillRef = useRef<ReactQuill | null>(null);
-  const QuizPage = () => <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />;
-
-
+  const QuizPage = () => (
+    <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
+  );
 
   useEffect(() => {
     if (contentQuillRef.current) {
@@ -57,7 +57,6 @@ const MyEditor = () => {
     }, 400);
   };
 
-
   const handleTitleReplyClick = (e: boolean) => {
     setIsReplying(e);
     setTimeout(() => {
@@ -66,38 +65,51 @@ const MyEditor = () => {
   };
 
   useIonViewWillLeave(() => {
-    setEditorHtml("")
-    setEditorHtmlTitle("")
-  }, [])
-
+    setEditorHtml("");
+    setEditorHtmlTitle("");
+  }, []);
 
   return (
     <IonPage>
-      <HeaderAlien backArrowToggle={false} next={true} content={editorHtml} title={editorHtmlTitle} />
+      <HeaderAlien
+        backArrowToggle={false}
+        next={true}
+        content={editorHtml}
+        title={editorHtmlTitle}
+      />
       <IonContent>
-        {loggedIn ? <div className="centerRow">
-          <img
-            className="profile-photo"
-            src={profileImage(myInfo?.id)}
-            alt=""
-          />
-          {myInfo?.username}
-        </div> : <div className="centerRow">
-          <img
-            className="profile-photo"
-            src={profileImage("https://www.macrumors.com/how-to/create-guest-account-macos/")}
-            alt=""
-          />
-          Log In!
-        </div>}
+        {loggedIn ? (
+          <div className="centerRow">
+            <img
+              className="profile-photo"
+              src={profileImage(myInfo?.id)}
+              alt=""
+            />
+            {myInfo?.username}
+          </div>
+        ) : (
+          <div className="centerRow">
+            <img
+              className="profile-photo"
+              src={profileImage(
+                "https://www.macrumors.com/how-to/create-guest-account-macos/",
+              )}
+              alt=""
+            />
+            Log In!
+          </div>
+        )}
 
         <div className="editorContainer">
-
           <div className="titleEditor">
             <ReactQuill
               className="custom-title-editor"
-              onFocus={() => { handleTitleReplyClick(true) }}
-              onBlur={() => { handleTitleReplyClick(false) }}
+              onFocus={() => {
+                handleTitleReplyClick(true);
+              }}
+              onBlur={() => {
+                handleTitleReplyClick(false);
+              }}
               ref={titleQuillRef}
               value={editorHtmlTitle}
               placeholder="Title/Thesis"
@@ -108,8 +120,12 @@ const MyEditor = () => {
           </div>
           <div className="contentEditor">
             <ReactQuill
-              onFocus={() => { handleReplyClick(true) }}
-              onBlur={() => { handleReplyClick(false) }}
+              onFocus={() => {
+                handleReplyClick(true);
+              }}
+              onBlur={() => {
+                handleReplyClick(false);
+              }}
               className="custom-content-editor"
               ref={contentQuillRef}
               value={editorHtml}

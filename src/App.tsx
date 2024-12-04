@@ -10,7 +10,13 @@ import {
   IonLabel,
   setupIonicReact,
 } from "@ionic/react";
-import { beer, search, flameOutline, giftOutline, diamondOutline } from "ionicons/icons";
+import {
+  beer,
+  search,
+  flameOutline,
+  giftOutline,
+  diamondOutline,
+} from "ionicons/icons";
 
 import Tab2 from "./pages/tabs/Profile";
 import Tab3 from "./pages/tabs/Homepage";
@@ -25,18 +31,18 @@ import Comment from "./pages/Comment/[id]";
 import Search from "./pages/tabs/Search";
 import Profile from "./pages/Profile/[id]";
 
-import '@ionic/react/css/core.css';
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
+import "@ionic/react/css/core.css";
+import "@ionic/react/css/normalize.css";
+import "@ionic/react/css/structure.css";
+import "@ionic/react/css/typography.css";
 
 /* Optional CSS utilities */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
+import "@ionic/react/css/padding.css";
+import "@ionic/react/css/float-elements.css";
+import "@ionic/react/css/text-alignment.css";
+import "@ionic/react/css/text-transformation.css";
+import "@ionic/react/css/flex-utils.css";
+import "@ionic/react/css/display.css";
 
 setupIonicReact();
 
@@ -51,7 +57,11 @@ const App: React.FC = () => (
           <Route exact path="/tab3" component={MessageHome} />
           <Route exact path="/create" component={Create} />
           <Route exact path="/search" component={Search} />
-          <Route exact path="/Comment/:id/:myVote/:postId" component={Comment} />
+          <Route
+            exact
+            path="/Comment/:id/:myVote/:postId"
+            component={Comment}
+          />
           <Route exact path="/quiz" component={Quiz} />
           <Route exact path="/newChat" component={Chat} />
           <Route exact path="/chat/:id" component={CurrentChat} />

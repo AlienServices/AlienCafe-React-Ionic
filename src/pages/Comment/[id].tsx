@@ -7,7 +7,7 @@ import {
   IonFooter,
   IonTextarea,
   useIonViewDidLeave,
-  useIonViewWillLeave
+  useIonViewWillLeave,
 } from "@ionic/react";
 import {
   arrowDownCircleOutline,
@@ -16,10 +16,10 @@ import {
   arrowUpCircle,
   arrowDownCircle,
 } from "ionicons/icons";
-import { Keyboard } from '@capacitor/keyboard';
+import { Keyboard } from "@capacitor/keyboard";
 import { useParams } from "react-router-dom";
 import { sendOutline, trashBin } from "ionicons/icons";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { useEffect, useState, useContext, useRef } from "react";
 import "../../theme/comment.css";
 import { UserContext } from "../../providers/userProvider";
@@ -30,12 +30,15 @@ const Comment = () => {
   const [comments, setComments] = useState<any | null>(null);
   const { id } = useParams<{ id: string }>();
   const { myVote } = useParams<{ myVote: string }>();
-  const [toggle, setToggle] = useState(true)
+  const [toggle, setToggle] = useState(true);
   const { postId } = useParams<{ postId: string }>();
   const history = useHistory();
+  const [replyingToUsername, setReplyingToUsername] = useState<string | null>(
+    null,
+  );
   const [isReplying, setIsReplying] = useState(false);
   const [replyComment, setReplyComment] = useState<string>("");
-  const inputRef = useRef<HTMLIonTextareaElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
@@ -76,13 +79,16 @@ const Comment = () => {
 
   const deleteComment = async (commentId: string) => {
     try {
-      const response = await fetch(`http://10.1.10.233:3000/api/deleteComment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://10.1.10.233:3000/api/deleteComment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: commentId }),
         },
-        body: JSON.stringify({ id: commentId }),
-      });
+      );
 
       // if (response.ok) {
       //   const updatedComments = comments.filter(
@@ -100,30 +106,28 @@ const Comment = () => {
   };
 
   const handleReplyClick = () => {
-
     setTimeout(() => {
       setIsReplying(!isReplying);
 
       setTimeout(() => {
-        inputRef.current?.setFocus();
+        inputRef.current?.focus();
       }, 100);
-    }, 300);
+    }, 100);
   };
 
-  const handleCommentReplyClick = (commentId: string) => {
-    setReplyingTo(commentId);
+  // const handleCommentReplyClick = (commentId: string) => {
+  //   setReplyingTo(commentId);
 
-    setTimeout(() => {
-      setTimeout(() => {
-        inputRef.current?.setFocus();
-      }, 100);
-    }, 300);
-  };
+  //   setTimeout(() => {
+  //     setTimeout(() => {
+  //       inputRef.current?.focus();
+  //     }, 100);
+  //   }, 300);
+  // };
 
   useEffect(() => {
     fetchComments();
   }, [id]);
-
 
   const addComment = async (
     comment: string,
@@ -167,8 +171,6 @@ const Comment = () => {
       return null;
     }
 
-
-
     const findParent = (commentsObj: any, parentId: string): any => {
       if (commentsObj.id === parentId) {
         return commentsObj;
@@ -185,16 +187,18 @@ const Comment = () => {
     return findParent(comments, parentId);
   };
 
-
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
-      const response = await fetch(`http://10.1.10.233:3000/api/addCommentLike`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://10.1.10.233:3000/api/addCommentLike`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, commentId }),
         },
-        body: JSON.stringify({ userId, commentId }),
-      });
+      );
 
       const updatedComment = await response.json();
       await fetchComments();
@@ -202,7 +206,6 @@ const Comment = () => {
       console.error("Error adding like to comment:", error);
     }
   };
-
 
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
@@ -228,37 +231,32 @@ const Comment = () => {
     return likes.includes(myInfo?.id);
   };
 
-
   const isDislikedByUser = (dislikes: string[]): boolean => {
     return dislikes.includes(myInfo?.id);
   };
-
 
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
     return likes.length - dislikes.length;
   };
 
-
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${
+        import.meta.env.VITE_APP_SUPABASE_URL
+      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
 
-
   useIonViewWillLeave(() => {
     console.log("Cleaning up resources...");
-    setToggle(false)
+    setToggle(false);
   });
 
   useIonViewDidLeave(() => {
     console.log("Cleaning up resources...");
-    setToggle(true)
+    setToggle(true);
   });
-
-
 
   const renderReplies = (replies: any[], isFirstLevel = true) => {
     return replies.map((reply) => {
@@ -272,7 +270,7 @@ const Comment = () => {
             key={reply.id}
             style={{
               marginTop: "10px",
-              marginLeft: '10px',
+              marginLeft: "10px",
               display: "flex",
               alignItems: "flex-start",
             }}
@@ -287,9 +285,9 @@ const Comment = () => {
                 style={{
                   border: `1px solid ${getColor(reply.vote)}`,
                   padding: "3px",
-                  borderRadius: '5px',
-                  width: '98%',
-                  borderBottomLeftRadius: '0px'
+                  borderRadius: "5px",
+                  width: "98%",
+                  borderBottomLeftRadius: "0px",
                 }}
               >
                 <div className="rowUserNoSpace">
@@ -300,7 +298,7 @@ const Comment = () => {
                     style={{ borderLeft: `4px solid ${parentColor}` }}
                     className="parentInfo"
                     onClick={() => {
-                      gotoTopic(postId, reply.id)
+                      gotoTopic(postId, reply.id);
                     }}
                   >
                     <div className="parentUsername">{parentInfo.username}</div>
@@ -310,12 +308,23 @@ const Comment = () => {
                 <div className="comment">{reply.comment}</div>
                 <div
                   className="reply"
-                  onClick={(e) => { e.preventDefault(); handleCommentReplyClick(reply.id) }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setReplyingToUsername(reply?.username);
+                    handleReplyClick(reply.id);
+                  }}
                 >
                   Reply
                 </div>
                 <div className="voteRowSmall">
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', width: '20%' }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-evenly",
+                      width: "20%",
+                    }}
+                  >
                     <IonIcon
                       onClick={() => addCommentLike(myInfo.id, reply.id)}
                       icon={
@@ -324,7 +333,7 @@ const Comment = () => {
                           : arrowUpCircleOutline
                       }
                     ></IonIcon>
-                    <div className="small" >
+                    <div className="small">
                       {calculateNetScore(reply?.likes, reply?.dislikes)}
                     </div>
                     <IonIcon
@@ -361,23 +370,31 @@ const Comment = () => {
                 {replyingTo === reply.id && (
                   <div className="message-input-container" style={{}}>
                     <IonTextarea
-                      onBlur={() => { setReplyingTo(null) }}
+                      onBlur={() => {
+                        setReplyingTo(null);
+                      }}
                       ref={inputRef}
-                      // onKeyDown={}              
+                      // onKeyDown={}
                       value={replyComment}
                       onIonChange={(e) => setReplyComment(e.detail.value!)}
                       placeholder="Type your reply..."
                     />
-                    <IonIcon style={{ marginLeft: '3px', padding: '5px' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
-                      addComment(
-                        replyComment,
-                        myInfo?.username,
-                        postId,
-                        myInfo?.id,
-                        reply.id,
-                        myVote,
-                      )
-                    }} />
+                    <IonIcon
+                      style={{ marginLeft: "3px", padding: "5px" }}
+                      size="large"
+                      icon={sendOutline}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => {
+                        addComment(
+                          replyComment,
+                          myInfo?.username,
+                          postId,
+                          myInfo?.id,
+                          reply.id,
+                          myVote,
+                        );
+                      }}
+                    />
                   </div>
                 )}
               </div>
@@ -389,7 +406,6 @@ const Comment = () => {
     });
   };
 
-
   const toggleReplies = (commentId: string) => {
     setReplyToggle((prevState) => ({
       ...prevState,
@@ -397,15 +413,13 @@ const Comment = () => {
     }));
   };
 
-
   const goBack = () => {
     history.goBack();
   };
 
-
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      addComment(replyComment, myInfo.username, id, myInfo.id,)
+    if (event.key === "Enter") {
+      addComment(replyComment, myInfo.username, id, myInfo.id);
     }
   };
 
@@ -414,14 +428,18 @@ const Comment = () => {
     history.push(`/Comment/${id}/${myVote}/${postId}`);
   };
 
-
   return (
-    <IonPage style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.3s ease-in-out" }}>
+    <IonPage
+      style={{
+        opacity: toggle ? "1" : "0",
+        transition: "opacity 0.3s ease-in-out",
+      }}
+    >
+      <HeaderAlien backArrowToggle={true} />
       <IonContent>
-        <HeaderAlien backArrowToggle={true}/>
         {comments && (
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex' }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex" }}>
               <img
                 className="user-icon-small"
                 alt="User avatar"
@@ -429,29 +447,43 @@ const Comment = () => {
               />
               <div className="padding">
                 <IonCard
-                  style={{ border: `1px solid ${getColor(comments?.vote)}`, boxShadow: 'none', borderBottomLeftRadius: '0px', padding: '4px' }}
+                  style={{
+                    border: `1px solid ${getColor(comments?.vote)}`,
+                    boxShadow: "none",
+                    borderBottomLeftRadius: "0px",
+                    padding: "4px",
+                  }}
                 >
                   <div style={{ width: "95%", padding: "3px" }}>
                     <div className="rowUserNoSpace">
-
                       <div className="userName">{comments?.username}</div>
                     </div>
                     <div className="comment">{comments?.comment}</div>
                     <div
                       className="reply"
-                      onClick={() => handleReplyClick(comments?.id)}
+                      onClick={() => {
+                        handleReplyClick(comments?.id);
+                        setReplyingToUsername(comments?.username);
+                      }}
                     >
                       Reply
                     </div>
                   </div>
 
                   <div className="voteRowSmall">
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', width: '20%' }}>
-                      <div className="small" style={{ color: 'black' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-evenly",
+                        width: "20%",
+                      }}
+                    >
+                      <div className="small" style={{ color: "black" }}>
                         {calculateNetScore(comments?.likes, comments?.dislikes)}
                       </div>
                       <IonIcon
-                        style={{ color: 'black' }}
+                        style={{ color: "black" }}
                         onClick={() => addCommentLike(myInfo.id, comments.id)}
                         icon={
                           isLikedByUser(comments?.likes)
@@ -459,11 +491,11 @@ const Comment = () => {
                             : arrowUpCircleOutline
                         }
                       ></IonIcon>
-                      <div className="small" style={{ color: 'black' }}>
+                      <div className="small" style={{ color: "black" }}>
                         {calculateNetScore(comments?.likes, comments?.dislikes)}
                       </div>
                       <IonIcon
-                        style={{ color: 'black' }}
+                        style={{ color: "black" }}
                         onClick={() => addCommentDisike(myInfo.id, comments.id)}
                         icon={
                           isDislikedByUser(comments?.dislikes)
@@ -495,11 +527,29 @@ const Comment = () => {
               renderReplies(comments?.replies)}
           </div>
         )}
-        {isReplying && (
-          <IonFooter className="message-input-container">
-            <IonTextarea
+
+        <div className="message-input-container">
+          {isReplying && replyingToUsername ? (
+            <div style={{ marginBottom: "10px", fontSize: "14px" }}>
+              Replying To @{replyingToUsername}
+            </div>
+          ) : (
+            <></>
+          )}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              backgroundColor: "white",
+            }}
+          >
+            <textarea
               className="textAreaWhite"
-              onBlur={() => { setIsReplying(false) }}
+              onBlur={() => {
+                setIsReplying(false);
+              }}
               ref={inputRef}
               onKeyDown={(e: React.KeyboardEvent<HTMLIonTextareaElement>) => {
                 if (e.key === "Enter") {
@@ -518,20 +568,26 @@ const Comment = () => {
               onInput={(e) => setReplyComment(e.target.value!)}
               placeholder="Type your reply..."
             />
-            <IonIcon style={{ position: 'relative', right: '20px', zIndex: '10' }} size="large" icon={sendOutline} onMouseDown={(e) => e.preventDefault()} onClick={() => {
-              addComment(
-                replyComment,
-                myInfo?.username,
-                postId,
-                myInfo?.id,
-                id,
-                myVote,
-              );
-              Keyboard.hide()
-              setIsReplying(false)
-            }} />
-          </IonFooter>
-        )}
+            <IonIcon
+              style={{ position: "relative", zIndex: "10" }}
+              size="small"
+              icon={sendOutline}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                addComment(
+                  replyComment,
+                  myInfo?.username,
+                  postId,
+                  myInfo?.id,
+                  id,
+                  myVote,
+                );
+                Keyboard.hide();
+                setIsReplying(false);
+              }}
+            />
+          </div>
+        </div>
       </IonContent>
     </IonPage>
   );

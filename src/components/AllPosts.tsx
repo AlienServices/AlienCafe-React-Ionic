@@ -43,10 +43,10 @@ const Content: React.FC = () => {
     setPosts,
     setMyPosts,
     addLike,
-    getAllPosts,    
+    getAllPosts,
     getUserPosts,
     addDislike,
-    addBookmark
+    addBookmark,
   } = useContext(MyContext);
   const { myInfo, setMyInfo, updateUser } = useContext(UserContext);
   const [user, setUser] = useState({
@@ -83,7 +83,7 @@ const Content: React.FC = () => {
   };
 
   const handleLogout = async () => {
-    console.log('hitting logout in all posts')
+    console.log("hitting logout in all posts");
     try {
       const { error } = await supabase.auth.signOut();
       console.log("You Logged Out");
@@ -186,7 +186,11 @@ const Content: React.FC = () => {
                                 src="https://ionicframework.com/docs/img/demos/avatar.svg"
                               />
                             </IonAvatar>
-                            <div onClick={() => {gotoProfile(post?.email)}}>
+                            <div
+                              onClick={() => {
+                                gotoProfile(post?.email);
+                              }}
+                            >
                               <div className="username">{post.email}</div>
                             </div>
                           </div>
@@ -194,7 +198,7 @@ const Content: React.FC = () => {
                             {myInfo?.email !== post?.email ? (
                               <>
                                 {myInfo?.following?.indexOf(post.email) !==
-                                  -1 ? (
+                                -1 ? (
                                   <div>
                                     <IonIcon
                                       icon={checkmarkCircleOutline}
@@ -277,10 +281,13 @@ const Content: React.FC = () => {
                           <div className="small">{post?.comments?.length}</div>
                         </div>
                         <div className="tinyRow">
-                          <IonIcon onClick={() => {
-                            console.log('hitting add bookmark')
-                            addBookmark(myInfo.id, post.id)
-                          }} icon={bookmarkOutline}></IonIcon>
+                          <IonIcon
+                            onClick={() => {
+                              console.log("hitting add bookmark");
+                              addBookmark(myInfo.id, post.id);
+                            }}
+                            icon={bookmarkOutline}
+                          ></IonIcon>
                           <IonIcon
                             icon={shareOutline}
                             onClick={openModal}

@@ -1,68 +1,65 @@
 .row {
-    display: flex;
-    justify-content: space-between;
-
+  display: flex;
+  justify-content: space-between;
 }
 
 .username {
-    font-size: 16px;
-    font-weight: 400;
-    color: black;
+  font-size: 16px;
+  font-weight: 400;
+  color: black;
 }
 
 .tag {
-    font-size: 11px;
-    margin-left: 7px;
+  font-size: 11px;
+  margin-left: 7px;
 }
 
 .custom-ion-select {
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    width: 90%;
-    padding-left: 15px;
-    justify-content: space-between;
-    margin-top: 5px;
-    background-color: #ffffff;
-    font-size: 16px;
-    color: #000;
-    margin-left: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  width: 90%;
+  padding-left: 15px;
+  justify-content: space-between;
+  margin-top: 5px;
+  background-color: #ffffff;
+  font-size: 16px;
+  color: #000;
+  margin-left: 20px;
 }
 
 .custom-ion-select .select-text {
-    color: #000;
-    /* Customize the text color inside the select */
+  color: #000;
+  /* Customize the text color inside the select */
 }
 
 .custom-ion-select .select-icon {
-    margin-right: 10px;
-    /* Space between the icon and the text */
-    color: #000;
-    /* Customize the dropdown icon color */
+  margin-right: 10px;
+  /* Space between the icon and the text */
+  color: #000;
+  /* Customize the dropdown icon color */
 }
 
-.custom-ion-select>.select-wrapper-inner {
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
+.custom-ion-select > .select-wrapper-inner {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
 }
 
 .usernameColumn {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .profile-photo {
-    border-radius: 100px;
-    width: 70px;
-    height: 70px;
-    padding: 10px;
-
+  border-radius: 100px;
+  width: 70px;
+  height: 70px;
+  padding: 10px;
 }

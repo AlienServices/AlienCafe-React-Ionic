@@ -1,12 +1,16 @@
-import { createContext, useState, ReactNode, useEffect, useContext } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useEffect,
+  useContext,
+} from "react";
 import { post } from "../utils/fetch";
 import { Platform } from "react-native";
 import { Capacitor } from "@capacitor/core";
 import { supabase } from "../components/supaBase";
 import { UserContext } from "./userProvider";
-import {
-  useIonViewDidEnter,  
-} from "@ionic/react";
+import { useIonViewDidEnter } from "@ionic/react";
 
 interface Post {
   email: string;
@@ -33,7 +37,7 @@ interface PostContext {
     noAction: string,
     maybeAction: string,
     categories: string,
-  ) => void;  
+  ) => void;
   getMyPosts: () => void;
   getUserPosts: (email: string) => void;
   setLoggedin: (value: boolean) => void;
@@ -48,21 +52,21 @@ interface PostContext {
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
-  setPosts: (posts) => { },
-  setMyPosts: (posts) => { },
-  updatePost: (post) => { },
-  addLike: (post) => { },
-  addDislike: (post) => { },
-  deletePost: (id) => { },
-  createPost: (value) => { },  
-  getMyPosts: () => { },
-  setLoggedin: () => { },
-  loggedIn: false,  
-  setUserPosts: () => { },
+  setPosts: (posts) => {},
+  setMyPosts: (posts) => {},
+  updatePost: (post) => {},
+  addLike: (post) => {},
+  addDislike: (post) => {},
+  deletePost: (id) => {},
+  createPost: (value) => {},
+  getMyPosts: () => {},
+  setLoggedin: () => {},
+  loggedIn: false,
+  setUserPosts: () => {},
   userPosts: [],
-  getUserPosts: (email) => { },
-  addBookmark: (userId, postId) => { }, // Placeholder function
-  getBaseUrl: () => { }
+  getUserPosts: (email) => {},
+  addBookmark: (userId, postId) => {}, // Placeholder function
+  getBaseUrl: () => {},
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -94,52 +98,44 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       date: Date;
     }[]
   >([]);
- 
-  
-  const { loggedIn, setLoggedIn } = useContext(UserContext);  
+
+  const { loggedIn, setLoggedIn } = useContext(UserContext);
   const { myInfo } = useContext(UserContext);
 
   useEffect(() => {
-    getSession()
-  }, [myInfo])
+    getSession();
+  }, [myInfo]);
 
-  
   // useEffect(() => {
   //   getAllPosts();
   // }, [myPosts]);
 
-
   // useEffect(() => {
-  //   getMyPosts()    
+  //   getMyPosts()
   // }, [loggedIn]);
 
-
   // useIonViewDidEnter(() => {
-  //   getMyPosts()    
+  //   getMyPosts()
   // }, [])
-  
+
   const addBookmark = async (userId: string, postId: string) => {
-    console.log('hitting add bookmark')
+    console.log("hitting add bookmark");
     try {
-      const result = await fetch(
-        `http://10.1.10.233:3000/api/addBookmark`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-            postId
-          })
+      const result = await fetch(`http://10.1.10.233:3000/api/addBookmark`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          userId,
+          postId,
+        }),
+      });
       const posts = await result.json();
     } catch (error) {
       console.log(error, "this is the create user error");
     }
   };
-
 
   // const getAllPosts = async () => {
   //   try {
@@ -181,7 +177,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
   const addLike = async (id: string) => {
     const updatedPost = await post({
       url: `http://10.1.10.233:3000/api/addPostLike?id=${id}`,
@@ -198,7 +193,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-
   const addDislike = async (id: string) => {
     try {
       const dislikedPost = await post({
@@ -213,7 +207,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       console.error("Error adding dislike:", error); // Log any errors
     }
   };
-
 
   const deletePost = async (id: string) => {
     const updatedPost = await post({
@@ -230,7 +223,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  
   const getMyPosts = async () => {
     try {
       const result = await fetch(
@@ -250,7 +242,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  
   const getUserPosts = async (email: string) => {
     console.log(email, "this is the email");
     try {
@@ -269,7 +260,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       console.log(error, "this is the create user error");
     }
   };
-
 
   const getBaseUrl = () => {
     const platform = Capacitor.getPlatform();
@@ -291,8 +281,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
-
   const createPost = async (
     title: string,
     value: string,
@@ -302,7 +290,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     maybeAction: string,
     categories: string,
   ) => {
-
     try {
       const test = await fetch("http://10.1.10.233:3000/api/createPost", {
         method: "POST",
@@ -330,14 +317,13 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
   async function getSession() {
     try {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
         console.log("Error fetching session:", error);
         setLoggedIn(false);
-        localStorage.removeItem('user')
+        localStorage.removeItem("user");
         return null;
       }
       setLoggedIn(true);
@@ -362,16 +348,15 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         addLike: addLike,
         addDislike: addDislike,
         deletePost: deletePost,
-        createPost: createPost,                
+        createPost: createPost,
         getMyPosts: getMyPosts,
         setLoggedin: setLoggedIn,
-        loggedIn: loggedIn,        
+        loggedIn: loggedIn,
         userPosts: userPosts,
         getUserPosts: getUserPosts,
         setUserPosts: setUserPosts,
         addBookmark: addBookmark,
-        getBaseUrl: getBaseUrl
-
+        getBaseUrl: getBaseUrl,
       }}
     >
       {children}

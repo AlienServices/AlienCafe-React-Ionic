@@ -147,6 +147,8 @@
   position: absolute;
   bottom: 0;
   height: 3px;
-  transition: left 0.3s ease, width 0.3s ease;
+  transition:
+    left 0.3s ease,
+    width 0.3s ease;
   color: white;
 }

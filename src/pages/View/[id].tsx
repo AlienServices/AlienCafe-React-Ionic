@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import Replies from "../../components/Replies";
 import "react-quill/dist/quill.snow.css";
 import {
@@ -35,16 +35,14 @@ const Post = () => {
   const [selected, setSelected] = useState<number | null>(null);
   const [image, setImage] = useState("");
   const { myInfo } = useContext(UserContext);
-  const [toggle, setToggle] = useState(true)
+  const [toggle, setToggle] = useState(true);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
   const { id } = useParams<{ id: string }>();
 
-
   useEffect(() => {
     getOnePost();
   }, []);
-
 
   const goBack = () => {
     history.goBack();
@@ -62,10 +60,10 @@ const Post = () => {
         },
       );
       const post = await result.json();
-      setImage(post.post.owner.id)
+      setImage(post.post.owner.id);
       setContent([post.post]);
       setMyVote(post.userVote?.vote || "");
-      setLoaded(true)
+      setLoaded(true);
     } catch (error) {
       console.log(error, "this is the create user error");
     }
@@ -76,7 +74,7 @@ const Post = () => {
   };
 
   const handleVote = async () => {
-    console.log(selectedOption, 'this is the selected option')
+    console.log(selectedOption, "this is the selected option");
     setHasVoted(true);
     setTimeout(async () => {
       await updateVote(id, myInfo?.id, selectedOption);
@@ -84,15 +82,14 @@ const Post = () => {
     }, 500);
   };
 
-
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${
+        import.meta.env.VITE_APP_SUPABASE_URL
+      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
-
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -120,7 +117,6 @@ const Post = () => {
       body: { vote: selectedOption, id, email: myInfo?.email },
     });
   };
-
 
   const getMyVote = async (id: string, postId: string) => {
     try {
@@ -151,93 +147,114 @@ const Post = () => {
     getMyVote(myInfo?.id, id);
   }, []);
 
-
-
   useIonViewWillLeave(() => {
     console.log("Cleaning up resources...");
-    setToggle(false)
+    setToggle(false);
   });
 
   useIonViewDidLeave(() => {
     console.log("Cleaning up resources...");
-    setToggle(true)
+    setToggle(true);
   });
 
-
-
   return (
-    <IonPage id="main-content" style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.1s ease-in-out" }}>
+    <IonPage
+      id="main-content"
+      style={{
+        opacity: toggle ? "1" : "0",
+        transition: "opacity 0.1s ease-in-out",
+      }}
+    >
       <IonContent>
         <HeaderAlien backArrowToggle={true} />
-        {
-          loaded ? <> {Array.isArray(content) &&
-            content.map((post: any, index: number) => {
-              const transformedTitle = transformTitleToH1(post.title);
+        {loaded ? (
+          <>
+            {" "}
+            {Array.isArray(content) &&
+              content.map((post: any, index: number) => {
+                const transformedTitle = transformTitleToH1(post.title);
 
-              return (
-                <div className="shadow" key={index}>
-                  <IonCard
-                    style={{
-                      marginBottom: "25px",
-                    }}
-                    className="card"
-                  >
-                    <div className="around">
-                      <div className="emailContainer">
-                        <IonAvatar
-                          style={{
-                            height: "40px",
-                            width: "40px",
-                            marginLeft: "5px",
-                            marginRight: "5px",
-                          }}
-                        >
-                          <img
-                            alt="Silhouette of a person's head"
-                            src={profileImage(image)}
-                          />
-                        </IonAvatar>
-                        <div className="username">{post?.email}</div>
+                return (
+                  <div className="shadow" key={index}>
+                    <IonCard
+                      style={{
+                        marginBottom: "25px",
+                      }}
+                      className="card"
+                    >
+                      <div className="around">
+                        <div className="emailContainer">
+                          <IonAvatar
+                            style={{
+                              height: "40px",
+                              width: "40px",
+                              marginLeft: "5px",
+                              marginRight: "5px",
+                            }}
+                          >
+                            <img
+                              alt="Silhouette of a person's head"
+                              src={profileImage(image)}
+                            />
+                          </IonAvatar>
+                          <div className="username">{post?.email}</div>
+                        </div>
                       </div>
-                    </div>
-                    <ReactQuill
-                      className="quillTitle"
-                      style={{ color: "black" }}
-                      readOnly={true}
-                      theme="bubble"
-                      value={transformedTitle}
-                    />
-                    <ReactQuill
-                      className="small"
-                      style={{ color: "black" }}
-                      readOnly={true}
-                      theme="bubble"
-                      value={post?.content}
-                    />
-                  </IonCard>
-                </div>
-              );
-            })}</> :
-            <IonList style={{ height: '400px' }}>
-              <IonItem lines="none" style={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
-                <IonLabel>
-                  <h3>
-                    <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
-                  </h3>
-                  <p>
-                    <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
-                  </p>
-                  <p>
-                    <IonSkeletonText animated={true} style={{ width: '100%' }}></IonSkeletonText>
-                  </p>
-                </IonLabel>
-              </IonItem>
-            </IonList>
-        }
+                      <ReactQuill
+                        className="quillTitle"
+                        style={{ color: "black" }}
+                        readOnly={true}
+                        theme="bubble"
+                        value={transformedTitle}
+                      />
+                      <ReactQuill
+                        className="small"
+                        style={{ color: "black" }}
+                        readOnly={true}
+                        theme="bubble"
+                        value={post?.content}
+                      />
+                    </IonCard>
+                  </div>
+                );
+              })}
+          </>
+        ) : (
+          <IonList style={{ height: "400px" }}>
+            <IonItem
+              lines="none"
+              style={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <IonLabel>
+                <h3>
+                  <IonSkeletonText
+                    animated={true}
+                    style={{ width: "100%" }}
+                  ></IonSkeletonText>
+                </h3>
+                <p>
+                  <IonSkeletonText
+                    animated={true}
+                    style={{ width: "100%" }}
+                  ></IonSkeletonText>
+                </p>
+                <p>
+                  <IonSkeletonText
+                    animated={true}
+                    style={{ width: "100%" }}
+                  ></IonSkeletonText>
+                </p>
+              </IonLabel>
+            </IonItem>
+          </IonList>
+        )}
 
-
-        {hasVoted ?
-          < div className="answers">
+        {hasVoted ? (
+          <div className="answers">
             <div className="vote">
               {myVote === "true" && (
                 <div className="action">{content[0]?.yesAction}</div>
@@ -255,66 +272,86 @@ const Post = () => {
                 <div className="action">{content[0]?.noAction}</div>
               )}
             </div>
-            <div style={{paddingBottom: '100px'}}>
+            <div style={{ paddingBottom: "100px" }}>
               <Replies postId={id} myVote={myVote} />
             </div>
           </div>
-          : (
-            <div className="centerMiddle">
-              <div className="centerThesis">
-                <div className="question">{content[0]?.thesis}</div>
+        ) : (
+          <div className="centerMiddle">
+            <div className="centerThesis">
+              <div className="question">{content[0]?.thesis}</div>
+            </div>
+            <div className="quizCenter">
+              <div className="checkSpace">
+                <IonCheckbox
+                  checked={selected === 1}
+                  onIonChange={() => {
+                    setSelected(1);
+                    handleOptionChange("true");
+                  }}
+                  style={{ "--border-radius": "4px", padding: "5px" }}
+                ></IonCheckbox>
+                <div className="answerWidth">Yes Absolutely 100% True!</div>
               </div>
-              <div className="quizCenter">
-                <div className="checkSpace">
-                  <IonCheckbox
-                    checked={selected === 1}
-                    onIonChange={() => { setSelected(1); handleOptionChange('true') }}
-                    style={{ '--border-radius': '4px', padding: '5px' }}
-                  ></IonCheckbox>
-                  <div className="answerWidth">Yes Absolutely 100% True!</div>
+              <div className="checkSpace">
+                <IonCheckbox
+                  checked={selected === 2}
+                  onIonChange={() => {
+                    setSelected(2);
+                    handleOptionChange("probably true");
+                  }}
+                  style={{ "--border-radius": "4px", padding: "5px" }}
+                ></IonCheckbox>
+                <div className="answerWidth">Probably True</div>
+              </div>
+              <div className="checkSpace">
+                <IonCheckbox
+                  checked={selected === 3}
+                  onIonChange={() => {
+                    setSelected(3);
+                    handleOptionChange("neutral");
+                  }}
+                  style={{ "--border-radius": "4px", padding: "5px" }}
+                ></IonCheckbox>
+                <div className="answerWidth">Not Sure/Need More Info</div>
+              </div>
+              <div className="checkSpace">
+                <IonCheckbox
+                  checked={selected === 4}
+                  onIonChange={() => {
+                    setSelected(4);
+                    handleOptionChange("probably false");
+                  }}
+                  style={{ "--border-radius": "4px", padding: "5px" }}
+                ></IonCheckbox>
+                <div className="answerWidth">Probably False</div>
+              </div>
+              <div className="checkSpace">
+                <IonCheckbox
+                  checked={selected === 5}
+                  onIonChange={() => {
+                    setSelected(5);
+                    handleOptionChange("false");
+                  }}
+                  style={{ "--border-radius": "4px", padding: "5px" }}
+                ></IonCheckbox>
+                <div className="answerWidth">
+                  No! This is Propaganda. 100% False
                 </div>
-                <div className="checkSpace">
-                  <IonCheckbox
-                    checked={selected === 2}
-                    onIonChange={() => { setSelected(2); handleOptionChange('probably true') }}
-                    style={{ '--border-radius': '4px', padding: '5px' }}
-                  ></IonCheckbox>
-                  <div className="answerWidth">Probably True</div>
-                </div>
-                <div className="checkSpace">
-                  <IonCheckbox
-                    checked={selected === 3}
-                    onIonChange={() => { setSelected(3); handleOptionChange('neutral') }}
-                    style={{ '--border-radius': '4px', padding: '5px' }}
-                  ></IonCheckbox>
-                  <div className="answerWidth">Not Sure/Need More Info</div>
-                </div>
-                <div className="checkSpace">
-                  <IonCheckbox
-                    checked={selected === 4}
-                    onIonChange={() => { setSelected(4); handleOptionChange('probably false') }}
-                    style={{ '--border-radius': '4px', padding: '5px' }}
-                  ></IonCheckbox>
-                  <div className="answerWidth">Probably False</div>
-                </div>
-                <div className="checkSpace">
-                  <IonCheckbox
-                    checked={selected === 5}
-                    onIonChange={() => { setSelected(5); handleOptionChange('false') }}
-                    style={{ '--border-radius': '4px', padding: '5px' }}
-                  ></IonCheckbox>
-                  <div className="answerWidth">No! This is Propaganda. 100% False</div>
-                </div>
-                <div className={`${!hasVoted ? "middle" : "none"}`}>
-                  <IonButton style={{ backgroundColor: 'black', padding: '0px' }} onClick={handleVote}>
-                    Submit
-                  </IonButton>
-                </div>
+              </div>
+              <div className={`${!hasVoted ? "middle" : "none"}`}>
+                <IonButton
+                  style={{ backgroundColor: "black", padding: "0px" }}
+                  onClick={handleVote}
+                >
+                  Submit
+                </IonButton>
               </div>
             </div>
-          )}
+          </div>
+        )}
       </IonContent>
-    </IonPage >
+    </IonPage>
   );
 };
 

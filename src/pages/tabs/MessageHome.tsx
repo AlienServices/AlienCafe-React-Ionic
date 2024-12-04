@@ -52,20 +52,16 @@ const MessageHome: React.FC = () => {
     },
   };
 
-
   const handleDragEnd = (info: any, messageId: string) => {
-    console.log('hit drag end')
+    console.log("hit drag end");
     const dragDistance = info.point.x;
-    console.log(dragDistance, 'testing drag end truthy')
-    console.log(-DELETE_BTN_WIDTH, 'testing drag end truthy')
+    console.log(dragDistance, "testing drag end truthy");
+    console.log(-DELETE_BTN_WIDTH, "testing drag end truthy");
     if (dragDistance < DELETE_BTN_WIDTH) {
-      console.log('drag distance is right')
+      console.log("drag distance is right");
       // deleteConvos(messageId);
     }
   };
-
-
-
 
   // useEffect(() => {
   //   getConvos();
@@ -123,13 +119,19 @@ const MessageHome: React.FC = () => {
         <HeaderAlien backArrowToggle={false} />
         <IonContent>
           <ul>
-            <motion.li key={'props.id'}
+            <motion.li
+              key={"props.id"}
               exit={MESSAGE_DELETE_ANIMATION}
-              transition={MESSAGE_DELETE_TRANSITION}>
-              <motion.div drag="x"
+              transition={MESSAGE_DELETE_TRANSITION}
+            >
+              <motion.div
+                drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
-                onDragEnd={(_, info) => handleDragEnd(info, 'props.conversationId')}
-                className="msg-container">
+                onDragEnd={(_, info) =>
+                  handleDragEnd(info, "props.conversationId")
+                }
+                className="msg-container"
+              >
                 {messageData?.map((convo, i) => {
                   const lastMessageDate = new Date(convo.date);
                   let hours = lastMessageDate.getHours();

@@ -1,7 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import {
-  useIonViewWillEnter
-} from "@ionic/react";
+import { useIonViewWillEnter } from "@ionic/react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/Tab3.css";
 import Post from "../postComponents/Post";
@@ -12,7 +10,8 @@ interface CategoryProps {
 }
 
 const Category: React.FC<CategoryProps> = ({
-  category, setToggle
+  category,
+  setToggle,
 }: {
   category: string;
   setToggle: (value: boolean) => void;
@@ -20,11 +19,9 @@ const Category: React.FC<CategoryProps> = ({
   const [posts, setPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-
   useIonViewWillEnter(() => {
     getPosts();
   }, []);
-
 
   const getPosts = async () => {
     try {
@@ -60,26 +57,24 @@ const Category: React.FC<CategoryProps> = ({
     setShowModal(false);
   };
 
-  console.log('test')
+  console.log("test");
 
   return (
-    <div style={{height: 'fit-content'}}>      
-        {posts ? (
-          <>
-            {posts
-              ?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
-              .map((post: any) => {
-                console.log(post)                
-                return (
-                  <Post setToggle={setToggle} post={post} />
-                );
-              })}
-          </>
-        ) : (
-          <>
-            <div>You aint got no post{category}</div>
-          </>
-        )}      
+    <div style={{ height: "fit-content" }}>
+      {posts ? (
+        <>
+          {posts
+            ?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
+            .map((post: any) => {
+              console.log(post);
+              return <Post setToggle={setToggle} post={post} />;
+            })}
+        </>
+      ) : (
+        <>
+          <div>You aint got no post{category}</div>
+        </>
+      )}
     </div>
   );
 };

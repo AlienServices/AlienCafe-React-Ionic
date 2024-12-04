@@ -21,7 +21,7 @@ import { UserContext } from "../../providers/userProvider";
 import HeaderAlien from "../../components/preRender/Header";
 
 const Tab3: React.FC = () => {
-  const [toggle, setToggle] = useState(true)
+  const [toggle, setToggle] = useState(true);
   const menuRef = useRef<HTMLIonMenuElement>(null);
   const [categories, setCategories] = useState([
     "Aliens",
@@ -36,21 +36,25 @@ const Tab3: React.FC = () => {
 
   useIonViewWillLeave(() => {
     console.log("Cleaning up resources...");
-    setToggle(false)
+    setToggle(false);
   });
 
   useIonViewDidLeave(() => {
     console.log("Cleaning up resources...");
-    setToggle(true)
+    setToggle(true);
   });
-
-
 
   return (
     <>
       <Menu />
-      <IonPage id="main-content" style={{ opacity: toggle ? "1" : "0", transition: "opacity 0.4s ease-in-out" }}>
-        <HeaderAlien backArrowToggle={false}/>
+      <IonPage
+        id="main-content"
+        style={{
+          opacity: toggle ? "1" : "0",
+          transition: "opacity 0.4s ease-in-out",
+        }}
+      >
+        <HeaderAlien backArrowToggle={false} />
         <IonContent>
           <div className="middle">
             <IonTitle>{currentCategory}</IonTitle>
@@ -72,10 +76,14 @@ const Tab3: React.FC = () => {
                   flexDirection: "column",
                   height: "fit-content",
                   justifyContent: "flex-start",
-                  marginBottom: '50px'
+                  marginBottom: "50px",
                 }}
               >
-                <Category key={category} setToggle={(value) => setToggle(value)} category={category} />
+                <Category
+                  key={category}
+                  setToggle={(value) => setToggle(value)}
+                  category={category}
+                />
               </SwiperSlide>
             ))}
           </Swiper>

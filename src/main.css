@@ -1,18 +1,14 @@
-.mainPage {    
-    margin-top: -20px;
-    margin-bottom: 15px;    
-    background-color: 'rgb(80, 64, 58)';
+.mainPage {
+  margin-top: -20px;
+  margin-bottom: 15px;
+  background-color: "rgb(80, 64, 58)";
 }
 
 :root {
-    --ion-safe-area-top: env(safe-area-inset-top);
-  }
-  
+  --ion-safe-area-top: env(safe-area-inset-top);
+}
 
-  ion-content {
-    --background: transparent;
-    padding-top: var(--ion-safe-area-top);
-  }
-
-
-  
+ion-content {
+  --background: transparent;
+  padding-top: var(--ion-safe-area-top);
+}

@@ -33,14 +33,8 @@ import { UserContext } from "../providers/userProvider";
 const Login: React.FC = () => {
   const [showLoading, hideLoading] = useIonLoading();
   const [showToast] = useIonToast();
-  const {
-    posts,
-    myPosts,
-    setPosts,
-    setMyPosts,
-    updatePost,
-    getAllPosts,
-  } = useContext(MyContext);
+  const { posts, myPosts, setPosts, setMyPosts, updatePost, getAllPosts } =
+    useContext(MyContext);
   const { myInfo, updateUser } = useContext(UserContext);
   const [bio, setBio] = useState("");
   const history = useHistory();

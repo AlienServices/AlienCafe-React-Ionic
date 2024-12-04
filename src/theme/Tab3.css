@@ -4,8 +4,6 @@
   contain: inherit;
 }
 
-
-
 .ql-container .ql-snow {
   height: fit-content;
 }
@@ -133,7 +131,7 @@
   font-size: 12px !important;
   color: rgb(125, 124, 124);
   line-height: 19.5px;
-  word-spacing: .2px;
+  word-spacing: 0.2px;
 }
 
 .end {
@@ -255,7 +253,6 @@ div {
   position: relative;
   justify-content: space-evenly;
   width: 100%;
-
 }
 
 .cardComment {
@@ -306,7 +303,6 @@ div {
   margin-left: 2px;
   letter-spacing: 0.8px;
 }
-
 
 .columnWide {
   display: flex;
@@ -399,7 +395,6 @@ div {
   width: 95%;
   padding-bottom: 30px;
   flex-direction: column;
-
 }
 
 .bottomImage {
@@ -551,7 +546,9 @@ div {
   position: absolute;
   bottom: 0;
   height: 3px;
-  transition: left 0.3s ease, width 0.3s ease;
+  transition:
+    left 0.3s ease,
+    width 0.3s ease;
   color: white;
 }
 
@@ -578,7 +575,6 @@ div {
   max-height: 500px;
   /* Adjust to the maximum expected height */
 }
-
 
 @media (max-width: 600px) {
   .quill .ql-container {

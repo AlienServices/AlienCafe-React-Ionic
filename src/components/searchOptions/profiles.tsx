@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/create.css";
-import {
-  IonContent,
-  IonItem,
-  IonLabel,
-  IonPage,  
-} from "@ionic/react";
+import { IonContent, IonItem, IonLabel, IonPage } from "@ionic/react";
 import Profile from "../postComponents/Profile";
 
-
 const Profiles = ({ search }: { search: string }) => {
-  const [searchResults, setSearchResults] = useState<any[]>([]); 
-
+  const [searchResults, setSearchResults] = useState<any[]>([]);
 
   const searchUsers = async () => {
     try {
@@ -31,13 +24,12 @@ const Profiles = ({ search }: { search: string }) => {
     if (search.length > 0) {
       searchUsers();
     } else {
-      setSearchResults([])
+      setSearchResults([]);
     }
   }, [search]);
-  
 
   return (
-    <IonPage style={{ paddingTop: '20px', padding: "15px" }}>
+    <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
       <IonContent>
         <IonItem>
           {searchResults.length > 0 ? (
@@ -45,7 +37,7 @@ const Profiles = ({ search }: { search: string }) => {
               <Profile profile={user} key={user?.id} />
             ))
           ) : (
-            <IonItem style={{ width: '100%' }}>
+            <IonItem style={{ width: "100%" }}>
               <IonLabel>No users found.</IonLabel>
             </IonItem>
           )}
@@ -54,6 +46,5 @@ const Profiles = ({ search }: { search: string }) => {
     </IonPage>
   );
 };
-
 
 export default Profiles;

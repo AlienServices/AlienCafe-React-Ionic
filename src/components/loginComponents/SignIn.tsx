@@ -2,25 +2,16 @@ import { useState, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router";
 import { supabase } from ".././supaBase";
-import {
-  IonButton,
-  IonContent,
-  IonItem,
-  IonList,
-} from "@ionic/react";
+import { IonButton, IonContent, IonItem, IonList } from "@ionic/react";
 import "../../theme/Tab3.css";
 import { UserContext } from "../../providers/userProvider";
 
 const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   const [email, setEmail] = useState<string>("");
-  const {
-    setLoggedIn,
-    loggedIn,
-  } = useContext(UserContext);
+  const { setLoggedIn, loggedIn } = useContext(UserContext);
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>();
   const history = useHistory();
-
 
   const handleLogin = async () => {
     try {
@@ -33,7 +24,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
         setError("Email or Password Incorrect");
       }
       if (data.user?.email) {
-        localStorage.setItem("user", data.user.email);        
+        localStorage.setItem("user", data.user.email);
         history.push("/tab1");
       }
       setLoggedIn(!loggedIn);
@@ -42,9 +33,8 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
     }
   };
 
-
   return (
-    <IonContent >
+    <IonContent>
       <IonList inset={true}>
         <IonItem lines="none">
           <input
@@ -72,7 +62,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
         <div className="center">
           <div style={{ width: "75%" }} className="columnButtons">
             <IonButton
-              color={'secondary'}
+              color={"secondary"}
               shape="round"
               className="loginButton"
               onClick={() => {
@@ -81,7 +71,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
             >
               Sign In
             </IonButton>
-            <div style={{ textAlign: 'center' }}>{error}</div>
+            <div style={{ textAlign: "center" }}>{error}</div>
             <div className="center">
               <div style={{ margin: "10px", color: "rgb(138,140,140)" }}>
                 Or

@@ -31,10 +31,7 @@ import Page from "../pages/View/[id]";
 import { MyContext } from "../providers/postProvider";
 
 const Content: React.FC = () => {
-  const {
-    deletePost,
-    userPosts,    
-  } = useContext(MyContext);
+  const { deletePost, userPosts } = useContext(MyContext);
   const [value, setValue] = useState(
     "<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>",
   );

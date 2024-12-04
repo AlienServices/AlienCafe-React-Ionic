@@ -85,7 +85,7 @@
 .loginButton {
   display: flex;
   background-color: rgb(80, 64, 58);
-  width: 100%;  
+  width: 100%;
   justify-content: space-evenly;
   margin: 5px;
 }

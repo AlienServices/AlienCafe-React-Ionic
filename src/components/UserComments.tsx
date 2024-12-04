@@ -1,10 +1,6 @@
 import { useEffect, useState, useRef, useCallback, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
-import {
-  IonCard,
-  IonItem,
-  IonList,
-} from "@ionic/react";
+import { IonCard, IonItem, IonList } from "@ionic/react";
 import "../theme/Tab3.css";
 import Page from "../pages/View/[id]";
 import Profile from "../pages/Profile/[id]";

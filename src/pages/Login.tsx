@@ -1,9 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
-import {
-  arrowBackCircleOutline,
-} from "ionicons/icons";
+import { arrowBackCircleOutline } from "ionicons/icons";
 import {
   IonContent,
   IonMenuButton,
@@ -34,7 +32,6 @@ const Login: React.FC = () => {
   const history = useHistory();
   const [loginToggle, setLoginToggle] = useState<boolean>(true);
 
-
   // useEffect(() => {
   //   if (user?.session.accessToken) {
   //     console.log('logged in')
@@ -43,9 +40,8 @@ const Login: React.FC = () => {
   //   }
   // }, [user])
 
-
   const handleLogout = async () => {
-    console.log('hitting logout in login')
+    console.log("hitting logout in login");
     try {
       const { error } = await supabase.auth.signOut();
       localStorage.removeItem("user");
@@ -59,32 +55,41 @@ const Login: React.FC = () => {
     }
   };
 
-
   return (
     <>
       <IonPage id="main-content">
-        <div className="brown" style={{ height: '150px' }}>
+        <div className="brown" style={{ height: "150px" }}>
           <div className="leftMiddle">
-            <div style={{
-              borderRadius: '10px', backgroundColor: 'white', width: '45px', display: 'flex', justifyContent: 'center',
-              alignItems: 'center', margin: '10px',
-            }}>
-              <IonMenuButton style={{ backgroundColor: 'white' }} color={'primary'} />
+            <div
+              style={{
+                borderRadius: "10px",
+                backgroundColor: "white",
+                width: "45px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "10px",
+              }}
+            >
+              <IonMenuButton
+                style={{ backgroundColor: "white" }}
+                color={"primary"}
+              />
             </div>
-            <div className="logoContainer" style={{ top: '90px' }}>
+            <div className="logoContainer" style={{ top: "90px" }}>
               <div
                 style={{
-                  borderRadius: '50%', 
-                  overflow: 'hidden', 
-                  width: '60px',
-                  height: '60px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  width: "60px",
+                  height: "60px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 <IonImg
-                  style={{ width: '100%', height: '100%' }} 
+                  style={{ width: "100%", height: "100%" }}
                   src="/alienLogo.svg"
                 />
               </div>

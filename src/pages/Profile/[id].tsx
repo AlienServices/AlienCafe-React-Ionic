@@ -6,12 +6,10 @@ import {
   IonIcon,
   IonImg,
 } from "@ionic/react";
-import { useIonRouter } from '@ionic/react';
+import { useIonRouter } from "@ionic/react";
 import "../../theme/Tab2.css";
-import { useHistory } from 'react-router-dom';
-import {
-  arrowBackOutline,
-} from "ionicons/icons";
+import { useHistory } from "react-router-dom";
+import { arrowBackOutline } from "ionicons/icons";
 import Category from "../../components/Category";
 import { useEffect, useState, useContext } from "react";
 import { MyContext } from "../../providers/postProvider";
@@ -27,10 +25,7 @@ const Profile = ({ id }: { id: string }) => {
     likes: 0,
     categories: 0,
   });
-  const {
-    myInfo,
-    setMyInfo,
-  } = useContext(MyContext);
+  const { myInfo, setMyInfo } = useContext(MyContext);
   const [userInfo, setUserInfo] = useState<{
     email: string;
     id: string;
@@ -38,11 +33,9 @@ const Profile = ({ id }: { id: string }) => {
     bio: String;
   }>({ email: "", id: "", username: "", bio: "" });
 
-
   useEffect(() => {
     getUserInfo();
   }, [id]);
-
 
   const getUserInfo = async () => {
     try {
@@ -62,20 +55,16 @@ const Profile = ({ id }: { id: string }) => {
     }
   };
 
-
   const goHome = () => {
     router.goBack();
   };
-
 
   return (
     <IonPage>
       <IonContent>
         <IonCard className="noMargin" color={"light"}>
-
-          <div className="brown" style={{ height: '110px' }}>
+          <div className="brown" style={{ height: "110px" }}>
             <div className="leftMiddle">
-
               <IonIcon
                 onClick={goHome}
                 style={{ paddingTop: "40px" }}
@@ -83,8 +72,11 @@ const Profile = ({ id }: { id: string }) => {
                 icon={arrowBackOutline}
               ></IonIcon>
 
-              <div className="logoContainer" style={{ top: '60px' }}>
-                <IonImg style={{ width: '60px', height: '60px' }} src="/AlienCafeLogo1.png"></IonImg>
+              <div className="logoContainer" style={{ top: "60px" }}>
+                <IonImg
+                  style={{ width: "60px", height: "60px" }}
+                  src="/AlienCafeLogo1.png"
+                ></IonImg>
               </div>
             </div>
           </div>

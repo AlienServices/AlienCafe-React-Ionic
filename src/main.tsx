@@ -4,8 +4,8 @@ import { IonApp, IonPage, IonContent } from "@ionic/react";
 import App from "./App";
 import { ContextProvider } from "./providers/postProvider";
 import "@ionic/react/css/core.css";
-import './main.css';
-import { StatusBar, Style } from '@capacitor/status-bar';
+import "./main.css";
+import { StatusBar, Style } from "@capacitor/status-bar";
 import { IonReactRouter } from "@ionic/react-router";
 import { UserProvider } from "./providers/userProvider";
 
@@ -27,7 +27,6 @@ const Main = () => {
 
   return (
     <React.StrictMode>
-
       <IonApp className="mainPage">
         <IonPage>
           <IonContent>
@@ -39,7 +38,6 @@ const Main = () => {
           </IonContent>
         </IonPage>
       </IonApp>
-
     </React.StrictMode>
   );
 };
