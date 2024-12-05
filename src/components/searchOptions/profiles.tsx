@@ -10,7 +10,7 @@ const Profiles = ({ search }: { search: string }) => {
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/searchProfiles?username=${search}`,
+        `http://10.1.10.233:3000/posts/searchProfiles?username=${search}`,
       );
       const users = await result.json();
       console.log(users);

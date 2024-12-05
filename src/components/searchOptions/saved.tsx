@@ -18,7 +18,7 @@ const Saved = ({ search }: { search: string }) => {
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/searchBookmarks?search=${search}&category=${selectedCategory}`,
+        `http://10.1.10.233:3000/posts/searchBookmarks?search=${search}&category=${selectedCategory}`,
       );
       const users = await result.json();
       console.log(users, "these are users");

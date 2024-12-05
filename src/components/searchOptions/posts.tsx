@@ -21,7 +21,7 @@ const Posts = ({ search }: { search: string }) => {
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/searchPosts?search=${search}&category=${selectedCategory}`,
+        `http://10.1.10.233:3000/api/posts/searchPosts?search=${search}&category=${selectedCategory}`,
       );
       const users = await result.json();
       console.log(users.posts);

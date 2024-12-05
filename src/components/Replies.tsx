@@ -1,18 +1,14 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import {
   IonCard,
-  IonIcon,
-  IonFooter,
-  IonTextarea,
+  IonIcon,  
   IonSkeletonText,
   IonLabel,
   IonList,
   IonItem,
-  IonToast,
-  IonButton,
-  useIonToast,
+  IonToast,  
 } from "@ionic/react";
-import { send, sendOutline, trashBin } from "ionicons/icons";
+import {  sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import {
   arrowDownCircleOutline,
@@ -42,7 +38,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const history = useHistory();
   const [comment, setComment] = useState<string>("");
   const [replyComment, setReplyComment] = useState<string>("");
-  const [replyCommentId, setReplyCommentId] = useState<string>("");
+  const [replyCommentId, setReplyCommentId] = useState<string | null>(null);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyingToUsername, setReplyingToUsername] = useState<string | null>(
     null,
@@ -67,7 +63,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/getComments?id=${postId}`,
+        `http://10.1.10.233:3000/api/comments/getComments?id=${postId}`,
         {
           method: "GET",
           headers: {
@@ -99,10 +95,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     commentId: string | null,
     vote: string,
   ) => {
+    
     let myId = myInfo?.id;
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/addComment?id=${postId}`,
+        `http://10.1.10.233:3000/api/comments/addComment?id=${postId}`,
         {
           method: "POST",
           headers: {
@@ -113,7 +110,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             username: userName,
             postId,
             userId: myId,
-            commentId,
+            commentId ,
             vote,
           }),
         },
@@ -135,7 +132,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const deleteComment = async (commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/deleteComment`,
+        `http://10.1.10.233:3000/api/comments/deleteComment`,
         {
           method: "POST",
           headers: {
@@ -162,7 +159,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/addCommentLike`,
+        `http://10.1.10.233:3000/comments/addCommentLike`,
         {
           method: "POST",
           headers: {
@@ -182,7 +179,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/addCommentDislike`,
+        `http://10.1.10.233:3000/api/comments/addCommentDislike`,
         {
           method: "POST",
           headers: {
@@ -320,6 +317,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       >
                         Reply
                       </div>
+                      {myInfo?.username === reply.username && (
+                          <button onClick={() => deleteComment(reply.id)}>
+                            <IonIcon icon={trashBin}></IonIcon>
+                          </button>
+                        )}
                     </div>
                   </IonCard>
                 </div>
@@ -583,6 +585,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             onBlur={() => {
               setIsReplying(false);
               setReplyingToUsername("");
+              setReplyCommentId(null)
+              setReplyingTo(null);
             }}
             ref={inputRef}
             onKeyDown={(e) => {

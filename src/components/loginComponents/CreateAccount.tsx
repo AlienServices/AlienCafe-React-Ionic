@@ -19,7 +19,7 @@ const CreateAccount = ({
         email: email,
         password: password,
       });
-      const result = await fetch(`http://10.1.10.233:3000/api/createUser`, {
+      const result = await fetch(`http://10.1.10.233:3000/api/users/createUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

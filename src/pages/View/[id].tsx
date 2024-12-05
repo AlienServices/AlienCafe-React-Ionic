@@ -51,7 +51,7 @@ const Post = () => {
   const getOnePost = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/getPost?id=${id}&userId=${myInfo?.id}`,
+        `http://10.1.10.233:3000/api/posts/getPost?id=${id}&userId=${myInfo?.id}`,
         {
           method: "GET",
           headers: {
@@ -108,12 +108,12 @@ const Post = () => {
   const updateVote = async (id: string, userId: string, vote: string) => {
     console.log(vote, "this is email");
     const updateUser = await post({
-      url: "http://10.1.10.233:3000/api/addVote",
+      url: "http://10.1.10.233:3000/api/posts/addVote",
       body: { vote, id, userId },
     });
     setMyVote(selectedOption);
     await post({
-      url: "http://10.1.10.233:3000/api/updateUser",
+      url: "http://10.1.10.233:3000/api/users/updateUser",
       body: { vote: selectedOption, id, email: myInfo?.email },
     });
   };
@@ -121,7 +121,7 @@ const Post = () => {
   const getMyVote = async (id: string, postId: string) => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/getVote?postId=${postId}&userId=${myInfo?.id}`,
+        `http://10.1.10.233:3000/api/posts/getVote?postId=${postId}&userId=${myInfo?.id}`,
         {
           method: "GET",
           headers: {

@@ -47,7 +47,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const getConvos = async () => {
     try {
       const convos = await fetch(
-        `http://10.1.10.233:3000/api/getConvos?email=${localStorage.getItem("user")}`,
+        `http://10.1.10.233:3000/api/conversations/getConvos?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
@@ -64,7 +64,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const deleteConvos = async (id: string) => {
     try {
-      await fetch(`http://10.1.10.233:3000/api/deleteConvo`, {
+      await fetch(`http://10.1.10.233:3000/api/conversations/deleteConvo`, {
         method: "POST",
         body: JSON.stringify({
           id: id,
@@ -89,7 +89,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       await post({
-        url: `http://10.1.10.233:3000/api/addMessage`,
+        url: `http://10.1.10.233:3000/api/conversations/addMessage`,
         body: {
           id,
           messages: message,

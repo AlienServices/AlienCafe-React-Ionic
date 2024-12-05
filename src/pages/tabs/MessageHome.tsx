@@ -72,7 +72,7 @@ const MessageHome: React.FC = () => {
   const getConvos = async () => {
     try {
       const convos = await fetch(
-        `http://10.1.10.233:3000/api/getConvos?email=${localStorage.getItem("user")}`,
+        `http://10.1.10.233:3000/api/conversations/getConvos?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
@@ -90,7 +90,7 @@ const MessageHome: React.FC = () => {
   const getConvoData = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/getConvoData?ids=${myConvos?.map((convo: { id: string }) => convo.id)}`,
+        `http://10.1.10.233:3000/conversaions/getConvoData?ids=${myConvos?.map((convo: { id: string }) => convo.id)}`,
         {
           method: "GET",
           headers: {

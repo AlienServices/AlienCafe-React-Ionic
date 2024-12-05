@@ -26,7 +26,7 @@ const Category: React.FC<CategoryProps> = ({
   const getPosts = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/getPostCategory?category=${category}`,
+        `http://10.1.10.233:3000/api/posts/getPostCategory?category=${category}`,
         {
           method: "GET",
           headers: {

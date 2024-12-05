@@ -100,7 +100,9 @@ const Content: React.FC = () => {
                         </IonAvatar>
                         <div className="username">{post.email}</div>
                       </div>
-                      <div>
+                      <div onClick={() => {
+                        deletePost(post.id)
+                      }}>
                         <IonIcon icon={trashOutline}></IonIcon>
                       </div>
                     </div>

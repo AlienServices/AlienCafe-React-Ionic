@@ -31,6 +31,7 @@ const Comment = () => {
   const { id } = useParams<{ id: string }>();
   const { myVote } = useParams<{ myVote: string }>();
   const [toggle, setToggle] = useState(true);
+  const [commentReplyId, setCommentReplyId] = useState(null);
   const { postId } = useParams<{ postId: string }>();
   const history = useHistory();
   const [replyingToUsername, setReplyingToUsername] = useState<string | null>(
@@ -47,7 +48,7 @@ const Comment = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/getComment?id=${id}`,
+        `http://10.1.10.233:3000/api/comments/getComment?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -80,7 +81,7 @@ const Comment = () => {
   const deleteComment = async (commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/deleteComment`,
+        `http://10.1.10.233:3000/api/comments/deleteComment`,
         {
           method: "POST",
           headers: {
@@ -137,10 +138,10 @@ const Comment = () => {
     commentId: string | null,
     vote: string,
   ) => {
-    console.log(userName, "this is the comment");
+
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/addComment?id=${id}`,
+        `http://10.1.10.233:3000/api/comments/addComment?id=${id}`,
         {
           method: "POST",
           headers: {
@@ -151,7 +152,7 @@ const Comment = () => {
             userName,
             postId,
             userId,
-            commentId,
+            commentId: commentReplyId ? commentReplyId : commentId,
             vote,
           }),
         },
@@ -160,6 +161,7 @@ const Comment = () => {
       setReplyComment("");
       setComments(post.comment);
       fetchComments();
+      setCommentReplyId(null)
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -190,7 +192,7 @@ const Comment = () => {
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/addCommentLike`,
+        `http://10.1.10.233:3000/comments/addCommentLike`,
         {
           method: "POST",
           headers: {
@@ -210,7 +212,7 @@ const Comment = () => {
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/addCommentDislike`,
+        `http://10.1.10.233:3000/api/comments/addCommentDislike`,
         {
           method: "POST",
           headers: {
@@ -241,9 +243,8 @@ const Comment = () => {
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${
-        import.meta.env.VITE_APP_SUPABASE_URL
-      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
@@ -265,7 +266,7 @@ const Comment = () => {
         ? getColor(parentInfo.vote)
         : "transparent";
       return (
-        <>
+        <div>
           <div
             key={reply.id}
             style={{
@@ -312,6 +313,7 @@ const Comment = () => {
                     e.preventDefault();
                     setReplyingToUsername(reply?.username);
                     handleReplyClick(reply.id);
+                    setCommentReplyId(reply.id)
                   }}
                 >
                   Reply
@@ -354,54 +356,23 @@ const Comment = () => {
                     </button>
                   )}
                 </div>
-
-                {reply.replies && reply.replies.length > 0 && (
-                  <div>
-                    <div
-                      className="seeMore"
-                      onClick={() => toggleReplies(reply.id)}
-                    >
-                      {replyToggle[reply.id]
-                        ? "- Hide Replies"
-                        : "+ See All Replies"}
-                    </div>
-                  </div>
-                )}
-                {replyingTo === reply.id && (
-                  <div className="message-input-container" style={{}}>
-                    <IonTextarea
-                      onBlur={() => {
-                        setReplyingTo(null);
-                      }}
-                      ref={inputRef}
-                      // onKeyDown={}
-                      value={replyComment}
-                      onIonChange={(e) => setReplyComment(e.detail.value!)}
-                      placeholder="Type your reply..."
-                    />
-                    <IonIcon
-                      style={{ marginLeft: "3px", padding: "5px" }}
-                      size="large"
-                      icon={sendOutline}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => {
-                        addComment(
-                          replyComment,
-                          myInfo?.username,
-                          postId,
-                          myInfo?.id,
-                          reply.id,
-                          myVote,
-                        );
-                      }}
-                    />
-                  </div>
-                )}
               </div>
+              {reply.replies && reply.replies.length > 0 && (
+                <div>
+                  <div
+                    className="seeMore"
+                    onClick={() => toggleReplies(reply.id)}
+                  >
+                    {replyToggle[reply.id]
+                      ? "- Hide Replies"
+                      : "+ See All Replies"}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {replyToggle[reply.id] && renderReplies(reply.replies, false)}
-        </>
+        </div>
       );
     });
   };
@@ -436,9 +407,9 @@ const Comment = () => {
       }}
     >
       <HeaderAlien backArrowToggle={true} />
-      <IonContent>
+      <IonContent >
         {comments && (
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", flexDirection: "column", height:"fit-content", paddingBottom: '150px' }}>
             <div style={{ display: "flex" }}>
               <img
                 className="user-icon-small"

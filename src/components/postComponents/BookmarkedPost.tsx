@@ -62,7 +62,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const getUser = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/myInfo?email=${localStorage.getItem("user")}`,
+        `http://10.1.10.233:3000/users/myInfo?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {

@@ -17,7 +17,7 @@ const LastMessage = ({
   const getLastMessage = async (conversationId: string) => {
     try {
       const convos = await fetch(
-        `http://10.1.10.233:3000/api/getLastMessage?conversationId=${conversationId}`,
+        `http://10.1.10.233:3000/conversations/getLastMessage?conversationId=${conversationId}`,
         {
           method: "GET",
           headers: {
