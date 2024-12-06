@@ -1,34 +1,18 @@
-import { useEffect, useState, useContext } from "react";
+import {  useState } from "react";
 import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
-import { arrowBackCircleOutline } from "ionicons/icons";
 import {
   IonContent,
   IonMenuButton,
   IonPage,
-  IonIcon,
-  useIonToast,
-  useIonLoading,
   IonImg,
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
 import "../theme/Tab1.css";
 import SignIn from "../components/loginComponents/SignIn";
 import CreateAccount from "../components/loginComponents/CreateAccount";
-import { MyContext } from "../providers/postProvider";
 
 const Login: React.FC = () => {
-  const [showLoading, hideLoading] = useIonLoading();
-  const [showToast] = useIonToast();
-  const {
-    posts,
-    myPosts,
-    setPosts,
-    setMyPosts,
-    updatePost,
-    getAllPosts,
-    myInfo,
-  } = useContext(MyContext);
   const history = useHistory();
   const [loginToggle, setLoginToggle] = useState<boolean>(true);
 
@@ -40,20 +24,6 @@ const Login: React.FC = () => {
   //   }
   // }, [user])
 
-  const handleLogout = async () => {
-    console.log("hitting logout in login");
-    try {
-      const { error } = await supabase.auth.signOut();
-      localStorage.removeItem("user");
-      history.push("/tab1");
-      console.log("You Logged Out");
-      if (error) {
-        console.log("this is logout error", error);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>

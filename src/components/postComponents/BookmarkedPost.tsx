@@ -41,10 +41,11 @@ interface PostProps {
   };
 }
 
+
 const Post: React.FC<PostProps> = ({ post }) => {
   const history = useHistory();
   const { addLike, addDislike, getUserPosts } = useContext(MyContext);
-  const { myInfo, updateUser } = useContext(UserContext);
+  const { myInfo, updateUser } = useContext<any>(UserContext);
   const [user, setUser] = useState({
     bio: "",
     email: "",
@@ -113,9 +114,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
     setShowModal(false);
   };
 
-  const isLikedByUser = (likes: string[]): boolean => likes.includes(myInfo.id);
-  const isDislikedByUser = (dislikes: string[]): boolean =>
-    dislikes.includes(myInfo.id);
+  const isLikedByUser = (likes: string[]): boolean => likes.includes(myInfo?.id || '');
+  const isDislikedByUser = (dislikes: string[]): boolean =>    
+    dislikes.includes(myInfo?.id || '');
   const calculateNetScore = (likes: string[], dislikes: string[]): number =>
     likes.length - dislikes.length;
 
@@ -158,7 +159,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 <div>
                   {myInfo?.email !== post?.email ? (
                     <>
-                      {myInfo?.following?.indexOf(post.email) !== -1 ? (
+                      {myInfo?.following?.indexOf(post?.email) !== -1 ? (
                         <IonIcon icon={checkmarkCircleOutline}></IonIcon>
                       ) : (
                         <button

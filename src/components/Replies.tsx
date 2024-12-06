@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import {
   IonCard,
-  IonIcon,  
+  IonIcon,
   IonSkeletonText,
   IonLabel,
   IonList,
   IonItem,
-  IonToast,  
+  IonToast,
 } from "@ionic/react";
-import {  sendOutline, trashBin } from "ionicons/icons";
+import { sendOutline, trashBin } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import {
   arrowDownCircleOutline,
@@ -25,12 +25,17 @@ interface Comment {
   comment: string;
   username: string;
   vote: string;
+  userId: string;
+  likes: string[];
+  dislikes: string[];
 }
 
 interface RepliesProps {
   postId: string;
   myVote: string;
 }
+
+
 
 const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const { myInfo } = useContext(UserContext);
@@ -80,11 +85,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const isLikedByUser = (likes: string[]): boolean => {
-    return likes.includes(myInfo?.id);
+    return likes.includes(myInfo?.id || '');
   };
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    return dislikes.includes(myInfo?.id);
+    return dislikes.includes(myInfo?.id || '');
   };
 
   const addComment = async (
@@ -95,7 +100,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     commentId: string | null,
     vote: string,
   ) => {
-    
+
     let myId = myInfo?.id;
     try {
       const response = await fetch(
@@ -110,7 +115,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             username: userName,
             postId,
             userId: myId,
-            commentId ,
+            commentId,
             vote,
           }),
         },
@@ -230,9 +235,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${
-        import.meta.env.VITE_APP_SUPABASE_URL
-      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
@@ -318,10 +322,10 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                         Reply
                       </div>
                       {myInfo?.username === reply.username && (
-                          <button onClick={() => deleteComment(reply.id)}>
-                            <IonIcon icon={trashBin}></IonIcon>
-                          </button>
-                        )}
+                        <button onClick={() => deleteComment(reply.id)}>
+                          <IonIcon icon={trashBin}></IonIcon>
+                        </button>
+                      )}
                     </div>
                   </IonCard>
                 </div>
@@ -500,6 +504,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                         <div className="arrowRowSmall">
                           <IonIcon
                             onClick={() => {
+                              if(myInfo)
                               addCommentLike(myInfo.id, comment.id);
                             }}
                             icon={
@@ -518,7 +523,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                         <div className="arrowRowSmall">
                           <IonIcon
                             onClick={() => {
-                              addCommentDisike(myInfo.id, comment.id);
+                              if (myInfo)
+                                addCommentDisike(myInfo.id, comment.id);
                             }}
                             icon={
                               isDislikedByUser(comment?.dislikes)
@@ -594,9 +600,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                 e.preventDefault(); // Prevents new line on Enter
                 addComment(
                   replyComment,
-                  myInfo?.username,
+                  myInfo?.username || "",
                   postId,
-                  myInfo?.id,
+                  myInfo?.id || "",
                   replyCommentId,
                   myVote,
                 );
@@ -618,9 +624,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             onClick={() => {
               addComment(
                 replyComment,
-                myInfo?.username,
+                myInfo?.username || "",
                 postId,
-                myInfo?.id,
+                myInfo?.id || "",
                 replyCommentId,
                 myVote,
               );

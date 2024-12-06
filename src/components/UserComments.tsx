@@ -1,16 +1,12 @@
-import { useEffect, useState, useRef, useCallback, useContext } from "react";
+import { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { IonCard, IonItem, IonList } from "@ionic/react";
 import "../theme/Tab3.css";
-import Page from "../pages/View/[id]";
-import Profile from "../pages/Profile/[id]";
-import { post } from "../utils/fetch";
-import { MyContext } from "../providers/postProvider";
+
 
 const UserComments = ({ id }: { id: string }) => {
-  const { myInfo } = useContext(MyContext);
-  const [comments, setComments] = useState();
-  const [comment, setComment] = useState();
+  
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     getUserComments();
@@ -38,7 +34,7 @@ const UserComments = ({ id }: { id: string }) => {
   return (
     <>
       <IonList>
-        {comments?.map((comment: string) => {
+        {comments?.map((comment: any) => {
           return (
             <IonItem lines="none">
               <IonCard className="cardComment">

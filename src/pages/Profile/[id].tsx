@@ -25,7 +25,7 @@ const Profile = ({ id }: { id: string }) => {
     likes: 0,
     categories: 0,
   });
-  const { myInfo, setMyInfo } = useContext(MyContext);
+  // const { myInfo, setMyInfo } = useContext(MyContext);
   const [userInfo, setUserInfo] = useState<{
     email: string;
     id: string;

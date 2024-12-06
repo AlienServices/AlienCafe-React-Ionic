@@ -77,16 +77,15 @@ const Post = () => {
     console.log(selectedOption, "this is the selected option");
     setHasVoted(true);
     setTimeout(async () => {
-      await updateVote(id, myInfo?.id, selectedOption);
+      await updateVote(id, myInfo?.id || "", selectedOption);
       getOnePost();
     }, 500);
   };
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${
-        import.meta.env.VITE_APP_SUPABASE_URL
-      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
@@ -144,7 +143,7 @@ const Post = () => {
   };
 
   useEffect(() => {
-    getMyVote(myInfo?.id, id);
+    getMyVote(myInfo?.id || '', id);
   }, []);
 
   useIonViewWillLeave(() => {
@@ -166,7 +165,7 @@ const Post = () => {
       }}
     >
       <IonContent>
-        <HeaderAlien backArrowToggle={true} />
+        <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={true} />
         {loaded ? (
           <>
             {" "}

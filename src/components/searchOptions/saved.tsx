@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonList,
   IonItem,
@@ -6,13 +6,12 @@ import {
   IonSelect,
   IonSelectOption,
 } from "@ionic/react";
-import { MyContext } from "../../providers/postProvider";
-import { useHistory } from "react-router";
 import Post from "../postComponents/Post";
 
 const Saved = ({ search }: { search: string }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [toggle, setToggle] = useState<boolean>(true);
   const categories = ["Technology", "Health", "Sports", "Entertainment"];
 
   const searchUsers = async () => {
@@ -57,7 +56,7 @@ const Saved = ({ search }: { search: string }) => {
       <IonList>
         {searchResults?.length > 0 ? (
           searchResults.map((user, index) => (
-            <Post key={index} post={user.post} />
+            <Post setToggle={setToggle} key={index} post={user.post} />
           ))
         ) : (
           <IonItem>

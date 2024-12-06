@@ -40,9 +40,9 @@ const Content: React.FC = () => {
     history.push(`/view/${id}`);
   };
 
-  const groupPostsByCategory = (posts) => {
-    return posts.reduce((groups, post) => {
-      post.categories.forEach((category) => {
+  const groupPostsByCategory = (posts: any) => {
+    return posts.reduce((groups: any, post: any) => {
+      post.categories.forEach((category: any) => {
         if (!groups[category]) {
           groups[category] = [];
         }
@@ -60,8 +60,8 @@ const Content: React.FC = () => {
         <div key={category}>
           <div className="MyPostsTitle">{category}</div>
           {groupedPosts[category]
-            .sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
-            .map((post, index) => {
+            .sort((a: any, b: any) => Date.parse(b?.date) - Date.parse(a?.date))
+            .map((post: any, index: number) => {
               const transformedTitle = transformTitleToH1(post.title);
               const truncatedContent = truncateContent(post.content, 200);
               const date = new Date(post.date);

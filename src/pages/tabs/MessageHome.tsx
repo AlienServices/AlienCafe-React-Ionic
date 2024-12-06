@@ -40,7 +40,7 @@ interface MessageData {
 const MessageHome: React.FC = () => {
   const [messageData, setMessageData] = useState<MessageData[]>([]);
   // const { myConvos, getConvos } = useContext(MessageContext);
-  const [myConvos, setMyConvos] = useState();
+  const [myConvos, setMyConvos] = useState<any>([]);
   const history = useHistory();
   const DELETE_BTN_WIDTH = 15;
   const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
@@ -116,7 +116,7 @@ const MessageHome: React.FC = () => {
   return (
     <IonPage>
       <IonPage>
-        <HeaderAlien backArrowToggle={false} />
+        <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={false} />
         <IonContent>
           <ul>
             <motion.li

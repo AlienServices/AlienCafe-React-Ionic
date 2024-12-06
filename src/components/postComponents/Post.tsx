@@ -35,6 +35,7 @@ interface PostProps {
     likes: string[];
     dislikes: string[];
     comments: any[];
+    userId: string
   };
   setToggle: (value: boolean) => void;
 }
@@ -42,7 +43,7 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post, setToggle }) => {
   const history = useHistory();
   const { addLike, addDislike, getUserPosts } = useContext(MyContext);
-  const { myInfo, updateUser } = useContext(UserContext);
+  const { myInfo, updateUser } = useContext<any>(UserContext);
   const [showModal, setShowModal] = useState(false);
 
   const transformTitleToH1 = (title: string) => {

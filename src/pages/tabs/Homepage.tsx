@@ -54,7 +54,7 @@ const Tab3: React.FC = () => {
           transition: "opacity 0.4s ease-in-out",
         }}
       >
-        <HeaderAlien backArrowToggle={false} />
+        <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={false} />
         <IonContent>
           <div className="middle">
             <IonTitle>{currentCategory}</IonTitle>

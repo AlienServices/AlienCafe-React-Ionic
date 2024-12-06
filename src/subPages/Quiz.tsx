@@ -18,12 +18,12 @@ import {
 import Tab3 from "../../src/pages/tabs/Homepage";
 import { MyContext } from "../providers/postProvider";
 
-interface TestProps {
+interface LocationState {
   quizTitle: string;
   content: string;
 }
 
-const Quiz = (props: TestProps) => {
+const Quiz = () => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [present] = useIonAlert();
   const [thesis, setThesis] = useState("");
@@ -31,7 +31,7 @@ const Quiz = (props: TestProps) => {
   const [yesAction, setYesAction] = useState("");
   const [noAction, setNoAction] = useState("");
   const [maybeAction, setMaybeAction] = useState("");
-  const location = useLocation();
+  const location = useLocation<LocationState>();
   const { quizTitle, content } = location.state || {};
   const history = useHistory();
 
@@ -56,6 +56,8 @@ const Quiz = (props: TestProps) => {
     setNoAction("");
   }, []);
 
+  // console.log(quizTitle, 'this is the quiz title')
+
   return (
     <IonPage>
       <div style={{ height: "140px", paddingTop: "5px" }} className="brown">
@@ -64,7 +66,7 @@ const Quiz = (props: TestProps) => {
             <button
               className="nextButton"
               onClick={() => {
-                history.push("/tab1");
+                history.goBack();
               }}
             >
               Back

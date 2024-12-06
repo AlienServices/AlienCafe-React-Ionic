@@ -1,22 +1,30 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useIonViewWillEnter } from "@ionic/react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/Tab3.css";
 import Post from "../postComponents/Post";
+
+interface PostType {
+  id: string;
+  email: string;
+  title: string;
+  content: string;
+  category: string;
+  date: string;
+  likes: string[];
+  userId: string;
+  dislikes: string[];
+  comments: any[]; 
+  [key: string]: any;
+}
 
 interface CategoryProps {
   category: string;
   setToggle: (value: boolean) => void;
 }
 
-const Category: React.FC<CategoryProps> = ({
-  category,
-  setToggle,
-}: {
-  category: string;
-  setToggle: (value: boolean) => void;
-}) => {
-  const [posts, setPosts] = useState([]);
+const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
+  const [posts, setPosts] = useState<PostType[]>([]);
   const [showModal, setShowModal] = useState(false);
 
   useIonViewWillEnter(() => {
@@ -32,19 +40,20 @@ const Category: React.FC<CategoryProps> = ({
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
 
       const userInfo = await result.json();
+
       if (Array.isArray(userInfo)) {
-        setPosts(userInfo);
+        setPosts(userInfo as PostType[]);
       } else if (userInfo?.posts && Array.isArray(userInfo.posts)) {
-        setPosts(userInfo.posts);
+        setPosts(userInfo.posts as PostType[]);
       } else {
         setPosts([]);
       }
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.error("Error fetching posts:", error);
       setPosts([]);
     }
   };
@@ -57,23 +66,20 @@ const Category: React.FC<CategoryProps> = ({
     setShowModal(false);
   };
 
-  console.log("test");
+  console.log(posts, 'these are the psots')
 
   return (
     <div style={{ height: "fit-content" }}>
-      {posts ? (
+      {posts.length > 0 ? (
         <>
           {posts
-            ?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
-            .map((post: any) => {
-              console.log(post);
-              return <Post setToggle={setToggle} post={post} />;
-            })}
+            .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+            .map((post) => (
+              <Post key={post.id} setToggle={setToggle} post={post} />
+            ))}
         </>
       ) : (
-        <>
-          <div>You aint got no post{category}</div>
-        </>
+        <div>No posts found in category: {category}</div>
       )}
     </div>
   );

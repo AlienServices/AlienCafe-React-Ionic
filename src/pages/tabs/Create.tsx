@@ -23,9 +23,7 @@ const MyEditor = () => {
   const { setLoggedIn, loggedIn, myInfo } = useContext(UserContext);
   const contentQuillRef = useRef<ReactQuill | null>(null);
   const titleQuillRef = useRef<ReactQuill | null>(null);
-  const QuizPage = () => (
-    <Quiz quizTitle={editorHtmlTitle} content={editorHtml} />
-  );
+  
 
   useEffect(() => {
     if (contentQuillRef.current) {
@@ -73,7 +71,7 @@ const MyEditor = () => {
     <IonPage>
       <HeaderAlien
         backArrowToggle={false}
-        next={true}
+        next={loggedIn? true : false}
         content={editorHtml}
         title={editorHtmlTitle}
       />
@@ -82,13 +80,13 @@ const MyEditor = () => {
           <div className="centerRow">
             <img
               className="profile-photo"
-              src={profileImage(myInfo?.id)}
+              src={profileImage(myInfo?.id || "")}
               alt=""
             />
             {myInfo?.username}
           </div>
         ) : (
-          <div className="centerRow">
+          <div style={{width: '300px'}} className="centerRow">
             <img
               className="profile-photo"
               src={profileImage(
@@ -96,7 +94,7 @@ const MyEditor = () => {
               )}
               alt=""
             />
-            Log In!
+            You Need To Login
           </div>
         )}
 

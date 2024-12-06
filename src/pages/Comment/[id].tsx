@@ -2,16 +2,12 @@ import {
   IonContent,
   IonPage,
   IonCard,
-  IonIcon,
-  IonImg,
-  IonFooter,
-  IonTextarea,
+  IonIcon,  
   useIonViewDidLeave,
   useIonViewWillLeave,
 } from "@ionic/react";
 import {
   arrowDownCircleOutline,
-  arrowBackCircleOutline,
   arrowUpCircleOutline,
   arrowUpCircle,
   arrowDownCircle,
@@ -230,11 +226,11 @@ const Comment = () => {
   };
 
   const isLikedByUser = (likes: string[]): boolean => {
-    return likes.includes(myInfo?.id);
+    return likes.includes(myInfo?.id || '');
   };
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    return dislikes.includes(myInfo?.id);
+    return dislikes.includes(myInfo?.id || '');
   };
 
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
@@ -312,7 +308,7 @@ const Comment = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     setReplyingToUsername(reply?.username);
-                    handleReplyClick(reply.id);
+                    handleReplyClick();
                     setCommentReplyId(reply.id)
                   }}
                 >
@@ -328,7 +324,7 @@ const Comment = () => {
                     }}
                   >
                     <IonIcon
-                      onClick={() => addCommentLike(myInfo.id, reply.id)}
+                      onClick={() => { if (myInfo) addCommentLike(myInfo.id, reply.id) }}
                       icon={
                         isLikedByUser(reply?.likes)
                           ? arrowUpCircle
@@ -339,7 +335,7 @@ const Comment = () => {
                       {calculateNetScore(reply?.likes, reply?.dislikes)}
                     </div>
                     <IonIcon
-                      onClick={() => addCommentDisike(myInfo.id, reply.id)}
+                      onClick={() => { if (myInfo) addCommentDisike(myInfo.id, reply.id) }}
                       icon={
                         isDislikedByUser(reply?.dislikes)
                           ? arrowDownCircle
@@ -388,11 +384,11 @@ const Comment = () => {
     history.goBack();
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      addComment(replyComment, myInfo.username, id, myInfo.id);
-    }
-  };
+  // const handleKeyDown = (event: React.KeyboardEvent) => {
+  //   if (event.key === "Enter") {
+  //     addComment(replyComment, myInfo?.username, id, myInfo?.id);
+  //   }
+  // };
 
   const gotoTopic = (postId: string, id: string) => {
     console.log(postId, id);
@@ -406,10 +402,10 @@ const Comment = () => {
         transition: "opacity 0.3s ease-in-out",
       }}
     >
-      <HeaderAlien backArrowToggle={true} />
+      <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={true} />
       <IonContent >
         {comments && (
-          <div style={{ display: "flex", flexDirection: "column", height:"fit-content", paddingBottom: '150px' }}>
+          <div style={{ display: "flex", flexDirection: "column", height: "fit-content", paddingBottom: '150px' }}>
             <div style={{ display: "flex" }}>
               <img
                 className="user-icon-small"
@@ -433,7 +429,7 @@ const Comment = () => {
                     <div
                       className="reply"
                       onClick={() => {
-                        handleReplyClick(comments?.id);
+                        handleReplyClick();
                         setReplyingToUsername(comments?.username);
                       }}
                     >
@@ -455,7 +451,7 @@ const Comment = () => {
                       </div>
                       <IonIcon
                         style={{ color: "black" }}
-                        onClick={() => addCommentLike(myInfo.id, comments.id)}
+                        onClick={() => { if (myInfo) addCommentLike(myInfo.id, comments.id) }}
                         icon={
                           isLikedByUser(comments?.likes)
                             ? arrowUpCircle
@@ -467,7 +463,7 @@ const Comment = () => {
                       </div>
                       <IonIcon
                         style={{ color: "black" }}
-                        onClick={() => addCommentDisike(myInfo.id, comments.id)}
+                        onClick={() => { if (myInfo) addCommentDisike(myInfo.id, comments.id) }}
                         icon={
                           isDislikedByUser(comments?.dislikes)
                             ? arrowDownCircle
@@ -522,21 +518,24 @@ const Comment = () => {
                 setIsReplying(false);
               }}
               ref={inputRef}
-              onKeyDown={(e: React.KeyboardEvent<HTMLIonTextareaElement>) => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
+                  const value = (e.currentTarget as HTMLTextAreaElement).value
                   addComment(
-                    e.target.value,
-                    myInfo?.username,
+                    value,
+                    myInfo?.username || '',
                     postId,
-                    myInfo?.id,
+                    myInfo?.id || '',
                     id,
                     myVote,
                   );
                 }
               }}
               value={replyComment}
-              onInput={(e) => setReplyComment(e.target.value!)}
+              onInput={(e: React.FormEvent<HTMLTextAreaElement>) =>
+                setReplyComment(e.currentTarget.value)
+              }
               placeholder="Type your reply..."
             />
             <IonIcon
@@ -547,9 +546,9 @@ const Comment = () => {
               onClick={() => {
                 addComment(
                   replyComment,
-                  myInfo?.username,
+                  myInfo?.username || '',
                   postId,
-                  myInfo?.id,
+                  myInfo?.id || '',
                   id,
                   myVote,
                 );

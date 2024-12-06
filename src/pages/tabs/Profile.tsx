@@ -273,7 +273,7 @@ const Profile = ({
         </IonCard>
         {choices.replies ? (
           <>
-            <UserComments id={myInfo.id} />
+            <UserComments id={myInfo?.id || ""} />
           </>
         ) : choices.posts ? (
           <>

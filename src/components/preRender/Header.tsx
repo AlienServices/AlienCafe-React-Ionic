@@ -1,24 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  IonContent,
-  IonPage,
-  IonTitle,
-  useIonViewWillLeave,
-  useIonViewDidLeave,
-  useIonViewWillEnter,
-  IonImg,
+import {  
   IonMenuButton,
   IonIcon,
 } from "@ionic/react";
 import { useHistory } from "react-router";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
-import Category from "../../components/categories/Category";
 import "swiper/css";
 import "swiper/css/pagination";
 import "../../theme/Tab3.css";
-import { Menu } from "../../components/Menu";
-import { UserContext } from "../../providers/userProvider";
 import { arrowBackCircleOutline } from "ionicons/icons";
 import { AlienLogoSVG } from "./SVG";
 
@@ -33,8 +20,7 @@ const HeaderAlien = ({
   content: string;
   title: string;
 }) => {
-  const history = useHistory();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const history = useHistory();  
 
   const goBack = () => {
     history.goBack();

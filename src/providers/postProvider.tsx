@@ -182,7 +182,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       url: `http://10.1.10.233:3000/api/posts/addPostLike?id=${id}`,
       body: {
         id: id,
-        userId: myInfo.id,
+        userId: myInfo?.id,
       },
     });
     getMyPosts();
@@ -309,7 +309,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           categories,
         }),
       });
-      await getAllPosts();
+      // await getAllPosts();
       await getMyPosts();
       console.log(test, "Post message");
     } catch (error) {

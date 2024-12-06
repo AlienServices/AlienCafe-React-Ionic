@@ -1,40 +1,19 @@
-import { useEffect, useState, useRef, useCallback, useContext } from "react";
+import {  useState, useContext } from "react";
 // import Editor from '../components/Editor';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Quill from "quill/core";
-import { supabase } from "./supaBase";
 import {
   IonButton,
   IonAvatar,
-  IonFab,
-  IonFabList,
-  IonFabButton,
-  IonRouterLink,
   IonContent,
-  IonNavLink,
   IonCard,
-  IonHeader,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonToast,
-  useIonLoading,
+  IonList,  
 } from "@ionic/react";
-import "../theme/Tab3.css";
-import { post } from "../utils/fetch";
-import Page from "../pages/View/[id]";
+import "../theme/Tab3.css"
 import { MyContext } from "../providers/postProvider";
 
 const Content: React.FC = () => {
-  const { deletePost, userPosts } = useContext(MyContext);
-  const [value, setValue] = useState(
-    "<p>here is my values this is for a test</p><p><br></p><p>																																									this should go in the middle</p><p>idk about thiks one </p><p><br></p><p><br></p><p>lets see what happens</p><p><br></p><h1>this is a big header</h1>",
-  );
+  const { deletePost, userPosts } = useContext<any>(MyContext);
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -60,15 +39,16 @@ const Content: React.FC = () => {
     return textContent;
   };
 
-  console.log(userPosts, "these are the users posts");
+  
+
+
   return (
     <IonContent className="page">
       <IonList>
         {userPosts ? (
-          <>
-            {" "}
+          <>            
             {userPosts
-              ?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
+              ?.sort((a: any, b: any) => Date.parse(b?.date) - Date.parse(a?.date))
               .map((post: any, index: number) => {
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(post.content, "text/html");
@@ -124,7 +104,7 @@ const Content: React.FC = () => {
                       </div>
                       <div
                         onClick={() => {
-                          gotoTopic(post.id);
+                          // gotoTopic(post.id);
                         }}
                       >
                         <ReactQuill

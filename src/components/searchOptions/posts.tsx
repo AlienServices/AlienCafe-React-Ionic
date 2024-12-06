@@ -4,6 +4,7 @@ import Post from "../postComponents/Post";
 
 const Posts = ({ search }: { search: string }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [toggle, setToggle] = useState<any>(true);
   const [selectedCategory, setSelectedCategory] = useState<string>(""); // Category selection state
   const categories = [
     "Technology",
@@ -61,7 +62,7 @@ const Posts = ({ search }: { search: string }) => {
 
       <IonList>
         {searchResults?.length > 0 ? (
-          searchResults.map((user, index) => <Post key={index} post={user} />)
+          searchResults.map((user, index) => <Post setToggle={setToggle} key={index} post={user} />)
         ) : (
           <div>
             <IonLabel>No Posts found</IonLabel>
