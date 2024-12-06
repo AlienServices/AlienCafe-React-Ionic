@@ -6,7 +6,7 @@ import { ContextProvider } from "./providers/postProvider";
 import "@ionic/react/css/core.css";
 import "./main.css";
 import { StatusBar, Style } from "@capacitor/status-bar";
-import { IonReactRouter } from "@ionic/react-router";
+// import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { UserProvider } from "./providers/userProvider";
 
 const container = document.getElementById("root");
@@ -40,6 +40,9 @@ const Main = () => {
       </IonApp>
     </React.StrictMode>
   );
+
+  
 };
 
 root.render(<Main />);
+

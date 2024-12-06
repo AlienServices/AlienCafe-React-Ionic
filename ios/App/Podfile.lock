@@ -12,7 +12,7 @@ PODS:
     - Capacitor
   - CapacitorStatusBar (6.0.0):
     - Capacitor
-  - CordovaPlugins (6.1.2):
+  - CordovaPlugins (6.2.0):
     - CapacitorCordova
 
 DEPENDENCIES:
@@ -51,7 +51,7 @@ SPEC CHECKSUMS:
   CapacitorHaptics: 9ebc9363f0e9b8eb4295088a0b474530acf1859b
   CapacitorKeyboard: deacbd09d8d1029c3681197fb05d206b721d5f73
   CapacitorStatusBar: 2e4369f99166125435641b1908d05f561eaba6f6
-  CordovaPlugins: 6636f4c58f1aef4d803c6ff3e8344eb39c00ba68
+  CordovaPlugins: 08731213c63ccf137c576da2926bf4b3a8c40f17
 
 PODFILE CHECKSUM: e29cb1cc6f7c58bf3a87c8a0dc0f8eb88d0f43d2
 
