@@ -91,7 +91,7 @@ const Quiz = () => {
             />
           </div>
         </div>
-        <IonNavLink routerDirection="back" component={Tab3}>
+        <IonNavLink routerDirection="forward" component={Tab3}>
           <button
             className="nextButton"
             onClick={() => {
