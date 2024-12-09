@@ -20,11 +20,13 @@ import { useEffect, useState, useContext, useRef } from "react";
 import "../../theme/comment.css";
 import { UserContext } from "../../providers/userProvider";
 import HeaderAlien from "../../components/preRender/Header";
+import { MyContext } from "../../providers/postProvider";
 
 const Comment = () => {
   const { myInfo } = useContext(UserContext);
   const [comments, setComments] = useState<any | null>(null);
   const { id } = useParams<{ id: string }>();
+  const {getBaseUrl} = useContext(MyContext)
   const { myVote } = useParams<{ myVote: string }>();
   const [toggle, setToggle] = useState(true);
   const [commentReplyId, setCommentReplyId] = useState(null);
@@ -36,7 +38,7 @@ const Comment = () => {
   const [isReplying, setIsReplying] = useState(false);
   const [replyComment, setReplyComment] = useState<string>("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);  
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
   );
@@ -44,7 +46,7 @@ const Comment = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/comments/getComment?id=${id}`,
+        `${getBaseUrl()}/api/comments/getComment?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -77,7 +79,7 @@ const Comment = () => {
   const deleteComment = async (commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/comments/deleteComment`,
+        `${getBaseUrl()}/api/comments/deleteComment`,
         {
           method: "POST",
           headers: {
@@ -137,7 +139,7 @@ const Comment = () => {
 
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/comments/addComment?id=${id}`,
+        `getBaseUrl()/api/comments/addComment?id=${id}`,
         {
           method: "POST",
           headers: {
@@ -188,7 +190,7 @@ const Comment = () => {
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/comments/addCommentLike`,
+        `getBaseUrl()/comments/addCommentLike`,
         {
           method: "POST",
           headers: {
@@ -208,7 +210,7 @@ const Comment = () => {
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/comments/addCommentDislike`,
+        `getBaseUrl()/api/comments/addCommentDislike`,
         {
           method: "POST",
           headers: {

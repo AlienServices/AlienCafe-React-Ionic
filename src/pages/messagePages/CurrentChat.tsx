@@ -43,7 +43,8 @@ const CurrentChat: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const channel = useRef<any>(null);
   const history = useHistory();
-  const { id } = useParams<{ id: string }>();
+  const  {getBaseUrl} = useContext(MyContext)
+   const { id } = useParams<{ id: string }>();
   const { myUsername, person, setPerson, getConvos, addMessage, myConvos } =
     useContext(MessageContext);
   const [userName, setUserName] = useState<string | null>(
@@ -63,7 +64,7 @@ const CurrentChat: React.FC = () => {
 
   const updatedMessage = async (id: string, status: MessageStatus) => {
     try {
-      const convos = await fetch(`http://10.1.10.233:3000/api/conversations/updateMessage`, {
+      const convos = await fetch(`getBaseUrl()/api/conversations/updateMessage`, {
         method: "POST",
         body: JSON.stringify({
           id,
@@ -94,7 +95,7 @@ const CurrentChat: React.FC = () => {
   const updateMessagesRead = async (id: string) => {
     try {
       const convos = await fetch(
-        `http://10.1.10.233:3000/api/conversations/updateMessageRead?`,
+        `${getBaseUrl()}/api/conversations/updateMessageRead?`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -194,7 +195,7 @@ const CurrentChat: React.FC = () => {
   const getConvo = async () => {
     try {
       const convos = await fetch(
-        `http://10.1.10.233:3000/api/conversations/getConvo?id=${id}`,
+        `getBaseUrl()/api/conversations/getConvo?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -212,7 +213,7 @@ const CurrentChat: React.FC = () => {
   const getConvoDetails = async () => {
     try {
       const convos = await fetch(
-        `http://10.1.10.233:3000/api/conversations/getSingleConvo?id=${id}`,
+        `getBaseUrl()/api/conversations/getSingleConvo?id=${id}`,
         {
           method: "GET",
           headers: {

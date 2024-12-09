@@ -19,6 +19,7 @@ import UserPosts from "../../components/UserPosts";
 const Profile = ({ id }: { id: string }) => {
   const history = useHistory();
   const router = useIonRouter();
+  const {getBaseUrl} = useContext(MyContext)
   const [choices, setChoices] = useState({
     posts: 1,
     replies: 0,
@@ -40,7 +41,7 @@ const Profile = ({ id }: { id: string }) => {
   const getUserInfo = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/users/myInfo?email=${id}`,
+        `${getBaseUrl()}/api/users/myInfo?email=${id}`,
         {
           method: "GET",
           headers: {

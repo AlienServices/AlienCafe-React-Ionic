@@ -45,6 +45,7 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post }) => {
   const history = useHistory();
   const { addLike, addDislike, getUserPosts } = useContext(MyContext);
+  const {getBaseUrl} = useContext(MyContext)
   const { myInfo, updateUser } = useContext<any>(UserContext);
   const [user, setUser] = useState({
     bio: "",
@@ -63,7 +64,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const getUser = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/users/myInfo?email=${localStorage.getItem("user")}`,
+        `${getBaseUrl()}/users/myInfo?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {

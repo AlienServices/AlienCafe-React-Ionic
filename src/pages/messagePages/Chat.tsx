@@ -16,6 +16,7 @@ import {
 import { MessageContext } from "../../providers/messageProvider";
 import { post } from "../../utils/fetch";
 import "../../theme/newChat.css";
+import { MyContext } from "../../providers/postProvider";
 
 type Message = {
   userName: string;
@@ -26,6 +27,7 @@ type Message = {
 const Chat: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const {getBaseUrl} = useContext(MyContext)
   const channel = useRef<RealtimeChannel | null>(null);
   const { myUsername, person, setPerson, getConvos, addMessage } =
     useContext(MessageContext);
@@ -50,7 +52,7 @@ const Chat: React.FC = () => {
 
   const createConversation = async () => {
     const response = await post({
-      url: `http://10.1.10.233:3000/comments/createConversation`,
+      url: `${getBaseUrl()}/comments/createConversation`,
       body: {
         messages: {
           message,

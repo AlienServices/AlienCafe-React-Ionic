@@ -1,8 +1,9 @@
-import { createContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useState, ReactNode, useEffect, useContext } from "react";
 import { post } from "../utils/fetch";
 import { Platform } from "react-native";
 import { Capacitor } from "@capacitor/core";
 import { supabase } from "../components/supaBase";
+import { MyContext } from "./postProvider";
 
 interface User {
   id: string;
@@ -64,6 +65,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [myInfo, setMyInfo] = useState<UserContext["myInfo"] | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const {getBaseUrl}= useContext(MyContext)
 
   useEffect(() => {
     userInfo();
@@ -72,7 +74,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const userInfo = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/users/myInfo?email=${localStorage.getItem("user")}`,
+        `${getBaseUrl()}/api/users/myInfo?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
@@ -94,7 +96,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       await post({
-        url: `http://10.1.10.233:3000/api/users/updateUsers`,
+        url: `${getBaseUrl()}/api/users/updateUsers`,
         body: { userEmail, followUserEmail, bio },
       });
       userInfo();

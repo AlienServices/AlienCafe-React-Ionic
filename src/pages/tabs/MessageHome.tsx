@@ -26,6 +26,7 @@ import "../../theme/test.css";
 import "../../theme/styles.scss";
 import "../../theme/Home.css";
 import HeaderAlien from "../../components/preRender/Header";
+import { MyContext } from "../../providers/postProvider";
 
 interface MessageData {
   conversationId: string;
@@ -42,6 +43,7 @@ const MessageHome: React.FC = () => {
   // const { myConvos, getConvos } = useContext(MessageContext);
   const [myConvos, setMyConvos] = useState<any>([]);
   const history = useHistory();
+  const {getBaseUrl} = useContext(MyContext)
   const DELETE_BTN_WIDTH = 15;
   const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
   const MESSAGE_DELETE_TRANSITION = {
@@ -72,7 +74,7 @@ const MessageHome: React.FC = () => {
   const getConvos = async () => {
     try {
       const convos = await fetch(
-        `http://10.1.10.233:3000/api/conversations/getConvos?email=${localStorage.getItem("user")}`,
+        `${getBaseUrl()}/api/conversations/getConvos?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
@@ -90,7 +92,7 @@ const MessageHome: React.FC = () => {
   const getConvoData = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/conversaions/getConvoData?ids=${myConvos?.map((convo: { id: string }) => convo.id)}`,
+        `${getBaseUrl()}/conversaions/getConvoData?ids=${myConvos?.map((convo: { id: string }) => convo.id)}`,
         {
           method: "GET",
           headers: {

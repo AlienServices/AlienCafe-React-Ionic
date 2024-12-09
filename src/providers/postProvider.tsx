@@ -121,7 +121,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const addBookmark = async (userId: string, postId: string) => {
     console.log("hitting add bookmark");
     try {
-      const result = await fetch(`http://10.1.10.233:3000/posts/addBookmark`, {
+      const result = await fetch(`${getBaseUrl()}/posts/addBookmark`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +139,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   // const getAllPosts = async () => {
   //   try {
-  //     const result = await fetch(`http://10.1.10.233:3000/api/getPosts`, {
+  //     const result = await fetch(`getBaseUrl()/api/getPosts`, {
   //       method: "GET",
   //       headers: {
   //         "Content-Type": "application/json",
@@ -161,7 +161,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       // Send the updated post data to your backend
       const result = await post({
-        url: `http://10.1.10.233:3000/api/posts/updatePost?id=${updatedPost.id}`,
+        url: `${getBaseUrl()}/api/posts/updatePost?id=${updatedPost.id}`,
         body: updatedPost,
       });
 
@@ -179,7 +179,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const addLike = async (id: string) => {
     const updatedPost = await post({
-      url: `http://10.1.10.233:3000/api/posts/addPostLike?id=${id}`,
+      url: `${getBaseUrl()}/api/posts/addPostLike?id=${id}`,
       body: {
         id: id,
         userId: myInfo?.id,
@@ -196,7 +196,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const addDislike = async (id: string) => {
     try {
       const dislikedPost = await post({
-        url: `http://10.1.10.233:3000/api/posts/addPostDislike`,
+        url: `${getBaseUrl()}/api/posts/addPostDislike`,
         body: {
           id,
           userId: myInfo?.id,
@@ -210,7 +210,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const deletePost = async (id: string) => {
     const updatedPost = await post({
-      url: `http://10.1.10.233:3000/api/posts/updatePosts?id=${id}`,
+      url: `${getBaseUrl()}/api/posts/updatePosts?id=${id}`,
       body: {
         content: content,
       },
@@ -226,7 +226,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const getMyPosts = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/posts/getMyPosts?email=${localStorage.getItem("user")}`,
+        `${getBaseUrl()}/api/posts/getMyPosts?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
@@ -246,7 +246,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     console.log(email, "this is the email");
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/posts/getMyPosts?email=${email}`,
+        `${getBaseUrl()}/posts/getMyPosts?email=${email}`,
         {
           method: "GET",
           headers: {
@@ -291,7 +291,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     categories: string,
   ) => {
     try {
-      const test = await fetch("http://10.1.10.233:3000/api/posts/createPost", {
+      const test = await fetch(`${getBaseUrl()}/api/posts/createPost`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -336,6 +336,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       return null;
     }
   }
+
+
 
   return (
     <MyContext.Provider

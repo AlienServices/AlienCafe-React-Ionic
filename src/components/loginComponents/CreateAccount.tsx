@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from ".././supaBase";
 import { IonButton, IonContent, IonText, IonItem, IonList } from "@ionic/react";
 import "../../theme/Tab3.css";
+import { MyContext } from "../../providers/postProvider";
 
 const CreateAccount = ({
   setToggle,
@@ -10,6 +11,7 @@ const CreateAccount = ({
   setToggle: (value: boolean) => void;
 }) => {
   const [email, setEmail] = useState<string>("");
+  const {getBaseUrl} = useContext(MyContext)
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
 
@@ -19,7 +21,7 @@ const CreateAccount = ({
         email: email,
         password: password,
       });
-      const result = await fetch(`http://10.1.10.233:3000/api/users/createUser`, {
+      const result = await fetch(`${getBaseUrl()}/api/users/createUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

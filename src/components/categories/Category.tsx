@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useIonViewWillEnter } from "@ionic/react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/Tab3.css";
 import Post from "../postComponents/Post";
+import { MyContext } from "../../providers/postProvider";
 
 interface PostType {
   id: string;
@@ -25,6 +26,7 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
   const [posts, setPosts] = useState<PostType[]>([]);
+  const {getBaseUrl} = useContext(MyContext)
   const [showModal, setShowModal] = useState(false);
 
   useIonViewWillEnter(() => {
@@ -34,7 +36,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
   const getPosts = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/posts/getPostCategory?category=${category}`,
+        `${getBaseUrl()}/api/posts/getPostCategory?category=${category}`,
         {
           method: "GET",
           headers: {

@@ -1,8 +1,11 @@
 import { create } from "ionicons/icons";
+import { useContext } from "react";
+import { MyContext } from "../providers/postProvider";
 export const useApi = () => {
+  const {getBaseUrl} = useContext(MyContext)
   const createUser = async (email: string, username: string) => {
     try {
-      const test = await fetch("http://10.1.10.233:3000/api/users/createUser", {
+      const test = await fetch(`${getBaseUrl()}/api/users/createUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

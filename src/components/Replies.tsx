@@ -18,6 +18,7 @@ import {
 } from "ionicons/icons";
 import Comment from "../pages/Comment/[id]";
 import { UserContext } from "../providers/userProvider";
+import { MyContext } from "../providers/postProvider";
 
 interface Comment {
   id: string;
@@ -39,6 +40,7 @@ interface RepliesProps {
 
 const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const { myInfo } = useContext(UserContext);
+  const { getBaseUrl } = useContext(MyContext);
   const [comments, setComments] = useState<Comment[]>([]);
   const history = useHistory();
   const [comment, setComment] = useState<string>("");
@@ -68,7 +70,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/comments/getComments?id=${postId}`,
+        `${getBaseUrl()}/api/comments/getComments?id=${postId}`,
         {
           method: "GET",
           headers: {
@@ -104,7 +106,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     let myId = myInfo?.id;
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/comments/addComment?id=${postId}`,
+        `${getBaseUrl()}/api/comments/addComment?id=${postId}`,
         {
           method: "POST",
           headers: {
@@ -137,7 +139,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const deleteComment = async (commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/comments/deleteComment`,
+        `${getBaseUrl()}/api/comments/deleteComment`,
         {
           method: "POST",
           headers: {
@@ -164,7 +166,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/comments/addCommentLike`,
+        `${getBaseUrl()}/comments/addCommentLike`,
         {
           method: "POST",
           headers: {
@@ -184,7 +186,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `http://10.1.10.233:3000/api/comments/addCommentDislike`,
+        `${getBaseUrl()}/api/comments/addCommentDislike`,
         {
           method: "POST",
           headers: {

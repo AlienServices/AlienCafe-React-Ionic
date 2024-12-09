@@ -25,6 +25,7 @@ import { arrowBackCircleOutline } from "ionicons/icons";
 import "../../theme/id.module.css";
 import { UserContext } from "../../providers/userProvider";
 import HeaderAlien from "../../components/preRender/Header";
+import { MyContext } from "../../providers/postProvider";
 
 const Post = () => {
   const history = useHistory();
@@ -32,6 +33,7 @@ const Post = () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [commentsLoaded, setCommentsLoaded] = useState<boolean>(false);
   const [myVote, setMyVote] = useState<string>("");
+  const { getBaseUrl } = useContext(MyContext)
   const [selected, setSelected] = useState<number | null>(null);
   const [image, setImage] = useState("");
   const { myInfo } = useContext(UserContext);
@@ -51,7 +53,7 @@ const Post = () => {
   const getOnePost = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/posts/getPost?id=${id}&userId=${myInfo?.id}`,
+        `${getBaseUrl()}/api/posts/getPost?id=${id}&userId=${myInfo?.id}`,
         {
           method: "GET",
           headers: {
@@ -107,12 +109,12 @@ const Post = () => {
   const updateVote = async (id: string, userId: string, vote: string) => {
     console.log(vote, "this is email");
     const updateUser = await post({
-      url: "http://10.1.10.233:3000/api/posts/addVote",
+      url: `${getBaseUrl()}/api/posts/addVote`,
       body: { vote, id, userId },
     });
     setMyVote(selectedOption);
     await post({
-      url: "http://10.1.10.233:3000/api/users/updateUser",
+      url: `${getBaseUrl()}/api/users/updateUser`,
       body: { vote: selectedOption, id, email: myInfo?.email },
     });
   };
@@ -120,7 +122,7 @@ const Post = () => {
   const getMyVote = async (id: string, postId: string) => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/posts/getVote?postId=${postId}&userId=${myInfo?.id}`,
+        `getBaseUrl()/api/posts/getVote?postId=${postId}&userId=${myInfo?.id}`,
         {
           method: "GET",
           headers: {

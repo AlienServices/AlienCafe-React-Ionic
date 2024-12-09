@@ -74,7 +74,7 @@ const Profile = ({
   //     const blob = await response.blob();
   //     const formData = new FormData();
   //     formData.append("image", new File([blob], `${myInfo.id}.jpg`, { type: "image/jpeg" }));
-  //     const uploadResponse = await fetch(`http://10.1.10.233:3000/api/supabase-s3?id=${myInfo.id}`, {
+  //     const uploadResponse = await fetch(`getBaseUrl()/api/supabase-s3?id=${myInfo.id}`, {
   //       method: "POST",
   //       body: formData,
   //     });

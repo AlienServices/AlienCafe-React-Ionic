@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./MessageListItem.css";
+import { MyContext } from "../providers/postProvider";
 
 const LastMessage = ({
   conversationId,
@@ -13,11 +14,12 @@ const LastMessage = ({
   setLastUser: (username: string) => void;
 }) => {
   const [lastMessage, setLastMessage] = useState<string>(""); // Specify string type for state
+  const {getBaseUrl} = useContext(MyContext)
 
   const getLastMessage = async (conversationId: string) => {
     try {
       const convos = await fetch(
-        `http://10.1.10.233:3000/conversations/getLastMessage?conversationId=${conversationId}`,
+        `${getBaseUrl()}/conversations/getLastMessage?conversationId=${conversationId}`,
         {
           method: "GET",
           headers: {

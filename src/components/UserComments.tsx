@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { IonCard, IonItem, IonList } from "@ionic/react";
 import "../theme/Tab3.css";
+import { MyContext } from "../providers/postProvider";
 
 
 const UserComments = ({ id }: { id: string }) => {
-  
+  const {getBaseUrl} = useContext(MyContext)
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -15,7 +16,7 @@ const UserComments = ({ id }: { id: string }) => {
   const getUserComments = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/users/getUserComments?id=${id}`,
+        `${getBaseUrl()}/api/users/getUserComments?id=${id}`,
         {
           method: "GET",
           headers: {

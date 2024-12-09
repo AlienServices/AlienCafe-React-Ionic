@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { IonLabel, IonSelect, IonSelectOption, IonList } from "@ionic/react";
 import Post from "../postComponents/Post";
+import { MyContext } from "../../providers/postProvider";
 
 const Posts = ({ search }: { search: string }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [toggle, setToggle] = useState<any>(true);
+  const {getBaseUrl} = useContext(MyContext)
   const [selectedCategory, setSelectedCategory] = useState<string>(""); // Category selection state
   const categories = [
     "Technology",
@@ -22,7 +24,7 @@ const Posts = ({ search }: { search: string }) => {
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/api/posts/searchPosts?search=${search}&category=${selectedCategory}`,
+        `${getBaseUrl()}/api/posts/searchPosts?search=${search}&category=${selectedCategory}`,
       );
       const users = await result.json();
       console.log(users.posts);

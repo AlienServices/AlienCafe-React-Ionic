@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/create.css";
 import { IonContent, IonItem, IonLabel, IonPage } from "@ionic/react";
 import Profile from "../postComponents/Profile";
+import { MyContext } from "../../providers/postProvider";
 
 const Profiles = ({ search }: { search: string }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const {getBaseUrl} = useContext(MyContext)
 
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `http://10.1.10.233:3000/posts/searchProfiles?username=${search}`,
+        `${getBaseUrl()}/posts/searchProfiles?username=${search}`,
       );
       const users = await result.json();
       console.log(users);
