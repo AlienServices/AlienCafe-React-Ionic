@@ -66,6 +66,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [myInfo, setMyInfo] = useState<UserContext["myInfo"] | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
+  
   const getBaseUrl = () => {
     const platform = Capacitor.getPlatform();
     if (platform === "web") {

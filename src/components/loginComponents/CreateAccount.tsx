@@ -17,10 +17,10 @@ const CreateAccount = ({
 
   const handleSignUp = async (userName: string, email: string) => {
     try {
-      // const { data, error } = await supabase.auth.signUp({
-      //   email: email,
-      //   password: password,
-      // });
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
       const result = await fetch(`${getBaseUrl()}/api/users/createUser`, {
         method: "POST",
         headers: {
