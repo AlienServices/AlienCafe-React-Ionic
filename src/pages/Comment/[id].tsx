@@ -29,7 +29,7 @@ const Comment = () => {
   const {getBaseUrl} = useContext(MyContext)
   const { myVote } = useParams<{ myVote: string }>();
   const [toggle, setToggle] = useState(true);
-  const [commentReplyId, setCommentReplyId] = useState(null);
+  const [commentReplyId, setCommentReplyId] = useState(null);  
   const { postId } = useParams<{ postId: string }>();
   const history = useHistory();
   const [replyingToUsername, setReplyingToUsername] = useState<string | null>(
@@ -139,7 +139,7 @@ const Comment = () => {
 
     try {
       const response = await fetch(
-        `getBaseUrl()/api/comments/addComment?id=${id}`,
+        `${getBaseUrl()}/api/comments/addComment?id=${id}`,
         {
           method: "POST",
           headers: {
@@ -190,7 +190,7 @@ const Comment = () => {
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `getBaseUrl()/comments/addCommentLike`,
+        `${getBaseUrl()}/comments/addCommentLike`,
         {
           method: "POST",
           headers: {
@@ -210,7 +210,7 @@ const Comment = () => {
   const addCommentDisike = async (userId: string, commentId: string) => {
     try {
       const response = await fetch(
-        `getBaseUrl()/api/comments/addCommentDislike`,
+        `${getBaseUrl()}/api/comments/addCommentDislike`,
         {
           method: "POST",
           headers: {

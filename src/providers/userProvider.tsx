@@ -3,7 +3,7 @@ import { post } from "../utils/fetch";
 import { Platform } from "react-native";
 import { Capacitor } from "@capacitor/core";
 import { supabase } from "../components/supaBase";
-import { MyContext } from "./postProvider";
+
 
 interface User {
   id: string;
@@ -43,7 +43,7 @@ interface UserContext {
 
 export const UserContext = createContext<UserContext>({
   user: null,
-  setUser: () => {},
+  setUser: () => { },
   myInfo: {
     id: "",
     content: "",
@@ -55,17 +55,35 @@ export const UserContext = createContext<UserContext>({
     followers: [],
     blurhash: "",
   },
-  setMyInfo: () => {},
-  updateUser: () => {},
+  setMyInfo: () => { },
+  updateUser: () => { },
   loggedIn: false,
-  setLoggedIn: () => {},
+  setLoggedIn: () => { },
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [myInfo, setMyInfo] = useState<UserContext["myInfo"] | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const {getBaseUrl}= useContext(MyContext)
+
+  const getBaseUrl = () => {
+    const platform = Capacitor.getPlatform();
+    if (platform === "web") {
+      // Check if it's a local development environment
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+      ) {        
+        return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; // Local development URL
+      } else {        
+        // Production environment for web
+        return import.meta.env.VITE_APP_SERVER_BASE_URL; // Production URL for web
+      }
+    } else {
+      // Native platforms (iOS/Android)
+      return import.meta.env.VITE_APP_SERVER_BASE_URL; // URL for mobile
+    }
+  };
 
   useEffect(() => {
     userInfo();
@@ -83,6 +101,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         },
       );
       const myInfo = await result.json();
+      console.log(myInfo, 'this is my info')
       setMyInfo(myInfo.user);
     } catch (error) {
       console.log(error, "this is the create user error");

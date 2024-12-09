@@ -122,7 +122,7 @@ const Post = () => {
   const getMyVote = async (id: string, postId: string) => {
     try {
       const result = await fetch(
-        `getBaseUrl()/api/posts/getVote?postId=${postId}&userId=${myInfo?.id}`,
+        `${getBaseUrl()}/api/posts/getVote?postId=${postId}&userId=${myInfo?.id}`,
         {
           method: "GET",
           headers: {

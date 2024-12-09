@@ -195,7 +195,7 @@ const CurrentChat: React.FC = () => {
   const getConvo = async () => {
     try {
       const convos = await fetch(
-        `getBaseUrl()/api/conversations/getConvo?id=${id}`,
+        `${getBaseUrl()}/api/conversations/getConvo?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -213,7 +213,7 @@ const CurrentChat: React.FC = () => {
   const getConvoDetails = async () => {
     try {
       const convos = await fetch(
-        `getBaseUrl()/api/conversations/getSingleConvo?id=${id}`,
+        `${getBaseUrl()}/api/conversations/getSingleConvo?id=${id}`,
         {
           method: "GET",
           headers: {

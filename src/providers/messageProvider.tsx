@@ -1,5 +1,6 @@
-import { createContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useState, ReactNode, useEffect, useContext } from "react";
 import { post } from "../utils/fetch";
+import { MyContext } from "./postProvider";
 
 interface ContextProps {
   myUsername: string | null;
@@ -43,11 +44,12 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const [person, setPerson] = useState<string>("");
   const [myConvos, setMyConvos] = useState<any[]>([]);
   const [convoId, setConvoId] = useState<any[]>([]);
+  const {getBaseUrl} = useContext(MyContext)
 
   const getConvos = async () => {
     try {
       const convos = await fetch(
-        `getBaseUrl()/api/conversations/getConvos?email=${localStorage.getItem("user")}`,
+        `${getBaseUrl()}/api/conversations/getConvos?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
@@ -64,7 +66,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const deleteConvos = async (id: string) => {
     try {
-      await fetch(`getBaseUrl()/api/conversations/deleteConvo`, {
+      await fetch(`${getBaseUrl()}/api/conversations/deleteConvo`, {
         method: "POST",
         body: JSON.stringify({
           id: id,
@@ -89,7 +91,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       await post({
-        url: `getBaseUrl()/api/conversations/addMessage`,
+        url: `${getBaseUrl()}/api/conversations/addMessage`,
         body: {
           id,
           messages: message,

@@ -263,15 +263,14 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
 
   const getBaseUrl = () => {
     const platform = Capacitor.getPlatform();
-
     if (platform === "web") {
       // Check if it's a local development environment
       if (
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
-      ) {
+      ) {        
         return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; // Local development URL
-      } else {
+      } else {        
         // Production environment for web
         return import.meta.env.VITE_APP_SERVER_BASE_URL; // Production URL for web
       }

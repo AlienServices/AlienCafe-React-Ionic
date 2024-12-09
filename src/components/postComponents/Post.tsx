@@ -116,10 +116,10 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                       width: "35px",
                     }}
                   >
-                    <img
+                    {/* <img
                       alt="Silhouette of a person's head"
                       src={profileImage(post?.userId)}
-                    />
+                    /> */}
                   </IonAvatar>
                   <IonNavLink
                     onClick={() => {
