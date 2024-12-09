@@ -71,7 +71,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
   console.log(posts, 'these are the psots')
 
   return (
-    <div style={{ height: "fit-content" }}>
+    <div style={{ height: "fit-content", minHeight: '65vh' }}>
       {posts.length > 0 ? (
         <>
           {posts
@@ -81,7 +81,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
             ))}
         </>
       ) : (
-        <div>No posts found in category: {category}</div>
+        <div style={{textAlign: 'center', marginTop: '20px'}}>No posts found here</div>
       )}
     </div>
   );

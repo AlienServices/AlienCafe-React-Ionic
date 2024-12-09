@@ -180,7 +180,7 @@ const Profile = ({
       <IonContent>
         <IonCard style={{ boxShadow: "none" }} className="noMargin">
           <div className="rowEven">
-            {myInfo?.id ? (
+            {!myInfo?.id ? (
               <img
                 className="profilePic"
                 src={profileImageUri}

@@ -193,10 +193,10 @@ const Post = () => {
                               marginRight: "5px",
                             }}
                           >
-                            <img
+                            {/* <img
                               alt="Silhouette of a person's head"
                               src={profileImage(image)}
-                            />
+                            /> */}
                           </IonAvatar>
                           <div className="username">{post?.email}</div>
                         </div>
