@@ -77,7 +77,7 @@ const MyEditor = () => {
       />
       <IonContent>
         {loggedIn ? (
-          <div className="centerRow">
+          <div style={{width: '160px'}} className="centerRow">
             <img
               className="profile-photo"
               src={profileImage(myInfo?.id || "")}
