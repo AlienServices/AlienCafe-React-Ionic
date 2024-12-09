@@ -56,9 +56,9 @@ const Tab3: React.FC = () => {
       >
         <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={false} />
         <IonContent>
-          <div className="middle">
+          {/* <div className="middle">
             <IonTitle>{currentCategory}</IonTitle>
-          </div>
+          </div> */}
           <Swiper
             modules={[Pagination]}
             spaceBetween={10}

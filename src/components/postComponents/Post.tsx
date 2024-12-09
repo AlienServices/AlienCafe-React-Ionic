@@ -100,7 +100,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
   };
 
   return (
-    <div style={{ minHeight: "300px" }}>
+    <div style={{ minHeight: "200px" }}>
       <IonList>
         <div className="shadow" key={post.id}>
           <IonCard

@@ -54,8 +54,6 @@ export const Menu = () => {
     }
   };
 
-  console.log(myInfo);
-
   return (
     <>
       <IonMenu side="start" contentId="main-content">

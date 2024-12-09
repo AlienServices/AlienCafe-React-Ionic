@@ -162,6 +162,7 @@ div {
   display: flex;
   padding-top: 10px;
   text-align: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
