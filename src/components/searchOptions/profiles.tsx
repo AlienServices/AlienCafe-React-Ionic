@@ -12,7 +12,7 @@ const Profiles = ({ search }: { search: string }) => {
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `${getBaseUrl()}/posts/searchProfiles?username=${search}`,
+        `${getBaseUrl()}/api/posts/searchProfiles?username=${search}`,
       );
       const users = await result.json();
       console.log(users);

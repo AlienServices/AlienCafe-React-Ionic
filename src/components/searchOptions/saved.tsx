@@ -19,7 +19,7 @@ const Saved = ({ search }: { search: string }) => {
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `${getBaseUrl()}/posts/searchBookmarks?search=${search}&category=${selectedCategory}`,
+        `${getBaseUrl()}api/posts/searchBookmarks?search=${search}&category=${selectedCategory}`,
       );
       const users = await result.json();
       console.log(users, "these are users");
