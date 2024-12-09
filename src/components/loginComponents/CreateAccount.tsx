@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { supabase } from ".././supaBase";
-import { IonButton, IonContent, IonText, IonItem, IonList } from "@ionic/react";
+import { IonButton, IonContent, IonItem, IonList } from "@ionic/react";
 import "../../theme/Tab3.css";
 import { MyContext } from "../../providers/postProvider";
 
@@ -11,7 +11,7 @@ const CreateAccount = ({
   setToggle: (value: boolean) => void;
 }) => {
   const [email, setEmail] = useState<string>("");
-  const {getBaseUrl} = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext)
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
 
@@ -21,17 +21,20 @@ const CreateAccount = ({
         email: email,
         password: password,
       });
-      const result = await fetch(`${getBaseUrl()}/api/users/createUser`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: userName,
-          email: email,
-        }),
-      });
-      console.log(result, "this is the responose to making a user in the db");
+      if (password.length > 5) {
+        const result = await fetch(`${getBaseUrl()}/api/users/createUser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: userName,
+            email: email,
+          }),
+        });
+        setToggle(true)
+      }
+
     } catch (error) {
       console.log(error);
     }
