@@ -309,8 +309,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         }),
       });
       // await getAllPosts();
-      await getMyPosts();
-      console.log(test, "Post message");
+      await getMyPosts();      
     } catch (error) {
       console.log(error, "this is the create user error");
     }

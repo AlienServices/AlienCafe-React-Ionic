@@ -60,7 +60,7 @@ const Quiz = () => {
 
   return (
     <IonPage>
-      <div style={{ height: "140px", paddingTop: "5px" }} className="brown">
+      <div style={{  paddingTop: "5px" }} className="brown">
         <div className="flexRowCenter">
           <IonNavLink routerDirection="back" component={Tab3}>
             <button
