@@ -38,8 +38,9 @@ const Profiles = ({ search }: { search: string }) => {
     <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
       <IonContent>
         {searchResults.length > 0 ? (
-          searchResults.map((user, index) => (
-            <IonItem>
+          searchResults.map((user, index) =>             
+            (
+            <IonItem key={user.id}>
               <Profile profile={user} key={user?.id} />
             </IonItem>
           ))
