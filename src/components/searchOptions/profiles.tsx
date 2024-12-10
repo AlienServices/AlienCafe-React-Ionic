@@ -7,7 +7,7 @@ import { MyContext } from "../../providers/postProvider";
 
 const Profiles = ({ search }: { search: string }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const {getBaseUrl} = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext)
 
   const searchUsers = async () => {
     try {
@@ -15,7 +15,7 @@ const Profiles = ({ search }: { search: string }) => {
         `${getBaseUrl()}/api/posts/searchProfiles?username=${search}`,
       );
       const users = await result.json();
-      console.log(users);
+      console.log(users.user);
       setSearchResults(users.user);
     } catch (err) {
       console.log("oops");
@@ -30,20 +30,22 @@ const Profiles = ({ search }: { search: string }) => {
     }
   }, [search]);
 
+  console.log(searchResults, 'these are search results')
+
   return (
     <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
       <IonContent>
-        <IonItem>
-          {searchResults.length > 0 ? (
-            searchResults.map((user, index) => (
+        {searchResults.length > 0 ? (
+          searchResults.map((user, index) => (
+            <IonItem>
               <Profile profile={user} key={user?.id} />
-            ))
-          ) : (
-            <IonItem style={{ width: "100%" }}>
-              <IonLabel>No users found.</IonLabel>
             </IonItem>
-          )}
-        </IonItem>
+          ))
+        ) : (
+          <IonItem style={{ width: "100%" }}>
+            <IonLabel>No users found.</IonLabel>
+          </IonItem>
+        )}
       </IonContent>
     </IonPage>
   );
