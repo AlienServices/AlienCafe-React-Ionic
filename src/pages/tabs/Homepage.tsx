@@ -25,12 +25,22 @@ const Tab3: React.FC = () => {
   const menuRef = useRef<HTMLIonMenuElement>(null);
   const [categories, setCategories] = useState([
     "Aliens",
-    "Vaccines",
-    "Government",
-    "Space",
-    "9/11",
-    "Covid",
-    "Israel",
+    "Climate Change",
+    "Crazy Conspiracy Theories",
+    "Fiinance",
+    "Food",
+    "Government & Politics",
+    "Health & Medicine",
+    "History",
+    "Immigration",
+    "Love",
+    "The Media",
+    "People",
+    "Secret Societies",
+    "Tech & Internet",
+    "War",
+    "Weather",
+    "World Organizations",
   ]);
   const [currentCategory, setCurrentCategory] = useState(categories[0]);
 
