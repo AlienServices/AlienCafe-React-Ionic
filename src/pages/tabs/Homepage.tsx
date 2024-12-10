@@ -72,8 +72,7 @@ const Tab3: React.FC = () => {
           <Swiper
             modules={[Pagination]}
             spaceBetween={10}
-            slidesPerView={1}
-            pagination={{ clickable: true }}
+            slidesPerView={1}            
             onSlideChange={(swiper) =>
               setCurrentCategory(categories[swiper.activeIndex])
             }
