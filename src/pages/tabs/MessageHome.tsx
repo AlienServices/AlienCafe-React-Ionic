@@ -38,7 +38,7 @@ interface MessageData {
   recipient?: string;
 }
 
-const MessageHome: React.FC = () => {
+const MessageHome = () => {
   const [messageData, setMessageData] = useState<MessageData[]>([]);
   // const { myConvos, getConvos } = useContext(MessageContext);
   const [myConvos, setMyConvos] = useState<any>([]);

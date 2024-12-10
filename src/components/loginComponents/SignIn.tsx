@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router";
 import { supabase } from ".././supaBase";
-import { IonButton, IonContent, IonItem, IonList } from "@ionic/react";
+import { IonButton, IonContent, IonItem, IonList, useIonViewDidLeave, useIonViewWillEnter, useIonViewWillLeave } from "@ionic/react";
 import "../../theme/Tab3.css";
 import { UserContext } from "../../providers/userProvider";
 
@@ -10,6 +10,7 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   const [email, setEmail] = useState<string>("");
   const { setLoggedIn, loggedIn } = useContext(UserContext);
   const [password, setPassword] = useState<string>("");
+  
   const [error, setError] = useState<string>();
   const history = useHistory();
 
@@ -32,6 +33,8 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
       console.log(error);
     }
   };
+
+ 
 
   return (
     <IonContent>

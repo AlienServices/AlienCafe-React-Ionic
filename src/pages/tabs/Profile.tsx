@@ -142,13 +142,13 @@ const Profile = ({
         transition: "opacity 0.3s ease-in-out",
       }}
     >
-      <div className="brownBetween" style={{ height: "150px" }}>
+      <div className="brownBetween" style={{ height: "130px" }}>
         <IonMenuButton
-          style={{ backgroundColor: "white", marginLeft: "7px" }}
+          style={{ backgroundColor: "white", marginLeft: "4px", marginTop: '12px' }}
           color={"primary"}
         />
         <div style={{ padding: "10px" }}>
-          <div className="logoContainer" style={{ top: "90px" }}>
+          <div className="logoContainer" style={{ top: "80px" }}>
             <div
               style={{
                 borderRadius: "50%",

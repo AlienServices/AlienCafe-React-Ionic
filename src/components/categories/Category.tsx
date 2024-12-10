@@ -70,7 +70,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
 
 
   return (
-    <div style={{ height: "fit-content", minHeight: '65vh' }}>
+    <div style={{ height: "fit-content", minHeight: '75vh' }}>
       <div style={{display: 'flex', justifyContent: 'center', fontSize: '25px'}}>{category}</div>
       {posts.length > 0 ? (
         <>

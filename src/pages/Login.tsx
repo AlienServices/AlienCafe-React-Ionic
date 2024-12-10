@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
 import {
@@ -6,6 +6,9 @@ import {
   IonMenuButton,
   IonPage,
   IonImg,
+  useIonViewDidLeave,
+  useIonViewWillLeave,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { supabase } from "../components/supaBase";
 import "../theme/Tab1.css";
@@ -15,6 +18,7 @@ import CreateAccount from "../components/loginComponents/CreateAccount";
 const Login: React.FC = () => {
   const history = useHistory();
   const [loginToggle, setLoginToggle] = useState<boolean>(true);
+  const [visibilityToggle, setVisibilityToggle] = useState<boolean>();
 
   // useEffect(() => {
   //   if (user?.session.accessToken) {
@@ -24,10 +28,25 @@ const Login: React.FC = () => {
   //   }
   // }, [user])
 
+  useIonViewWillLeave(() => {
+    setVisibilityToggle(false)
+  }, [])
+
+  useIonViewDidLeave(() => {
+    setVisibilityToggle(true)
+  }, [])
+
+  useIonViewWillEnter(() => {
+    setVisibilityToggle(true)
+  }, [])
+
 
   return (
     <>
-      <IonPage id="main-content">
+      <IonPage style={{
+        opacity: visibilityToggle ? "1" : "0",
+        transition: "opacity 0.4s ease-in-out",
+      }} id="main-content">
         <div className="brown" style={{ height: "150px" }}>
           <div className="leftMiddle">
             <div
