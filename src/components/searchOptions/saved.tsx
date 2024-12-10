@@ -12,14 +12,14 @@ import { MyContext } from "../../providers/postProvider";
 const Saved = ({ search }: { search: string }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const {getBaseUrl} = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext)
   const [toggle, setToggle] = useState<boolean>(true);
   const categories = ["Technology", "Health", "Sports", "Entertainment"];
 
   const searchUsers = async () => {
     try {
       const result = await fetch(
-        `${getBaseUrl()}api/posts/searchBookmarks?search=${search}&category=${selectedCategory}`,
+        `${getBaseUrl()}/api/posts/searchBookmarks?search=${search}&category=${selectedCategory}`,
       );
       const users = await result.json();
       console.log(users, "these are users");

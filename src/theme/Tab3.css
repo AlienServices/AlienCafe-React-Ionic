@@ -182,12 +182,8 @@ div {
 }
 
 .setting {
-  width: 100px;
-}
-
-div {
-  /* font-size: 25px; */
-  /* width: 100px; */
+  width: 150px;
+  font-size: 22px;
 }
 
 .imageContainer {
@@ -509,6 +505,7 @@ div {
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
+  width: 75%;
 }
 
 .no-scrollbar {

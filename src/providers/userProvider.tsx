@@ -66,7 +66,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [myInfo, setMyInfo] = useState<UserContext["myInfo"] | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
-  
+
   const getBaseUrl = () => {
     const platform = Capacitor.getPlatform();
     if (platform === "web") {
@@ -74,9 +74,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       if (
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
-      ) {        
+      ) {
         return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; // Local development URL
-      } else {        
+      } else {
         // Production environment for web
         return import.meta.env.VITE_APP_SERVER_BASE_URL; // Production URL for web
       }

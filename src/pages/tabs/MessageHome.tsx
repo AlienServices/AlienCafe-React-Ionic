@@ -116,8 +116,7 @@ const MessageHome: React.FC = () => {
   };
 
   return (
-    <IonPage>
-      <IonPage>
+    <IonPage>      
         <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={false} />
         <IonContent>
           <ul>
@@ -166,8 +165,7 @@ const MessageHome: React.FC = () => {
               <IonIcon size="large" icon={addOutline}></IonIcon>
             </IonRouterLink>
           </div>
-        </IonContent>
-      </IonPage>
+        </IonContent>     
     </IonPage>
   );
 };

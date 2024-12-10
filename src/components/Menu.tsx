@@ -58,7 +58,7 @@ export const Menu = () => {
     <>
       <IonMenu side="start" contentId="main-content">
         <IonHeader color="tertiary" style={{ backgroundColor: "black" }}>
-          <IonToolbar style={{ backgroundColor: "black" }}>
+          <IonToolbar style={{ backgroundColor: "black", textAlign: 'center', paddingTop: '25px' }}>
             <IonTitle>@{myInfo?.username}</IonTitle>
           </IonToolbar>
         </IonHeader>
@@ -72,7 +72,7 @@ export const Menu = () => {
                   }}
                   className="flexSetting"
                 >
-                  <IonIcon icon={settingsOutline}></IonIcon>
+                  <IonIcon size="large" icon={settingsOutline}></IonIcon>
                   <div className="setting">Settings</div>
                 </div>
               </IonMenuToggle>
@@ -83,7 +83,7 @@ export const Menu = () => {
                   }}
                   className="flexSetting"
                 >
-                  <IonIcon icon={personOutline}></IonIcon>
+                  <IonIcon size="large" icon={personOutline}></IonIcon>
                   <div className="setting">Profile</div>
                 </div>
               </IonMenuToggle>
@@ -94,7 +94,7 @@ export const Menu = () => {
                   }}
                   className="flexSetting"
                 >
-                  <IonIcon icon={createOutline}></IonIcon>
+                  <IonIcon size="large" icon={createOutline}></IonIcon>
                   <div className="setting">Messages</div>
                 </div>
               </IonMenuToggle>
@@ -114,7 +114,7 @@ export const Menu = () => {
                     }}
                     className="flexSetting"
                   >
-                    <IonIcon icon={bookmarkOutline}></IonIcon>
+                    <IonIcon size="large" icon={bookmarkOutline}></IonIcon>
                     <div className="setting">Logout</div>
                   </div>
                 ) : (
