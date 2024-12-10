@@ -35,10 +35,10 @@ const Profiles = ({ search }: { search: string }) => {
   console.log(searchResults, 'these are search results')
 
   return (
-    <IonPage style={{ paddingTop: "20px", padding: "15px" }}>
-      <IonContent>
+    <div style={{ paddingTop: "20px", padding: "15px" }}>
+      <div>
         {searchResults.length > 0 ? (
-          searchResults.map((user, index) =>             
+          searchResults?.map((user, index) =>             
             (
             <IonItem key={user.id}>
               <Profile profile={user} key={user?.id} />
@@ -49,8 +49,8 @@ const Profiles = ({ search }: { search: string }) => {
             <IonLabel>No users found.</IonLabel>
           </IonItem>
         )}
-      </IonContent>
-    </IonPage>
+      </div>
+    </div>
   );
 };
 
