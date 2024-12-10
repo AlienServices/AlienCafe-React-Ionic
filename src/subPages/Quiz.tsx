@@ -37,12 +37,22 @@ const Quiz = () => {
 
   const options = [
     "Aliens",
-    "Vaccines",
-    "Government",
-    "Space",
-    "9/11",
-    "Covid",
-    "Israel",
+    "Climate Change",
+    "Crazy Conspiracy Theories",
+    "Fiinance",
+    "Food",
+    "Government & Politics",
+    "Health & Medicine",
+    "History",
+    "Immigration",
+    "Love",
+    "The Media",
+    "People",
+    "Secret Societies",
+    "Tech & Internet",
+    "War",
+    "Weather",
+    "World Organizations",
   ];
 
   const handleOptionChange = (e: CustomEvent) => {

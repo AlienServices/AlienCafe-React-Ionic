@@ -1,9 +1,5 @@
-import React, { useState, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/PostComponents.css";
-import { MyContext } from "../../providers/postProvider";
-import { UserContext } from "../../providers/userProvider";
-import { useHistory } from "react-router";
 import { IonCard } from "@ionic/react";
 
 // Define the props type for the Post component
@@ -19,11 +15,7 @@ interface Profile {
 }
 
 const Profile: React.FC<Profile> = ({ profile }) => {
-  const history = useHistory();
-  // const [profileImage, setProfileImage] = useState<any>(null);
-  const [searchResults, setSearchResults] = useState<any[]>([]); // Initialize searchResults as an array
-  const { addLike, addDislike, getUserPosts } = useContext(MyContext);
-  const { myInfo, updateUser } = useContext(UserContext);
+  
 
   const profileImage = (id: string) => {
     if (id) {
