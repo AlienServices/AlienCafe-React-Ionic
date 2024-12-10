@@ -10,12 +10,13 @@ const Profiles = ({ search }: { search: string }) => {
   const { getBaseUrl } = useContext(MyContext)
 
   const searchUsers = async () => {
+    console.log('hitting search users')
     try {
       const result = await fetch(
         `${getBaseUrl()}/api/posts/searchProfiles?username=${search}`,
       );
       const users = await result.json();
-      console.log(users.user);
+      console.log(users.user, 'this is what serach result is');
       setSearchResults(users.user);
     } catch (err) {
       console.log("oops");
@@ -24,6 +25,7 @@ const Profiles = ({ search }: { search: string }) => {
 
   useEffect(() => {
     if (search.length > 0) {
+      console.log('in the use effect')
       searchUsers();
     } else {
       setSearchResults([]);
