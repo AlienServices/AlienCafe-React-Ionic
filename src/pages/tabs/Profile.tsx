@@ -4,8 +4,6 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardTitle,
-  IonButton,
   IonImg,
   useIonViewWillEnter,
   IonIcon,
@@ -17,7 +15,6 @@ import "../../theme/Tab2.css";
 import MyPosts from "../../components/MyPosts";
 import Category from "../../components/Category";
 import {
-  useEffect,
   useState,
   useContext,
   SetStateAction,
@@ -27,7 +24,7 @@ import { MyContext } from "../../providers/postProvider";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import UserComments from "../../components/UserComments";
 import { UserContext } from "../../providers/userProvider";
-import { ellipsisVertical, ellipsisVerticalOutline } from "ionicons/icons";
+import { ellipsisVertical } from "ionicons/icons";
 
 interface EditProfileProps {
   editProfileRef: any;
@@ -105,6 +102,7 @@ const Profile = ({
     }
   });
 
+
   const pickImage = async () => {
     try {
       const result = await Camera.getPhoto({
@@ -123,13 +121,12 @@ const Profile = ({
     }
   };
 
+
   useIonViewWillLeave(() => {
-    console.log("Cleaning up resources...");
     setToggle(false);
   });
 
   useIonViewDidLeave(() => {
-    console.log("Cleaning up resources...");
     setToggle(true);
   });
 

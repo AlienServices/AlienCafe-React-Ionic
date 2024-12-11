@@ -27,7 +27,7 @@ const Tab3: React.FC = () => {
     "Aliens",
     "Climate Change",
     "Crazy Conspiracy Theories",
-    "Fiinance",
+    "Finance",
     "Food",
     "Government & Politics",
     "Health & Medicine",
@@ -54,6 +54,11 @@ const Tab3: React.FC = () => {
     setToggle(true);
   });
 
+  useIonViewWillEnter(() => {
+    console.log("Cleaning up resources...");
+    setCurrentCategory(categories[0]);
+  });
+
   return (
     <>
       <Menu />
@@ -72,9 +77,10 @@ const Tab3: React.FC = () => {
           <Swiper
             modules={[Pagination]}
             spaceBetween={10}
-            slidesPerView={1}            
+            slidesPerView={1}
+            loop={true}
             onSlideChange={(swiper) =>
-              setCurrentCategory(categories[swiper.activeIndex])
+              setCurrentCategory(categories[swiper.realIndex])
             }
           >
             {categories.map((category, index) => (

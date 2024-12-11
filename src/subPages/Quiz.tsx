@@ -14,6 +14,7 @@ import {
   useIonAlert,
   IonImg,
   useIonViewWillLeave,
+  useIonViewDidLeave,
 } from "@ionic/react";
 import Tab3 from "../../src/pages/tabs/Homepage";
 import { MyContext } from "../providers/postProvider";
@@ -34,6 +35,7 @@ const Quiz = () => {
   const location = useLocation<LocationState>();
   const { quizTitle, content } = location.state || {};
   const history = useHistory();
+  const [toggle, setToggle] = useState(true);
 
   const options = [
     "Aliens",
@@ -66,10 +68,23 @@ const Quiz = () => {
     setNoAction("");
   }, []);
 
+
+  useIonViewWillLeave(() => {
+    console.log("Cleaning up resources...");
+    setToggle(false);
+  });
+
+  useIonViewDidLeave(() => {    
+    setToggle(true);
+  });
+
   // console.log(quizTitle, 'this is the quiz title')
 
   return (
-    <IonPage>
+    <IonPage style={{
+      opacity: toggle ? "1" : "0",
+      transition: "opacity 0.2s ease-in-out",
+    }}>
       <div style={{  paddingTop: "5px" }} className="brown">
         <div className="flexRowCenter">
           <IonNavLink routerDirection="back" component={Tab3}>
