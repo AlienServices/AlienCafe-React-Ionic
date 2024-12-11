@@ -23,6 +23,7 @@ import HeaderAlien from "../../components/preRender/Header";
 const Tab3: React.FC = () => {
   const [toggle, setToggle] = useState(true);
   const menuRef = useRef<HTMLIonMenuElement>(null);
+  const [pageKey, setPageKey] = useState(0);
   const [categories, setCategories] = useState([
     "Aliens",
     "Climate Change",
@@ -56,6 +57,7 @@ const Tab3: React.FC = () => {
 
   useIonViewWillEnter(() => {
     console.log("Cleaning up resources...");
+    setPageKey((prevKey) => prevKey + 1);
     setCurrentCategory(categories[0]);
   });
 
