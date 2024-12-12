@@ -223,15 +223,15 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const getColor = (vote: string) => {
     switch (vote) {
       case "true":
-        return "rgb(178,222,178";
+        return "rgb(178,222,178, 0.5)";
       case "probably true":
-        return "rgb(178,222,178";
+        return "rgb(143, 201, 143, 0.3)";
       case "neutral":
-        return "rgb(178,222,178";
+        return "rgb(130, 135, 130, 0.3)";
       case "probably false":
-        return "rgb(207,151,134)";
+        return "rgb(201, 75, 75, 0.2)";
       case "false":
-        return "#fffc69";
+        return "rgba(255, 0, 0, 0.5)";
     }
   };
 
@@ -252,6 +252,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     textarea.style.height = "auto"; // Reset height to calculate the new height
     textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
   }
+
+
+  console.log(myVote, 'this is my vote')
 
   const renderReplies = (commentId: string, nestedDepth = 0) => {
     return (
@@ -286,7 +289,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     style={{
                       border: `1px solid ${getColor(reply.vote)}`,
                     }}
-                    className={`${"cardComment"} ${getColor(reply.vote)}`}
+                    className={`${"cardComment"} ${getColor(reply?.vote)}`}
                   >
                     <div style={{ width: "100%" }}>
                       <div className="rowUser">
@@ -377,6 +380,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     return likes.length - dislikes.length;
   };
 
+  
+
   return (
     <div>
       <IonToast
@@ -459,7 +464,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
       {comments
         ?.filter((comment) => comment?.parentId === null)
-        .map((comment) => (
+        .map((comment) =>             
+          (
           <div className="column">
             <div className="imageRow" key={comment?.id}>
               <div className="bottomImage">

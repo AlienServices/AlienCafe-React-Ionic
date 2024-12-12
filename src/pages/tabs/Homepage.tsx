@@ -49,15 +49,12 @@ const Tab3: React.FC = () => {
     console.log("Cleaning up resources...");
     setToggle(false);
   });
-
-  useIonViewDidLeave(() => {
-    console.log("Cleaning up resources...");
-    setToggle(true);
-  });
+  
 
   useIonViewWillEnter(() => {
     console.log("Cleaning up resources...");
     setPageKey((prevKey) => prevKey + 1);
+    setToggle(true);
     setCurrentCategory(categories[0]);
   });
 
@@ -68,7 +65,7 @@ const Tab3: React.FC = () => {
         id="main-content"
         style={{
           opacity: toggle ? "1" : "0",
-          transition: "opacity 0.4s ease-in-out",
+          transition: "opacity 0.2s ease-in-out",
         }}
       >
         <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={false} />

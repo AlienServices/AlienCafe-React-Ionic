@@ -19,6 +19,7 @@ import {
   IonLabel,
   useIonViewWillLeave,
   useIonViewDidLeave,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
 import { arrowBackCircleOutline } from "ionicons/icons";
@@ -75,8 +76,7 @@ const Post = () => {
     setSelectedOption(e);
   };
 
-  const handleVote = async () => {
-    console.log(selectedOption, "this is the selected option");
+  const handleVote = async () => {    
     setHasVoted(true);
     setTimeout(async () => {
       await updateVote(id, myInfo?.id || "", selectedOption);
@@ -106,8 +106,7 @@ const Post = () => {
     return doc.body.innerHTML;
   };
 
-  const updateVote = async (id: string, userId: string, vote: string) => {
-    console.log(vote, "this is email");
+  const updateVote = async (id: string, userId: string, vote: string) => {    
     const updateUser = await post({
       url: `${getBaseUrl()}/api/posts/addVote`,
       body: { vote, id, userId },
@@ -130,8 +129,7 @@ const Post = () => {
           },
         },
       );
-      if (!result.ok) {
-        // Handle the error, e.g., by logging it or displaying a message
+      if (!result.ok) {        
         console.error("Failed to fetch vote information");
         return; // Exit the function without setting state
       }
@@ -153,10 +151,11 @@ const Post = () => {
     setToggle(false);
   });
 
-  useIonViewDidLeave(() => {
-    console.log("Cleaning up resources...");
+  useIonViewWillEnter(() => {    
     setToggle(true);
   });
+
+  console.log(id, 'this is post id')
 
   return (
     <IonPage

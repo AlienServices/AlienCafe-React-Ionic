@@ -41,7 +41,7 @@ const Quiz = () => {
     "Aliens",
     "Climate Change",
     "Crazy Conspiracy Theories",
-    "Fiinance",
+    "Finance",
     "Food",
     "Government & Politics",
     "Health & Medicine",
