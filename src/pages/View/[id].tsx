@@ -76,7 +76,7 @@ const Post = () => {
     setSelectedOption(e);
   };
 
-  const handleVote = async () => {    
+  const handleVote = async () => {
     setHasVoted(true);
     setTimeout(async () => {
       await updateVote(id, myInfo?.id || "", selectedOption);
@@ -106,7 +106,7 @@ const Post = () => {
     return doc.body.innerHTML;
   };
 
-  const updateVote = async (id: string, userId: string, vote: string) => {    
+  const updateVote = async (id: string, userId: string, vote: string) => {
     const updateUser = await post({
       url: `${getBaseUrl()}/api/posts/addVote`,
       body: { vote, id, userId },
@@ -129,7 +129,7 @@ const Post = () => {
           },
         },
       );
-      if (!result.ok) {        
+      if (!result.ok) {
         console.error("Failed to fetch vote information");
         return; // Exit the function without setting state
       }
@@ -151,7 +151,7 @@ const Post = () => {
     setToggle(false);
   });
 
-  useIonViewWillEnter(() => {    
+  useIonViewWillEnter(() => {
     setToggle(true);
   });
 
@@ -279,7 +279,14 @@ const Post = () => {
         ) : (
           <div className="centerMiddle">
             <div className="centerThesis">
-              <div className="question">{content[0]?.thesis}</div>
+              <ReactQuill
+                className="quillTitle"
+                style={{ color: "black" }}
+                readOnly={true}
+                theme="bubble"
+                value={transformTitleToH1(content[0]?.thesis)}
+              />
+              {/* <div className="question">{content[0]?.thesis}</div> */}
             </div>
             <div className="quizCenter">
               <div className="checkSpace">

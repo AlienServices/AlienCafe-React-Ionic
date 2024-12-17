@@ -24,7 +24,7 @@ interface LocationState {
   content: string;
 }
 
-const Quiz = () => {
+const Quiz = ({ title, content }: { title: string, content: string }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [present] = useIonAlert();
   const [thesis, setThesis] = useState("");
@@ -32,27 +32,45 @@ const Quiz = () => {
   const [yesAction, setYesAction] = useState("");
   const [noAction, setNoAction] = useState("");
   const [maybeAction, setMaybeAction] = useState("");
-  const location = useLocation<LocationState>();
-  const { quizTitle, content } = location.state || {};
+  // const location = useLocation<LocationState>();
+  // const { quizTitle, content } = location.state || {};
   const history = useHistory();
   const [toggle, setToggle] = useState(true);
 
   const options = [
     "Aliens",
+    "Animals",
     "Climate Change",
     "Crazy Conspiracy Theories",
+    "Current Events",
+    "Death Afterlife",
+    "Drama Romance",
+    "Espionage",
     "Finance",
     "Food",
+    "Guns & Ammo",
     "Government & Politics",
     "Health & Medicine",
     "History",
     "Immigration",
+    "International",
+    "Literature",
+    "LGBTQ",
     "Love",
     "The Media",
+    "Movies and TV",
+    "Mysteries",
     "People",
+    "Religion, Spiritualities & Culture",
+    "Science",
+    "Sci-Fi & Fantasy",
     "Secret Societies",
+    "Self Improvement",
+    "Sports & Athletics",
     "Tech & Internet",
+    "Travel",
     "War",
+    "Weapons",
     "Weather",
     "World Organizations",
   ];
@@ -74,18 +92,19 @@ const Quiz = () => {
     setToggle(false);
   });
 
-  useIonViewDidLeave(() => {    
+  useIonViewDidLeave(() => {
     setToggle(true);
   });
 
   // console.log(quizTitle, 'this is the quiz title')
 
   return (
-    <IonPage style={{
+    <div style={{
       opacity: toggle ? "1" : "0",
       transition: "opacity 0.2s ease-in-out",
+      paddingBottom: '100px'
     }}>
-      <div style={{  paddingTop: "5px" }} className="brown">
+      {/* <div style={{  paddingTop: "5px" }} className="brown">
         <div className="flexRowCenter">
           <IonNavLink routerDirection="back" component={Tab3}>
             <button
@@ -136,8 +155,8 @@ const Quiz = () => {
             Create
           </button>
         </IonNavLink>
-      </div>
-      <IonContent className="ion-padding">
+      </div> */}
+      <div className="ion-padding">
         <IonItem>
           <IonLabel>Choose Category</IonLabel>
           <IonSelect
@@ -159,18 +178,10 @@ const Quiz = () => {
           <IonItem lines="none">
             <textarea
               onChange={(e) => {
-                setThesis(e?.target.value);
-              }}
-              className="stylish-input"
-              placeholder="Thesis Question"
-            ></textarea>
-          </IonItem>
-          <IonItem lines="none">
-            <textarea
-              onChange={(e) => {
                 setYesAction(e?.target.value);
               }}
               className="stylish-input"
+              value={yesAction}
               placeholder="Action if user votes yes"
             ></textarea>
           </IonItem>
@@ -180,11 +191,13 @@ const Quiz = () => {
                 setMaybeAction(e?.target.value);
               }}
               className="stylish-input"
+              value={maybeAction}
               placeholder="Action if user votes maybe"
             ></textarea>
           </IonItem>
           <IonItem lines="none">
             <textarea
+              value={noAction}
               onChange={(e) => {
                 setNoAction(e?.target.value);
               }}
@@ -193,8 +206,23 @@ const Quiz = () => {
             ></textarea>
           </IonItem>
         </div>
-      </IonContent>
-    </IonPage>
+      </div>
+      <IonButton onClick={() => {
+        createPost(
+          title,
+          content,
+          thesis,
+          yesAction,
+          noAction,
+          maybeAction,
+          selectedOption,
+        );
+        history?.push("/tab1");
+        setMaybeAction('')
+        setNoAction('')
+        setYesAction('')
+      }}>Post</IonButton>
+    </div>
   );
 };
 
