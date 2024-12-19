@@ -70,7 +70,7 @@ const MyEditor = () => {
     <IonPage>
       <HeaderAlien
         backArrowToggle={false}
-        next={loggedIn ? true : false}
+        next={false}
         content={editorHtml}
         title={editorHtmlTitle}
       />
