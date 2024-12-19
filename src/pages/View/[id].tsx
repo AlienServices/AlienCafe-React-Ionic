@@ -155,7 +155,6 @@ const Post = () => {
     setToggle(true);
   });
 
-  console.log(id, 'this is post id')
 
   return (
     <IonPage
@@ -206,10 +205,9 @@ const Post = () => {
                         readOnly={true}
                         theme="bubble"
                         value={transformedTitle}
-                      />
+                      />                      
                       <ReactQuill
-                        className="small"
-                        style={{ color: "black" }}
+                        className="small"                        
                         readOnly={true}
                         theme="bubble"
                         value={post?.content}

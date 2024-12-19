@@ -8,7 +8,7 @@ import {
   IonFooter,
   useIonViewDidLeave,
 } from "@ionic/react";
-import { Keyboard } from '@capacitor/keyboard';
+// import { Keyboard } from '@capacitor/keyboard';
 
 import Quiz from "../../subPages/Quiz";
 import { UserContext } from "../../providers/userProvider";

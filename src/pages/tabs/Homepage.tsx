@@ -1,15 +1,10 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   IonContent,
   IonPage,
-  IonTitle,
   useIonViewWillLeave,
-  useIonViewDidLeave,
-  useIonViewWillEnter,
-  IonImg,
-  IonMenuButton,
+  useIonViewWillEnter,  
 } from "@ionic/react";
-import { useHistory } from "react-router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import Category from "../../components/categories/Category";
@@ -17,12 +12,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "../../theme/Tab3.css";
 import { Menu } from "../../components/Menu";
-import { UserContext } from "../../providers/userProvider";
 import HeaderAlien from "../../components/preRender/Header";
 
 const Tab3: React.FC = () => {
-  const [toggle, setToggle] = useState(true);
-  const menuRef = useRef<HTMLIonMenuElement>(null);
+  const [toggle, setToggle] = useState(true);  
   const [pageKey, setPageKey] = useState(0);
   const [categories, setCategories] = useState([
     "Aliens",
