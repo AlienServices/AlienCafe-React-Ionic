@@ -128,11 +128,11 @@
 }
 
 .custom-title-editor p {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 400;
-  padding-left: 15px;
+  padding-left: 10px;
   padding-top: 8px;
-  line-height: 1.5; /* Set the default line height for the rest of the lines */
+  line-height: 1; /* Set the default line height for the rest of the lines */
 }
 
 .ql-editor ul {
@@ -156,6 +156,13 @@
   padding-bottom: 15px;
   padding-left: 10px;
   line-height: 1.5;
+  font-size: 14px;
+}
+.custom-content-editor li {
+  color: rgb(92, 89, 89);  
+  padding-bottom: 15px;
+  padding-left: 10px;
+  line-height: 1;
   font-size: 14px;
 }
 
