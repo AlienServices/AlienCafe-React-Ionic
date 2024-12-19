@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactQuill from "react-quill";
-import { useHistory } from "react-router";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/create.css";
 import {
   IonContent,
   IonPage,
   IonFooter,
-  IonImg,
-  useIonViewWillLeave,
   useIonViewDidLeave,
 } from "@ionic/react";
+import { Keyboard } from '@capacitor/keyboard';
+
 import Quiz from "../../subPages/Quiz";
 import { UserContext } from "../../providers/userProvider";
 import HeaderAlien from "../../components/preRender/Header";
@@ -18,10 +17,8 @@ import HeaderAlien from "../../components/preRender/Header";
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
   const [editorHtml, setEditorHtml] = useState("");
-  // const inputRef = useRef<HTMLIonTextareaElement>(null);
   const [isReplying, setIsReplying] = useState(false);
-  const history = useHistory();
-  const { setLoggedIn, loggedIn, myInfo } = useContext(UserContext);
+  const { loggedIn, myInfo } = useContext(UserContext);
   const contentQuillRef = useRef<ReactQuill | null>(null);
   const titleQuillRef = useRef<ReactQuill | null>(null);
 
@@ -50,7 +47,6 @@ const MyEditor = () => {
 
   const handleReplyClick = (e: boolean) => {
     setIsReplying(e);
-    // setReplyingTo(commentId);
     setTimeout(() => {
       contentQuillRef.current?.getEditor();
     }, 400);
@@ -67,6 +63,8 @@ const MyEditor = () => {
     setEditorHtml("");
     setEditorHtmlTitle("");
   }, []);
+
+
 
   return (
     <IonPage>
@@ -142,7 +140,7 @@ const MyEditor = () => {
               border: "none",
               background: "white",
               zIndex: 1000,
-              display: isReplying ? "flex" : "none", 
+              display: isReplying ? "flex" : "none",
               justifyContent: "space-between",
               padding: "10px",
             }}

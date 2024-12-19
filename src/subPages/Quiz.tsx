@@ -1,28 +1,17 @@
 import React, { useState, useContext } from "react";
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 import {
   IonItem,
   IonLabel,
   IonSelect,
-  IonSelectOption,
-  IonNavLink,
-  IonHeader,
-  IonToolbar,
-  IonContent,
-  IonPage,
+  IonSelectOption,  
   IonButton,
   useIonAlert,
-  IonImg,
   useIonViewWillLeave,
   useIonViewDidLeave,
 } from "@ionic/react";
-import Tab3 from "../../src/pages/tabs/Homepage";
 import { MyContext } from "../providers/postProvider";
 
-interface LocationState {
-  quizTitle: string;
-  content: string;
-}
 
 const Quiz = ({ title, content }: { title: string, content: string }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -32,8 +21,6 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
   const [yesAction, setYesAction] = useState("");
   const [noAction, setNoAction] = useState("");
   const [maybeAction, setMaybeAction] = useState("");
-  // const location = useLocation<LocationState>();
-  // const { quizTitle, content } = location.state || {};
   const history = useHistory();
   const [toggle, setToggle] = useState(true);
 
@@ -95,8 +82,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
   useIonViewDidLeave(() => {
     setToggle(true);
   });
-
-  // console.log(quizTitle, 'this is the quiz title')
+  
 
   return (
     <div style={{
@@ -104,6 +90,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
       transition: "opacity 0.2s ease-in-out",
       paddingBottom: '100px'
     }}>
+
       {/* <div style={{  paddingTop: "5px" }} className="brown">
         <div className="flexRowCenter">
           <IonNavLink routerDirection="back" component={Tab3}>
@@ -121,7 +108,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
           <div
             style={{
               borderRadius: "50%",
-              overflow: "hidden",
+              overflow: "hidden", 
               width: "60px",
               height: "60px",
               display: "flex",
@@ -207,23 +194,26 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
           </IonItem>
         </div>
       </div>
-      <IonButton onClick={() => {
-        createPost(
-          title,
-          content,
-          thesis,
-          yesAction,
-          noAction,
-          maybeAction,
-          selectedOption,
-        );
-        history?.push("/tab1");
-        setMaybeAction('')
-        setNoAction('')
-        setYesAction('')
-      }}>Post</IonButton>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <IonButton onClick={() => {
+          createPost(
+            title,
+            content,
+            thesis,
+            yesAction,
+            noAction,
+            maybeAction,
+            selectedOption,
+          );
+          history?.push("/tab1");
+          setMaybeAction('')
+          setNoAction('')
+          setYesAction('')
+        }}>Post</IonButton>
+      </div>
     </div>
   );
 };
 
 export default Quiz;
+
