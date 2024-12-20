@@ -14,8 +14,7 @@ interface Profile {
   };
 }
 
-const Profile: React.FC<Profile> = ({ profile }) => {
-  
+const Profile: React.FC<Profile> = ({ profile }) => {  
 
   const profileImage = (id: string) => {
     if (id) {

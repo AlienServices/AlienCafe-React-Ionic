@@ -9,13 +9,13 @@ import {
   IonAvatar,
   IonCard,
   IonContent,
-  IonPage,  
+  IonPage,
   IonCheckbox,
   IonList,
   IonSkeletonText,
   IonItem,
   IonLabel,
-  useIonViewWillLeave,  
+  useIonViewWillLeave,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
@@ -27,7 +27,7 @@ import { MyContext } from "../../providers/postProvider";
 const Post = () => {
   const history = useHistory();
   const [content, setContent] = useState<any[]>([]);
-  const [loaded, setLoaded] = useState<boolean>(false);  
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [myVote, setMyVote] = useState<string>("");
   const { getBaseUrl } = useContext(MyContext)
   const [selected, setSelected] = useState<number | null>(null);
@@ -41,7 +41,7 @@ const Post = () => {
   useEffect(() => {
     getOnePost();
   }, []);
-  
+
 
   const getOnePost = async () => {
     try {
@@ -147,6 +147,7 @@ const Post = () => {
     setToggle(true);
   });
 
+  console.log(post,' this is something of a post')
 
   return (
     <IonPage
@@ -183,10 +184,10 @@ const Post = () => {
                               marginRight: "5px",
                             }}
                           >
-                            {/* <img
+                            <img
                               alt="Silhouette of a person's head"
-                              src={profileImage(image)}
-                            /> */}
+                              src={"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlQMBIgACEQEDEQH/xAAaAAEBAAMBAQAAAAAAAAAAAAAAAwECBAUH/8QAKxABAAICAAQEBgIDAAAAAAAAAAECAxEEEiFRMUFhgRQiMlJxkUKhEzOS/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAANbXiPWU5yT+AWEOae8m57guIRe0ebeMneAUGImJ8JZAAAAAAAAAAASveZ6R4GS2+keDQAAAAAACJ1PRal4np5ogOga0tzQ2AAAAAAAa3nUNkcs/N+AagANb2ild28Gzj4m/Nk5fKvQC/E3mfl+WP7a/5sn3ymKjqxcRzTFb6j1dDzXbw1+bH1ncx0RVQAZrOpXc61J3UGwAAAAACFvqldC31SDAADgy/7b/l3uLia8uWZ8rdQSAVB08H4X9nM7OFrrHMz5gsAiimLzTb4vGQVAAAAAARv9UrJ5Y8wTAAa5KRkrqfaexa1aRu06hG3FR/Gsz+ZBK+DJSfDcd4T5LT/ABn9L/FW+yP2fFW+yP2Bi4edxOSOnZ1OX4q32R+1MfEUt9XyyCwACuKOiXovWNRoGQAAAAAGJjcaZAQmNTpraYrWbT4RG1715o9XHxm644ifOQcuS85Lbn2js1BUAAAAdHDZZ3GO07jydTzonUxMPSpXm12RW2OvXcqsRGoZAAAAAAAAATzYa5a6t7T2UAeZl4bJj665q94Qe0nfDjv9VI33B5I9CeCxzO4m0e7HwNPuv/SjgZrWbTqsTM+j0a8HijxiZ/MrVrWsarWIj0hBx4OC3qc3/MO2IiI1DIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z"}
+                            />
                           </IonAvatar>
                           <div className="username">{post?.email}</div>
                         </div>
@@ -197,9 +198,9 @@ const Post = () => {
                         readOnly={true}
                         theme="bubble"
                         value={transformedTitle}
-                      />                      
+                      />
                       <ReactQuill
-                        className="small"                        
+                        className="small"
                         readOnly={true}
                         theme="bubble"
                         value={post?.content}
@@ -267,7 +268,14 @@ const Post = () => {
             </div>
           </div>
         ) : (
-          <div className="centerMiddle">            
+          <div className="centerMiddle">
+            <ReactQuill
+              className="quillTitle"
+              style={{ color: "black" }}
+              readOnly={true}
+              theme="bubble"
+              value={post?.title}
+            />            
             <div className="quizCenter">
               <div className="checkSpace">
                 <IonCheckbox
