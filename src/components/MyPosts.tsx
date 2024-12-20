@@ -1,7 +1,7 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext } from "react";
 import { IonIcon } from "@ionic/react";
-import { useLocation, useHistory } from "react-router";
-import { IonButton, IonAvatar, IonCard, IonList, IonPage } from "@ionic/react";
+import { useHistory } from "react-router";
+import { IonAvatar, IonCard, IonList } from "@ionic/react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../theme/Tab3.css";
@@ -65,11 +65,9 @@ const Content: React.FC = () => {
               const transformedTitle = transformTitleToH1(post.title);
               const truncatedContent = truncateContent(post.content, 200);
               const date = new Date(post.date);
-              const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
+              const month = String(date.getUTCMonth() + 1).padStart(2, "0");
               const day = String(date.getUTCDate()).padStart(2, "0");
               const year = date.getUTCFullYear();
-
-              // Format the date as mm/dd/yyyy
               const formattedDate = `${month}/${day}/${year}`;
 
               return (

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useIonViewWillEnter } from "@ionic/react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/Tab3.css";
@@ -15,7 +15,7 @@ interface PostType {
   likes: string[];
   userId: string;
   dislikes: string[];
-  comments: any[]; 
+  comments: any[];
   [key: string]: any;
 }
 
@@ -26,8 +26,7 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
   const [posts, setPosts] = useState<PostType[]>([]);
-  const {getBaseUrl} = useContext(MyContext)
-  const [showModal, setShowModal] = useState(false);
+  const { getBaseUrl } = useContext(MyContext)
 
   useIonViewWillEnter(() => {
     getPosts();
@@ -60,18 +59,10 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
     }
   };
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-
+  
   return (
     <div style={{ height: "fit-content", minHeight: '75vh' }}>
-      <div style={{display: 'flex', justifyContent: 'center', fontSize: '25px'}}>{category}</div>
+      <div style={{ display: 'flex', justifyContent: 'center', fontSize: '25px' }}>{category}</div>
       {posts.length > 0 ? (
         <>
           {posts
@@ -81,7 +72,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
             ))}
         </>
       ) : (
-        <div style={{textAlign: 'center', marginTop: '20px'}}>No posts found here</div>
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>No posts found here</div>
       )}
     </div>
   );

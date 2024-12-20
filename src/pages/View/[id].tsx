@@ -7,22 +7,18 @@ import "react-quill/dist/quill.snow.css";
 import {
   IonButton,
   IonAvatar,
-  IonIcon,
   IonCard,
   IonContent,
-  IonPage,
-  IonImg,
+  IonPage,  
   IonCheckbox,
   IonList,
   IonSkeletonText,
   IonItem,
   IonLabel,
-  useIonViewWillLeave,
-  useIonViewDidLeave,
+  useIonViewWillLeave,  
   useIonViewWillEnter,
 } from "@ionic/react";
 import { post } from "../../utils/fetch";
-import { arrowBackCircleOutline } from "ionicons/icons";
 import "../../theme/id.module.css";
 import { UserContext } from "../../providers/userProvider";
 import HeaderAlien from "../../components/preRender/Header";
@@ -31,8 +27,7 @@ import { MyContext } from "../../providers/postProvider";
 const Post = () => {
   const history = useHistory();
   const [content, setContent] = useState<any[]>([]);
-  const [loaded, setLoaded] = useState<boolean>(false);
-  const [commentsLoaded, setCommentsLoaded] = useState<boolean>(false);
+  const [loaded, setLoaded] = useState<boolean>(false);  
   const [myVote, setMyVote] = useState<string>("");
   const { getBaseUrl } = useContext(MyContext)
   const [selected, setSelected] = useState<number | null>(null);
@@ -46,10 +41,7 @@ const Post = () => {
   useEffect(() => {
     getOnePost();
   }, []);
-
-  const goBack = () => {
-    history.goBack();
-  };
+  
 
   const getOnePost = async () => {
     try {
@@ -275,17 +267,7 @@ const Post = () => {
             </div>
           </div>
         ) : (
-          <div className="centerMiddle">
-            <div className="centerThesis">
-              <ReactQuill
-                className="quillTitle"
-                style={{ color: "black" }}
-                readOnly={true}
-                theme="bubble"
-                value={transformTitleToH1(content[0]?.thesis)}
-              />
-              {/* <div className="question">{content[0]?.thesis}</div> */}
-            </div>
+          <div className="centerMiddle">            
             <div className="quizCenter">
               <div className="checkSpace">
                 <IonCheckbox

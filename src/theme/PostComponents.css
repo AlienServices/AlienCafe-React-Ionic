@@ -1,6 +1,6 @@
 .row {
-  display: flex;
-  justify-content: space-between;
+  display: flex;  
+  justify-content: flex-start;
 }
 
 .username {
@@ -62,4 +62,10 @@
   width: 70px;
   height: 70px;
   padding: 10px;
+}
+
+.profileBeginning{
+  display: flex;
+  flex-direction: column;
+  
 }
