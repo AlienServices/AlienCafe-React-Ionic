@@ -195,7 +195,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
         </div>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <IonButton onClick={() => {
+        <IonButton disabled={!selectedOption} onClick={() => {
           createPost(
             title,
             content,

@@ -29,7 +29,7 @@ const Post = () => {
   const [content, setContent] = useState<any[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [myVote, setMyVote] = useState<string>("");
-  const { getBaseUrl } = useContext(MyContext)
+  const { getBaseUrl, loggedIn } = useContext(MyContext)
   const [selected, setSelected] = useState<number | null>(null);
   const [image, setImage] = useState("");
   const { myInfo } = useContext(UserContext);
@@ -147,7 +147,7 @@ const Post = () => {
     setToggle(true);
   });
 
-  console.log(post,' this is something of a post')
+  console.log(content, ' this is something of a post')
 
   return (
     <IonPage
@@ -169,9 +169,6 @@ const Post = () => {
                 return (
                   <div className="shadow" key={index}>
                     <IonCard
-                      style={{
-                        marginBottom: "25px",
-                      }}
                       className="card"
                     >
                       <div className="around">
@@ -274,7 +271,7 @@ const Post = () => {
               style={{ color: "black" }}
               readOnly={true}
               theme="bubble"
-              value={post?.title}
+              value={content[0]?.title}
             />             */}
             <div className="quizCenter">
               <div className="checkSpace">
@@ -338,6 +335,7 @@ const Post = () => {
                 <IonButton
                   style={{ backgroundColor: "black", padding: "0px" }}
                   onClick={handleVote}
+                  disabled={!loggedIn && selected !== null}
                 >
                   Submit
                 </IonButton>
