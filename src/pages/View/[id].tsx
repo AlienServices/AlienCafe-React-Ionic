@@ -269,13 +269,13 @@ const Post = () => {
           </div>
         ) : (
           <div className="centerMiddle">
-            <ReactQuill
+            {/* <ReactQuill
               className="quillTitle"
               style={{ color: "black" }}
               readOnly={true}
               theme="bubble"
               value={post?.title}
-            />            
+            />             */}
             <div className="quizCenter">
               <div className="checkSpace">
                 <IonCheckbox
