@@ -129,9 +129,9 @@ const MyEditor = () => {
               modules={MyEditor.modules}
               formats={MyEditor.formats}
             />
+          <Quiz content={editorHtml} title={editorHtmlTitle} />
           </div>
         </div>
-        <Quiz content={editorHtml} title={editorHtmlTitle} />
         <IonFooter className={isReplying ? "message-input-container" : "none"}>
           <div
             id="toolbar"
