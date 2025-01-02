@@ -43,7 +43,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
           },
         }
       );
-
+      console.log(result, `${category}`, "this is category")
       const userInfo = await result.json();
 
       if (Array.isArray(userInfo)) {
@@ -60,6 +60,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
   };
 
   
+
   return (
     <div style={{ height: "fit-content", minHeight: '75vh' }}>
       <div style={{ display: 'flex', justifyContent: 'center', fontSize: '25px' }}>{category}</div>
