@@ -9,6 +9,8 @@ import {
   useIonAlert,
   useIonViewWillLeave,
   useIonViewDidLeave,
+  useIonViewDidEnter,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
 
@@ -74,10 +76,18 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
   }, []);
 
 
-  useIonViewWillLeave(() => {
+  // useIonViewWillLeave(() => {
+  //   console.log("Cleaning up resources...");
+  //   setToggle(false);
+  // });
+
+
+  useIonViewDidEnter(() => {
     console.log("Cleaning up resources...");
-    setToggle(false);
+    setToggle(true);
   });
+
+  
 
   useIonViewDidLeave(() => {
     setToggle(true);

@@ -135,6 +135,7 @@ const Post = () => {
   };
 
   useEffect(() => {
+    
     getMyVote(myInfo?.id || '', id);
   }, []);
 
@@ -147,7 +148,6 @@ const Post = () => {
     setToggle(true);
   });
 
-  console.log(content, ' this is something of a post')
 
   return (
     <IonPage

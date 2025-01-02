@@ -113,6 +113,7 @@
 .custom-title-editor .ql-editor:focus {
   outline: none;
 }
+
 .custom-content-editor .ql-editor:focus {
   outline: none;
 }
@@ -132,7 +133,8 @@
   font-weight: 400;
   padding-left: 10px;
   padding-top: 8px;
-  line-height: 1; /* Set the default line height for the rest of the lines */
+  line-height: 1;
+  /* Set the default line height for the rest of the lines */
 }
 
 .ql-editor ul {
@@ -140,8 +142,8 @@
 }
 
 .custom-content-editor {
-  padding-bottom: 75px;
-  margin-bottom: 75px;
+  padding-bottom: 25px;
+  /* margin-bottom: 75px; */
 }
 
 .custom-content-editor .ql-editor.ql-blank::before {
@@ -158,8 +160,9 @@
   line-height: 1.5;
   font-size: 14px;
 }
+
 .custom-content-editor li {
-  color: rgb(92, 89, 89);  
+  color: rgb(92, 89, 89);
   padding-bottom: 15px;
   padding-left: 10px;
   line-height: 1;
