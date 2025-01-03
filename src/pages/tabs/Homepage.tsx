@@ -3,7 +3,7 @@ import {
   IonContent,
   IonPage,
   useIonViewWillLeave,
-  useIonViewWillEnter,  
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
@@ -15,7 +15,7 @@ import { Menu } from "../../components/Menu";
 import HeaderAlien from "../../components/preRender/Header";
 
 const Tab3: React.FC = () => {
-  const [toggle, setToggle] = useState(true);  
+  const [toggle, setToggle] = useState(true);
   const [pageKey, setPageKey] = useState(0);
   const [categories, setCategories] = useState([
     "Aliens",
@@ -60,14 +60,15 @@ const Tab3: React.FC = () => {
     console.log("Cleaning up resources...");
     setToggle(false);
   });
-  
 
-  useIonViewWillEnter(() => {
+
+  useIonViewWillEnter(() => {    
     console.log("Cleaning up resources...");
     setPageKey((prevKey) => prevKey + 1);
     setToggle(true);
     setCurrentCategory(categories[0]);
-  });
+  }, []);
+
 
   return (
     <>

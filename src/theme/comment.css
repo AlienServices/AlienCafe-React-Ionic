@@ -34,8 +34,8 @@
   flex-direction: column;
   padding: 15px;
   justify-content: center;
-  /* bottom: 35%; */
-  bottom: 0;
+  bottom: 33%;
+  /* bottom: 0; */
   height: fit-content;
   border-radius: 15px;
   width: 100%;

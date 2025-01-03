@@ -214,7 +214,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
             maybeAction,
             selectedOption,
           );
-          history?.push("/tab1");
+          history.push("/tab1");
           setMaybeAction('')
           setNoAction('')
           setYesAction('')
