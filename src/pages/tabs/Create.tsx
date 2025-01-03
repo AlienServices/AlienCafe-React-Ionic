@@ -29,6 +29,12 @@ const MyEditor = () => {
     if (contentQuillRef.current) {
       const quill = contentQuillRef.current.getEditor();
       quill.getModule("toolbar").container = document.querySelector("#toolbar");
+    } else if (sourceQuillRef.current) {
+      const quill = sourceQuillRef.current.getEditor();
+      quill.getModule("toolbar").container = document.querySelector("#toolbar");
+    } else if (titleQuillRef.current) {
+      const quill = titleQuillRef.current.getEditor();
+      quill.getModule("toolbar").container = document.querySelector("#toolbar");
     }
   }, []);
 
@@ -76,6 +82,10 @@ const MyEditor = () => {
     setEditorHtmlTitle("");
   }, []);
 
+
+  console.log('Content Quill Ref:', contentQuillRef.current);
+  console.log('Source Quill Ref:', sourceQuillRef.current);
+  console.log('Title Quill Ref:', titleQuillRef.current);
 
 
   return (
