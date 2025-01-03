@@ -142,11 +142,18 @@
 }
 
 .custom-content-editor {
-  padding-bottom: 25px;
+  /* padding-bottom: 100px; */
+  min-height: 200px;
   /* margin-bottom: 75px; */
 }
 
 .custom-content-editor .ql-editor.ql-blank::before {
+  font-size: 14px;
+  font-weight: 400;  
+  color: rgb(149, 144, 144);
+}
+
+.custom-links-editor .ql-editor.ql-blank::before {
   font-size: 14px;
   font-weight: 400;
   color: rgb(149, 144, 144);

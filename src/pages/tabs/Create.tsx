@@ -121,13 +121,13 @@ const MyEditor = () => {
           <div className="titleEditor">
             <ReactQuill
               className="custom-title-editor"
-              onFocus={() => {
-                handleTitleReplyClick(true);
-              }}
-              onBlur={() => {
-                handleTitleReplyClick(false);
-              }}
-              ref={titleQuillRef}
+              // onFocus={() => {
+              //   handleTitleReplyClick(true);
+              // }}
+              // onBlur={() => {
+              //   handleTitleReplyClick(false);
+              // }}
+              // ref={titleQuillRef}
               value={editorHtmlTitle}
               placeholder="Title/Thesis"
               onChange={handleTitleChange}
@@ -152,14 +152,14 @@ const MyEditor = () => {
               formats={MyEditor.formats}
             />
             <ReactQuill
-              onFocus={() => {
-                handleSourceClick(true);
-              }}
-              onBlur={() => {
-                handleSourceClick(false);
-              }}
-              className="custom-content-editor"
-              ref={sourceQuillRef}
+              // onFocus={() => {
+              //   handleSourceClick(true);
+              // }}
+              // onBlur={() => {
+              //   handleSourceClick(false);
+              // }}
+              className="custom-links-editor"
+              // ref={sourceQuillRef}
               value={editorLinks}
               placeholder="Links/Resources"
               onChange={handleLinkChange}
