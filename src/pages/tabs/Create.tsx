@@ -17,9 +17,11 @@ import HeaderAlien from "../../components/preRender/Header";
 const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
   const [editorHtml, setEditorHtml] = useState("");
+  const [editorLinks, setEditorLinks] = useState("");
   const [isReplying, setIsReplying] = useState(false);
   const { loggedIn, myInfo } = useContext(UserContext);
   const contentQuillRef = useRef<ReactQuill | null>(null);
+  const sourceQuillRef = useRef<ReactQuill | null>(null);
   const titleQuillRef = useRef<ReactQuill | null>(null);
 
 
@@ -32,6 +34,9 @@ const MyEditor = () => {
 
   const handleChange = (html: string) => {
     setEditorHtml(html);
+  };
+  const handleLinkChange = (html: string) => {
+    setEditorLinks(html);
   };
 
   const handleTitleChange = (html: string) => {
@@ -49,6 +54,13 @@ const MyEditor = () => {
     setIsReplying(e);
     setTimeout(() => {
       contentQuillRef.current?.getEditor();
+    }, 400);
+  };
+
+  const handleSourceClick = (e: boolean) => {
+    setIsReplying(e);
+    setTimeout(() => {
+      sourceQuillRef.current?.getEditor();
     }, 400);
   };
 
@@ -129,8 +141,24 @@ const MyEditor = () => {
               modules={MyEditor.modules}
               formats={MyEditor.formats}
             />
-          <Quiz content={editorHtml} title={editorHtmlTitle} />
+            <ReactQuill
+              onFocus={() => {
+                handleSourceClick(true);
+              }}
+              onBlur={() => {
+                handleSourceClick(false);
+              }}
+              className="custom-content-editor"
+              ref={sourceQuillRef}
+              value={editorLinks}
+              placeholder="Links/Resources"
+              onChange={handleLinkChange}
+              modules={MyEditor.modules}
+              formats={MyEditor.formats}
+            />
+            <Quiz content={editorHtml} title={editorHtmlTitle} />
           </div>
+
         </div>
         <IonFooter className={isReplying ? "message-input-container" : "none"}>
           <div
