@@ -2,10 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../../../../Documents/GoogleService-Info.plist">
-   </FileRef>
-   <FileRef
-      location = "group:AlienCafe.xcodeproj">
+      location = "group:App.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

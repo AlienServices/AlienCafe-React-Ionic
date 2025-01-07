@@ -51,21 +51,21 @@ interface PostContext {
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
-  setPosts: (posts) => {},
-  setMyPosts: (posts) => {},
-  updatePost: (post) => {},
-  addLike: (post) => {},
-  addDislike: (post) => {},
-  deletePost: (id) => {},
-  createPost: (value) => {},
-  getMyPosts: () => {},
-  setLoggedin: () => {},
+  setPosts: (posts) => { },
+  setMyPosts: (posts) => { },
+  updatePost: (post) => { },
+  addLike: (post) => { },
+  addDislike: (post) => { },
+  deletePost: (id) => { },
+  createPost: (value) => { },
+  getMyPosts: () => { },
+  setLoggedin: () => { },
   loggedIn: false,
-  setUserPosts: () => {},
+  setUserPosts: () => { },
   userPosts: [],
-  getUserPosts: (email) => {},
-  addBookmark: (userId, postId) => {}, // Placeholder function
-  getBaseUrl: () => {},
+  getUserPosts: (email) => { },
+  addBookmark: (userId, postId) => { }, // Placeholder function
+  getBaseUrl: () => { },
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -260,21 +260,21 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  
   const getBaseUrl = () => {
     const platform = Capacitor.getPlatform();
-    if (platform === "web") {      
-      if (
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-      ) {        
-        return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; 
-      } else {                
-        return import.meta.env.VITE_APP_SERVER_BASE_URL; 
-      }
-    } else {      
-      return import.meta.env.VITE_APP_SERVER_BASE_URL; 
-    }
+    // if (platform === "web") {      
+    //   if (
+    //     window.location.hostname === "localhost" ||
+    //     window.location.hostname === "127.0.0.1"
+    //   ) {        
+    //     return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; 
+    //   } else {                
+    //     return import.meta.env.VITE_APP_SERVER_BASE_URL; 
+    //   }
+    // } else {      
+    //   return import.meta.env.VITE_APP_SERVER_BASE_URL; 
+    // }
+    return import.meta.env.VITE_APP_SERVER_BASE_URL;
   };
 
   const createPost = async (
@@ -306,7 +306,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         }),
       });
       // await getAllPosts();
-      await getMyPosts();      
+      await getMyPosts();
     } catch (error) {
       console.log(error, "this is the create user error");
     }
