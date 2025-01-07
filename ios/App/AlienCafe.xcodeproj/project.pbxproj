@@ -132,7 +132,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 504EC2FF1FED79650016851F /* Build configuration list for PBXProject "App" */;
+			buildConfigurationList = 504EC2FF1FED79650016851F /* Build configuration list for PBXProject "AlienCafe" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -353,6 +353,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WG6PSB2563;
 				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AlienCafe;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -377,6 +378,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WG6PSB2563;
 				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AlienCafe;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -394,7 +396,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		504EC2FF1FED79650016851F /* Build configuration list for PBXProject "App" */ = {
+		504EC2FF1FED79650016851F /* Build configuration list for PBXProject "AlienCafe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				504EC3141FED79650016851F /* Debug */,

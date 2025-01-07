@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   IonContent,
   IonPage,
@@ -13,9 +13,11 @@ import "swiper/css/pagination";
 import "../../theme/Tab3.css";
 import { Menu } from "../../components/Menu";
 import HeaderAlien from "../../components/preRender/Header";
+import { MyContext } from "../../providers/postProvider";
 
 const Tab3: React.FC = () => {
   const [toggle, setToggle] = useState(true);
+  const { getBaseUrl } = useContext(MyContext);
   const [pageKey, setPageKey] = useState(0);
   const [categories, setCategories] = useState([
     "Aliens",
@@ -68,6 +70,8 @@ const Tab3: React.FC = () => {
     setToggle(true);
     setCurrentCategory(categories[0]);
   }, []);
+
+  console.log(getBaseUrl(), 'this is the base url')
 
 
   return (

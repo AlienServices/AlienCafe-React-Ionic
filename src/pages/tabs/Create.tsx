@@ -143,7 +143,7 @@ const MyEditor = () => {
               onBlur={() => {
                 handleReplyClick(false);
               }}
-              className="custom-content-editor"
+              className="custom-content-editor"              
               ref={contentQuillRef}
               value={editorHtml}
               placeholder="Enter your supporting narrative, links to sources, and photos"
