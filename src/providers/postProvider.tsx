@@ -284,6 +284,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     yesAction: string,
     noAction: string,
     maybeAction: string,
+    probablyYesAction: string,
+    probablyNoAction: string,
     categories: string,
   ) => {
     try {
@@ -301,6 +303,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           date: new Date(),
           yesAction,
           noAction,
+          probablyYesAction,
+          probablyNoAction,
           maybeAction,
           categories,
         }),

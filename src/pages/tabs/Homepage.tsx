@@ -64,7 +64,7 @@ const Tab3: React.FC = () => {
   });
 
 
-  useIonViewWillEnter(() => {    
+  useIonViewWillEnter(() => {
     console.log("Cleaning up resources...");
     setPageKey((prevKey) => prevKey + 1);
     setToggle(true);

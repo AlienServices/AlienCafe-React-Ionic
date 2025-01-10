@@ -18,25 +18,27 @@ const MyEditor = () => {
   const [editorHtmlTitle, setEditorHtmlTitle] = useState("");
   const [editorHtml, setEditorHtml] = useState("");
   const [editorLinks, setEditorLinks] = useState("");
+  const [isTitle, setIsTitle] = useState(false);
+  const [isContent, setIsContent] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const { loggedIn, myInfo } = useContext(UserContext);
   const contentQuillRef = useRef<ReactQuill | null>(null);
-  const sourceQuillRef = useRef<ReactQuill | null>(null);
   const titleQuillRef = useRef<ReactQuill | null>(null);
 
 
   useEffect(() => {
-    if (contentQuillRef.current) {
+    if (isContent) {
+      console.log('running content')
       const quill = contentQuillRef.current.getEditor();
+      console.log(contentQuillRef, 'this is the content quill ref')
       quill.getModule("toolbar").container = document.querySelector("#toolbar");
-    } else if (sourceQuillRef.current) {
-      const quill = sourceQuillRef.current.getEditor();
-      quill.getModule("toolbar").container = document.querySelector("#toolbar");
-    } else if (titleQuillRef.current) {
+    } else if (isTitle) {
+      console.log('running title')
       const quill = titleQuillRef.current.getEditor();
-      quill.getModule("toolbar").container = document.querySelector("#toolbar");
+      console.log(titleQuillRef, 'this is the title quill ref')
+      quill.getModule("toolbar").container = document.querySelector("#toolbar-title");
     }
-  }, []);
+  }, [isTitle, isContent]);
 
   const handleChange = (html: string) => {
     setEditorHtml(html);
@@ -56,17 +58,19 @@ const MyEditor = () => {
     }
   };
 
+
+  // const handleSourceClick = (e: boolean) => {
+  //   setIsReplying(e);
+  //   setTimeout(() => {
+  //     sourceQuillRef.current?.getEditor();
+  //   }, 400);
+  // };
+
+
   const handleReplyClick = (e: boolean) => {
     setIsReplying(e);
     setTimeout(() => {
       contentQuillRef.current?.getEditor();
-    }, 400);
-  };
-
-  const handleSourceClick = (e: boolean) => {
-    setIsReplying(e);
-    setTimeout(() => {
-      sourceQuillRef.current?.getEditor();
     }, 400);
   };
 
@@ -82,10 +86,6 @@ const MyEditor = () => {
     setEditorHtmlTitle("");
   }, []);
 
-
-  console.log('Content Quill Ref:', contentQuillRef.current);
-  console.log('Source Quill Ref:', sourceQuillRef.current);
-  console.log('Title Quill Ref:', titleQuillRef.current);
 
 
   return (
@@ -121,13 +121,15 @@ const MyEditor = () => {
           <div className="titleEditor">
             <ReactQuill
               className="custom-title-editor"
-              // onFocus={() => {
-              //   handleTitleReplyClick(true);
-              // }}
-              // onBlur={() => {
-              //   handleTitleReplyClick(false);
-              // }}
-              // ref={titleQuillRef}
+              onFocus={() => {
+                handleTitleReplyClick(true);
+                setIsTitle(true)
+              }}
+              onBlur={() => {
+                handleTitleReplyClick(false);
+                setIsTitle(false);
+              }}
+              ref={titleQuillRef}
               value={editorHtmlTitle}
               placeholder="Title/Thesis"
               onChange={handleTitleChange}
@@ -139,11 +141,13 @@ const MyEditor = () => {
             <ReactQuill
               onFocus={() => {
                 handleReplyClick(true);
+                setIsContent(true)
               }}
               onBlur={() => {
                 handleReplyClick(false);
+                setIsContent(false)
               }}
-              className="custom-content-editor"              
+              className="custom-content-editor"
               ref={contentQuillRef}
               value={editorHtml}
               placeholder="Enter your supporting narrative, links to sources, and photos"
@@ -151,7 +155,7 @@ const MyEditor = () => {
               modules={MyEditor.modules}
               formats={MyEditor.formats}
             />
-            <ReactQuill
+            {/* <ReactQuill
               // onFocus={() => {
               //   handleSourceClick(true);
               // }}
@@ -165,12 +169,26 @@ const MyEditor = () => {
               onChange={handleLinkChange}
               modules={MyEditor.modules}
               formats={MyEditor.formats}
-            />
+            /> */}
             <Quiz content={editorHtml} title={editorHtmlTitle} />
           </div>
 
         </div>
         <IonFooter className={isReplying ? "message-input-container" : "none"}>
+          {/* {isContent && (
+            <div id="toolbar" style={{ display: "flex" }}>
+              <button className="ql-bold"></button>
+              <button className="ql-underline"></button>
+              <button className="ql-link"></button>
+            </div>
+          )}
+          {isTitle && (
+            <div id="toolbar-title" style={{ display: "flex" }}>
+              <button className="ql-bold"></button>
+              <button className="ql-underline"></button>
+              <button className="ql-link"></button>
+            </div>
+          )} */}
           <div
             id="toolbar"
             style={{
@@ -178,7 +196,7 @@ const MyEditor = () => {
               border: "none",
               background: "white",
               zIndex: 1000,
-              display: isReplying ? "flex" : "none",
+              display: isContent ? "flex" : "none",
               justifyContent: "space-between",
               padding: "10px",
             }}
@@ -189,6 +207,11 @@ const MyEditor = () => {
             <button className="ql-image"></button>
             <button className="ql-list" value="bullet"></button>
           </div>
+          <div id="toolbar-title" style={{ display: isTitle ? "flex" : "none" }}>
+            <button className="ql-bold"></button>
+            <button className="ql-underline"></button>
+            <button className="ql-link"></button>
+          </div>
         </IonFooter>
       </IonContent>
     </IonPage>
@@ -196,7 +219,9 @@ const MyEditor = () => {
 };
 
 MyEditor.titleModules = {
-  toolbar: false,
+  toolbar: {
+    container: "#toolbar-title"
+  },
   clipboard: {
     matchVisual: false,
   },

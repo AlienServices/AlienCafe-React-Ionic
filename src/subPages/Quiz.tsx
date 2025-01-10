@@ -4,12 +4,12 @@ import {
   IonItem,
   IonLabel,
   IonSelect,
-  IonSelectOption,  
+  IonSelectOption,
   IonButton,
   useIonAlert,
   useIonViewWillLeave,
   useIonViewDidLeave,
-  useIonViewDidEnter,  
+  useIonViewDidEnter,
 } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
 
@@ -20,6 +20,8 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
   const [thesis, setThesis] = useState("");
   const { createPost } = useContext(MyContext);
   const [yesAction, setYesAction] = useState("");
+  const [probablyYesAction, setProbablyYesAction] = useState("");
+  const [probablyNoAction, setProbablyNoAction] = useState("");
   const [noAction, setNoAction] = useState("");
   const [maybeAction, setMaybeAction] = useState("");
   const history = useHistory();
@@ -86,12 +88,12 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
     setToggle(true);
   });
 
-  
+
 
   useIonViewDidLeave(() => {
     setToggle(true);
   });
-  
+
 
   return (
     <div style={{
@@ -184,11 +186,31 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
           <IonItem lines="none">
             <textarea
               onChange={(e) => {
+                setProbablyYesAction(e?.target.value);
+              }}
+              className="stylish-input"
+              value={probablyYesAction}
+              placeholder="Probably True"
+            ></textarea>
+          </IonItem>
+          <IonItem lines="none">
+            <textarea
+              onChange={(e) => {
                 setMaybeAction(e?.target.value);
               }}
               className="stylish-input"
               value={maybeAction}
-              placeholder="Action if user votes maybe"
+              placeholder="Need more info"
+            ></textarea>
+          </IonItem>
+          <IonItem lines="none">
+            <textarea
+              onChange={(e) => {
+                setProbablyNoAction(e?.target.value);
+              }}
+              className="stylish-input"
+              value={probablyNoAction}
+              placeholder="Probably False"
             ></textarea>
           </IonItem>
           <IonItem lines="none">
@@ -210,7 +232,9 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
             content,
             thesis,
             yesAction,
+            probablyYesAction,
             noAction,
+            probablyNoAction,
             maybeAction,
             selectedOption,
           );
