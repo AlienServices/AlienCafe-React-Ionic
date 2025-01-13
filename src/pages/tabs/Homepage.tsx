@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   IonContent,
   IonPage,
@@ -71,7 +71,6 @@ const Tab3: React.FC = () => {
     setCurrentCategory(categories[0]);
   }, []);
 
-  console.log(getBaseUrl(), 'this is the base url')
 
 
   return (
@@ -85,10 +84,7 @@ const Tab3: React.FC = () => {
         }}
       >
         <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={false} />
-        <IonContent>
-          {/* <div className="middle">
-            <IonTitle>{currentCategory}</IonTitle>
-          </div> */}
+        <IonContent>          
           <Swiper
             modules={[Pagination]}
             spaceBetween={10}

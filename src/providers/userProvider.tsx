@@ -1,8 +1,6 @@
-import { createContext, useState, ReactNode, useEffect, useContext } from "react";
+import { createContext, useState, ReactNode, useEffect } from "react";
 import { post } from "../utils/fetch";
-import { Platform } from "react-native";
 import { Capacitor } from "@capacitor/core";
-import { supabase } from "../components/supaBase";
 
 
 interface User {

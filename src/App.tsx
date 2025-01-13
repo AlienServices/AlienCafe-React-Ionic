@@ -1,4 +1,4 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { IonReactRouter } from "@ionic/react-router";
 import {
   IonApp,

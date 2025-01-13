@@ -1,24 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Test from ".././Test";
-import {
-  useIonRouter,
-  IonContent,
-  IonButtons,
-  IonMenuButton,
-  IonIcon,
-  IonMenu,
-  IonHeader,
-  IonRouterLink,
-  IonButton,
+import {  
+  IonContent,  
+  IonIcon,  
+  IonRouterLink,  
   IonPage,
-  IonTitle,
-  IonToolbar,
-  IonImg,
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { motion } from "framer-motion";
-import { MessageContext } from "../../providers/messageProvider";
 
 import "../../theme/chat.css";
 import "../../theme/swiper.css";
@@ -39,8 +29,7 @@ interface MessageData {
 }
 
 const MessageHome = () => {
-  const [messageData, setMessageData] = useState<MessageData[]>([]);
-  // const { myConvos, getConvos } = useContext(MessageContext);
+  const [messageData, setMessageData] = useState<MessageData[]>([]);  
   const [myConvos, setMyConvos] = useState<any>([]);
   const history = useHistory();
   const {getBaseUrl} = useContext(MyContext)

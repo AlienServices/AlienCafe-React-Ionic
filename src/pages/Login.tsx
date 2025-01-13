@@ -10,7 +10,6 @@ import {
   useIonViewWillLeave,
   useIonViewWillEnter,
 } from "@ionic/react";
-import { supabase } from "../components/supaBase";
 import "../theme/Tab1.css";
 import SignIn from "../components/loginComponents/SignIn";
 import CreateAccount from "../components/loginComponents/CreateAccount";

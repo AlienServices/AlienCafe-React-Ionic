@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { createClient, RealtimeChannel } from "@supabase/supabase-js";
+import {  RealtimeChannel } from "@supabase/supabase-js";
 import { sendOutline, returnUpBackOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 import {

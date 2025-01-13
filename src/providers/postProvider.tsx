@@ -9,7 +9,6 @@ import { post } from "../utils/fetch";
 import { Capacitor } from "@capacitor/core";
 import { supabase } from "../components/supaBase";
 import { UserContext } from "./userProvider";
-import { useIonViewDidEnter } from "@ionic/react";
 
 interface Post {
   email: string;

@@ -1,4 +1,3 @@
-import { create } from "ionicons/icons";
 import { useContext } from "react";
 import { MyContext } from "../providers/postProvider";
 export const useApi = () => {

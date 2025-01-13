@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useEffect, useContext } from "react";
+import { createContext, useState, ReactNode, useContext } from "react";
 import { post } from "../utils/fetch";
 import { MyContext } from "./postProvider";
 

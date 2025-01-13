@@ -1,22 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import {
-  useIonRouter,
-  IonContent,
-  IonButtons,
-  IonMenuButton,
-  IonIcon,
-  IonMenu,
-  IonHeader,
-  IonRouterLink,
-  IonButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
+  IonIcon,  
 } from "@ionic/react";
 import { chevronForwardOutline } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MyContext } from "../providers/postProvider";
 import { MessageContext } from "../providers/messageProvider";
 import "../theme/chat.css";
 import "../theme/swiper.css";

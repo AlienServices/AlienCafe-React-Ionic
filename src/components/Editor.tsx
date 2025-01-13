@@ -1,5 +1,3 @@
-import { IonPage, IonButton, IonContent } from "@ionic/react";
-import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../pages/Tab1.css";

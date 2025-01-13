@@ -13,7 +13,6 @@ import { arrowBackOutline } from "ionicons/icons";
 import Category from "../../components/Category";
 import { useEffect, useState, useContext } from "react";
 import { MyContext } from "../../providers/postProvider";
-import { post } from "../../utils/fetch";
 import UserPosts from "../../components/UserPosts";
 
 const Profile = ({ id }: { id: string }) => {

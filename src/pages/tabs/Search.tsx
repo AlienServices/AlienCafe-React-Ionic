@@ -8,7 +8,6 @@ import Profiles from "../../components/searchOptions/profiles";
 import Saved from "../../components/searchOptions/saved";
 import Posts from "../../components/searchOptions/posts";
 import SwiperCore from "swiper";
-import { Menu } from "../../components/Menu";
 
 const Search: React.FC = () => {
   const categories = ["Profile", "Post", "Saved"];

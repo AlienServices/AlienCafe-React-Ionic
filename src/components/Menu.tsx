@@ -1,4 +1,3 @@
-import React from "react";
 import { useContext, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import {
@@ -8,16 +7,12 @@ import {
   createOutline,
 } from "ionicons/icons";
 import {
-  IonButton,
   IonContent,
   IonHeader,
   IonMenu,
   IonMenuToggle,
-  IonPage,
   IonTitle,
-  IonToolbar,
-  IonButtons,
-  IonMenuButton,
+  IonToolbar,  
   IonIcon,
 } from "@ionic/react";
 import supabase from "../messageComponents/supabaseClient";
