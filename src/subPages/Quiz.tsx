@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router";
 import {
   IonItem,
@@ -16,8 +16,10 @@ import { MyContext } from "../providers/postProvider";
 
 const Quiz = ({ title, content }: { title: string, content: string }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
+  const [selectedSubOption, setSelectedSubOption] = useState<string>("");
   const [present] = useIonAlert();
   const [thesis, setThesis] = useState("");
+  const [currentSubCategories, setCurrentSubCategories] = useState();
   const { createPost } = useContext(MyContext);
   const [yesAction, setYesAction] = useState("");
   const [probablyYesAction, setProbablyYesAction] = useState("");
@@ -65,8 +67,129 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
     "World Organizations",
   ];
 
+  const subCategories: Record<string, string[]> = {
+    Animals: [
+      "Insects and Spiders",
+      "Microbiology",
+    ],
+    Business: [
+      "Corporations",
+      "Small Businesses",
+      "Entrepreneurship",
+    ],
+    ClimateChange: [
+      "Proof of Climate Change",
+      "Climate Change Hoax",
+    ],
+    Espionage: [
+      "The Kennedy Assasinations",
+      "The Titanic",
+    ],
+    Finance: [
+      "Banks and Credit Unions",
+      "Foreign Banks",
+    ],
+    Food: [
+      "Toxins",
+    ],
+    Government: [
+      "Deep State",
+      "Executive",
+      "Legislature",
+      "Judicial System",
+      "Bureaucracy",
+    ],
+    Health: [
+      "Vaccines",
+      "Self Help",
+    ],
+    History: [
+      "Wars",
+      "The Holocaust",
+      "Ancient Civilizations",
+    ],
+    Hobby: [
+      "Crafts",
+      "Musings",
+      "How Things Work",
+    ],
+    Horror: [
+      "Real Crime",
+      "Disappearances",
+    ],
+    Immigration: [
+      "US Immigration",
+      "European Immigration",
+    ],
+    International: [
+      "CCP",
+      "Russia",
+      "Israel",
+      "Ukraine",
+      "Europe",
+      "Africa",
+      "Australia",
+      "Asia",
+    ],
+    Love: [
+      "Love",
+      "Marriage",
+      "Relationships",
+    ],
+    TheMedia: [
+      "News",
+    ],
+    People: [
+      "Jeffrey Epstein",
+      "Bill Gates",
+      "The Clintons",
+    ],
+    Religion: [
+      "Christianity",
+      "Islam",
+      "Non-religious",
+      "Hinduism",
+      "Buddhism",
+    ],
+    Science: [
+      "Time Travel",
+      "Alternate History",
+      "Dystopian Societies",
+      "Magic Realism",
+    ],
+    SecretS: [
+      "Illuminati",
+      "Skull And Bones",
+      "The Bilderberg Group",
+      "The Club Of Rome",
+    ],
+    Technology: [
+      "Artificial Intelligence",
+    ],
+    War: [
+      "Ukraine",
+      "Israel",
+    ],
+    Weather: [
+      "North Carolina",
+      "Lahaina",
+    ],
+    WorldOrganizations: [
+      "WHO",
+      "Club Of Rome",
+      "UN",
+    ],
+  }
+
   const handleOptionChange = (e: CustomEvent) => {
-    setSelectedOption(e.detail.value);
+    const value = e.detail.value
+    setCurrentSubCategories(undefined)
+    setSelectedOption(value);
+  };
+
+  const handleSubChange = (e: CustomEvent) => {
+    const value = e.detail.value
+    setSelectedSubOption(value);
   };
 
   useIonViewWillLeave(() => {
@@ -93,6 +216,30 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
   useIonViewDidLeave(() => {
     setToggle(true);
   });
+
+
+  useEffect(() => {
+    getSubCategories(selectedOption)
+  }, [selectedOption])
+
+  function getSubCategories(input: string) {
+    console.log(input, 'hitting get catss')
+    if (!options.includes(input)) {
+      return `Error: "${input}" is not a valid option.`;
+    }
+
+    // Find the subcategories for the input
+    const key = input.replace(/[^a-zA-Z]/g, ''); // Clean the key to match subCategories keys
+    const subcategories = subCategories[key];
+
+    // Return the result
+    if (subcategories) {
+      setCurrentSubCategories(subcategories)
+      return subcategories;
+    } else {
+      return `No subcategories available for "${input}".`;
+    }
+  }
 
 
   return (
@@ -172,6 +319,23 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
             ))}
           </IonSelect>
         </IonItem>
+        {currentSubCategories && <IonItem>
+          <IonLabel>Choose Category</IonLabel>
+          <IonSelect
+            multiple={false}
+            value={selectedSubOption}
+            onIonChange={handleSubChange}
+            interfaceOptions={{
+              cssClass: "custom-popover",
+            }}
+          >
+            {currentSubCategories?.map((option, index) => (
+              <IonSelectOption key={index} value={option}>
+                {option}
+              </IonSelectOption>
+            ))}
+          </IonSelect>
+        </IonItem>}
         <div className="spaceColumn">
           <IonItem lines="none">
             <textarea
