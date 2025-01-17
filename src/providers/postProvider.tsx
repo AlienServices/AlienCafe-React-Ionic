@@ -35,6 +35,9 @@ interface PostContext {
     noAction: string,
     maybeAction: string,
     categories: string,
+    probablyYesAction: string,
+    probablyNoAction: string,
+    selectedSubOption: string,
   ) => void;
   getMyPosts: () => void;
   getUserPosts: (email: string) => void;
@@ -286,6 +289,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     probablyYesAction: string,
     probablyNoAction: string,
     categories: string,
+    subCategory: string
   ) => {
     try {
       const test = await fetch(`${getBaseUrl()}/api/posts/createPost`, {
@@ -306,6 +310,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           probablyNoAction,
           maybeAction,
           categories,
+          subCategory
         }),
       });
       // await getAllPosts();

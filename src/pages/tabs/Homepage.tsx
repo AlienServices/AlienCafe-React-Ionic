@@ -56,6 +56,122 @@ const Tab3: React.FC = () => {
     "Weather",
     "World Organizations",
   ]);
+  const subCategories: Record<string, string[]> = {
+    Animals: [
+      "Insects",
+      "Microbiology",
+    ],
+    Business: [
+      "Corporations",
+      "Small Businesses",
+      "Entrepreneurship",
+    ],
+    ClimateChange: [
+      "Proof of Climate Change",
+      "Climate Change Hoax",
+    ],
+    Espionage: [
+      "The Kennedy Assasinations",
+      "The Titanic",
+    ],
+    Finance: [
+      "Banks and Credit Unions",
+      "Foreign Banks",
+    ],
+    Food: [
+      "Toxins",
+    ],
+    Government: [
+      "Deep State",
+      "Executive",
+      "Legislature",
+      "Judicial System",
+      "Bureaucracy",
+    ],
+    Health: [
+      "Vaccines",
+      "Self Help",
+    ],
+    History: [
+      "Wars",
+      "The Holocaust",
+      "Ancient Civilizations",
+    ],
+    Hobby: [
+      "Crafts",
+      "Musings",
+      "How Things Work",
+    ],
+    Horror: [
+      "Real Crime",
+      "Disappearances",
+    ],
+    Immigration: [
+      "US Immigration",
+      "European Immigration",
+    ],
+    International: [
+      "CCP",
+      "Russia",
+      "Israel",
+      "Ukraine",
+      "Europe",
+      "Africa",
+      "Australia",
+      "Asia",
+    ],
+    Love: [
+      "Love",
+      "Marriage",
+      "Relationships",
+    ],
+    TheMedia: [
+      "News",
+    ],
+    People: [
+      "Jeffrey Epstein",
+      "Bill Gates",
+      "The Clintons",
+    ],
+    Religion: [
+      "Christianity",
+      "Islam",
+      "Non-religious",
+      "Hinduism",
+      "Buddhism",
+    ],
+    Science: [
+      "Time Travel",
+      "Alternate History",
+      "Dystopian Societies",
+      "Magic Realism",
+    ],
+    SecretS: [
+      "Illuminati",
+      "Skull And Bones",
+      "The Bilderberg Group",
+      "The Club Of Rome",
+    ],
+    Technology: [
+      "Artificial Intelligence",
+    ],
+    War: [
+      "Ukraine",
+      "Israel",
+    ],
+    Weather: [
+      "North Carolina",
+      "Lahaina",
+    ],
+    WorldOrganizations: [
+      "WHO",
+      "Club Of Rome",
+      "UN",
+    ],
+  }
+
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(categories || []);
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(subCategories || []);
   const [currentCategory, setCurrentCategory] = useState(categories[0]);
 
   useIonViewWillLeave(() => {
@@ -64,15 +180,13 @@ const Tab3: React.FC = () => {
   });
 
 
-  useIonViewWillEnter(() => {
-    console.log("Cleaning up resources...");
-    setPageKey((prevKey) => prevKey + 1);
+  useIonViewWillEnter(() => {        
     setToggle(true);
-    setCurrentCategory(categories[0]);
+    setCurrentCategory(selectedCategories[0]);
   }, []);
 
-
-
+console.log(currentCategory, 'this is homepage current category')
+  
   return (
     <>
       <Menu />
@@ -83,18 +197,18 @@ const Tab3: React.FC = () => {
           transition: "opacity 0.2s ease-in-out",
         }}
       >
-        <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={false} />
-        <IonContent>          
+        <HeaderAlien setSelectedCategories={setSelectedCategories} setSelectedSubCategories={setSelectedSubCategories} selectedCategories={selectedCategories} selectedSubCategories={selectedSubCategories} category={currentCategory} allCategories={categories} subCategories={subCategories} next={false} title={'null'} content={''} backArrowToggle={false} />
+        <IonContent>
           <Swiper
             modules={[Pagination]}
             spaceBetween={10}
             slidesPerView={1}
             loop={true}
             onSlideChange={(swiper) =>
-              setCurrentCategory(categories[swiper.realIndex])
+              setCurrentCategory(selectedCategories[swiper.realIndex])
             }
           >
-            {categories.map((category, index) => (
+            {selectedCategories.map((category, index) => (
               <SwiperSlide
                 key={index}
                 style={{

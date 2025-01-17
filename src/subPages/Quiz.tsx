@@ -69,7 +69,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
 
   const subCategories: Record<string, string[]> = {
     Animals: [
-      "Insects and Spiders",
+      "Insects",
       "Microbiology",
     ],
     Business: [
@@ -211,8 +211,6 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
     setToggle(true);
   });
 
-
-
   useIonViewDidLeave(() => {
     setToggle(true);
   });
@@ -222,17 +220,16 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
     getSubCategories(selectedOption)
   }, [selectedOption])
 
-  function getSubCategories(input: string) {
-    console.log(input, 'hitting get catss')
+  function getSubCategories(input: string) {    
     if (!options.includes(input)) {
       return `Error: "${input}" is not a valid option.`;
     }
 
-    // Find the subcategories for the input
-    const key = input.replace(/[^a-zA-Z]/g, ''); // Clean the key to match subCategories keys
+    
+    const key = input.replace(/[^a-zA-Z]/g, ''); 
     const subcategories = subCategories[key];
 
-    // Return the result
+
     if (subcategories) {
       setCurrentSubCategories(subcategories)
       return subcategories;
@@ -330,9 +327,11 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
             }}
           >
             {currentSubCategories?.map((option, index) => (
-              <IonSelectOption key={index} value={option}>
-                {option}
-              </IonSelectOption>
+              <>
+                <IonSelectOption key={index} value={option}>
+                  {option}
+                </IonSelectOption>
+              </>
             ))}
           </IonSelect>
         </IonItem>}
@@ -399,6 +398,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
             probablyYesAction,
             noAction,
             probablyNoAction,
+            selectedSubOption,
             maybeAction,
             selectedOption,
           );

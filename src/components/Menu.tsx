@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
   bookmarkOutline,
@@ -12,8 +12,12 @@ import {
   IonMenu,
   IonMenuToggle,
   IonTitle,
-  IonToolbar,  
+  IonToolbar,
   IonIcon,
+  IonList,
+  IonButton,
+  IonModal,
+  IonButtons,
 } from "@ionic/react";
 import supabase from "../messageComponents/supabaseClient";
 import { UserContext } from "../providers/userProvider";
@@ -22,6 +26,7 @@ export const Menu = () => {
   const menuRef = useRef<HTMLIonMenuElement>(null);
   const { myInfo, setMyInfo } = useContext(UserContext);
   const history = useHistory();
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleLogout = async () => {
     console.log("hitting logout");
@@ -51,8 +56,8 @@ export const Menu = () => {
 
   return (
     <>
-      <IonMenu side="start" contentId="main-content">
-        <IonHeader color="tertiary" style={{ backgroundColor: "black" }}>
+      <IonMenu side="start" contentId="main-content" menuId="left-menu">
+        <IonHeader color="tertiary" style={{ backgroundColor: "black", marginTop: '50px' }}>
           <IonToolbar style={{ backgroundColor: "black", textAlign: 'center', paddingTop: '25px' }}>
             <IonTitle>@{myInfo?.username}</IonTitle>
           </IonToolbar>
@@ -129,6 +134,17 @@ export const Menu = () => {
           </div>
         </IonContent>
       </IonMenu>
+      {/* <IonMenu side="end" contentId="main-content" menuId="right-menu">
+        <IonHeader color="tertiary" style={{ backgroundColor: "black", marginTop: '50px' }}>
+          <IonToolbar style={{ backgroundColor: "black", textAlign: 'center', paddingTop: '25px' }}>
+            <IonTitle>Filters</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          
+        </IonContent>
+      </IonMenu> */}
+
     </>
   );
 };
