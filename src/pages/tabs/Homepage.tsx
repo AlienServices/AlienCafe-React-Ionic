@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   IonContent,
   IonPage,
@@ -180,13 +180,17 @@ const Tab3: React.FC = () => {
   });
 
 
-  useIonViewWillEnter(() => {        
+  useIonViewWillEnter(() => {
     setToggle(true);
     setCurrentCategory(selectedCategories[0]);
   }, []);
 
-console.log(currentCategory, 'this is homepage current category')
-  
+  useEffect(() => {
+    console.log(selectedCategories, 'these are selected categories')
+  }, [selectedCategories])
+
+
+
   return (
     <>
       <Menu />
@@ -210,7 +214,7 @@ console.log(currentCategory, 'this is homepage current category')
           >
             {selectedCategories.map((category, index) => (
               <SwiperSlide
-                key={index}
+                key={category}
                 style={{
                   display: "flex",
                   flexDirection: "column",

@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 import "../../theme/Tab3.css";
 import { arrowBackCircleOutline, filterOutline } from "ionicons/icons";
 import { AlienLogoSVG } from "./SVG";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const HeaderAlien = ({
   backArrowToggle,
@@ -212,10 +212,17 @@ const HeaderAlien = ({
 
 
   const toggleCategory = (cat: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
+    setSelectedCategories((prev) => {      
+      console.log("previous.inclues", prev.includes(cat));
+      const updatedCategories = prev.includes(cat)
+        ? prev.filter((c) => c !== cat)
+        : [...prev, cat];
+      console.log("[...prev, cat]", [...prev, cat]);
+      console.log("updated categories]", updatedCategories);
+      return updatedCategories;
+    });
   };
+  
 
 
   const toggleSubCategory = (category: string, subCat: string) => {
@@ -239,6 +246,8 @@ const HeaderAlien = ({
       }
     });
   };
+
+
 
 
 
@@ -287,11 +296,6 @@ const HeaderAlien = ({
               alignItems: "center",
             }}
           >
-            {/* <IonImg
-                            style={{ width: '100%', height: '100%' }}
-                            src="/alienLogo.svg"
-                            rel="preload"
-                        /> */}
             <AlienLogoSVG />
           </div>
         </div>
@@ -347,8 +351,6 @@ const HeaderAlien = ({
               })}
             </div>
           </>}
-
-          {/* <div>Add SubCategories</div> */}
         </IonContent>
       </IonModal>
       {category && <div>
