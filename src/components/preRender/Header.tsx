@@ -216,9 +216,7 @@ const HeaderAlien = ({
       console.log("previous.inclues", prev.includes(cat));
       const updatedCategories = prev.includes(cat)
         ? prev.filter((c) => c !== cat)
-        : [...prev, cat];
-      console.log("[...prev, cat]", [...prev, cat]);
-      console.log("updated categories]", updatedCategories);
+        : [...prev, cat].sort();            
       return updatedCategories;
     });
   };
