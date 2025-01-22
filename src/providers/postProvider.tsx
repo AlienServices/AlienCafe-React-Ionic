@@ -292,6 +292,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     subCategory: string
   ) => {
     try {
+      console.log(categories, subCategory, 'this is important info')
       const test = await fetch(`${getBaseUrl()}/api/posts/createPost`, {
         method: "POST",
         headers: {

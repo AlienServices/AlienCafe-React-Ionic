@@ -21,10 +21,11 @@ interface PostType {
 
 interface CategoryProps {
   category: string;
+  selectedSubCategories: string[]
   setToggle: (value: boolean) => void;
 }
 
-const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
+const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCategories }) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const { getBaseUrl } = useContext(MyContext)
 
@@ -35,7 +36,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
   const getPosts = async () => {
     try {
       const result = await fetch(
-        `${getBaseUrl()}/api/posts/getPostCategory?category=${category}`,
+        `${getBaseUrl()}/api/posts/getPostCategory?category=${category}?subCategory=${selectedSubCategories}`,
         {
           method: "GET",
           headers: {
@@ -59,10 +60,10 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle }) => {
     }
   };
 
-  
+
 
   return (
-    <div style={{ height: "fit-content", minHeight: '75vh' }}>      
+    <div style={{ height: "fit-content", minHeight: '75vh' }}>
       <div style={{ display: 'flex', justifyContent: 'center', fontSize: '25px' }}>{category}</div>
       {posts.length > 0 ? (
         <>

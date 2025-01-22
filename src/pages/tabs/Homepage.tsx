@@ -227,6 +227,7 @@ const Tab3: React.FC = () => {
                   key={category}
                   setToggle={(value) => setToggle(value)}
                   category={category}
+                  selectedSubCategory={selectedCategories}
                 />
               </SwiperSlide>
             ))}

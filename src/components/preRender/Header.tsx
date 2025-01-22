@@ -35,7 +35,7 @@ const HeaderAlien = ({
   subCategories: {}
   setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
   setSelectedSubCategories: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedSubCategories: {}
+  selectedSubCategories: [];
   selectedCategories: {}
   category: string
   next: boolean;
@@ -212,15 +212,15 @@ const HeaderAlien = ({
 
 
   const toggleCategory = (cat: string) => {
-    setSelectedCategories((prev) => {      
+    setSelectedCategories((prev) => {
       console.log("previous.inclues", prev.includes(cat));
       const updatedCategories = prev.includes(cat)
         ? prev.filter((c) => c !== cat)
-        : [...prev, cat].sort();            
+        : [...prev, cat].sort();
       return updatedCategories;
     });
   };
-  
+
 
 
   const toggleSubCategory = (category: string, subCat: string) => {
