@@ -20,41 +20,41 @@ const Tab3: React.FC = () => {
   const { getBaseUrl } = useContext(MyContext);
   const [pageKey, setPageKey] = useState(0);
   const [categories, setCategories] = useState([
-    "Aliens",
+    // "Aliens",
     "Animals",
-    "Climate Change",
-    "Crazy Conspiracy Theories",
-    "Current Events",
-    "Death Afterlife",
-    "Drama Romance",
-    "Espionage",
-    "Finance",
-    "Food",
-    "Guns",
-    "Government",
-    "Health",
-    "History",
-    "Immigration",
-    "International",
-    "Literature",
-    "LGBTQ",
-    "Love",
-    "The Media",
-    "Movies and TV",
-    "Mysteries",
-    "People",
-    "Religion, Spiritualities & Culture",
-    "Science",
-    "Sci-Fi",
-    "Secret Societies",
-    "Self Improvement",
-    "Sports",
-    "Tech",
-    "Travel",
-    "War",
-    "Weapons",
-    "Weather",
-    "World Organizations",
+    // "Climate Change",
+    // "Crazy Conspiracy Theories",
+    // "Current Events",
+    // "Death Afterlife",
+    // "Drama Romance",
+    // "Espionage",
+    // "Finance",
+    // "Food",
+    // "Guns",
+    // "Government",
+    // "Health",
+    // "History",
+    // "Immigration",
+    // "International",
+    // "Literature",
+    // "LGBTQ",
+    // "Love",
+    // "The Media",
+    // "Movies and TV",
+    // "Mysteries",
+    // "People",
+    // "Religion, Spiritualities & Culture",
+    // "Science",
+    // "Sci-Fi",
+    // "Secret Societies",
+    // "Self Improvement",
+    // "Sports",
+    // "Tech",
+    // "Travel",
+    // "War",
+    // "Weapons",
+    // "Weather",
+    // "World Organizations",
   ]);
   const subCategories: Record<string, string[]> = {
     Animals: [
@@ -171,7 +171,7 @@ const Tab3: React.FC = () => {
   }
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categories || []);
-  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(subCategories || []);
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
   const [currentCategory, setCurrentCategory] = useState(categories[0]);
 
   useIonViewWillLeave(() => {
@@ -188,8 +188,7 @@ const Tab3: React.FC = () => {
   useEffect(() => {
     console.log(selectedCategories, 'these are selected categories')
   }, [selectedCategories])
-
-
+  
 
   return (
     <>
@@ -227,7 +226,7 @@ const Tab3: React.FC = () => {
                   key={category}
                   setToggle={(value) => setToggle(value)}
                   category={category}
-                  selectedSubCategory={selectedCategories}
+                  selectedSubCategories={selectedSubCategories}
                 />
               </SwiperSlide>
             ))}

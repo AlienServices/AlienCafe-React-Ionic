@@ -237,7 +237,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
       return `No subcategories available for "${input}".`;
     }
   }
-
+  
 
   return (
     <div style={{
@@ -395,12 +395,12 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
             content,
             thesis,
             yesAction,
-            probablyYesAction,
             noAction,
-            probablyNoAction,
-            selectedSubOption,
             maybeAction,
+            probablyYesAction,
+            probablyNoAction,
             selectedOption,
+            selectedSubOption,
           );
           history.push("/tab1");
           setMaybeAction('')

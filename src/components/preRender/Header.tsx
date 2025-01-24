@@ -35,7 +35,7 @@ const HeaderAlien = ({
   subCategories: {}
   setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
   setSelectedSubCategories: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedSubCategories: [];
+  selectedSubCategories: string[];
   selectedCategories: {}
   category: string
   next: boolean;
@@ -225,18 +225,13 @@ const HeaderAlien = ({
 
   const toggleSubCategory = (category: string, subCat: string) => {
     setSelectedSubCategories((prev) => {
-      // Get the current list of selected subcategories for the category
       const currentSubCategories = prev[category] || [];
-
-      // Check if the subcategory is already selected
       if (currentSubCategories.includes(subCat)) {
-        // Remove the subcategory
         return {
           ...prev,
           [category]: currentSubCategories.filter((s) => s !== subCat),
         };
       } else {
-        // Add the subcategory
         return {
           ...prev,
           [category]: [...currentSubCategories, subCat],
@@ -247,7 +242,7 @@ const HeaderAlien = ({
 
 
 
-
+console.log(selectedSubCategories, 'this is the selected sub')
 
   return (
     <div className="brown">
@@ -318,7 +313,7 @@ const HeaderAlien = ({
           <IonToolbar>
             <IonTitle>Filters</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => setIsOpen(false)}>Save</IonButton>
+              <IonButton onClick={() => {setIsOpen(false); setSelectedCategories((prevCategories) => [...prevCategories])}}>Save</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -332,6 +327,7 @@ const HeaderAlien = ({
               }
               <div className="gridTwoRow" style={{ padding: '20px' }}>
                 {subCategories[category?.replace(/\s+/g, "")]?.map((cat) => {
+                  console.log(cat, 'this is the category')
                   return <div className="gridItemRow">
                     <div style={{ paddingBottom: '10px', textAlign: 'center', padding: '5px' }}>{cat}</div>
                     <input type="checkbox" checked={selectedSubCategories[category]?.includes(cat)} onChange={() => toggleSubCategory(category, cat)} />

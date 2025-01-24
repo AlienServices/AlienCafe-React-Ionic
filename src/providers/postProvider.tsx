@@ -34,9 +34,9 @@ interface PostContext {
     yesAction: string,
     noAction: string,
     maybeAction: string,
-    categories: string,
     probablyYesAction: string,
     probablyNoAction: string,
+    categories: string,
     selectedSubOption: string,
   ) => void;
   getMyPosts: () => void;
