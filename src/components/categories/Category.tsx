@@ -33,10 +33,10 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
     getPosts();
   }, []);
 
-  const getPosts = async () => {
-    console.log(selectedSubCategories[category], 'this is the test cat')
-    console.log(selectedSubCategories, 'this is the test cat')
+  const getPosts = async () => {    
     try {
+      console.log(selectedSubCategories[category], 'this is the data')
+      console.log(category, 'category')
       const result = await fetch(
         `${getBaseUrl()}/api/posts/getPostCategory?category=${category}&subCategory=${selectedSubCategories[category]}`,
         {
@@ -58,10 +58,9 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
-      setPosts([]);
+      setPosts([]);      
     }
   };
-
 
   return (
     <div style={{ height: "fit-content", minHeight: '75vh' }}>

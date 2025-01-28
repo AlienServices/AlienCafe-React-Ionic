@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 import "../../theme/Tab3.css";
 import { arrowBackCircleOutline, filterOutline } from "ionicons/icons";
 import { AlienLogoSVG } from "./SVG";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const HeaderAlien = ({
   backArrowToggle,
@@ -242,7 +242,7 @@ const HeaderAlien = ({
 
 
 
-console.log(selectedSubCategories, 'this is the selected sub')
+  console.log(selectedSubCategories, 'this is the selected sub')
 
   return (
     <div className="brown">
@@ -313,7 +313,7 @@ console.log(selectedSubCategories, 'this is the selected sub')
           <IonToolbar>
             <IonTitle>Filters</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => {setIsOpen(false); setSelectedCategories((prevCategories) => [...prevCategories])}}>Save</IonButton>
+              <IonButton onClick={() => { setIsOpen(false); setSelectedCategories((prevCategories) => [...prevCategories]); setSelectedCategories((prevCategories) => [...prevCategories]) }}>Save</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
