@@ -184,11 +184,10 @@ const Tab3: React.FC = () => {
     setToggle(true);
     setCurrentCategory(selectedCategories[0]);
   }, []);
-
-  useEffect(() => {
-    console.log(selectedCategories, 'these are selected categories')
-  }, [selectedCategories])
   
+  
+
+  console.log(selectedSubCategories, 'these are the selected sub categories')
 
   return (
     <>

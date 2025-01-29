@@ -241,9 +241,6 @@ const HeaderAlien = ({
   };
 
 
-
-  console.log(selectedSubCategories, 'this is the selected sub')
-
   return (
     <div className="brown">
       <div className="leftMiddle">
@@ -313,7 +310,11 @@ const HeaderAlien = ({
           <IonToolbar>
             <IonTitle>Filters</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => { setIsOpen(false); setSelectedCategories((prevCategories) => [...prevCategories]); setSelectedCategories((prevCategories) => [...prevCategories]) }}>Save</IonButton>
+              <IonButton onClick={() => {
+                setIsOpen(false); setSelectedCategories((prevCategories) => [...prevCategories]); setSelectedSubCategories((prevSubCategories) => ({
+                  ...prevSubCategories,
+                }));
+              }}>Save</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -326,8 +327,7 @@ const HeaderAlien = ({
                 </div>
               }
               <div className="gridTwoRow" style={{ padding: '20px' }}>
-                {subCategories[category?.replace(/\s+/g, "")]?.map((cat) => {
-                  console.log(cat, 'this is the category')
+                {subCategories[category?.replace(/\s+/g, "")]?.map((cat) => {                  
                   return <div className="gridItemRow">
                     <div style={{ paddingBottom: '10px', textAlign: 'center', padding: '5px' }}>{cat}</div>
                     <input type="checkbox" checked={selectedSubCategories[category]?.includes(cat)} onChange={() => toggleSubCategory(category, cat)} />

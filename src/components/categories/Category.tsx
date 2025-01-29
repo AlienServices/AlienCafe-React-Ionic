@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useIonViewWillEnter } from "@ionic/react";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/Tab3.css";
@@ -33,10 +33,12 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
     getPosts();
   }, []);
 
-  const getPosts = async () => {    
-    try {
-      console.log(selectedSubCategories[category], 'this is the data')
-      console.log(category, 'category')
+  useEffect(() => {
+    getPosts()
+  }, [selectedSubCategories])
+
+  const getPosts = async () => {
+    try {      
       const result = await fetch(
         `${getBaseUrl()}/api/posts/getPostCategory?category=${category}&subCategory=${selectedSubCategories[category]}`,
         {
@@ -46,8 +48,10 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
           },
         }
       );
-      console.log(result, `${category}`, "this is category")
+      
       const userInfo = await result.json();
+      
+      console.log(userInfo?.posts, 'this is the user info')
 
       if (Array.isArray(userInfo)) {
         setPosts(userInfo as PostType[]);
@@ -58,18 +62,18 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
-      setPosts([]);      
+      setPosts([]);
     }
   };
+
+  console.log(posts, 'these are the posts')
 
   return (
     <div style={{ height: "fit-content", minHeight: '75vh' }}>
       <div style={{ display: 'flex', justifyContent: 'center', fontSize: '25px' }}>{category}</div>
       {posts.length > 0 ? (
         <>
-          {posts
-            .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
-            .map((post) => (
+          {posts.map((post) => (
               <Post key={post.id} setToggle={setToggle} post={post} />
             ))}
         </>
