@@ -184,10 +184,8 @@ const Tab3: React.FC = () => {
     setToggle(true);
     setCurrentCategory(selectedCategories[0]);
   }, []);
-  
-  
 
-  console.log(selectedSubCategories, 'these are the selected sub categories')
+  
 
   return (
     <>

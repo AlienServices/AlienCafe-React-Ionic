@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../../theme/create.css";
+import Editor from "../../components/Editor";
 import {
   IonContent,
   IonPage,
@@ -26,23 +27,24 @@ const MyEditor = () => {
   const titleQuillRef = useRef<ReactQuill | null>(null);
 
 
-  useEffect(() => {
-    if (isContent) {
-      console.log('running content')
-      const quill = contentQuillRef.current.getEditor();
-      console.log(contentQuillRef, 'this is the content quill ref')
-      quill.getModule("toolbar").container = document.querySelector("#toolbar");
-    } else if (isTitle) {
-      console.log('running title')
-      const quill = titleQuillRef.current.getEditor();
-      console.log(titleQuillRef, 'this is the title quill ref')
-      quill.getModule("toolbar").container = document.querySelector("#toolbar-title");
-    }
-  }, [isTitle, isContent]);
+  // useEffect(() => {
+  //   if (isContent) {
+  //     console.log('running content')
+  //     const quill = contentQuillRef.current.getEditor();
+  //     console.log(contentQuillRef, 'this is the content quill ref')
+  //     quill.getModule("toolbar").container = document.querySelector("#toolbar");
+  //   } else if (isTitle) {
+  //     console.log('running title')
+  //     const quill = titleQuillRef.current.getEditor();
+  //     console.log(titleQuillRef, 'this is the title quill ref')
+  //     quill.getModule("toolbar").container = document.querySelector("#toolbar-title");
+  //   }
+  // }, [isTitle, isContent]);
 
   const handleChange = (html: string) => {
     setEditorHtml(html);
   };
+
   const handleLinkChange = (html: string) => {
     setEditorLinks(html);
   };
@@ -119,25 +121,11 @@ const MyEditor = () => {
 
         <div className="editorContainer">
           <div className="titleEditor">
-            <ReactQuill
-              className="custom-title-editor"
-              onFocus={() => {
-                handleTitleReplyClick(true);
-                setIsTitle(true)
-              }}
-              onBlur={() => {
-                handleTitleReplyClick(false);
-                setIsTitle(false);
-              }}
-              ref={titleQuillRef}
-              value={editorHtmlTitle}
-              placeholder="Title/Thesis"
-              onChange={handleTitleChange}
-              modules={MyEditor.titleModules}
-              formats={MyEditor.titleFormats}
-            />
+            <Editor value={editorHtmlTitle} setValue={setEditorHtml} />
+            <Editor value={editorHtmlTitle} setValue={setEditorHtml} />
+            <Editor value={editorHtmlTitle} setValue={setEditorHtml} />
           </div>
-          <div className="contentEditor">
+          {/* <div className="contentEditor">
             <ReactQuill
               onFocus={() => {
                 handleReplyClick(true);
@@ -155,40 +143,10 @@ const MyEditor = () => {
               modules={MyEditor.modules}
               formats={MyEditor.formats}
             />
-            {/* <ReactQuill
-              // onFocus={() => {
-              //   handleSourceClick(true);
-              // }}
-              // onBlur={() => {
-              //   handleSourceClick(false);
-              // }}
-              className="custom-links-editor"
-              // ref={sourceQuillRef}
-              value={editorLinks}
-              placeholder="Links/Resources"
-              onChange={handleLinkChange}
-              modules={MyEditor.modules}
-              formats={MyEditor.formats}
-            /> */}
             <Quiz content={editorHtml} title={editorHtmlTitle} />
-          </div>
-
+          </div> */}
         </div>
-        <IonFooter className={isReplying ? "message-input-container" : "none"}>
-          {/* {isContent && (
-            <div id="toolbar" style={{ display: "flex" }}>
-              <button className="ql-bold"></button>
-              <button className="ql-underline"></button>
-              <button className="ql-link"></button>
-            </div>
-          )}
-          {isTitle && (
-            <div id="toolbar-title" style={{ display: "flex" }}>
-              <button className="ql-bold"></button>
-              <button className="ql-underline"></button>
-              <button className="ql-link"></button>
-            </div>
-          )} */}
+        {/* <IonFooter className={isReplying ? "message-input-container" : "none"}>          
           <div
             id="toolbar"
             style={{
@@ -212,7 +170,7 @@ const MyEditor = () => {
             <button className="ql-underline"></button>
             <button className="ql-link"></button>
           </div>
-        </IonFooter>
+        </IonFooter> */}
       </IonContent>
     </IonPage>
   );
