@@ -135,7 +135,7 @@ const Post = () => {
   };
 
   useEffect(() => {
-    
+
     getMyVote(myInfo?.id || '', id);
   }, []);
 
@@ -202,6 +202,13 @@ const Post = () => {
                         theme="bubble"
                         value={post?.content}
                       />
+                      {post?.links !== undefined && <ReactQuill
+                        className="small"
+                        style={{ color: "black" }}
+                        readOnly={true}
+                        theme="bubble"
+                        value={post?.links}
+                      />}
                     </IonCard>
                   </div>
                 );

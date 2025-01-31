@@ -8,9 +8,13 @@ import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique IDs
 const Editor = ({
   value,
   setValue,
+  styling,
+  description
 }: {
   value: string;
+  styling: string
   setValue: (value: string) => void;
+  description: string
 }) => {
   const contentQuillRef = useRef<ReactQuill | null>(null);
   const [isReplying, setIsReplying] = useState(false);
@@ -33,11 +37,11 @@ const Editor = ({
           onBlur={() => {
             handleReplyClick(false);
           }}
-          className="custom-content-editor"
+          className={`${styling}`}
           ref={contentQuillRef}
           value={value}
-          placeholder="Enter your supporting narrative, links to sources, and photos"
-          onChange={() => setValue(value)}
+          placeholder={description}
+          onChange={(newValue) => setValue(newValue)}
           modules={{
             toolbar: {
               container: `#${toolbarId}`, // Use the unique toolbar ID

@@ -30,6 +30,7 @@ interface PostContext {
   createPost: (
     title: string,
     value: string,
+    links: string,
     thesis: string,
     yesAction: string,
     noAction: string,
@@ -282,6 +283,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const createPost = async (
     title: string,
     value: string,
+    links: string,
     thesis: string,
     yesAction: string,
     noAction: string,
@@ -301,6 +303,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         body: JSON.stringify({
           title,
           thesis,
+          links,
           content: value,
           email: localStorage.getItem("user"),
           owner: myInfo?.id,

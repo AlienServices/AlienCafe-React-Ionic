@@ -1,4 +1,4 @@
-import React, {  useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   IonIcon,
   IonModal,
@@ -31,6 +31,7 @@ interface PostProps {
     id: string;
     email: string;
     title: string;
+    links: string,
     content: string;
     likes: string[];
     dislikes: string[];
@@ -89,15 +90,17 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
 
   const transformedTitle = transformTitleToH1(post.title);
   const truncatedContent = truncateContent(post.content, 400);
+  const truncatedLinks = truncateContent(post.links, 400);
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${
-        import.meta.env.VITE_APP_SUPABASE_URL
-      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
+
+  console.log(truncatedLinks, 'these are those links')
 
   return (
     <div style={{ minHeight: "200px" }}>
@@ -166,7 +169,8 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                   readOnly={true}
                   theme="bubble"
                   value={truncatedContent}
-                />
+                />        
+                
               </div>
             </div>
             <div className="smallRow">

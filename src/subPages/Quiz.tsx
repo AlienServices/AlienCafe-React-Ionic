@@ -12,9 +12,10 @@ import {
   useIonViewDidEnter,
 } from "@ionic/react";
 import { MyContext } from "../providers/postProvider";
+import Editor from "../components/Editor";
 
 
-const Quiz = ({ title, content }: { title: string, content: string }) => {
+const Quiz = ({ title, content, links }: { title: string, content: string, links: string }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [selectedSubOption, setSelectedSubOption] = useState<string>("");
   const [present] = useIonAlert();
@@ -220,13 +221,13 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
     getSubCategories(selectedOption)
   }, [selectedOption])
 
-  function getSubCategories(input: string) {    
+  function getSubCategories(input: string) {
     if (!options.includes(input)) {
       return `Error: "${input}" is not a valid option.`;
     }
 
-    
-    const key = input.replace(/[^a-zA-Z]/g, ''); 
+
+    const key = input.replace(/[^a-zA-Z]/g, '');
     const subcategories = subCategories[key];
 
 
@@ -237,7 +238,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
       return `No subcategories available for "${input}".`;
     }
   }
-  
+
 
   return (
     <div style={{
@@ -336,56 +337,11 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
           </IonSelect>
         </IonItem>}
         <div className="spaceColumn">
-          <IonItem lines="none">
-            <textarea
-              onChange={(e) => {
-                setYesAction(e?.target.value);
-              }}
-              className="stylish-input"
-              value={yesAction}
-              placeholder="Action if user votes yes"
-            ></textarea>
-          </IonItem>
-          <IonItem lines="none">
-            <textarea
-              onChange={(e) => {
-                setProbablyYesAction(e?.target.value);
-              }}
-              className="stylish-input"
-              value={probablyYesAction}
-              placeholder="Probably True"
-            ></textarea>
-          </IonItem>
-          <IonItem lines="none">
-            <textarea
-              onChange={(e) => {
-                setMaybeAction(e?.target.value);
-              }}
-              className="stylish-input"
-              value={maybeAction}
-              placeholder="Need more info"
-            ></textarea>
-          </IonItem>
-          <IonItem lines="none">
-            <textarea
-              onChange={(e) => {
-                setProbablyNoAction(e?.target.value);
-              }}
-              className="stylish-input"
-              value={probablyNoAction}
-              placeholder="Probably False"
-            ></textarea>
-          </IonItem>
-          <IonItem lines="none">
-            <textarea
-              value={noAction}
-              onChange={(e) => {
-                setNoAction(e?.target.value);
-              }}
-              className="stylish-input"
-              placeholder="Action if user votes no"
-            ></textarea>
-          </IonItem>
+          <Editor setValue={setYesAction} value={yesAction} styling={'custom-content-editor-quiz'} description={"Action if user votes yes"} />
+          <Editor setValue={setProbablyYesAction} value={probablyYesAction} styling={'custom-content-editor-quiz'} description={"Action if probably true"} />
+          <Editor setValue={setMaybeAction} value={maybeAction} styling={'custom-content-editor-quiz'} description={"Action if maybe"} />
+          <Editor setValue={setProbablyNoAction} value={probablyNoAction} styling={'custom-content-editor-quiz'} description={"Action if probably no"} />
+          <Editor setValue={setNoAction} value={noAction} styling={'custom-content-editor-quiz'} description={"Action if no"} />
         </div>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -393,6 +349,7 @@ const Quiz = ({ title, content }: { title: string, content: string }) => {
           createPost(
             title,
             content,
+            links,
             thesis,
             yesAction,
             noAction,

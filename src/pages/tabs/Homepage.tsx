@@ -21,8 +21,8 @@ const Tab3: React.FC = () => {
   const [pageKey, setPageKey] = useState(0);
   const [categories, setCategories] = useState([
     // "Aliens",
-    "Animals",
-    // "Climate Change",
+    // "Animals",
+    "Climate Change",
     // "Crazy Conspiracy Theories",
     // "Current Events",
     // "Death Afterlife",
@@ -45,7 +45,7 @@ const Tab3: React.FC = () => {
     // "People",
     // "Religion, Spiritualities & Culture",
     // "Science",
-    // "Sci-Fi",
+    // // "Sci-Fi",
     // "Secret Societies",
     // "Self Improvement",
     // "Sports",

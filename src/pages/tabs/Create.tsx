@@ -27,31 +27,6 @@ const MyEditor = () => {
   const titleQuillRef = useRef<ReactQuill | null>(null);
 
 
-  // useEffect(() => {
-  //   if (isContent) {
-  //     console.log('running content')
-  //     const quill = contentQuillRef.current.getEditor();
-  //     console.log(contentQuillRef, 'this is the content quill ref')
-  //     quill.getModule("toolbar").container = document.querySelector("#toolbar");
-  //   } else if (isTitle) {
-  //     console.log('running title')
-  //     const quill = titleQuillRef.current.getEditor();
-  //     console.log(titleQuillRef, 'this is the title quill ref')
-  //     quill.getModule("toolbar").container = document.querySelector("#toolbar-title");
-  //   }
-  // }, [isTitle, isContent]);
-
-  const handleChange = (html: string) => {
-    setEditorHtml(html);
-  };
-
-  const handleLinkChange = (html: string) => {
-    setEditorLinks(html);
-  };
-
-  const handleTitleChange = (html: string) => {
-    setEditorHtmlTitle(html);
-  };
 
   const profileImage = (id: string) => {
     if (id) {
@@ -68,26 +43,10 @@ const MyEditor = () => {
   //   }, 400);
   // };
 
-
-  const handleReplyClick = (e: boolean) => {
-    setIsReplying(e);
-    setTimeout(() => {
-      contentQuillRef.current?.getEditor();
-    }, 400);
-  };
-
-  const handleTitleReplyClick = (e: boolean) => {
-    setIsReplying(e);
-    setTimeout(() => {
-      titleQuillRef.current?.getEditor();
-    }, 400);
-  };
-
   useIonViewDidLeave(() => {
     setEditorHtml("");
     setEditorHtmlTitle("");
   }, []);
-
 
 
   return (
@@ -121,56 +80,12 @@ const MyEditor = () => {
 
         <div className="editorContainer">
           <div className="titleEditor">
-            <Editor value={editorHtmlTitle} setValue={setEditorHtml} />
-            <Editor value={editorHtmlTitle} setValue={setEditorHtml} />
-            <Editor value={editorHtmlTitle} setValue={setEditorHtml} />
+            <Editor value={editorHtmlTitle} setValue={setEditorHtmlTitle} styling={'custom-content-editor-title'} description={'Title/Thesis'} />
+            <Editor value={editorHtml} setValue={setEditorHtml} styling={'custom-content-editor'} description={'Enter your supporting narrative and photos'} />
+            <Editor value={editorLinks} setValue={setEditorLinks} styling={'custom-content-editor'} description={'Links to sources'} />
           </div>
-          {/* <div className="contentEditor">
-            <ReactQuill
-              onFocus={() => {
-                handleReplyClick(true);
-                setIsContent(true)
-              }}
-              onBlur={() => {
-                handleReplyClick(false);
-                setIsContent(false)
-              }}
-              className="custom-content-editor"
-              ref={contentQuillRef}
-              value={editorHtml}
-              placeholder="Enter your supporting narrative, links to sources, and photos"
-              onChange={handleChange}
-              modules={MyEditor.modules}
-              formats={MyEditor.formats}
-            />
-            <Quiz content={editorHtml} title={editorHtmlTitle} />
-          </div> */}
+          <Quiz content={editorHtml} title={editorHtmlTitle} links={editorLinks} />
         </div>
-        {/* <IonFooter className={isReplying ? "message-input-container" : "none"}>          
-          <div
-            id="toolbar"
-            style={{
-              width: "100%",
-              border: "none",
-              background: "white",
-              zIndex: 1000,
-              display: isContent ? "flex" : "none",
-              justifyContent: "space-between",
-              padding: "10px",
-            }}
-          >
-            <button className="ql-bold"></button>
-            <button className="ql-underline"></button>
-            <button className="ql-link"></button>
-            <button className="ql-image"></button>
-            <button className="ql-list" value="bullet"></button>
-          </div>
-          <div id="toolbar-title" style={{ display: isTitle ? "flex" : "none" }}>
-            <button className="ql-bold"></button>
-            <button className="ql-underline"></button>
-            <button className="ql-link"></button>
-          </div>
-        </IonFooter> */}
       </IonContent>
     </IonPage>
   );
