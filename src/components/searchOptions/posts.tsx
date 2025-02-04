@@ -42,7 +42,7 @@ const Posts = ({ search }: { search: string }) => {
     }
   }, [search, selectedCategory]);
 
-  console.log(searchResults, "these are search results");
+  
 
   return (
     <div style={{ paddingBottom: "200px" }}>

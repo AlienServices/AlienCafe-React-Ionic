@@ -32,7 +32,7 @@ const Profiles = ({ search }: { search: string }) => {
     }
   }, [search]);
 
-  console.log(searchResults, 'these are search results')
+  
 
   return (
     // <div style={{ paddingTop: "20px", padding: "15px" }}>

@@ -8,6 +8,7 @@ import "./main.css";
 import { StatusBar, Style } from "@capacitor/status-bar";
 // import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { UserProvider } from "./providers/userProvider";
+import { AuthProvider } from "./providers/authProvider";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -32,7 +33,9 @@ const Main = () => {
           <IonContent>
             <UserProvider>
               <ContextProvider>
-                <App />
+                <AuthProvider>
+                  <App />
+                </AuthProvider>
               </ContextProvider>
             </UserProvider>
           </IonContent>
@@ -41,7 +44,7 @@ const Main = () => {
     </React.StrictMode>
   );
 
-  
+
 };
 
 root.render(<Main />);

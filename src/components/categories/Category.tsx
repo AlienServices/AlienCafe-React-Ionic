@@ -50,8 +50,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
       );
       
       const userInfo = await result.json();
-      
-      console.log(userInfo?.posts, 'this is the user info')
+            
 
       if (Array.isArray(userInfo)) {
         setPosts(userInfo as PostType[]);
@@ -65,8 +64,7 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
       setPosts([]);
     }
   };
-
-  console.log(posts, 'these are the posts')
+  
 
   return (
     <div style={{ height: "fit-content", minHeight: '75vh' }}>

@@ -98,9 +98,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
         }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
-  };
-
-  console.log(truncatedLinks, 'these are those links')
+  };  
 
   return (
     <div style={{ minHeight: "200px" }}>

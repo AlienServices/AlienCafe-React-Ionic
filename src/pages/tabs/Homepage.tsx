@@ -20,9 +20,9 @@ const Tab3: React.FC = () => {
   const { getBaseUrl } = useContext(MyContext);
   const [pageKey, setPageKey] = useState(0);
   const [categories, setCategories] = useState([
-    // "Aliens",
+    "Aliens",
     // "Animals",
-    "Climate Change",
+    // "Climate Change",
     // "Crazy Conspiracy Theories",
     // "Current Events",
     // "Death Afterlife",
@@ -32,7 +32,7 @@ const Tab3: React.FC = () => {
     // "Food",
     // "Guns",
     // "Government",
-    // "Health",
+    // "Health",  
     // "History",
     // "Immigration",
     // "International",
@@ -45,7 +45,7 @@ const Tab3: React.FC = () => {
     // "People",
     // "Religion, Spiritualities & Culture",
     // "Science",
-    // // "Sci-Fi",
+    // "Sci-Fi",
     // "Secret Societies",
     // "Self Improvement",
     // "Sports",
@@ -185,7 +185,7 @@ const Tab3: React.FC = () => {
     setCurrentCategory(selectedCategories[0]);
   }, []);
 
-  
+
 
   return (
     <>
@@ -200,6 +200,7 @@ const Tab3: React.FC = () => {
         <HeaderAlien setSelectedCategories={setSelectedCategories} setSelectedSubCategories={setSelectedSubCategories} selectedCategories={selectedCategories} selectedSubCategories={selectedSubCategories} category={currentCategory} allCategories={categories} subCategories={subCategories} next={false} title={'null'} content={''} backArrowToggle={false} />
         <IonContent>
           <Swiper
+            autoHeight
             modules={[Pagination]}
             spaceBetween={10}
             slidesPerView={1}

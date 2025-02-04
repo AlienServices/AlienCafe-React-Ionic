@@ -2,14 +2,17 @@ import { useState, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router";
 import { supabase } from ".././supaBase";
-import { IonButton, IonContent, IonItem, IonList} from "@ionic/react";
+import { IonButton, IonContent, IonItem, IonList } from "@ionic/react";
 import "../../theme/Tab3.css";
 import { UserContext } from "../../providers/userProvider";
+import { Preferences } from '@capacitor/preferences';
+
+
 
 const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   const [email, setEmail] = useState<string>("");
   const { setLoggedIn, loggedIn } = useContext(UserContext);
-  const [password, setPassword] = useState<string>("");  
+  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>();
   const history = useHistory();
 
@@ -21,15 +24,16 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
         password: password,
       });
       if (error) {
-        console.log(error, "this is the login error");
         setError("Email or Password Incorrect");
       }
-      if (data.user?.email) {
-        localStorage.setItem("user", data.user.email);
+      if (data.session?.access_token) {
+        await Preferences.set({ key: 'auth_token', value: data.session.access_token })
+        localStorage.setItem("user", data?.user.email);
         history.push("/tab1");
       }
-      setLoggedIn(!loggedIn);
+      setLoggedIn(true);
     } catch (error) {
+      setLoggedIn(false)
       console.log(error);
     }
   };
