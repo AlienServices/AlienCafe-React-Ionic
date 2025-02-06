@@ -17,6 +17,7 @@ import {
   bookmarkOutline,
   shareOutline,
   checkmarkCircleOutline,
+  bookmark,
 } from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -31,21 +32,106 @@ interface PostProps {
     id: string;
     email: string;
     title: string;
-    links: string,
+    links: string;
     content: string;
     likes: string[];
     dislikes: string[];
     comments: any[];
-    userId: string
+    userId: string;
   };
   setToggle: (value: boolean) => void;
 }
 
 const Post: React.FC<PostProps> = ({ post, setToggle }) => {
   const history = useHistory();
-  const { addLike, addDislike, getUserPosts } = useContext(MyContext);
+  const { addLike, addDislike, getUserPosts, addBookmark } = useContext(MyContext);
   const { myInfo, updateUser } = useContext<any>(UserContext);
   const [showModal, setShowModal] = useState(false);
+
+  // Optimistic like state
+  const [optimisticLikes, setOptimisticLikes] = useState<string[]>(post.likes);
+  const [optimisticDislikes, setOptimisticDislikes] = useState<string[]>(post.dislikes);
+  const [isLiking, setIsLiking] = useState(false);
+  const [isDisliking, setIsDisliking] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(myInfo?.bookmarks?.includes(post.id) || false);
+  const [isBookmarking, setIsBookmarking] = useState(false);
+
+
+  const handleLike = async () => {
+    if (isLiking || isDisliking) return;
+
+    const userId = myInfo?.id;
+    if (!userId) return;
+
+    const newLikes = optimisticLikes.includes(userId)
+      ? optimisticLikes.filter((id) => id !== userId)
+      : [...optimisticLikes, userId];
+    const newDislikes = optimisticDislikes.filter((id) => id !== userId);
+
+    setOptimisticLikes(newLikes);
+    setOptimisticDislikes(newDislikes);
+    setIsLiking(true);
+
+    try {
+      await addLike(post.id);
+    } catch (error) {
+
+      setOptimisticLikes(post.likes);
+      setOptimisticDislikes(post.dislikes);
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
+  const handleDislike = async () => {
+    if (isLiking || isDisliking) return;
+
+    const userId = myInfo?.id;
+    if (!userId) return;
+
+    const newDislikes = optimisticDislikes.includes(userId)
+      ? optimisticDislikes.filter((id) => id !== userId)
+      : [...optimisticDislikes, userId];
+    const newLikes = optimisticLikes.filter((id) => id !== userId);
+
+    setOptimisticDislikes(newDislikes);
+    setOptimisticLikes(newLikes);
+    setIsDisliking(true);
+
+    try {
+      await addDislike(post.id); // Call the server
+    } catch (error) {
+      // Revert the UI if the request fails
+      setOptimisticLikes(post.likes);
+      setOptimisticDislikes(post.dislikes);
+    } finally {
+      setIsDisliking(false);
+    }
+  };
+
+  const handleBookmark = async () => {
+    if (isBookmarking) return; // Prevent multiple clicks
+
+    const userId = myInfo?.id;
+    if (!userId) return;
+
+    // Optimistically update the UI
+    setIsBookmarked(!isBookmarked);
+    setIsBookmarking(true);
+
+    try {
+      await addBookmark(userId, post.id); // Call the server
+    } catch (error) {
+      // Revert the UI if the request fails
+      setIsBookmarked(!isBookmarked);
+    } finally {
+      setIsBookmarking(false);
+    }
+  };
+
+  const isLikedByUser = (likes: string[]): boolean => likes.includes(myInfo?.id ?? "");
+  const isDislikedByUser = (dislikes: string[]): boolean => dislikes.includes(myInfo?.id ?? "");
+  const calculateNetScore = (likes: string[], dislikes: string[]): number => likes.length - dislikes.length;
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -58,7 +144,6 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
       h1Tag.classList.add("quillH1");
       pTag.parentNode?.replaceChild(h1Tag, pTag);
     }
-
     return doc.body.innerHTML;
   };
 
@@ -66,6 +151,19 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     const doc = new DOMParser().parseFromString(content, "text/html");
     let text = doc.body.textContent || "";
     return text.length > length ? text.slice(0, length) + "..." : text;
+  };
+
+
+  const transformedTitle = transformTitleToH1(post.title);
+  const truncatedContent = truncateContent(post.content, 400);
+  const truncatedLinks = truncateContent(post.links, 400);
+
+  const profileImage = (id: string) => {
+    if (id) {
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
+        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      return newProfileImageUri;
+    }
   };
 
   const gotoTopic = (id: string) => {
@@ -81,24 +179,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     setShowModal(false);
   };
 
-  const isLikedByUser = (likes: string[]): boolean =>
-    likes.includes(myInfo?.id ?? "");
-  const isDislikedByUser = (dislikes: string[]): boolean =>
-    dislikes.includes(myInfo?.id ?? "");
-  const calculateNetScore = (likes: string[], dislikes: string[]): number =>
-    likes.length - dislikes.length;
-
-  const transformedTitle = transformTitleToH1(post.title);
-  const truncatedContent = truncateContent(post.content, 400);
-  const truncatedLinks = truncateContent(post.links, 400);
-
-  const profileImage = (id: string) => {
-    if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
-      return newProfileImageUri;
-    }
-  };  
+  console.log(post, 'these are comments')
 
   return (
     <div style={{ minHeight: "200px" }}>
@@ -113,8 +194,8 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                 <div className="emailContainer">
                   <IonAvatar
                     style={{
-                      height: "35px",
-                      width: "35px",
+                      height: "45px",
+                      width: "45px",
                     }}
                   >
                     <img
@@ -167,42 +248,47 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                   readOnly={true}
                   theme="bubble"
                   value={truncatedContent}
-                />        
-                
+                />
               </div>
             </div>
             <div className="smallRow">
               <div className="tinyRow">
                 <div className="voteRow">
                   <IonIcon
-                    onClick={() => addLike(post.id)}
+                    style={{ fontSize: '18px' }}
+                    onClick={handleLike}
                     icon={
-                      isLikedByUser(post?.likes)
+                      isLikedByUser(optimisticLikes)
                         ? arrowUpCircle
                         : arrowUpCircleOutline
                     }
                   ></IonIcon>
                   <div className="small">
-                    {calculateNetScore(post?.likes, post?.dislikes)}
+                    {calculateNetScore(optimisticLikes, optimisticDislikes)}
                   </div>
                   <IonIcon
-                    onClick={() => addDislike(post.id)}
+                    style={{ fontSize: '18px' }}
+                    onClick={handleDislike}
                     icon={
-                      isDislikedByUser(post?.dislikes)
+                      isDislikedByUser(optimisticDislikes)
                         ? arrowDownCircle
                         : arrowDownCircleOutline
                     }
                   ></IonIcon>
                 </div>
                 <IonIcon
-                  style={{ paddingRight: "5px" }}
+                  style={{ paddingRight: "5px", fontSize: '18px' }}
                   icon={chatbubbleOutline}
                 ></IonIcon>
                 <div className="small">{post?.comments?.length}</div>
               </div>
               <div className="tinyRow">
-                <IonIcon icon={bookmarkOutline}></IonIcon>
-                <IonIcon icon={shareOutline} onClick={openModal}></IonIcon>
+                <IonIcon
+                  style={{ fontSize: '18px' }}
+                  icon={isBookmarked ? bookmark : bookmarkOutline}
+                  onClick={handleBookmark}
+                ></IonIcon>
+                <IonIcon style={{ fontSize: '18px' }} icon={shareOutline} onClick={openModal}></IonIcon>
               </div>
             </div>
           </IonCard>

@@ -43,7 +43,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             }
         };
         validateToken();
-    }, [history]);
+    }, []);
 
 
 

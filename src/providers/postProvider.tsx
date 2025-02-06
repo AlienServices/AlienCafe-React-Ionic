@@ -120,10 +120,9 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   //   getMyPosts()
   // }, [])
 
-  const addBookmark = async (userId: string, postId: string) => {
-    console.log("hitting add bookmark");
+  const addBookmark = async (userId: string, postId: string) => {    
     try {
-      const result = await fetch(`${getBaseUrl()}/posts/addBookmark`, {
+      const result = await fetch(`${getBaseUrl()}/api/posts/addBookmark`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

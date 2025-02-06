@@ -13,6 +13,7 @@ import {
 } from "@ionic/react";
 import "../../theme/Tab2.css";
 import MyPosts from "../../components/MyPosts";
+import Bookmarks from "../../components/Bookmarks";
 import Category from "../../components/Category";
 import {
   useState,
@@ -264,7 +265,7 @@ const Profile = ({
                 });
               }}
             >
-              Likes
+              Bookmarks
             </div>
           </div>
         </IonCard>
@@ -277,7 +278,7 @@ const Profile = ({
             <MyPosts />
           </>
         ) : choices.likes ? (
-          <>Likes</>
+          <Bookmarks/>
         ) : choices.categories ? (
           <>
             <Category />
