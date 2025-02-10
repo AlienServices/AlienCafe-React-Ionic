@@ -45,7 +45,7 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post }) => {
   const history = useHistory();
   const { addLike, addDislike, getUserPosts } = useContext(MyContext);
-  const {getBaseUrl} = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext)
   const { myInfo, updateUser } = useContext<any>(UserContext);
   const [user, setUser] = useState({
     bio: "",
@@ -116,7 +116,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   };
 
   const isLikedByUser = (likes: string[]): boolean => likes.includes(myInfo?.id || '');
-  const isDislikedByUser = (dislikes: string[]): boolean =>    
+  const isDislikedByUser = (dislikes: string[]): boolean =>
     dislikes.includes(myInfo?.id || '');
   const calculateNetScore = (likes: string[], dislikes: string[]): number =>
     likes.length - dislikes.length;

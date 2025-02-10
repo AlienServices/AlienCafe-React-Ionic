@@ -158,7 +158,7 @@ const Post = () => {
       }}
     >
       <IonContent>
-        <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={true} />
+        <HeaderAlien votes={post?.votes} next={false} title={'null'} content={''} backArrowToggle={true} />
         {loaded ? (
           <>
             {" "}

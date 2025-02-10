@@ -19,6 +19,7 @@ import { useState } from "react";
 
 const HeaderAlien = ({
   backArrowToggle,
+  votes,
   next,
   content,
   title,
@@ -31,6 +32,7 @@ const HeaderAlien = ({
   allCategories
 }: {
   backArrowToggle: boolean;
+  votes: number,
   allCategories: {}
   subCategories: {}
   setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
@@ -47,169 +49,8 @@ const HeaderAlien = ({
   const goBack = () => {
     history.goBack();
   };
-  // const [selectedCategories, setSelectedCategories] = useState<string[]>(allCategories || []);
-  // const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(subCategories || []);
 
-  //   useEffect(() => {
-  //     const logo = new Image();
-  //     logo.src = '/alienLogo.svg';
-  //     logo.onload = () => setIsLoaded(true);
-  //   }, []);
-
-  // const [categories, setCategories] = useState([
-  //   "Aliens",
-  //   "Animals",
-  //   "Climate Change",
-  //   "Crazy Conspiracy Theories",
-  //   "Current Events",
-  //   "Death Afterlife",
-  //   "Drama Romance",
-  //   "Espionage",
-  //   "Finance",
-  //   "Food",
-  //   "Guns",
-  //   "Government",
-  //   "Health",
-  //   "History",
-  //   "Immigration",
-  //   "International",
-  //   "Literature",
-  //   "LGBTQ",
-  //   "Love",
-  //   "The Media",
-  //   "Movies and TV",
-  //   "Mysteries",
-  //   "People",
-  //   "Religion, Spiritualities & Culture",
-  //   "Science",
-  //   "Sci-Fi",
-  //   "Secret Societies",
-  //   "Self Improvement",
-  //   "Sports",
-  //   "Tech",
-  //   "Travel",
-  //   "War",
-  //   "Weapons",
-  //   "Weather",
-  //   "World Organizations",
-  // ]);
-
-
-
-  // const subCategories: Record<string, string[]> = {
-  //   Animals: [
-  //     "Insects",
-  //     "Microbiology",
-  //   ],
-  //   Business: [
-  //     "Corporations",
-  //     "Small Businesses",
-  //     "Entrepreneurship",
-  //   ],
-  //   ClimateChange: [
-  //     "Proof of Climate Change",
-  //     "Climate Change Hoax",
-  //   ],
-  //   Espionage: [
-  //     "The Kennedy Assasinations",
-  //     "The Titanic",
-  //   ],
-  //   Finance: [
-  //     "Banks and Credit Unions",
-  //     "Foreign Banks",
-  //   ],
-  //   Food: [
-  //     "Toxins",
-  //   ],
-  //   Government: [
-  //     "Deep State",
-  //     "Executive",
-  //     "Legislature",
-  //     "Judicial System",
-  //     "Bureaucracy",
-  //   ],
-  //   Health: [
-  //     "Vaccines",
-  //     "Self Help",
-  //   ],
-  //   History: [
-  //     "Wars",
-  //     "The Holocaust",
-  //     "Ancient Civilizations",
-  //   ],
-  //   Hobby: [
-  //     "Crafts",
-  //     "Musings",
-  //     "How Things Work",
-  //   ],
-  //   Horror: [
-  //     "Real Crime",
-  //     "Disappearances",
-  //   ],
-  //   Immigration: [
-  //     "US Immigration",
-  //     "European Immigration",
-  //   ],
-  //   International: [
-  //     "CCP",
-  //     "Russia",
-  //     "Israel",
-  //     "Ukraine",
-  //     "Europe",
-  //     "Africa",
-  //     "Australia",
-  //     "Asia",
-  //   ],
-  //   Love: [
-  //     "Love",
-  //     "Marriage",
-  //     "Relationships",
-  //   ],
-  //   TheMedia: [
-  //     "News",
-  //   ],
-  //   People: [
-  //     "Jeffrey Epstein",
-  //     "Bill Gates",
-  //     "The Clintons",
-  //   ],
-  //   Religion: [
-  //     "Christianity",
-  //     "Islam",
-  //     "Non-religious",
-  //     "Hinduism",
-  //     "Buddhism",
-  //   ],
-  //   Science: [
-  //     "Time Travel",
-  //     "Alternate History",
-  //     "Dystopian Societies",
-  //     "Magic Realism",
-  //   ],
-  //   SecretS: [
-  //     "Illuminati",
-  //     "Skull And Bones",
-  //     "The Bilderberg Group",
-  //     "The Club Of Rome",
-  //   ],
-  //   Technology: [
-  //     "Artificial Intelligence",
-  //   ],
-  //   War: [
-  //     "Ukraine",
-  //     "Israel",
-  //   ],
-  //   Weather: [
-  //     "North Carolina",
-  //     "Lahaina",
-  //   ],
-  //   WorldOrganizations: [
-  //     "WHO",
-  //     "Club Of Rome",
-  //     "UN",
-  //   ],
-  // }
-
+  const [color, setColor] = useState<string>()
 
   const toggleCategory = (cat: string) => {
     setSelectedCategories((prev) => {
@@ -239,6 +80,31 @@ const HeaderAlien = ({
       }
     });
   };
+
+  const alienColor = (votes: number) => {
+    if (votes > 100) {
+      return '#00b300'
+      setColor('#00b300')
+    } else if (votes > 50) {
+      return '#33ff33'
+      setColor('#99ff99')
+    } else if (votes > 0) {
+      return '#b3ffb3'
+      setColor('#ccffcc')
+    } else if (votes < 0) {
+      return '#ffcccc'
+      setColor(' #ffcccc')
+    } else if (votes < -50) {
+      return '#ff6666'
+      setColor('#ff6666')
+    } else if (votes < -100) {
+      return '#b30000'
+      setColor('#ff0000')
+    } else {
+      return 'white'
+      setColor('white')
+    }
+  }
 
 
   return (
@@ -286,7 +152,7 @@ const HeaderAlien = ({
               alignItems: "center",
             }}
           >
-            <AlienLogoSVG />
+            <AlienLogoSVG color={alienColor(votes)} />
           </div>
         </div>
         {next ? (
@@ -327,7 +193,7 @@ const HeaderAlien = ({
                 </div>
               }
               <div className="gridTwoRow" style={{ padding: '20px' }}>
-                {subCategories[category?.replace(/\s+/g, "")]?.map((cat) => {                  
+                {subCategories[category?.replace(/\s+/g, "")]?.map((cat) => {
                   return <div className="gridItemRow">
                     <div style={{ paddingBottom: '10px', textAlign: 'center', padding: '5px' }}>{cat}</div>
                     <input type="checkbox" checked={selectedSubCategories[category]?.includes(cat)} onChange={() => toggleSubCategory(category, cat)} />

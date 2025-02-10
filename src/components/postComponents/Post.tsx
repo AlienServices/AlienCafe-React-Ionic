@@ -53,7 +53,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
   const [optimisticDislikes, setOptimisticDislikes] = useState<string[]>(post.dislikes);
   const [isLiking, setIsLiking] = useState(false);
   const [isDisliking, setIsDisliking] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(myInfo?.bookmarks?.includes(post.id) || false);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(post?.bookmarks?.map((mark) => mark.userId.includes(myInfo.id)));
   const [isBookmarking, setIsBookmarking] = useState(false);
 
 
@@ -110,7 +110,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
   };
 
   const handleBookmark = async () => {
-    if (isBookmarking) return; // Prevent multiple clicks
+    if (isBookmarking) return;
 
     const userId = myInfo?.id;
     if (!userId) return;
@@ -179,7 +179,8 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     setShowModal(false);
   };
 
-  console.log(post, 'these are comments')
+  
+  
 
   return (
     <div style={{ minHeight: "200px" }}>
