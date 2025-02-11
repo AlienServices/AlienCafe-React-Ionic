@@ -256,7 +256,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
               <div className="tinyRow">
                 <div className="voteRow">
                   <IonIcon
-                    style={{ fontSize: '18px' }}
+                    style={{ fontSize: '20px' }}
                     onClick={handleLike}
                     icon={
                       isLikedByUser(optimisticLikes)
@@ -268,7 +268,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                     {calculateNetScore(optimisticLikes, optimisticDislikes)}
                   </div>
                   <IonIcon
-                    style={{ fontSize: '18px' }}
+                    style={{ fontSize: '20px' }}
                     onClick={handleDislike}
                     icon={
                       isDislikedByUser(optimisticDislikes)
@@ -278,14 +278,14 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                   ></IonIcon>
                 </div>
                 <IonIcon
-                  style={{ paddingRight: "5px", fontSize: '18px' }}
+                  style={{ paddingRight: "5px", fontSize: '20px' }}
                   icon={chatbubbleOutline}
                 ></IonIcon>
                 <div className="small">{post?.comments?.length}</div>
               </div>
               <div className="tinyRow">
                 <IonIcon
-                  style={{ fontSize: '18px' }}
+                  style={{ fontSize: '20px' }}
                   icon={isBookmarked ? bookmark : bookmarkOutline}
                   onClick={handleBookmark}
                 ></IonIcon>
@@ -296,11 +296,11 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
         </div>
       </IonList>
 
-      <IonModal className="custom-modal" style={{ borderRadius: '20px' }} initialBreakpoint={0.2} isOpen={showModal}>
+      <IonModal onDidDismiss={() => setShowModal(false)} className="custom-modal" style={{ borderRadius: '20px' }} initialBreakpoint={0.2} isOpen={showModal}>
         <div className="share">Share Post!</div>
-        <div style={{marginLeft: '30px'}} className="shareRow">
+        <div style={{ marginLeft: '30px' }} className="shareRow">
           <IonIcon className="shareIcon" icon={mailOutline}></IonIcon>
-          <div style={{fontSize: '13px'}}>Send Via Direct Message</div>
+          <div style={{ fontSize: '13px' }}>Send Via Direct Message</div>
         </div>
         <div className="shareIconContainer">
           <div className="shareIconRow">
