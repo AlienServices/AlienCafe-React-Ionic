@@ -6,7 +6,6 @@ import {
   IonCard,
   IonNavLink,
   IonList,
-  IonButton,
 } from "@ionic/react";
 import {
   arrowUpCircleOutline,
@@ -18,6 +17,8 @@ import {
   shareOutline,
   checkmarkCircleOutline,
   bookmark,
+  copyOutline,
+  mailOutline,
 } from "ionicons/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -99,9 +100,8 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     setIsDisliking(true);
 
     try {
-      await addDislike(post.id); // Call the server
+      await addDislike(post.id);
     } catch (error) {
-      // Revert the UI if the request fails
       setOptimisticLikes(post.likes);
       setOptimisticDislikes(post.dislikes);
     } finally {
@@ -179,8 +179,8 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     setShowModal(false);
   };
 
-  
-  
+
+
 
   return (
     <div style={{ minHeight: "200px" }}>
@@ -296,15 +296,31 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
         </div>
       </IonList>
 
-      <IonModal isOpen={showModal}>
-        <IonButton slot="end">Close</IonButton>
-        <IonButton style={{ padding: "10px" }} onClick={closeModal}>
-          close
-        </IonButton>
-        <input style={{ color: "white" }} type="text" />
-        <div>kale</div>
+      <IonModal className="custom-modal" style={{ borderRadius: '20px' }} initialBreakpoint={0.2} isOpen={showModal}>
+        <div className="share">Share Post!</div>
+        <div style={{marginLeft: '30px'}} className="shareRow">
+          <IonIcon className="shareIcon" icon={mailOutline}></IonIcon>
+          <div style={{fontSize: '13px'}}>Send Via Direct Message</div>
+        </div>
+        <div className="shareIconContainer">
+          <div className="shareIconRow">
+            <div>
+              <IonIcon className="shareIcon" icon={copyOutline}></IonIcon>
+              <div style={{ fontSize: '10px' }}>Copy Link</div>
+            </div>
+            <div>
+              <IonIcon className="shareIcon" icon={shareOutline}></IonIcon>
+              <div style={{ fontSize: '10px' }}>Share</div>
+            </div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: "center", borderRadius: '10px' }}>
+          <button style={{ width: '50%', padding: '5px', margin: '8px' }} onClick={closeModal}>
+            Cancel
+          </button>
+        </div>
       </IonModal>
-    </div>
+    </div >
   );
 };
 
