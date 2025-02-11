@@ -40,7 +40,7 @@ interface PostProps {
     comments: any[];
     userId: string;
   };
-  setToggle: (value: boolean) => void;
+  Toggle: (value: boolean) => void;
 }
 
 const Post: React.FC<PostProps> = ({ post, setToggle }) => {
@@ -289,7 +289,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                   icon={isBookmarked ? bookmark : bookmarkOutline}
                   onClick={handleBookmark}
                 ></IonIcon>
-                <IonIcon style={{ fontSize: '18px' }} icon={shareOutline} onClick={openModal}></IonIcon>
+                <IonIcon style={{ fontSize: '23px' }} icon={shareOutline} onClick={openModal}></IonIcon>
               </div>
             </div>
           </IonCard>

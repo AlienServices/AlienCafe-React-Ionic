@@ -31,12 +31,14 @@ const Post = () => {
   const [myVote, setMyVote] = useState<string>("");
   const { getBaseUrl, loggedIn } = useContext(MyContext)
   const [selected, setSelected] = useState<number | null>(null);
+  const [votes, setVotes] = useState(content[0]?.votes || 0);
   const [image, setImage] = useState("");
   const { myInfo } = useContext(UserContext);
   const [toggle, setToggle] = useState(true);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
   const { id } = useParams<{ id: string }>();
+
 
   useEffect(() => {
     getOnePost();
@@ -58,6 +60,7 @@ const Post = () => {
       setImage(post.post.owner.id);
       setContent([post.post]);
       setMyVote(post.userVote?.vote || "");
+      setVotes(post?.post.votes)
       setLoaded(true);
     } catch (error) {
       console.log(error, "this is the create user error");
@@ -148,7 +151,7 @@ const Post = () => {
     setToggle(true);
   });
 
-
+  console.log(content[0]?.votes, 'these are votes')
   return (
     <IonPage
       id="main-content"
@@ -158,7 +161,7 @@ const Post = () => {
       }}
     >
       <IonContent>
-        <HeaderAlien votes={post?.votes} next={false} title={'null'} content={''} backArrowToggle={true} />
+        <HeaderAlien votes={votes} next={false} title={'null'} content={''} backArrowToggle={true} />
         {loaded ? (
           <>
             {" "}
@@ -252,19 +255,60 @@ const Post = () => {
           <div className="answers">
             <div className="vote">
               {myVote === "true" && (
-                <div className="action">{content[0]?.yesAction}</div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ReactQuill
+                    className="quillTitle"
+                    style={{ color: "black" }}
+                    readOnly={true}
+                    theme="bubble"
+                    value={content[0]?.yesAction}
+                  />
+                </div>
+                // <div className="action">{content[0]?.yesAction}</div>
               )}
               {myVote === "probably true" && (
-                <div className="action">{content[0]?.noAction}</div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ReactQuill
+                    className="quillTitle"
+                    style={{ color: "black" }}
+                    readOnly={true}
+                    theme="bubble"
+                    value={content[0]?.probablyYesAction}
+                  />
+                </div>
               )}
               {myVote === "neutral" && (
-                <div className="action">{content[0]?.maybeAction}</div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ReactQuill
+                    className="quillTitle"
+                    style={{ color: "black" }}
+                    readOnly={true}
+                    theme="bubble"
+                    value={content[0]?.maybeAction}
+                  />
+                </div>
               )}
               {myVote === "probably false" && (
-                <div className="action">{content[0]?.yesAction}</div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ReactQuill
+                    className="quillTitle"
+                    style={{ color: "black" }}
+                    readOnly={true}
+                    theme="bubble"
+                    value={content[0]?.probablyNoAction}
+                  />
+                </div>
               )}
               {myVote === "false" && (
-                <div className="action">{content[0]?.noAction}</div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ReactQuill
+                    className="quillTitle"
+                    style={{ color: "black" }}
+                    readOnly={true}
+                    theme="bubble"
+                    value={content[0]?.noAction}
+                  />
+                </div>
               )}
             </div>
             <div style={{ paddingBottom: "100px" }}>
@@ -273,13 +317,6 @@ const Post = () => {
           </div>
         ) : (
           <div className="centerMiddle">
-            {/* <ReactQuill
-              className="quillTitle"
-              style={{ color: "black" }}
-              readOnly={true}
-              theme="bubble"
-              value={content[0]?.title}
-            />             */}
             <div className="quizCenter">
               <div className="checkSpace">
                 <IonCheckbox
