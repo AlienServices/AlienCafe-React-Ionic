@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../theme/create.css";
-import { IonFooter } from "@ionic/react";
+import { IonFooter, useIonViewWillLeave } from "@ionic/react";
 import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique IDs
 
@@ -26,6 +26,9 @@ const Editor = ({
       contentQuillRef.current?.getEditor();
     }, 400);
   };
+  useIonViewWillLeave(() => {
+    setValue('')
+  })
 
   return (
     <div>

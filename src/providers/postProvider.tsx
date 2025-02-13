@@ -50,7 +50,6 @@ interface PostContext {
   getBaseUrl: () => void;
 }
 
-// const MyContext = createContext({ values: [], setValues: (posts) => { } });
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
@@ -80,7 +79,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       email: string;
       date: Date;
     }[]
-  >([]);
+  >([]);  
   let realContent = content;
   const [myPosts, setMyPosts] = useState<
     {
@@ -108,19 +107,10 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     getSession();
   }, [myInfo]);
 
-  // useEffect(() => {
-  //   getAllPosts();
-  // }, [myPosts]);
 
-  // useEffect(() => {
-  //   getMyPosts()
-  // }, [loggedIn]);
 
-  // useIonViewDidEnter(() => {
-  //   getMyPosts()
-  // }, [])
 
-  const addBookmark = async (userId: string, postId: string) => {    
+  const addBookmark = async (userId: string, postId: string) => {
     try {
       const result = await fetch(`${getBaseUrl()}/api/posts/addBookmark`, {
         method: "POST",
@@ -205,7 +195,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       });
       getMyPosts();
     } catch (error) {
-      console.error("Error adding dislike:", error); // Log any errors
+      console.error("Error adding dislike:", error); 
     }
   };
 

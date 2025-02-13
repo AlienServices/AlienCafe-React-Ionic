@@ -322,7 +322,7 @@
 }
 
 .small {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 
@@ -501,7 +501,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  width: 40%;
+  width: 1100%;
 }
 
 .optionsContainer {
@@ -633,8 +633,9 @@
   margin: 5px;
   justify-content: space-around;
 }
+
 .shareIconRow {
-  display: flex;  
+  display: flex;
   font-size: 14px;
   width: 50%;
   margin: 5px;
@@ -648,13 +649,13 @@
 .custom-modal {
   --border-radius: 16px;
   display: flex;
-  justify-content: space-evenly;    
+  justify-content: space-evenly;
 }
 
-.shareIconContainer{
-  display: flex;  
+.shareIconContainer {
+  display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
 }
 
 @media (max-width: 600px) {

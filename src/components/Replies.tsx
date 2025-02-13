@@ -63,6 +63,100 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     fetchComments();
   }, []);
 
+  const addCommentLike = async (userId: string, commentId: string) => {
+    try {
+      // Optimistically update the UI
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId
+            ? {
+              ...comment,
+              likes: [...comment.likes, userId], // Add the user's ID to likes
+              dislikes: comment.dislikes.filter((id) => id !== userId), // Remove the user's ID from dislikes (if present)
+            }
+            : comment
+        )
+      );
+
+      // Send the request to the server
+      const response = await fetch(`${getBaseUrl()}/api/comments/addCommentLike`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, commentId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add like");
+      }
+
+      // Optionally, fetch updated comments from the server to ensure consistency
+      await fetchComments();
+    } catch (error) {
+      console.error("Error adding like to comment:", error);
+
+      // Revert the optimistic update if the request fails
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId
+            ? {
+              ...comment,
+              likes: comment.likes.filter((id) => id !== userId), // Remove the user's ID from likes
+            }
+            : comment
+        )
+      );
+    }
+  };
+
+  const addCommentDislike = async (userId: string, commentId: string) => {
+    try {
+      // Optimistically update the UI
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId
+            ? {
+              ...comment,
+              dislikes: [...comment.dislikes, userId], // Add the user's ID to dislikes
+              likes: comment.likes.filter((id) => id !== userId), // Remove the user's ID from likes (if present)
+            }
+            : comment
+        )
+      );
+
+      // Send the request to the server
+      const response = await fetch(`${getBaseUrl()}/api/comments/addCommentDislike`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, commentId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add dislike");
+      }
+
+      // Optionally, fetch updated comments from the server to ensure consistency
+      await fetchComments();
+    } catch (error) {
+      console.error("Error adding dislike to comment:", error);
+
+      // Revert the optimistic update if the request fails
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId
+            ? {
+              ...comment,
+              dislikes: comment.dislikes.filter((id) => id !== userId), // Remove the user's ID from dislikes
+            }
+            : comment
+        )
+      );
+    }
+  };
+
   useEffect(() => {
     console.log("Updated comments:", comments);
   }, [comments]);
@@ -163,45 +257,45 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
-  const addCommentLike = async (userId: string, commentId: string) => {
-    try {
-      const response = await fetch(
-        `${getBaseUrl()}/comments/addCommentLike`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId, commentId }),
-        },
-      );
+  // const addCommentLike = async (userId: string, commentId: string) => {
+  //   try {
+  //     const response = await fetch(
+  //       `${getBaseUrl()}/comments/addCommentLike`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ userId, commentId }),
+  //       },
+  //     );
 
-      const updatedComment = await response.json();
-      // await fetchComments();
-    } catch (error) {
-      console.error("Error adding like to comment:", error);
-    }
-  };
+  //     const updatedComment = await response.json();
+  //     // await fetchComments();
+  //   } catch (error) {
+  //     console.error("Error adding like to comment:", error);
+  //   }
+  // };
 
-  const addCommentDisike = async (userId: string, commentId: string) => {
-    try {
-      const response = await fetch(
-        `${getBaseUrl()}/api/comments/addCommentDislike`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId, commentId }),
-        },
-      );
+  // const addCommentDisike = async (userId: string, commentId: string) => {
+  //   try {
+  //     const response = await fetch(
+  //       `${getBaseUrl()}/api/comments/addCommentDislike`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ userId, commentId }),
+  //       },
+  //     );
 
-      const updatedComment = await response.json();
-      // await fetchComments();
-    } catch (error) {
-      console.error("Error adding like to comment:", error);
-    }
-  };
+  //     const updatedComment = await response.json();
+  //     // await fetchComments();
+  //   } catch (error) {
+  //     console.error("Error adding like to comment:", error);
+  //   }
+  // };
 
   const handleReplyClick = (commentId: string) => {
     console.log(inputRef.current, "this is inout ref");
@@ -380,7 +474,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     return likes.length - dislikes.length;
   };
 
-  
+
 
   return (
     <div>
@@ -464,8 +558,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
       {comments
         ?.filter((comment) => comment?.parentId === null)
-        .map((comment) =>             
-          (
+        .map((comment) =>
+        (
           <div className="column">
             <div className="imageRow" key={comment?.id}>
               <div className="bottomImage">
@@ -511,9 +605,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       <div className="rowSmall">
                         <div className="arrowRowSmall">
                           <IonIcon
+                            style={{ fontSize: '18px' }}
                             onClick={() => {
-                              if(myInfo)
-                              addCommentLike(myInfo.id, comment.id);
+                              if (myInfo) addCommentLike(myInfo.id, comment.id);
                             }}
                             icon={
                               isLikedByUser(comment?.likes)
@@ -522,17 +616,12 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                             }
                           ></IonIcon>
                           <div className="small">
-                            {calculateNetScore(
-                              comment?.likes,
-                              comment?.dislikes,
-                            )}
+                            {calculateNetScore(comment?.likes, comment?.dislikes)}
                           </div>
-                        </div>
-                        <div className="arrowRowSmall">
                           <IonIcon
+                            style={{ fontSize: '18px' }}
                             onClick={() => {
-                              if (myInfo)
-                                addCommentDisike(myInfo.id, comment.id);
+                              if (myInfo) addCommentDislike(myInfo.id, comment.id);
                             }}
                             icon={
                               isDislikedByUser(comment?.dislikes)
@@ -540,16 +629,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                                 : arrowDownCircleOutline
                             }
                           ></IonIcon>
-                          <div className="small">
-                            {calculateNetScore(
-                              comment?.likes,
-                              comment?.dislikes,
-                            )}
-                          </div>
                         </div>
                         <div>
-                          {/* <IonIcon size="small" onClick={() => {  }} icon={chatbubbleOutline}></IonIcon>
-                      {comment.replies.length} */}
                         </div>
                       </div>
                       <div>
