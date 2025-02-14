@@ -16,7 +16,7 @@ const Content: React.FC = () => {
   const { getBaseUrl } = useContext(MyContext);
   const { myInfo, setMyInfo } = useContext(UserContext);
 
-  useIonViewDidEnter(() => {
+  useEffect(() => {
     if (myInfo) {
       console.log('hitting use effect')
       getAllBookmarks(myInfo?.id)
@@ -63,6 +63,7 @@ const Content: React.FC = () => {
       return groups;
     }, {});
   };
+
   const getAllBookmarks = async (userId: string) => {
     try {
       // 1️⃣ Fetch Bookmarked Post IDs First
@@ -72,28 +73,35 @@ const Content: React.FC = () => {
           "Content-Type": "application/json",
         }
       });
-  
+
       if (!response.ok) {
         throw new Error(`Failed to fetch bookmarks: ${response.status} ${response.statusText}`);
       }
-  
+
       const bookmarkedIds = await response.json();
       console.log(bookmarkedIds, "📌 Bookmarked Post IDs");
-  
+
       // 2️⃣ Fetch Each Bookmark Data Concurrently
+      const allBookmarks = [];
       const bookmarkDetails = await Promise.all(
-        bookmarkedIds.bookmarks?.map((post: any) => getBookmarkData(post.id))
+        bookmarkedIds.bookmarks?.map(async (post: any) => {          
+          const bookmarkData = await getBookmarkData(post.postId);          
+          allBookmarks.push(bookmarkData.Posts);
+          return bookmarkData;
+        })
       );
-      console.log(bookmarkDetails, 'these are the details')            
+      console.log(bookmarkDetails.map(post => post.post), 'thesea are bookmark details')
+      setBookmarkedPosts(bookmarkDetails);
+      // console.log(allBookmarks, '📚 All Bookmark Details');
     } catch (error) {
       console.error("❌ Error fetching bookmarks:", error);
     }
   };
-  
-  
+
+
   const getBookmarkData = async (userId: string) => {
     try {
-      const response = await fetch(`${getBaseUrl()}/api/posts/getSpecifictPost?userId=${userId}`, {
+      const response = await fetch(`${getBaseUrl()}/api/posts/getSpecificPost?userId=${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -101,19 +109,16 @@ const Content: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch bookmarks: ${response.status} ${response.statusText}`);``
+        throw new Error(`Failed to fetch bookmarks: ${response.status} ${response.statusText}`); ``
       }
 
       const posts = await response.json();
-      console.log(posts.Posts, "Bookmarked posts");
-
-      setBookmarkedPosts(posts.Posts);
+      console.log(posts, 'these are the getbookmarkdata posts')
+      return posts      
     } catch (error) {
       console.error("Error fetching bookmarks:", error);
     }
-  };
-
-  const groupedPosts = groupPostsByCategory(myPosts);
+  };  
 
   console.log(bookmarkedPosts, 'these are what we are mapping')
 
@@ -121,72 +126,72 @@ const Content: React.FC = () => {
     <IonList>
       <div>
         {bookmarkedPosts?.map((post: any, index: number) => {
-            const transformedTitle = transformTitleToH1(post.title);
-            const truncatedContent = truncateContent(post.content, 200);
-            const date = new Date(post.date);
-            const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-            const day = String(date.getUTCDate()).padStart(2, "0");
-            const year = date.getUTCFullYear();
-            const formattedDate = `${month}/${day}/${year}`;
+          const transformedTitle = transformTitleToH1(post.posts[0].title);
+          const truncatedContent = truncateContent(post.posts[0].content, 200);
+          const date = new Date(post.posts[0].date);
+          const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+          const day = String(date.getUTCDate()).padStart(2, "0");
+          const year = date.getUTCFullYear();
+          const formattedDate = `${month}/${day}/${year}`;
 
-            return (
-              <div className="shadow" key={post.id}>
-                <IonCard
-                  style={{
-                    boxShadow: "none",
-                    borderRadius: "0px",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+          return (
+            <div className="shadow" key={post.posts[0].id}>
+              <IonCard
+                style={{
+                  boxShadow: "none",
+                  borderRadius: "0px",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}
+                className="card"
+              >
+                <div className="around">
+                  <div className="emailContainer">
+                    <IonAvatar
+                      style={{
+                        height: "20px",
+                        width: "20px",
+                        marginLeft: "10px",
+                        marginRight: "5px",
+                      }}
+                    >
+                      <img
+                        alt="Silhouette of a person's head"
+                        src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                      />
+                    </IonAvatar>
+                    <div className="username">{post.posts[0].email}</div>
+                  </div>
+                </div>
+                <div
+                  onClick={() => {
+                    gotoTopic(post.posts[0].id);
                   }}
-                  className="card"
                 >
-                  <div className="around">
-                    <div className="emailContainer">
-                      <IonAvatar
-                        style={{
-                          height: "20px",
-                          width: "20px",
-                          marginLeft: "10px",
-                          marginRight: "5px",
-                        }}
-                      >
-                        <img
-                          alt="Silhouette of a person's head"
-                          src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                        />
-                      </IonAvatar>
-                      <div className="username">{post.email}</div>
-                    </div>                    
-                  </div>
-                  <div
-                    onClick={() => {
-                      gotoTopic(post.id);
-                    }}
-                  >
-                    <ReactQuill
-                      style={{ color: "black" }}
-                      readOnly={true}
-                      theme="bubble"
-                      value={transformedTitle}
-                    />
-                    <ReactQuill
-                      className="small"
-                      readOnly={true}
-                      theme="bubble"
-                      value={truncatedContent}
-                    />
-                  </div>
-                  <div className="around">
-                    <div className="flex">
-                      <div className="center">
-                        
-                      </div>
+                  <ReactQuill
+                    style={{ color: "black" }}
+                    readOnly={true}
+                    theme="bubble"
+                    value={transformedTitle}
+                  />
+                  <ReactQuill
+                    className="small"
+                    readOnly={true}
+                    theme="bubble"
+                    value={truncatedContent}
+                  />
+                </div>
+                <div className="around">
+                  <div className="flex">
+                    <div className="center">
+
                     </div>
                   </div>
-                </IonCard>
-              </div>
-            );
-          })}
+                </div>
+              </IonCard>
+            </div>
+          );
+        })}
       </div>
     </IonList>
   );
