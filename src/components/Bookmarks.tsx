@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { IonIcon, useIonViewDidEnter, useIonViewWillEnter } from "@ionic/react";
+import { IonIcon, useIonViewDidEnter, useIonViewWillEnter, IonSpinner } from "@ionic/react";
 import { useHistory } from "react-router";
 import { IonAvatar, IonCard, IonList } from "@ionic/react";
 import ReactQuill from "react-quill";
@@ -13,12 +13,12 @@ const Content: React.FC = () => {
   const { myPosts, deletePost } = useContext(MyContext);
   const history = useHistory();
   const [bookmarkedPosts, setBookmarkedPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { getBaseUrl } = useContext(MyContext);
   const { myInfo, setMyInfo } = useContext(UserContext);
 
   useEffect(() => {
     if (myInfo) {
-      console.log('hitting use effect')
       getAllBookmarks(myInfo?.id)
     }
   }, [myInfo])
@@ -79,20 +79,16 @@ const Content: React.FC = () => {
       }
 
       const bookmarkedIds = await response.json();
-      console.log(bookmarkedIds, "📌 Bookmarked Post IDs");
-
-      // 2️⃣ Fetch Each Bookmark Data Concurrently
       const allBookmarks = [];
       const bookmarkDetails = await Promise.all(
-        bookmarkedIds.bookmarks?.map(async (post: any) => {          
-          const bookmarkData = await getBookmarkData(post.postId);          
+        bookmarkedIds.bookmarks?.map(async (post: any) => {
+          const bookmarkData = await getBookmarkData(post.postId);
           allBookmarks.push(bookmarkData.Posts);
           return bookmarkData;
         })
       );
-      console.log(bookmarkDetails.map(post => post.post), 'thesea are bookmark details')
+      setLoading(false)
       setBookmarkedPosts(bookmarkDetails);
-      // console.log(allBookmarks, '📚 All Bookmark Details');
     } catch (error) {
       console.error("❌ Error fetching bookmarks:", error);
     }
@@ -114,18 +110,18 @@ const Content: React.FC = () => {
 
       const posts = await response.json();
       console.log(posts, 'these are the getbookmarkdata posts')
-      return posts      
+      return posts
     } catch (error) {
       console.error("Error fetching bookmarks:", error);
     }
-  };  
+  };
 
   console.log(bookmarkedPosts, 'these are what we are mapping')
 
   return (
     <IonList>
       <div>
-        {bookmarkedPosts?.map((post: any, index: number) => {
+        {loading ? <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px'}}><IonSpinner></IonSpinner></div> : <>{bookmarkedPosts?.map((post: any, index: number) => {
           const transformedTitle = transformTitleToH1(post.posts[0].title);
           const truncatedContent = truncateContent(post.posts[0].content, 200);
           const date = new Date(post.posts[0].date);
@@ -191,7 +187,8 @@ const Content: React.FC = () => {
               </IonCard>
             </div>
           );
-        })}
+        })}</>
+        }
       </div>
     </IonList>
   );

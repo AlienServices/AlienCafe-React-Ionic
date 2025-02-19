@@ -1,4 +1,4 @@
-import {  useContext } from "react";
+import { useContext } from "react";
 // import Editor from '../components/Editor';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -7,7 +7,7 @@ import {
   IonAvatar,
   IonContent,
   IonCard,
-  IonList,  
+  IonList,
 } from "@ionic/react";
 import "../theme/Tab3.css"
 import { MyContext } from "../providers/postProvider";
@@ -39,14 +39,14 @@ const Content: React.FC = () => {
     return textContent;
   };
 
-  
+
 
 
   return (
     <IonContent className="page">
       <IonList>
         {userPosts ? (
-          <>            
+          <>
             {userPosts
               ?.sort((a: any, b: any) => Date.parse(b?.date) - Date.parse(a?.date))
               .map((post: any, index: number) => {
@@ -58,7 +58,7 @@ const Content: React.FC = () => {
                 const transformedTitle = transformTitleToH1(post.title);
                 const truncatedContent = truncateContent(post.content, 200);
                 const date = new Date(post.date);
-                const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
+                const month = String(date.getUTCMonth() + 1).padStart(2, "0");
                 const day = String(date.getUTCDate()).padStart(2, "0");
                 const year = date.getUTCFullYear();
 

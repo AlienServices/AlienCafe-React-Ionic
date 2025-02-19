@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IonIcon } from "@ionic/react";
 import { useHistory } from "react-router";
-import { IonAvatar, IonCard, IonList } from "@ionic/react";
+import { IonAvatar, IonCard, IonList, IonSpinner } from "@ionic/react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../theme/Tab3.css";
@@ -9,8 +9,41 @@ import { MyContext } from "../providers/postProvider";
 import { trashOutline } from "ionicons/icons";
 
 const Content: React.FC = () => {
-  const { myPosts, deletePost } = useContext(MyContext);
+  const { deletePost, getBaseUrl } = useContext(MyContext);
+  const [myPosts, setMyPosts] = useState<
+    {
+      id: string;
+      content: string;
+      likes: string[];
+      email: string;
+      date: Date;
+    }[]
+  >([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const history = useHistory();
+
+  useEffect(() => {
+    getMyPosts()
+  }, [])
+
+  const getMyPosts = async () => {
+    try {
+      const result = await fetch(
+        `${getBaseUrl()}/api/posts/getMyPosts?email=${localStorage.getItem("user")}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const posts = await result.json();
+      setMyPosts(posts.Posts);
+      setLoading(false)
+    } catch (error) {
+      console.log(error, "this is the create user error");
+    }
+  };
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -54,8 +87,13 @@ const Content: React.FC = () => {
 
   const groupedPosts = groupPostsByCategory(myPosts);
 
+  console.log(myPosts, 'these are my posts')
+
   return (
     <IonList>
+      {loading ? <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px'}}><IonSpinner></IonSpinner></div> : <></>
+
+      }
       {Object.keys(groupedPosts).map((category) => (
         <div key={category}>
           <div className="MyPostsTitle">{category}</div>

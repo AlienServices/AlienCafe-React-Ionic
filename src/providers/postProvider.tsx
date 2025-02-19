@@ -79,7 +79,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       email: string;
       date: Date;
     }[]
-  >([]);  
+  >([]);
   let realContent = content;
   const [myPosts, setMyPosts] = useState<
     {
@@ -195,7 +195,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       });
       getMyPosts();
     } catch (error) {
-      console.error("Error adding dislike:", error); 
+      console.error("Error adding dislike:", error);
     }
   };
 
@@ -313,6 +313,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+
   async function getSession() {
     try {
       const { data, error } = await supabase.auth.getUser();
@@ -332,7 +333,6 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       return null;
     }
   }
-
 
 
   return (

@@ -271,14 +271,14 @@ const Profile = ({
         </IonCard>
         {choices.replies ? (
           <>
-            <UserComments id={myInfo?.id || ""} />
+            <UserComments />
           </>
         ) : choices.posts ? (
           <>
             <MyPosts />
           </>
         ) : choices.likes ? (
-          <Bookmarks/>
+          <Bookmarks />
         ) : choices.categories ? (
           <>
             <Category />

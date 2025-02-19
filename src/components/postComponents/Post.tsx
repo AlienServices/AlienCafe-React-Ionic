@@ -286,7 +286,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
               <div className="tinyRow">
                 <IonIcon
                   style={{ fontSize: '20px' }}
-                  icon={!isBookmarked ? bookmark : bookmarkOutline}
+                  icon={isBookmarked ? bookmark : bookmarkOutline}
                   onClick={handleBookmark}
                 ></IonIcon>
                 <IonIcon style={{ fontSize: '23px' }} icon={shareOutline} onClick={openModal}></IonIcon>
