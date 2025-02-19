@@ -13,7 +13,11 @@ const UserComments = () => {
   const { myInfo, setMyInfo } = useContext(UserContext);
 
   useEffect(() => {
-    getUserComments();
+    if (myInfo) {
+      getUserComments();
+    } else {
+      setLoading(false)
+    }
   }, []);
 
   const getUserComments = async () => {
@@ -74,7 +78,7 @@ const UserComments = () => {
   // }
 
   return (
-    <div style={{paddingTop: '20px'}}>
+    <div style={{ paddingTop: '20px' }}>
       <IonList>
         {loading ? <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", margin: '20px' }}><IonSpinner></IonSpinner></div> : <>{comments?.map((comment: any) => {
           return (

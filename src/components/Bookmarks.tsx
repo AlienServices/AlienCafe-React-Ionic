@@ -20,6 +20,8 @@ const Content: React.FC = () => {
   useEffect(() => {
     if (myInfo) {
       getAllBookmarks(myInfo?.id)
+    } else {
+      setLoading(false)
     }
   }, [myInfo])
 
@@ -121,7 +123,7 @@ const Content: React.FC = () => {
   return (
     <IonList>
       <div>
-        {loading ? <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px'}}><IonSpinner></IonSpinner></div> : <>{bookmarkedPosts?.map((post: any, index: number) => {
+        {loading ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px' }}><IonSpinner></IonSpinner></div> : <>{bookmarkedPosts?.map((post: any, index: number) => {
           const transformedTitle = transformTitleToH1(post.posts[0].title);
           const truncatedContent = truncateContent(post.posts[0].content, 200);
           const date = new Date(post.posts[0].date);

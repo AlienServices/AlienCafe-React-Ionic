@@ -7,6 +7,7 @@ import "react-quill/dist/quill.snow.css";
 import "../theme/Tab3.css";
 import { MyContext } from "../providers/postProvider";
 import { trashOutline } from "ionicons/icons";
+import { UserContext } from "../providers/userProvider";
 
 const Content: React.FC = () => {
   const { deletePost, getBaseUrl } = useContext(MyContext);
@@ -21,9 +22,14 @@ const Content: React.FC = () => {
   >([]);
   const [loading, setLoading] = useState<boolean>(true);
   const history = useHistory();
+  const { myInfo, setMyInfo } = useContext(UserContext);
 
-  useEffect(() => {
-    getMyPosts()
+  useEffect(() => {    
+    if (myInfo) {
+      getMyPosts()
+    } else {
+      setLoading(false)
+    }
   }, [])
 
   const getMyPosts = async () => {
@@ -87,11 +93,11 @@ const Content: React.FC = () => {
 
   const groupedPosts = groupPostsByCategory(myPosts);
 
-  console.log(myPosts, 'these are my posts')
+  console.log(myInfo, 'this is my info')
 
   return (
     <IonList>
-      {loading ? <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px'}}><IonSpinner></IonSpinner></div> : <></>
+      {loading ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px' }}><IonSpinner></IonSpinner></div> : <></>
 
       }
       {Object.keys(groupedPosts).map((category) => (
