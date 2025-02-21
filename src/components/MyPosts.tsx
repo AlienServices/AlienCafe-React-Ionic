@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { IonIcon } from "@ionic/react";
 import { useHistory } from "react-router";
 import { IonAvatar, IonCard, IonList, IonSpinner } from "@ionic/react";
@@ -91,9 +91,15 @@ const Content: React.FC = () => {
     }, {});
   };
 
+  const profileImageUri = useMemo(() => {
+    if (myInfo?.id) {
+      return `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}.jpg`;
+    }
+  }, [myInfo?.id]);
+
   const groupedPosts = groupPostsByCategory(myPosts);
 
-  console.log(myInfo, 'this is my info')
+  
 
   return (
     <IonList>
@@ -129,15 +135,15 @@ const Content: React.FC = () => {
                       <div className="emailContainer">
                         <IonAvatar
                           style={{
-                            height: "20px",
-                            width: "20px",
+                            height: "30px",
+                            width: "30px",
                             marginLeft: "10px",
                             marginRight: "5px",
                           }}
                         >
                           <img
                             alt="Silhouette of a person's head"
-                            src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                            src={`${profileImageUri}`}
                           />
                         </IonAvatar>
                         <div className="username">{post.email}</div>

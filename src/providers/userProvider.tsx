@@ -99,8 +99,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           },
         },
       );
-      const myInfo = await result.json();
-      console.log(myInfo, 'this is my info')
+      const myInfo = await result.json();      
       setMyInfo(myInfo.user);
     } catch (error) {
       console.log(error, "this is the create user error");

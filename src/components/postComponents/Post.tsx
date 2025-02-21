@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   IonIcon,
   IonModal,
@@ -48,14 +48,19 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
   const { addLike, addDislike, getUserPosts, addBookmark } = useContext(MyContext);
   const { myInfo, updateUser } = useContext<any>(UserContext);
   const [showModal, setShowModal] = useState(false);
-
   // Optimistic like state
   const [optimisticLikes, setOptimisticLikes] = useState<string[]>(post.likes);
   const [optimisticDislikes, setOptimisticDislikes] = useState<string[]>(post.dislikes);
   const [isLiking, setIsLiking] = useState(false);
   const [isDisliking, setIsDisliking] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(post?.bookmarks?.map((mark) => mark.userId.includes(myInfo?.id)));
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(post?.bookmarks[0]?.userId?.includes(myInfo.id));
   const [isBookmarking, setIsBookmarking] = useState(false);
+
+
+  useEffect(() => {
+    setIsBookmarked(post?.bookmarks[0]?.userId?.includes(myInfo.id))
+  }, [post])
+
 
 
   const handleLike = async () => {
@@ -179,12 +184,9 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     setShowModal(false);
   };
 
-
-
-
   return (
     <div style={{ minHeight: "200px" }}>
-      <IonList>
+      <IonList>        
         <div className="shadow" key={post.id}>
           <IonCard
             style={{ boxShadow: "none", paddingBottom: "10px" }}
@@ -201,7 +203,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                   >
                     <img
                       alt="Silhouette of a person's head"
-                      src={"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlQMBIgACEQEDEQH/xAAaAAEBAAMBAQAAAAAAAAAAAAAAAwECBAUH/8QAKxABAAICAAQEBgIDAAAAAAAAAAECAxEEEiFRMUFhgRQiMlJxkUKhEzOS/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAANbXiPWU5yT+AWEOae8m57guIRe0ebeMneAUGImJ8JZAAAAAAAAAAASveZ6R4GS2+keDQAAAAAACJ1PRal4np5ogOga0tzQ2AAAAAAAa3nUNkcs/N+AagANb2ild28Gzj4m/Nk5fKvQC/E3mfl+WP7a/5sn3ymKjqxcRzTFb6j1dDzXbw1+bH1ncx0RVQAZrOpXc61J3UGwAAAAACFvqldC31SDAADgy/7b/l3uLia8uWZ8rdQSAVB08H4X9nM7OFrrHMz5gsAiimLzTb4vGQVAAAAAARv9UrJ5Y8wTAAa5KRkrqfaexa1aRu06hG3FR/Gsz+ZBK+DJSfDcd4T5LT/ABn9L/FW+yP2fFW+yP2Bi4edxOSOnZ1OX4q32R+1MfEUt9XyyCwACuKOiXovWNRoGQAAAAAGJjcaZAQmNTpraYrWbT4RG1715o9XHxm644ifOQcuS85Lbn2js1BUAAAAdHDZZ3GO07jydTzonUxMPSpXm12RW2OvXcqsRGoZAAAAAAAAATzYa5a6t7T2UAeZl4bJj665q94Qe0nfDjv9VI33B5I9CeCxzO4m0e7HwNPuv/SjgZrWbTqsTM+j0a8HijxiZ/MrVrWsarWIj0hBx4OC3qc3/MO2IiI1DIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z"}
+                      src={`${profileImage(post.userId)}`}
                     />
                   </IonAvatar>
                   <IonNavLink

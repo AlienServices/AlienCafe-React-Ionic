@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { IonIcon, useIonViewDidEnter, useIonViewWillEnter, IonSpinner } from "@ionic/react";
 import { useHistory } from "react-router";
 import { IonAvatar, IonCard, IonList } from "@ionic/react";
@@ -96,6 +96,11 @@ const Content: React.FC = () => {
     }
   };
 
+  const profileImageUri = (id: string) => {
+    return `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+  }
+
+
 
   const getBookmarkData = async (userId: string) => {
     try {
@@ -118,7 +123,9 @@ const Content: React.FC = () => {
     }
   };
 
-  console.log(bookmarkedPosts, 'these are what we are mapping')
+
+
+
 
   return (
     <IonList>
@@ -155,7 +162,7 @@ const Content: React.FC = () => {
                     >
                       <img
                         alt="Silhouette of a person's head"
-                        src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                        src={`${profileImageUri(post.posts[0].userId)}`}
                       />
                     </IonAvatar>
                     <div className="username">{post.posts[0].email}</div>
