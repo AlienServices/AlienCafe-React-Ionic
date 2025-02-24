@@ -84,7 +84,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
+  
   const getBookmarkData = async (userId: string) => {
     try {
       const response = await fetch(`${getBaseUrl()}/api/posts/getSpecificPost?userId=${userId}`, {

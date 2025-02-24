@@ -207,7 +207,7 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
   // });
 
 
-  useIonViewDidEnter(() => {    
+  useIonViewDidEnter(() => {
     setToggle(true);
   });
 

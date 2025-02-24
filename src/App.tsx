@@ -22,14 +22,14 @@ import Tab2 from "./pages/tabs/Profile";
 import Tab3 from "./pages/tabs/Homepage";
 import Login from "./pages/Login";
 import Create from "./pages/tabs/Create";
-import Post from "./pages/View/[id]";
+import Post from "./pages/PostPage/[id]";
 import MessageHome from "./pages/tabs/MessageHome";
 import Chat from "./pages/messagePages/Chat";
 import Quiz from "./subPages/Quiz";
 import CurrentChat from "./pages/messagePages/CurrentChat";
-import Comment from "./pages/Comment/[id]";
+import Comment from "./pages/CommentPage/[id]";
 import Search from "./pages/tabs/Search";
-import Profile from "./pages/Profile/[id]";
+import Profile from "./pages/ProfilePage/[id]";
 
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";

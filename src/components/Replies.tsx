@@ -16,7 +16,7 @@ import {
   arrowUpCircle,
   arrowDownCircle,
 } from "ionicons/icons";
-import Comment from "../pages/Comment/[id]";
+import Comment from "../pages/CommentPage/[id]";
 import { UserContext } from "../providers/userProvider";
 import { MyContext } from "../providers/postProvider";
 
@@ -36,8 +36,6 @@ interface RepliesProps {
   myVote: string;
 }
 
-
-
 const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   const { myInfo } = useContext(UserContext);
   const { getBaseUrl } = useContext(MyContext);
@@ -52,7 +50,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   );
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
-  const [toastVisible, setToastVisible] = useState(false); // State to control toast visibility
+  const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
@@ -63,22 +61,20 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     fetchComments();
   }, []);
 
+
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
-      // Optimistically update the UI
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.id === commentId
             ? {
               ...comment,
-              likes: [...comment.likes, userId], // Add the user's ID to likes
-              dislikes: comment.dislikes.filter((id) => id !== userId), // Remove the user's ID from dislikes (if present)
+              likes: [...comment.likes, userId],
+              dislikes: comment.dislikes.filter((id) => id !== userId),
             }
             : comment
         )
       );
-
-      // Send the request to the server
       const response = await fetch(`${getBaseUrl()}/api/comments/addCommentLike`, {
         method: "POST",
         headers: {
@@ -90,19 +86,15 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       if (!response.ok) {
         throw new Error("Failed to add like");
       }
-
-      // Optionally, fetch updated comments from the server to ensure consistency
       await fetchComments();
     } catch (error) {
       console.error("Error adding like to comment:", error);
-
-      // Revert the optimistic update if the request fails
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.id === commentId
             ? {
               ...comment,
-              likes: comment.likes.filter((id) => id !== userId), // Remove the user's ID from likes
+              likes: comment.likes.filter((id) => id !== userId),
             }
             : comment
         )
@@ -136,27 +128,23 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
       if (!response.ok) {
         throw new Error("Failed to add dislike");
-      }
-
-      // Optionally, fetch updated comments from the server to ensure consistency
+      }      
       await fetchComments();
     } catch (error) {
-      console.error("Error adding dislike to comment:", error);
-
-      // Revert the optimistic update if the request fails
+      console.error("Error adding dislike to comment:", error);      
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.id === commentId
             ? {
               ...comment,
-              dislikes: comment.dislikes.filter((id) => id !== userId), // Remove the user's ID from dislikes
+              dislikes: comment.dislikes.filter((id) => id !== userId), 
             }
             : comment
         )
       );
     }
   };
-  
+
 
   const fetchComments = async () => {
     try {
@@ -220,8 +208,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       setComment("");
       setReplyingTo(null);
       setToastMessage("Comment successfully added!");
-      setToastVisible(true);
-      // await fetchComments();
+      setToastVisible(true);      
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -254,47 +241,8 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
-  // const addCommentLike = async (userId: string, commentId: string) => {
-  //   try {
-  //     const response = await fetch(
-  //       `${getBaseUrl()}/comments/addCommentLike`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ userId, commentId }),
-  //       },
-  //     );
 
-  //     const updatedComment = await response.json();
-  //     // await fetchComments();
-  //   } catch (error) {
-  //     console.error("Error adding like to comment:", error);
-  //   }
-  // };
-
-  // const addCommentDisike = async (userId: string, commentId: string) => {
-  //   try {
-  //     const response = await fetch(
-  //       `${getBaseUrl()}/api/comments/addCommentDislike`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ userId, commentId }),
-  //       },
-  //     );
-
-  //     const updatedComment = await response.json();
-  //     // await fetchComments();
-  //   } catch (error) {
-  //     console.error("Error adding like to comment:", error);
-  //   }
-  // };
-
-  const handleReplyClick = (commentId: string) => {    
+  const handleReplyClick = (commentId: string) => {
     setIsReplying(true);
     setReplyingTo(commentId);
 
@@ -333,14 +281,14 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
-  const gotoTopic = (postId: string, id: string) => {    
+  const gotoTopic = (postId: string, id: string) => {
     history.push(`/Comment/${id}/${myVote}/${postId}`);
   };
 
   function autoResize(textarea: any) {
-    textarea.style.height = "auto"; // Reset height to calculate the new height
-    textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
-  }  
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  }
 
   const renderReplies = (commentId: string, nestedDepth = 0) => {
     return (
@@ -472,7 +420,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     <div>
       <IonToast
         isOpen={toastVisible}
-        onDidDismiss={() => setToastVisible(false)} // Hide toast when dismissed
+        onDidDismiss={() => setToastVisible(false)}
         message={toastMessage}
         duration={1000}
         position="top"
@@ -480,39 +428,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       />
       {commentsLoaded ? (
         <div className="rowWide">
-          {/* <textarea
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              addComment(
-                comment,
-                myInfo?.username,
-                postId,
-                myInfo?.id,
-                null,
-                myVote,
-              );
-            }
-          }}
-          className="input"
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Add Comment"
-          value={comment}
-        />
-        <button
-          className="noPadding"
-          onClick={() =>
-            addComment(
-              comment,
-              myInfo?.username,
-              postId,
-              myInfo?.id,
-              null,
-              myVote,
-            )
-          }
-        >
-          <IonIcon size="small" icon={send}></IonIcon>
-        </button> */}
+          Loading
         </div>
       ) : (
         <IonList style={{ height: "400px" }}>
