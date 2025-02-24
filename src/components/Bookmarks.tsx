@@ -115,8 +115,7 @@ const Content: React.FC = () => {
         throw new Error(`Failed to fetch bookmarks: ${response.status} ${response.statusText}`); ``
       }
 
-      const posts = await response.json();
-      console.log(posts, 'these are the getbookmarkdata posts')
+      const posts = await response.json();      
       return posts
     } catch (error) {
       console.error("Error fetching bookmarks:", error);

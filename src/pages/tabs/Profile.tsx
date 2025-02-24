@@ -64,8 +64,7 @@ const Profile = ({
   }, [myInfo?.id]);
 
 
-  const pickImage = async () => {
-    console.log('Picking image...');
+  const pickImage = async () => {    
     try {
       const result = await Camera.getPhoto({
         quality: 0.1,
@@ -114,8 +113,7 @@ const Profile = ({
   useIonViewWillEnter(() => {
     if (myInfo?.id) {
       getMyPosts();
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}.jpg`;
-      console.log("Loading profile image from:", newProfileImageUri);
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}.jpg`;      
       setProfileImage(newProfileImageUri); // Set the initial profile image
     }
   });

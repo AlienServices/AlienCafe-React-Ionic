@@ -68,10 +68,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(`Failed to fetch bookmarks: ${response.status} ${response.statusText}`);
       }
 
-      const bookmarkedIds = await response.json();
-      console.log(bookmarkedIds, "📌 Bookmarked Post IDs");
-
-      // 2️⃣ Fetch Each Bookmark Data Concurrently
+      const bookmarkedIds = await response.json();      
       const allBookmarks = [];
       const bookmarkDetails = await Promise.all(
         bookmarkedIds.bookmarks?.map(async (post: any) => {
@@ -79,8 +76,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           allBookmarks.push(bookmarkData.Posts);
           return bookmarkData;
         })
-      );
-      console.log(bookmarkDetails.map(post => post.post), 'thesea are bookmark details')
+      );      
       // setBookmarkedPosts(bookmarkDetails);
       // console.log(allBookmarks, '📚 All Bookmark Details');
     } catch (error) {
@@ -102,8 +98,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(`Failed to fetch bookmarks: ${response.status} ${response.statusText}`); ``
       }
 
-      const posts = await response.json();
-      console.log(posts, 'these are the getbookmarkdata posts')
+      const posts = await response.json();      
       return posts
     } catch (error) {
       console.error("Error fetching bookmarks:", error);

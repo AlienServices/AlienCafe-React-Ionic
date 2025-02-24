@@ -27,8 +27,7 @@ const LastMessage = ({
           },
         },
       );
-      const userInfo = await convos.json();
-      console.log(userInfo, "this is user info");
+      const userInfo = await convos.json();      
       const fullMessage =
         userInfo.Response[userInfo.Response.length - 1].message;
       if (fullMessage.length > 10) {

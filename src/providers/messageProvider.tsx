@@ -60,7 +60,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       const userInfo = await convos.json();
       setMyConvos([...userInfo.Posts]);
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.log(error, "this is the get convos error");
     }
   };
 
@@ -77,7 +77,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       });
       getConvos();
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.log(error, "this is the delete convos error");
     }
   };
 
@@ -103,7 +103,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       });
       getConvos();
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.log(error, "this is the add message error");
     }
   };
 

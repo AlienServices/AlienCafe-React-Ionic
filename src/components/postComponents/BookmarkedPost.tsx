@@ -73,8 +73,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         },
       );
       const userInfo = await result.json();
-      setUser(userInfo.Hello);
-      console.log(userInfo, "this is user result");
+      setUser(userInfo.Hello);      
     } catch (error) {
       console.log(error, "this is the create user error");
     }

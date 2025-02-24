@@ -21,9 +21,8 @@ const Saved = ({ search }: { search: string }) => {
       const result = await fetch(
         `${getBaseUrl()}/api/posts/searchBookmarks?search=${search}&category=${selectedCategory}`,
       );
-      const users = await result.json();
-      console.log(users, "these are users");
-      setSearchResults(users.bookmarks); // Update state with the search results
+      const users = await result.json();      
+      setSearchResults(users.bookmarks); 
     } catch (err) {
       console.log("Error searching users:", err);
     }

@@ -18,14 +18,7 @@ const Login: React.FC = () => {
   const history = useHistory();
   const [loginToggle, setLoginToggle] = useState<boolean>(true);
   const [visibilityToggle, setVisibilityToggle] = useState<boolean>();
-
-  // useEffect(() => {
-  //   if (user?.session.accessToken) {
-  //     console.log('logged in')
-  //   } else {
-  //     getUser()
-  //   }
-  // }, [user])
+  
 
   useIonViewWillLeave(() => {
     setVisibilityToggle(false)

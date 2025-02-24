@@ -124,7 +124,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       });
       const posts = await result.json();
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.log(error, "this is the add bookmark error");
     }
   };
 
@@ -282,8 +282,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     categories: string,
     subCategory: string
   ) => {
-    try {
-      console.log(categories, subCategory, 'this is important info')
+    try {      
       const test = await fetch(`${getBaseUrl()}/api/posts/createPost`, {
         method: "POST",
         headers: {

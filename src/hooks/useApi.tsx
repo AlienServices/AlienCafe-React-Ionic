@@ -13,8 +13,7 @@ export const useApi = () => {
           email,
           username,
         }),
-      });
-      console.log(test);
+      });      
     } catch (error) {
       console.log(error, "this is the create user error");
     }

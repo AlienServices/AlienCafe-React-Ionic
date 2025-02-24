@@ -156,10 +156,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       );
     }
   };
-
-  useEffect(() => {
-    console.log("Updated comments:", comments);
-  }, [comments]);
+  
 
   const fetchComments = async () => {
     try {
@@ -297,8 +294,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   //   }
   // };
 
-  const handleReplyClick = (commentId: string) => {
-    console.log(inputRef.current, "this is inout ref");
+  const handleReplyClick = (commentId: string) => {    
     setIsReplying(true);
     setReplyingTo(commentId);
 
@@ -337,18 +333,14 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     }
   };
 
-  const gotoTopic = (postId: string, id: string) => {
-    console.log(postId, id);
+  const gotoTopic = (postId: string, id: string) => {    
     history.push(`/Comment/${id}/${myVote}/${postId}`);
   };
 
   function autoResize(textarea: any) {
     textarea.style.height = "auto"; // Reset height to calculate the new height
     textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
-  }
-
-
-  console.log(myVote, 'this is my vote')
+  }  
 
   const renderReplies = (commentId: string, nestedDepth = 0) => {
     return (

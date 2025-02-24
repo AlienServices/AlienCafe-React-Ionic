@@ -28,8 +28,7 @@ export const Menu = () => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleLogout = async () => {
-    console.log("hitting logout");
+  const handleLogout = async () => {    
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {

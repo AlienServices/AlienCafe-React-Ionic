@@ -53,8 +53,7 @@ const HeaderAlien = ({
   const [color, setColor] = useState<string>()
 
   const toggleCategory = (cat: string) => {
-    setSelectedCategories((prev) => {
-      console.log("previous.inclues", prev.includes(cat));
+    setSelectedCategories((prev) => {      
       const updatedCategories = prev.includes(cat)
         ? prev.filter((c) => c !== cat)
         : [...prev, cat].sort();

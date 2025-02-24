@@ -166,8 +166,7 @@ const Comment = () => {
   };
 
   const getParentComment = (parentId: string | null, comments: any) => {
-    if (!parentId) {
-      console.log("No parentId provided");
+    if (!parentId) {      
       return null;
     }
 
@@ -247,13 +246,11 @@ const Comment = () => {
     }
   };
 
-  useIonViewWillLeave(() => {
-    console.log("Cleaning up resources...");
+  useIonViewWillLeave(() => {    
     setToggle(false);
   });
 
   useIonViewDidLeave(() => {
-    console.log("Cleaning up resources...");
     setToggle(true);
   });
 
@@ -393,7 +390,6 @@ const Comment = () => {
   // };
 
   const gotoTopic = (postId: string, id: string) => {
-    console.log(postId, id);
     history.push(`/Comment/${id}/${myVote}/${postId}`);
   };
 

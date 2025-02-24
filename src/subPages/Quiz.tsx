@@ -207,8 +207,7 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
   // });
 
 
-  useIonViewDidEnter(() => {
-    console.log("Cleaning up resources...");
+  useIonViewDidEnter(() => {    
     setToggle(true);
   });
 

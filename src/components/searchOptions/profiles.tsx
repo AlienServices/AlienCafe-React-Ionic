@@ -20,13 +20,12 @@ const Profiles = ({ search }: { search: string }) => {
       setLoading(false)
       setSearchResults(users.user);
     } catch (err) {
-      console.log("oops");
+      console.log(err, "search user error");
     }
   };
 
   useEffect(() => {
-    if (search.length > 0) {
-      console.log('in the use effect')
+    if (search.length > 0) {      
       searchUsers();
     } else {
       setSearchResults([]);

@@ -36,8 +36,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (data) {
                 localStorage.setItem("user", data?.session?.user.email);                
                 history.push('/tab1')
-            } else {
-                console.log('hitting false on validate token')
+            } else {                
                 setLoggedIn(false)
                 history.push('/login')
             }
@@ -48,8 +47,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 
     const validateJsonToken = async (token: string) => {
-        try {
-            console.log(token, 'hitting validate json token')
+        try {            
             const { data, error } = await supabase.auth.signInWithIdToken({
                 provider: "email",
                 token,

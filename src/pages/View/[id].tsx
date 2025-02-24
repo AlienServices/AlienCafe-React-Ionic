@@ -128,8 +128,7 @@ const Post = () => {
         console.error("Failed to fetch vote information");
         return; // Exit the function without setting state
       }
-      const data = await result.json();
-      console.log(data);
+      const data = await result.json();      
       setHasVoted(data); // Set state only if the request was successful
     } catch (error) {
       // Handle any network or parsing errors

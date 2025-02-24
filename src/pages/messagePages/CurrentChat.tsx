@@ -227,8 +227,7 @@ const CurrentChat: React.FC = () => {
       console.log(error, "this is the create user error");
     }
   };
-
-  console.log(messages, "bottom return messages");
+  
 
   return (
     <IonPage>
@@ -299,11 +298,7 @@ const CurrentChat: React.FC = () => {
           <IonItem style={{ width: "100%" }} lines="none">
             <textarea
               onClick={() => {
-                Keyboard.addListener("keyboardWillShow", (info) => {
-                  console.log(
-                    "keyboard will show with height:",
-                    info.keyboardHeight,
-                  );
+                Keyboard.addListener("keyboardWillShow", (info) => {                  
                 });
               }}
               inputMode="text"
