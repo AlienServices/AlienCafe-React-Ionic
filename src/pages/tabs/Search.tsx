@@ -13,15 +13,15 @@ const Search: React.FC = () => {
   const categories = ["Profile", "Post", "Saved"];
   const [currentCategory, setCurrentCategory] = useState<string>(categories[0]);
   const [searchInput, setSearchInput] = useState<string>("");
-  const { myInfo } = useContext<any>(MyContext); // Ideally, type your context here
+  const { myInfo } = useContext<any>(MyContext); 
   const [indicatorStyle, setIndicatorStyle] = useState<{
     left: number;
     width: number;
   }>({ left: 0, width: 0 });
   const indicatorRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const swiperRef = useRef<SwiperCore | null>(null); // Correct type for Swiper instance
+  const swiperRef = useRef<SwiperCore | null>(null); 
 
-  // Update indicator position
+  
   useEffect(() => {
     const activeIndex = categories.indexOf(currentCategory);
     const activeElement = indicatorRefs.current[activeIndex];
@@ -33,7 +33,6 @@ const Search: React.FC = () => {
       setIndicatorStyle({ left: left - parentLeft, width });
     }
 
-    // Programmatically navigate Swiper to the active category
     const index = categories.indexOf(currentCategory);
     if (swiperRef.current && swiperRef.current.activeIndex !== index) {
       swiperRef.current.slideTo(index);
@@ -93,12 +92,12 @@ const Search: React.FC = () => {
           </SwiperSlide>
           <SwiperSlide style={{ height: "100%" }} key="posts">
             <IonContent style={{ height: "100%" }} scrollY={true}>
-              <Posts search={searchInput} />
+              {/* <Posts search={searchInput} /> */}
             </IonContent>
           </SwiperSlide>
           <SwiperSlide style={{ height: "100%" }} key="saved">
             <IonContent scrollY={true}>
-              <Saved search={searchInput} />
+              {/* <Saved search={searchInput} /> */}
             </IonContent>
           </SwiperSlide>
         </Swiper>

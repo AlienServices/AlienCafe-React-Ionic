@@ -90,11 +90,13 @@ const UserComments = () => {
         {loading ? <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", margin: '20px' }}><IonSpinner></IonSpinner></div> : <>{comments?.map((comment: any) => {
           return (
             <IonItem lines="none">
-              <img
-                style={{ width: '30px', borderRadius: '20px', height: '30px' }}
-                alt="Silhouette of a person's head"
-                src={`${profileImageUri}`}
-              />
+              <div style={{display: 'flex', alignItems: 'flex-start', height: '55px', padding: '1px'}}>
+                <img
+                  style={{ width: '30px', borderRadius: '20px', height: '30px' }}
+                  alt="Silhouette of a person's head"
+                  src={`${profileImageUri}`}
+                />
+              </div>
               <IonCard className="cardComment">
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center' }}>

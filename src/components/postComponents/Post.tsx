@@ -53,12 +53,12 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
   const [optimisticDislikes, setOptimisticDislikes] = useState<string[]>(post.dislikes);
   const [isLiking, setIsLiking] = useState(false);
   const [isDisliking, setIsDisliking] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(post?.bookmarks[0]?.userId?.includes(myInfo.id));
+  const [isBookmarked, setIsBookmarked] = useState<boolean>();
   const [isBookmarking, setIsBookmarking] = useState(false);
 
 
   useEffect(() => {
-    setIsBookmarked(post?.bookmarks[0]?.userId?.includes(myInfo.id))
+    setIsBookmarked(post?.bookmarks[0]?.userId?.includes(myInfo?.id))
   }, [post])
 
 

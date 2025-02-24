@@ -76,3 +76,4 @@ const Posts = ({ search }: { search: string }) => {
 };
 
 export default Posts;
+
