@@ -5,9 +5,7 @@ import { supabase } from ".././supaBase";
 import { IonButton, IonContent, IonItem, IonList } from "@ionic/react";
 import "../../theme/Tab3.css";
 import { UserContext } from "../../providers/userProvider";
-import { Preferences } from '@capacitor/preferences';
-
-
+import { Preferences } from "@capacitor/preferences";
 
 const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   const [email, setEmail] = useState<string>("");
@@ -15,7 +13,6 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>();
   const history = useHistory();
-
 
   const handleLogin = async () => {
     try {
@@ -27,13 +24,16 @@ const SignIn = ({ setToggle }: { setToggle: (value: boolean) => void }) => {
         setError("Email or Password Incorrect");
       }
       if (data.session?.access_token) {
-        await Preferences.set({ key: 'auth_token', value: data.session.access_token })
+        await Preferences.set({
+          key: "auth_token",
+          value: data.session.access_token,
+        });
         localStorage.setItem("user", data?.user.email);
         history.push("/tab1");
       }
       setLoggedIn(true);
     } catch (error) {
-      setLoggedIn(false)
+      setLoggedIn(false);
       console.log(error);
     }
   };

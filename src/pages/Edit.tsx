@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import {
   IonButton,
@@ -12,7 +12,6 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import "./Tab1.css";
-
 
 const Login: React.FC = () => {
   const [bio, setBio] = useState("");

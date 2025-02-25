@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
-import {
-  IonIcon,  
-} from "@ionic/react";
+import { IonIcon } from "@ionic/react";
 import { chevronForwardOutline } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -40,9 +38,9 @@ const Test = (props: TestProps) => {
     history.push("/chat/" + topicId);
   };
 
-  const handleDragEnd = (info: any, messageId: string) => {    
-    const dragDistance = info.point.x;    
-    if (dragDistance < DELETE_BTN_WIDTH) {      
+  const handleDragEnd = (info: any, messageId: string) => {
+    const dragDistance = info.point.x;
+    if (dragDistance < DELETE_BTN_WIDTH) {
       deleteConvos(messageId);
     }
   };
@@ -60,7 +58,8 @@ const Test = (props: TestProps) => {
         className="msg-container"
       >
         <div>
-          {props.status === "Delivered" && props.userName !== myInfo?.username ? (
+          {props.status === "Delivered" &&
+          props.userName !== myInfo?.username ? (
             <div className="blueDot"></div>
           ) : (
             <div className="blueDotNothing"></div>

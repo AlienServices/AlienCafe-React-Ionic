@@ -7,31 +7,28 @@ import {
   IonImg,
 } from "@ionic/react";
 import { useIonRouter } from "@ionic/react";
-import "../../theme/Tab2.css";
-import { useHistory } from "react-router-dom";
 import { arrowBackOutline } from "ionicons/icons";
-import Category from "../../components/Category";
 import { useEffect, useState, useContext } from "react";
 import { MyContext } from "../../providers/postProvider";
 import UserPosts from "../../components/UserPosts";
+import Category from "../../components/Category";
+import "../../theme/Tab2.css";
 
 const Profile = ({ id }: { id: string }) => {
-  const history = useHistory();
   const router = useIonRouter();
-  const {getBaseUrl} = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext);
   const [choices, setChoices] = useState({
     posts: 1,
     replies: 0,
     likes: 0,
     categories: 0,
   });
-  // const { myInfo, setMyInfo } = useContext(MyContext);
-  const [userInfo, setUserInfo] = useState<{
-    email: string;
-    id: string;
-    username: string;
-    bio: String;
-  }>({ email: "", id: "", username: "", bio: "" });
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    id: "",
+    username: "",
+    bio: "",
+  });
 
   useEffect(() => {
     getUserInfo();
@@ -48,15 +45,24 @@ const Profile = ({ id }: { id: string }) => {
           },
         },
       );
-      const posts = await result.json();
-      setUserInfo(posts.Hello);
+      const data = await result.json();
+      setUserInfo(data.Hello);
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.error("Error fetching user info:", error);
     }
   };
 
   const goHome = () => {
     router.goBack();
+  };
+
+  const handleChoiceClick = (key: string) => {
+    setChoices({
+      posts: key === "posts" ? 1 : 0,
+      replies: key === "replies" ? 1 : 0,
+      likes: key === "likes" ? 1 : 0,
+      categories: key === "categories" ? 1 : 0,
+    });
   };
 
   return (
@@ -70,87 +76,33 @@ const Profile = ({ id }: { id: string }) => {
                 style={{ paddingTop: "40px" }}
                 size="large"
                 icon={arrowBackOutline}
-              ></IonIcon>
-
+              />
               <div className="logoContainer" style={{ top: "60px" }}>
                 <IonImg
                   style={{ width: "60px", height: "60px" }}
                   src="/AlienCafeLogo1.png"
-                ></IonImg>
+                />
               </div>
             </div>
           </div>
           <IonCardContent>{userInfo?.bio}</IonCardContent>
           <div className="flexChoice">
-            <div
-              className="smallTitle"
-              onClick={() => {
-                setChoices({
-                  posts: 1,
-                  replies: 0,
-                  likes: 0,
-                  categories: 0,
-                });
-              }}
-            >
-              Posts
-            </div>
-            <div
-              className="smallTitle"
-              onClick={() => {
-                setChoices({
-                  posts: 0,
-                  replies: 1,
-                  likes: 0,
-                  categories: 0,
-                });
-              }}
-            >
-              Replies
-            </div>
-            <div
-              className="smallTitle"
-              onClick={() => {
-                setChoices({
-                  posts: 0,
-                  replies: 0,
-                  likes: 1,
-                  categories: 0,
-                });
-              }}
-            >
-              Likes
-            </div>
-            <div
-              className="smallTitle"
-              onClick={() => {
-                setChoices({
-                  posts: 0,
-                  replies: 0,
-                  likes: 0,
-                  categories: 1,
-                });
-              }}
-            >
-              Categories
-            </div>
+            {["posts", "replies", "likes", "categories"].map((choice) => (
+              <div
+                key={choice}
+                className="smallTitle"
+                onClick={() => handleChoiceClick(choice)}
+              >
+                {choice.charAt(0).toUpperCase() + choice.slice(1)}
+              </div>
+            ))}
           </div>
         </IonCard>
-        {choices.replies ? (
-          <>replies</>
-        ) : choices.posts ? (
-          <>
-            <UserPosts />
-          </>
-        ) : choices.likes ? (
-          <>Likes</>
-        ) : choices.categories ? (
-          <>
-            <Category />
-          </>
-        ) : (
-          <>nada</>
-        )}
+
+        {choices.posts && <UserPosts />}
+        {choices.replies && <>replies</>}
+        {choices.likes && <>Likes</>}
+        {choices.categories && <Category />}
       </IonContent>
     </IonPage>
   );

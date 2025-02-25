@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useDebugValue } from "react";
+import { useState, useRef, useContext } from "react";
 import React, { useEffect } from "react";
 import supabase from "../../messageComponents/supabaseClient";
 import { createId } from "@paralleldrive/cuid2";
@@ -6,7 +6,6 @@ import { sendOutline, returnUpBackOutline } from "ionicons/icons";
 import "../../theme/chat.css";
 import { Keyboard } from "@capacitor/keyboard";
 import { MyContext } from "../../providers/postProvider";
-import { useHistory } from "react-router";
 import {
   IonContent,
   IonHeader,
@@ -42,19 +41,12 @@ interface ConvoInfo {
 const CurrentChat: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const channel = useRef<any>(null);
-  const history = useHistory();
-  const  {getBaseUrl} = useContext(MyContext)
-   const { id } = useParams<{ id: string }>();
-  const { myUsername, person, setPerson, getConvos, addMessage, myConvos } =
-    useContext(MessageContext);
-  const [userName, setUserName] = useState<string | null>(
-    localStorage.getItem("user"),
-  );
+  const { getBaseUrl } = useContext(MyContext);
+  const { id } = useParams<{ id: string }>();
+  const { myUsername, addMessage, myConvos } = useContext(MessageContext);
+  const [userName, setUserName] = useState<string | null>(localStorage.getItem("user"));
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [info, setInfo] = useState<ConvoInfo | null>(null);
-  const [load, setLoad] = useState();
-  const [updatedMessagesRead, setUpdatedMessagesRead] = useState(false);
-  const [shouldFetchConvo, setShouldFetchConvo] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const index = myConvos.findIndex((item) => item.id == id);
 
@@ -64,16 +56,19 @@ const CurrentChat: React.FC = () => {
 
   const updatedMessage = async (id: string, status: MessageStatus) => {
     try {
-      const convos = await fetch(`getBaseUrl()/api/conversations/updateMessage`, {
-        method: "POST",
-        body: JSON.stringify({
-          id,
-          status,
-        }),
-        headers: {
-          "Content-Type": "application/json",
+      const convos = await fetch(
+        `getBaseUrl()/api/conversations/updateMessage`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            id,
+            status,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       const thisConvo = await convos.json();
       await getConvo();
@@ -82,15 +77,7 @@ const CurrentChat: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (
-      messages.length > 0 &&
-      messages[messages.length - 1]?.userName !== myUsername &&
-      messages[messages.length - 1]?.status === "Delivered"
-    ) {
-      updateMessagesRead(id);
-    }
-  }, [messages]);
+
 
   const updateMessagesRead = async (id: string) => {
     try {
@@ -190,7 +177,15 @@ const CurrentChat: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (
+      messages.length > 0 &&
+      messages[messages.length - 1]?.userName !== myUsername &&
+      messages[messages.length - 1]?.status === "Delivered"
+    ) {
+      updateMessagesRead(id);
+    }
+  }, [messages]);
 
   const getConvo = async () => {
     try {
@@ -227,7 +222,6 @@ const CurrentChat: React.FC = () => {
       console.log(error, "this is the create user error");
     }
   };
-  
 
   return (
     <IonPage>
@@ -261,14 +255,12 @@ const CurrentChat: React.FC = () => {
                 className={` ${userName === msg.userName ? "end" : "start"}`}
               >
                 <div
-                  className={`${
-                    userName === msg.userName ? "centerEnd" : "centerBeginning"
-                  }`}
+                  className={`${userName === msg.userName ? "centerEnd" : "centerBeginning"
+                    }`}
                 >
                   <div
-                    className={`message ${
-                      userName === msg.userName ? "blue" : "gray"
-                    }`}
+                    className={`message ${userName === msg.userName ? "blue" : "gray"
+                      }`}
                   >
                     {msg.message}
                   </div>
@@ -298,8 +290,7 @@ const CurrentChat: React.FC = () => {
           <IonItem style={{ width: "100%" }} lines="none">
             <textarea
               onClick={() => {
-                Keyboard.addListener("keyboardWillShow", (info) => {                  
-                });
+                Keyboard.addListener("keyboardWillShow", (info) => { });
               }}
               inputMode="text"
               onKeyUp={(e) => {

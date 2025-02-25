@@ -24,13 +24,13 @@ const Content: React.FC = () => {
   const history = useHistory();
   const { myInfo, setMyInfo } = useContext(UserContext);
 
-  useEffect(() => {    
+  useEffect(() => {
     if (myInfo) {
-      getMyPosts()
+      getMyPosts();
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [])
+  }, []);
 
   const getMyPosts = async () => {
     try {
@@ -45,7 +45,7 @@ const Content: React.FC = () => {
       );
       const posts = await result.json();
       setMyPosts(posts.Posts);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.log(error, "this is the create user error");
     }
@@ -99,13 +99,22 @@ const Content: React.FC = () => {
 
   const groupedPosts = groupPostsByCategory(myPosts);
 
-  
-
   return (
     <IonList>
-      {loading ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px' }}><IonSpinner></IonSpinner></div> : <></>
-
-      }
+      {loading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "20px",
+          }}
+        >
+          <IonSpinner></IonSpinner>
+        </div>
+      ) : (
+        <></>
+      )}
       {Object.keys(groupedPosts).map((category) => (
         <div key={category}>
           <div className="MyPostsTitle">{category}</div>
@@ -148,9 +157,11 @@ const Content: React.FC = () => {
                         </IonAvatar>
                         <div className="username">{post.email}</div>
                       </div>
-                      <div onClick={() => {
-                        deletePost(post.id)
-                      }}>
+                      <div
+                        onClick={() => {
+                          deletePost(post.id);
+                        }}
+                      >
                         <IonIcon icon={trashOutline}></IonIcon>
                       </div>
                     </div>

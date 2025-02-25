@@ -5,7 +5,6 @@ const config: CapacitorConfig = {
   appName: "aliencafe",
   webDir: "dist",
   // webDir: "www",
-  
 };
 
 export default config;

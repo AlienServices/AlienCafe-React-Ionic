@@ -21,24 +21,28 @@ interface PostType {
 
 interface CategoryProps {
   category: string;
-  selectedSubCategories: string[]
+  selectedSubCategories: string[];
   setToggle: (value: boolean) => void;
 }
 
-const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCategories }) => {
+const Category: React.FC<CategoryProps> = ({
+  category,
+  setToggle,
+  selectedSubCategories,
+}) => {
   const [posts, setPosts] = useState<PostType[]>([]);
-  const { getBaseUrl } = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext);
 
   useIonViewWillEnter(() => {
     getPosts();
   }, []);
 
   useEffect(() => {
-    getPosts()
-  }, [selectedSubCategories])
+    getPosts();
+  }, [selectedSubCategories]);
 
   const getPosts = async () => {
-    try {      
+    try {
       const result = await fetch(
         `${getBaseUrl()}/api/posts/getPostCategory?category=${category}&subCategory=${selectedSubCategories[category]}`,
         {
@@ -46,11 +50,10 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
-      
+
       const userInfo = await result.json();
-            
 
       if (Array.isArray(userInfo)) {
         setPosts(userInfo as PostType[]);
@@ -64,19 +67,24 @@ const Category: React.FC<CategoryProps> = ({ category, setToggle, selectedSubCat
       setPosts([]);
     }
   };
-  
 
   return (
-    <div style={{ height: "fit-content", minHeight: '75vh' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', fontSize: '25px' }}>{category}</div>
+    <div style={{ height: "fit-content", minHeight: "75vh" }}>
+      <div
+        style={{ display: "flex", justifyContent: "center", fontSize: "25px" }}
+      >
+        {category}
+      </div>
       {posts.length > 0 ? (
         <>
           {posts.map((post) => (
-              <Post key={post.id} setToggle={setToggle} post={post} />
-            ))}
+            <Post key={post.id} setToggle={setToggle} post={post} />
+          ))}
         </>
       ) : (
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>No posts found here</div>
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          No posts found here
+        </div>
       )}
     </div>
   );

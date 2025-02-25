@@ -43,9 +43,6 @@ const Main = () => {
       </IonApp>
     </React.StrictMode>
   );
-
-
 };
 
 root.render(<Main />);
-

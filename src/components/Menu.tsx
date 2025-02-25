@@ -26,9 +26,9 @@ export const Menu = () => {
   const menuRef = useRef<HTMLIonMenuElement>(null);
   const { myInfo, setMyInfo } = useContext(UserContext);
   const history = useHistory();
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogout = async () => {    
+  const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {
@@ -56,8 +56,17 @@ export const Menu = () => {
   return (
     <>
       <IonMenu side="start" contentId="main-content" menuId="left-menu">
-        <IonHeader color="tertiary" style={{ backgroundColor: "black", marginTop: '50px' }}>
-          <IonToolbar style={{ backgroundColor: "black", textAlign: 'center', paddingTop: '25px' }}>
+        <IonHeader
+          color="tertiary"
+          style={{ backgroundColor: "black", marginTop: "50px" }}
+        >
+          <IonToolbar
+            style={{
+              backgroundColor: "black",
+              textAlign: "center",
+              paddingTop: "25px",
+            }}
+          >
             <IonTitle>@{myInfo?.username}</IonTitle>
           </IonToolbar>
         </IonHeader>
@@ -143,7 +152,6 @@ export const Menu = () => {
           
         </IonContent>
       </IonMenu> */}
-
     </>
   );
 };

@@ -9,7 +9,7 @@ import {
   IonCard,
   IonList,
 } from "@ionic/react";
-import "../theme/Tab3.css"
+import "../theme/Tab3.css";
 import { MyContext } from "../providers/postProvider";
 
 const Content: React.FC = () => {
@@ -39,16 +39,15 @@ const Content: React.FC = () => {
     return textContent;
   };
 
-
-
-
   return (
     <IonContent className="page">
       <IonList>
         {userPosts ? (
           <>
             {userPosts
-              ?.sort((a: any, b: any) => Date.parse(b?.date) - Date.parse(a?.date))
+              ?.sort(
+                (a: any, b: any) => Date.parse(b?.date) - Date.parse(a?.date),
+              )
               .map((post: any, index: number) => {
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(post.content, "text/html");

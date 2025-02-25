@@ -25,11 +25,10 @@ import HeaderAlien from "../../components/preRender/Header";
 import { MyContext } from "../../providers/postProvider";
 
 const Post = () => {
-  const history = useHistory();
   const [content, setContent] = useState<any[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [myVote, setMyVote] = useState<string>("");
-  const { getBaseUrl, loggedIn } = useContext(MyContext)
+  const { getBaseUrl, loggedIn } = useContext(MyContext);
   const [selected, setSelected] = useState<number | null>(null);
   const [votes, setVotes] = useState(content[0]?.votes || 0);
   const [image, setImage] = useState("");
@@ -39,11 +38,9 @@ const Post = () => {
   const [hasVoted, setHasVoted] = useState(false);
   const { id } = useParams<{ id: string }>();
 
-
   useEffect(() => {
     getOnePost();
   }, []);
-
 
   const getOnePost = async () => {
     try {
@@ -60,7 +57,7 @@ const Post = () => {
       setImage(post.post.owner.id);
       setContent([post.post]);
       setMyVote(post.userVote?.vote || "");
-      setVotes(post?.post.votes)
+      setVotes(post?.post.votes);
       setLoaded(true);
     } catch (error) {
       console.log(error, "this is the create user error");
@@ -81,8 +78,9 @@ const Post = () => {
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${
+        import.meta.env.VITE_APP_SUPABASE_URL
+      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
@@ -128,7 +126,7 @@ const Post = () => {
         console.error("Failed to fetch vote information");
         return; // Exit the function without setting state
       }
-      const data = await result.json();      
+      const data = await result.json();
       setHasVoted(data); // Set state only if the request was successful
     } catch (error) {
       // Handle any network or parsing errors
@@ -137,8 +135,7 @@ const Post = () => {
   };
 
   useEffect(() => {
-
-    getMyVote(myInfo?.id || '', id);
+    getMyVote(myInfo?.id || "", id);
   }, []);
 
   useIonViewWillLeave(() => {
@@ -150,7 +147,6 @@ const Post = () => {
     setToggle(true);
   });
 
-
   return (
     <IonPage
       id="main-content"
@@ -160,7 +156,13 @@ const Post = () => {
       }}
     >
       <IonContent>
-        <HeaderAlien votes={votes} next={false} title={'null'} content={''} backArrowToggle={true} />
+        <HeaderAlien
+          votes={votes}
+          next={false}
+          title={"null"}
+          content={""}
+          backArrowToggle={true}
+        />
         {loaded ? (
           <>
             {" "}
@@ -170,10 +172,7 @@ const Post = () => {
 
                 return (
                   <div className="shadow" key={index}>
-                    
-                    <IonCard
-                      className="card"
-                    >
+                    <IonCard className="card">
                       <div className="around">
                         <div className="emailContainer">
                           <IonAvatar
@@ -205,13 +204,15 @@ const Post = () => {
                         theme="bubble"
                         value={post?.content}
                       />
-                      {post?.links !== undefined && <ReactQuill
-                        className="small"
-                        style={{ color: "black" }}
-                        readOnly={true}
-                        theme="bubble"
-                        value={post?.links}
-                      />}
+                      {post?.links !== undefined && (
+                        <ReactQuill
+                          className="small"
+                          style={{ color: "black" }}
+                          readOnly={true}
+                          theme="bubble"
+                          value={post?.links}
+                        />
+                      )}
                     </IonCard>
                   </div>
                 );
@@ -255,7 +256,7 @@ const Post = () => {
           <div className="answers">
             <div className="vote">
               {myVote === "true" && (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <ReactQuill
                     className="quillTitle"
                     style={{ color: "black" }}
@@ -267,7 +268,7 @@ const Post = () => {
                 // <div className="action">{content[0]?.yesAction}</div>
               )}
               {myVote === "probably true" && (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <ReactQuill
                     className="quillTitle"
                     style={{ color: "black" }}
@@ -278,7 +279,7 @@ const Post = () => {
                 </div>
               )}
               {myVote === "neutral" && (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <ReactQuill
                     className="quillTitle"
                     style={{ color: "black" }}
@@ -289,7 +290,7 @@ const Post = () => {
                 </div>
               )}
               {myVote === "probably false" && (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <ReactQuill
                     className="quillTitle"
                     style={{ color: "black" }}
@@ -300,7 +301,7 @@ const Post = () => {
                 </div>
               )}
               {myVote === "false" && (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <ReactQuill
                     className="quillTitle"
                     style={{ color: "black" }}

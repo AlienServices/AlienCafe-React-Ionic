@@ -11,7 +11,7 @@ const CreateAccount = ({
   setToggle: (value: boolean) => void;
 }) => {
   const [email, setEmail] = useState<string>("");
-  const { getBaseUrl } = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext);
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
 
@@ -32,9 +32,8 @@ const CreateAccount = ({
             email: email,
           }),
         });
-        setToggle(true)
+        setToggle(true);
       }
-
     } catch (error) {
       console.log(error);
     }

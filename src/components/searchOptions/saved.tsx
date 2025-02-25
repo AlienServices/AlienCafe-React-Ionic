@@ -12,7 +12,7 @@ import { MyContext } from "../../providers/postProvider";
 const Saved = ({ search }: { search: string }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const { getBaseUrl } = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext);
   const [toggle, setToggle] = useState<boolean>(true);
   const categories = ["Technology", "Health", "Sports", "Entertainment"];
 
@@ -21,8 +21,8 @@ const Saved = ({ search }: { search: string }) => {
       const result = await fetch(
         `${getBaseUrl()}/api/posts/searchBookmarks?search=${search}&category=${selectedCategory}`,
       );
-      const users = await result.json();      
-      setSearchResults(users.bookmarks); 
+      const users = await result.json();
+      setSearchResults(users.bookmarks);
     } catch (err) {
       console.log("Error searching users:", err);
     }

@@ -14,8 +14,15 @@ import {
 import { MyContext } from "../providers/postProvider";
 import Editor from "../components/Editor";
 
-
-const Quiz = ({ title, content, links }: { title: string, content: string, links: string }) => {
+const Quiz = ({
+  title,
+  content,
+  links,
+}: {
+  title: string;
+  content: string;
+  links: string;
+}) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [selectedSubOption, setSelectedSubOption] = useState<string>("");
   const [present] = useIonAlert();
@@ -69,30 +76,12 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
   ];
 
   const subCategories: Record<string, string[]> = {
-    Animals: [
-      "Insects",
-      "Microbiology",
-    ],
-    Business: [
-      "Corporations",
-      "Small Businesses",
-      "Entrepreneurship",
-    ],
-    ClimateChange: [
-      "Proof of Climate Change",
-      "Climate Change Hoax",
-    ],
-    Espionage: [
-      "The Kennedy Assasinations",
-      "The Titanic",
-    ],
-    Finance: [
-      "Banks and Credit Unions",
-      "Foreign Banks",
-    ],
-    Food: [
-      "Toxins",
-    ],
+    Animals: ["Insects", "Microbiology"],
+    Business: ["Corporations", "Small Businesses", "Entrepreneurship"],
+    ClimateChange: ["Proof of Climate Change", "Climate Change Hoax"],
+    Espionage: ["The Kennedy Assasinations", "The Titanic"],
+    Finance: ["Banks and Credit Unions", "Foreign Banks"],
+    Food: ["Toxins"],
     Government: [
       "Deep State",
       "Executive",
@@ -100,28 +89,11 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
       "Judicial System",
       "Bureaucracy",
     ],
-    Health: [
-      "Vaccines",
-      "Self Help",
-    ],
-    History: [
-      "Wars",
-      "The Holocaust",
-      "Ancient Civilizations",
-    ],
-    Hobby: [
-      "Crafts",
-      "Musings",
-      "How Things Work",
-    ],
-    Horror: [
-      "Real Crime",
-      "Disappearances",
-    ],
-    Immigration: [
-      "US Immigration",
-      "European Immigration",
-    ],
+    Health: ["Vaccines", "Self Help"],
+    History: ["Wars", "The Holocaust", "Ancient Civilizations"],
+    Hobby: ["Crafts", "Musings", "How Things Work"],
+    Horror: ["Real Crime", "Disappearances"],
+    Immigration: ["US Immigration", "European Immigration"],
     International: [
       "CCP",
       "Russia",
@@ -132,19 +104,9 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
       "Australia",
       "Asia",
     ],
-    Love: [
-      "Love",
-      "Marriage",
-      "Relationships",
-    ],
-    TheMedia: [
-      "News",
-    ],
-    People: [
-      "Jeffrey Epstein",
-      "Bill Gates",
-      "The Clintons",
-    ],
+    Love: ["Love", "Marriage", "Relationships"],
+    TheMedia: ["News"],
+    People: ["Jeffrey Epstein", "Bill Gates", "The Clintons"],
     Religion: [
       "Christianity",
       "Islam",
@@ -164,32 +126,20 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
       "The Bilderberg Group",
       "The Club Of Rome",
     ],
-    Technology: [
-      "Artificial Intelligence",
-    ],
-    War: [
-      "Ukraine",
-      "Israel",
-    ],
-    Weather: [
-      "North Carolina",
-      "Lahaina",
-    ],
-    WorldOrganizations: [
-      "WHO",
-      "Club Of Rome",
-      "UN",
-    ],
-  }
+    Technology: ["Artificial Intelligence"],
+    War: ["Ukraine", "Israel"],
+    Weather: ["North Carolina", "Lahaina"],
+    WorldOrganizations: ["WHO", "Club Of Rome", "UN"],
+  };
 
   const handleOptionChange = (e: CustomEvent) => {
-    const value = e.detail.value
-    setCurrentSubCategories(undefined)
+    const value = e.detail.value;
+    setCurrentSubCategories(undefined);
     setSelectedOption(value);
   };
 
   const handleSubChange = (e: CustomEvent) => {
-    const value = e.detail.value
+    const value = e.detail.value;
     setSelectedSubOption(value);
   };
 
@@ -200,12 +150,10 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
     setNoAction("");
   }, []);
 
-
   // useIonViewWillLeave(() => {
   //   console.log("Cleaning up resources...");
   //   setToggle(false);
   // });
-
 
   useIonViewDidEnter(() => {
     setToggle(true);
@@ -215,37 +163,34 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
     setToggle(true);
   });
 
-
   useEffect(() => {
-    getSubCategories(selectedOption)
-  }, [selectedOption])
+    getSubCategories(selectedOption);
+  }, [selectedOption]);
 
   function getSubCategories(input: string) {
     if (!options.includes(input)) {
       return `Error: "${input}" is not a valid option.`;
     }
 
-
-    const key = input.replace(/[^a-zA-Z]/g, '');
+    const key = input.replace(/[^a-zA-Z]/g, "");
     const subcategories = subCategories[key];
 
-
     if (subcategories) {
-      setCurrentSubCategories(subcategories)
+      setCurrentSubCategories(subcategories);
       return subcategories;
     } else {
       return `No subcategories available for "${input}".`;
     }
   }
 
-
   return (
-    <div style={{
-      opacity: toggle ? "1" : "0",
-      transition: "opacity 0.2s ease-in-out",
-      paddingBottom: '100px'
-    }}>
-
+    <div
+      style={{
+        opacity: toggle ? "1" : "0",
+        transition: "opacity 0.2s ease-in-out",
+        paddingBottom: "100px",
+      }}
+    >
       {/* <div style={{  paddingTop: "5px" }} className="brown">
         <div className="flexRowCenter">
           <IonNavLink routerDirection="back" component={Tab3}>
@@ -316,57 +261,88 @@ const Quiz = ({ title, content, links }: { title: string, content: string, links
             ))}
           </IonSelect>
         </IonItem>
-        {currentSubCategories && <IonItem>
-          <IonLabel>Choose Category</IonLabel>
-          <IonSelect
-            multiple={false}
-            value={selectedSubOption}
-            onIonChange={handleSubChange}
-            interfaceOptions={{
-              cssClass: "custom-popover",
-            }}
-          >
-            {currentSubCategories?.map((option, index) => (
-              <>
-                <IonSelectOption key={index} value={option}>
-                  {option}
-                </IonSelectOption>
-              </>
-            ))}
-          </IonSelect>
-        </IonItem>}
+        {currentSubCategories && (
+          <IonItem>
+            <IonLabel>Choose Category</IonLabel>
+            <IonSelect
+              multiple={false}
+              value={selectedSubOption}
+              onIonChange={handleSubChange}
+              interfaceOptions={{
+                cssClass: "custom-popover",
+              }}
+            >
+              {currentSubCategories?.map((option, index) => (
+                <>
+                  <IonSelectOption key={index} value={option}>
+                    {option}
+                  </IonSelectOption>
+                </>
+              ))}
+            </IonSelect>
+          </IonItem>
+        )}
         <div className="spaceColumn">
-          <Editor setValue={setYesAction} value={yesAction} styling={'custom-content-editor-quiz'} description={"Action if user votes yes"} />
-          <Editor setValue={setProbablyYesAction} value={probablyYesAction} styling={'custom-content-editor-quiz'} description={"Action if probably true"} />
-          <Editor setValue={setMaybeAction} value={maybeAction} styling={'custom-content-editor-quiz'} description={"Action if maybe"} />
-          <Editor setValue={setProbablyNoAction} value={probablyNoAction} styling={'custom-content-editor-quiz'} description={"Action if probably no"} />
-          <Editor setValue={setNoAction} value={noAction} styling={'custom-content-editor-quiz'} description={"Action if no"} />
+          <Editor
+            setValue={setYesAction}
+            value={yesAction}
+            styling={"custom-content-editor-quiz"}
+            description={"Action if user votes yes"}
+          />
+          <Editor
+            setValue={setProbablyYesAction}
+            value={probablyYesAction}
+            styling={"custom-content-editor-quiz"}
+            description={"Action if probably true"}
+          />
+          <Editor
+            setValue={setMaybeAction}
+            value={maybeAction}
+            styling={"custom-content-editor-quiz"}
+            description={"Action if maybe"}
+          />
+          <Editor
+            setValue={setProbablyNoAction}
+            value={probablyNoAction}
+            styling={"custom-content-editor-quiz"}
+            description={"Action if probably no"}
+          />
+          <Editor
+            setValue={setNoAction}
+            value={noAction}
+            styling={"custom-content-editor-quiz"}
+            description={"Action if no"}
+          />
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <IonButton disabled={!selectedOption} onClick={() => {
-          createPost(
-            title,
-            content,
-            links,
-            thesis,
-            yesAction,
-            noAction,
-            maybeAction,
-            probablyYesAction,
-            probablyNoAction,
-            selectedOption,
-            selectedSubOption,
-          );
-          history.push("/tab1");
-          setMaybeAction('')
-          setNoAction('')
-          setYesAction('')
-        }}>Post</IonButton>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <IonButton
+          disabled={!selectedOption}
+          onClick={() => {
+            createPost(
+              title,
+              content,
+              links,
+              thesis,
+              yesAction,
+              noAction,
+              maybeAction,
+              probablyYesAction,
+              probablyNoAction,
+              selectedOption,
+              selectedSubOption,
+            );
+            history.push("/tab1");
+            setMaybeAction("");
+            setNoAction("");
+            setYesAction("");
+          }}
+        >
+          Post
+        </IonButton>
       </div>
     </div>
   );
 };
 
 export default Quiz;
-

@@ -13,15 +13,14 @@ const Search: React.FC = () => {
   const categories = ["Profile", "Post", "Saved"];
   const [currentCategory, setCurrentCategory] = useState<string>(categories[0]);
   const [searchInput, setSearchInput] = useState<string>("");
-  const { myInfo } = useContext<any>(MyContext); 
+  const { myInfo } = useContext<any>(MyContext);
   const [indicatorStyle, setIndicatorStyle] = useState<{
     left: number;
     width: number;
   }>({ left: 0, width: 0 });
   const indicatorRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const swiperRef = useRef<SwiperCore | null>(null); 
+  const swiperRef = useRef<SwiperCore | null>(null);
 
-  
   useEffect(() => {
     const activeIndex = categories.indexOf(currentCategory);
     const activeElement = indicatorRefs.current[activeIndex];

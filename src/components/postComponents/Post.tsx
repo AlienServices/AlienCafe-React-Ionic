@@ -45,23 +45,23 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post, setToggle }) => {
   const history = useHistory();
-  const { addLike, addDislike, getUserPosts, addBookmark } = useContext(MyContext);
+  const { addLike, addDislike, getUserPosts, addBookmark } =
+    useContext(MyContext);
   const { myInfo, updateUser } = useContext<any>(UserContext);
   const [showModal, setShowModal] = useState(false);
   // Optimistic like state
   const [optimisticLikes, setOptimisticLikes] = useState<string[]>(post.likes);
-  const [optimisticDislikes, setOptimisticDislikes] = useState<string[]>(post.dislikes);
+  const [optimisticDislikes, setOptimisticDislikes] = useState<string[]>(
+    post.dislikes,
+  );
   const [isLiking, setIsLiking] = useState(false);
   const [isDisliking, setIsDisliking] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState<boolean>();
   const [isBookmarking, setIsBookmarking] = useState(false);
 
-
   useEffect(() => {
-    setIsBookmarked(post?.bookmarks[0]?.userId?.includes(myInfo?.id))
-  }, [post])
-
-
+    setIsBookmarked(post?.bookmarks[0]?.userId?.includes(myInfo?.id));
+  }, [post]);
 
   const handleLike = async () => {
     if (isLiking || isDisliking) return;
@@ -81,7 +81,6 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     try {
       await addLike(post.id);
     } catch (error) {
-
       setOptimisticLikes(post.likes);
       setOptimisticDislikes(post.dislikes);
     } finally {
@@ -134,9 +133,12 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     }
   };
 
-  const isLikedByUser = (likes: string[]): boolean => likes.includes(myInfo?.id ?? "");
-  const isDislikedByUser = (dislikes: string[]): boolean => dislikes.includes(myInfo?.id ?? "");
-  const calculateNetScore = (likes: string[], dislikes: string[]): number => likes.length - dislikes.length;
+  const isLikedByUser = (likes: string[]): boolean =>
+    likes.includes(myInfo?.id ?? "");
+  const isDislikedByUser = (dislikes: string[]): boolean =>
+    dislikes.includes(myInfo?.id ?? "");
+  const calculateNetScore = (likes: string[], dislikes: string[]): number =>
+    likes.length - dislikes.length;
 
   const transformTitleToH1 = (title: string) => {
     const parser = new DOMParser();
@@ -158,15 +160,15 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
     return text.length > length ? text.slice(0, length) + "..." : text;
   };
 
-
   const transformedTitle = transformTitleToH1(post.title);
   const truncatedContent = truncateContent(post.content, 400);
   const truncatedLinks = truncateContent(post.links, 400);
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${
+        import.meta.env.VITE_APP_SUPABASE_URL
+      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
@@ -186,7 +188,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
 
   return (
     <div style={{ minHeight: "200px" }}>
-      <IonList>        
+      <IonList>
         <div className="shadow" key={post.id}>
           <IonCard
             style={{ boxShadow: "none", paddingBottom: "10px" }}
@@ -258,7 +260,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
               <div className="tinyRow">
                 <div className="voteRow">
                   <IonIcon
-                    style={{ fontSize: '20px' }}
+                    style={{ fontSize: "20px" }}
                     onClick={handleLike}
                     icon={
                       isLikedByUser(optimisticLikes)
@@ -270,7 +272,7 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                     {calculateNetScore(optimisticLikes, optimisticDislikes)}
                   </div>
                   <IonIcon
-                    style={{ fontSize: '20px' }}
+                    style={{ fontSize: "20px" }}
                     onClick={handleDislike}
                     icon={
                       isDislikedByUser(optimisticDislikes)
@@ -280,49 +282,68 @@ const Post: React.FC<PostProps> = ({ post, setToggle }) => {
                   ></IonIcon>
                 </div>
                 <IonIcon
-                  style={{ paddingRight: "5px", fontSize: '20px' }}
+                  style={{ paddingRight: "5px", fontSize: "20px" }}
                   icon={chatbubbleOutline}
                 ></IonIcon>
                 <div className="small">{post?.comments?.length}</div>
               </div>
               <div className="tinyRow">
                 <IonIcon
-                  style={{ fontSize: '20px' }}
+                  style={{ fontSize: "20px" }}
                   icon={isBookmarked ? bookmark : bookmarkOutline}
                   onClick={handleBookmark}
                 ></IonIcon>
-                <IonIcon style={{ fontSize: '23px' }} icon={shareOutline} onClick={openModal}></IonIcon>
+                <IonIcon
+                  style={{ fontSize: "23px" }}
+                  icon={shareOutline}
+                  onClick={openModal}
+                ></IonIcon>
               </div>
             </div>
           </IonCard>
         </div>
       </IonList>
 
-      <IonModal onDidDismiss={() => setShowModal(false)} className="custom-modal" style={{ borderRadius: '20px' }} initialBreakpoint={0.2} isOpen={showModal}>
+      <IonModal
+        onDidDismiss={() => setShowModal(false)}
+        className="custom-modal"
+        style={{ borderRadius: "20px" }}
+        initialBreakpoint={0.2}
+        isOpen={showModal}
+      >
         <div className="share">Share Post!</div>
-        <div style={{ marginLeft: '30px' }} className="shareRow">
+        <div style={{ marginLeft: "30px" }} className="shareRow">
           <IonIcon className="shareIcon" icon={mailOutline}></IonIcon>
-          <div style={{ fontSize: '13px' }}>Send Via Direct Message</div>
+          <div style={{ fontSize: "13px" }}>Send Via Direct Message</div>
         </div>
         <div className="shareIconContainer">
           <div className="shareIconRow">
             <div>
               <IonIcon className="shareIcon" icon={copyOutline}></IonIcon>
-              <div style={{ fontSize: '10px' }}>Copy Link</div>
+              <div style={{ fontSize: "10px" }}>Copy Link</div>
             </div>
             <div>
               <IonIcon className="shareIcon" icon={shareOutline}></IonIcon>
-              <div style={{ fontSize: '10px' }}>Share</div>
+              <div style={{ fontSize: "10px" }}>Share</div>
             </div>
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: "center", borderRadius: '10px' }}>
-          <button style={{ width: '50%', padding: '5px', margin: '8px' }} onClick={closeModal}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "10px",
+          }}
+        >
+          <button
+            style={{ width: "50%", padding: "5px", margin: "8px" }}
+            onClick={closeModal}
+          >
             Cancel
           </button>
         </div>
       </IonModal>
-    </div >
+    </div>
   );
 };
 

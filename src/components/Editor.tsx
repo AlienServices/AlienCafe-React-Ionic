@@ -9,12 +9,12 @@ const Editor = ({
   value,
   setValue,
   styling,
-  description
+  description,
 }: {
   value: string;
-  styling: string
+  styling: string;
   setValue: (value: string) => void;
-  description: string
+  description: string;
 }) => {
   const contentQuillRef = useRef<ReactQuill | null>(null);
   const [isReplying, setIsReplying] = useState(false);
@@ -27,8 +27,8 @@ const Editor = ({
     }, 400);
   };
   useIonViewWillLeave(() => {
-    setValue('')
-  })
+    setValue("");
+  });
 
   return (
     <div>

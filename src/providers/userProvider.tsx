@@ -2,38 +2,29 @@ import { createContext, useState, ReactNode, useEffect } from "react";
 import { post } from "../utils/fetch";
 import { Capacitor } from "@capacitor/core";
 
-
 interface User {
   id: string;
   email: string;
   username: string;
 }
 
+interface UserInfo {
+  id: string;
+  content: string;
+  likes: string[];
+  email: string;
+  bio: string;
+  username: string;
+  following: string[];
+  followers: string[];
+  blurhash: string;
+}
+
 interface UserContext {
   user: User | null;
   setUser: (user: User | null) => void;
-  myInfo: {
-    id: string;
-    content: string;
-    likes: string[];
-    email: string;
-    bio: string;
-    username: string;
-    following: [];
-    followers: [];
-    blurhash: string;
-  } | null;
-  setMyInfo: (user: {
-    id: string;
-    content: string;
-    likes: string[];
-    email: string;
-    bio: string;
-    username: string;
-    following: [];
-    followers: [];
-    blurhash: string;
-  }) => void;
+  myInfo: UserInfo | null;
+  setMyInfo: (user: UserInfo | null) => void;
   updateUser: (userEmail: string, followUserEmail: string, bio: string) => void;
   loggedIn: boolean;
   setLoggedIn: (loggedIn: boolean) => void;
@@ -42,17 +33,7 @@ interface UserContext {
 export const UserContext = createContext<UserContext>({
   user: null,
   setUser: () => { },
-  myInfo: {
-    id: "",
-    content: "",
-    likes: [],
-    email: "",
-    bio: "",
-    username: "",
-    following: [],
-    followers: [],
-    blurhash: "",
-  },
+  myInfo: null,
   setMyInfo: () => { },
   updateUser: () => { },
   loggedIn: false,
@@ -61,31 +42,22 @@ export const UserContext = createContext<UserContext>({
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [myInfo, setMyInfo] = useState<UserContext["myInfo"] | null>(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const [myInfo, setMyInfo] = useState<UserInfo | null>(null);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   const getBaseUrl = () => {
     const platform = Capacitor.getPlatform();
-    if (platform === "web") {
-      // Check if it's a local development environment
-      if (
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-      ) {
-        return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; // Local development URL
-      } else {
-        // Production environment for web
-        return import.meta.env.VITE_APP_SERVER_BASE_URL; // Production URL for web
-      }
-    } else {
-      // Native platforms (iOS/Android)
-      return import.meta.env.VITE_APP_SERVER_BASE_URL; // URL for mobile
+    const isLocalDevelopment =
+      window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+    if (platform === "web" && isLocalDevelopment) {
+      return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; // Local development URL
     }
+    return import.meta.env.VITE_APP_SERVER_BASE_URL; // Production URL for web and mobile
   };
 
   useEffect(() => {
-    userInfo();
+    if (loggedIn) userInfo();
   }, [loggedIn]);
 
   const userInfo = async () => {
@@ -97,28 +69,24 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
-      const myInfo = await result.json();      
-      setMyInfo(myInfo.user);
+      const data = await result.json();
+      setMyInfo(data.user);
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.error("Error fetching user info:", error);
     }
   };
 
-  const updateUser = async (
-    userEmail: string,
-    followUserEmail: string,
-    bio: string,
-  ) => {
+  const updateUser = async (userEmail: string, followUserEmail: string, bio: string) => {
     try {
       await post({
         url: `${getBaseUrl()}/api/users/updateUsers`,
         body: { userEmail, followUserEmail, bio },
       });
-      userInfo();
+      userInfo(); // Refresh user info after update
     } catch (err) {
-      console.log(err);
+      console.error("Error updating user:", err);
     }
   };
 

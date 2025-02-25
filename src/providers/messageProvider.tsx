@@ -2,18 +2,20 @@ import { createContext, useState, ReactNode, useContext } from "react";
 import { post } from "../utils/fetch";
 import { MyContext } from "./postProvider";
 
+interface Conversation {
+  id: string;
+  me: string;
+  recipient: string;
+  roomName: string;
+  date: string;
+}
+
 interface ContextProps {
   myUsername: string | null;
   setMyUsername: (value: string | null) => void;
   person: string;
   setPerson: (value: string) => void;
-  myConvos: {
-    id: string;
-    me: string;
-    recipient: string;
-    roomName: string;
-    date: string;
-  }[];
+  myConvos: Conversation[];
   getConvos: () => void;
   deleteConvos: (id: string) => void;
   addMessage: (
@@ -22,45 +24,42 @@ interface ContextProps {
     message: string,
     userName: string,
     status: string,
-    recipient: string,
+    recipient: string
   ) => void;
 }
 
 const MessageContext = createContext<ContextProps>({
   myUsername: localStorage.getItem("user"),
-  setMyUsername: () => {},
+  setMyUsername: () => { },
   person: "",
-  setPerson: () => {},
+  setPerson: () => { },
   myConvos: [],
-  getConvos: () => {},
-  deleteConvos: () => {},
-  addMessage: () => {},
+  getConvos: () => { },
+  deleteConvos: () => { },
+  addMessage: () => { },
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
-  const [myUsername, setMyUsername] = useState<string | null>(
-    localStorage.getItem("user"),
-  );
+  const [myUsername, setMyUsername] = useState<string | null>(localStorage.getItem("user"));
   const [person, setPerson] = useState<string>("");
-  const [myConvos, setMyConvos] = useState<any[]>([]);
-  const [convoId, setConvoId] = useState<any[]>([]);
-  const {getBaseUrl} = useContext(MyContext)
+  const [myConvos, setMyConvos] = useState<Conversation[]>([]);
+  const { getBaseUrl } = useContext(MyContext);
 
   const getConvos = async () => {
     try {
-      const convos = await fetch(
+      const response = await fetch(
         `${getBaseUrl()}/api/conversations/getConvos?email=${localStorage.getItem("user")}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
-      const userInfo = await convos.json();
-      setMyConvos([...userInfo.Posts]);
+      const data = await response.json();
+      setMyConvos(data.Posts);
     } catch (error) {
-      console.log(error, "this is the get convos error");
+      console.error("Error fetching conversations:", error);
     }
   };
 
@@ -68,16 +67,14 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       await fetch(`${getBaseUrl()}/api/conversations/deleteConvo`, {
         method: "POST",
-        body: JSON.stringify({
-          id: id,
-        }),
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ id }),
       });
-      getConvos();
+      getConvos(); // Refresh the conversation list
     } catch (error) {
-      console.log(error, "this is the delete convos error");
+      console.error("Error deleting conversation:", error);
     }
   };
 
@@ -87,7 +84,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     message: string,
     userName: string,
     status: string,
-    recipient: string,
+    recipient: string
   ) => {
     try {
       await post({
@@ -101,9 +98,9 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           recipient,
         },
       });
-      getConvos();
+      getConvos(); // Refresh the conversation list
     } catch (error) {
-      console.log(error, "this is the add message error");
+      console.error("Error adding message:", error);
     }
   };
 

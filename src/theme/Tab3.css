@@ -34,7 +34,6 @@
   color: rgb(61, 61, 63);
 }
 
-
 .card .quill {
   width: 100%;
   box-shadow: none;
@@ -325,9 +324,6 @@
   font-size: 15px;
 }
 
-
-
-
 .reply {
   margin-left: 3px;
   padding: 3px 3px 3px 0px;
@@ -605,7 +601,6 @@
 }
 
 .gridItemRow {
-
   display: flex;
   justify-content: center;
   align-items: center;

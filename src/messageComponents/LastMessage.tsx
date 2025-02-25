@@ -14,7 +14,7 @@ const LastMessage = ({
   setLastUser: (username: string) => void;
 }) => {
   const [lastMessage, setLastMessage] = useState<string>(""); // Specify string type for state
-  const {getBaseUrl} = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext);
 
   const getLastMessage = async (conversationId: string) => {
     try {
@@ -27,7 +27,7 @@ const LastMessage = ({
           },
         },
       );
-      const userInfo = await convos.json();      
+      const userInfo = await convos.json();
       const fullMessage =
         userInfo.Response[userInfo.Response.length - 1].message;
       if (fullMessage.length > 10) {

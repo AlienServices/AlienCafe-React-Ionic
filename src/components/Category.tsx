@@ -1,4 +1,4 @@
-import {  IonCheckbox, IonContent } from "@ionic/react";
+import { IonCheckbox, IonContent } from "@ionic/react";
 import "react-quill/dist/quill.snow.css";
 import "../theme/Tab2.css";
 

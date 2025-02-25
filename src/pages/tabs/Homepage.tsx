@@ -33,7 +33,7 @@ const Tab3: React.FC = () => {
     "Food",
     "Guns",
     "Government",
-    "Health",  
+    "Health",
     "History",
     "Immigration",
     "International",
@@ -58,30 +58,12 @@ const Tab3: React.FC = () => {
     "World Organizations",
   ]);
   const subCategories: Record<string, string[]> = {
-    Animals: [
-      "Insects",
-      "Microbiology",
-    ],
-    Business: [
-      "Corporations",
-      "Small Businesses",
-      "Entrepreneurship",
-    ],
-    ClimateChange: [
-      "Proof of Climate Change",
-      "Climate Change Hoax",
-    ],
-    Espionage: [
-      "The Kennedy Assasinations",
-      "The Titanic",
-    ],
-    Finance: [
-      "Banks and Credit Unions",
-      "Foreign Banks",
-    ],
-    Food: [
-      "Toxins",
-    ],
+    Animals: ["Insects", "Microbiology"],
+    Business: ["Corporations", "Small Businesses", "Entrepreneurship"],
+    ClimateChange: ["Proof of Climate Change", "Climate Change Hoax"],
+    Espionage: ["The Kennedy Assasinations", "The Titanic"],
+    Finance: ["Banks and Credit Unions", "Foreign Banks"],
+    Food: ["Toxins"],
     Government: [
       "Deep State",
       "Executive",
@@ -89,28 +71,11 @@ const Tab3: React.FC = () => {
       "Judicial System",
       "Bureaucracy",
     ],
-    Health: [
-      "Vaccines",
-      "Self Help",
-    ],
-    History: [
-      "Wars",
-      "The Holocaust",
-      "Ancient Civilizations",
-    ],
-    Hobby: [
-      "Crafts",
-      "Musings",
-      "How Things Work",
-    ],
-    Horror: [
-      "Real Crime",
-      "Disappearances",
-    ],
-    Immigration: [
-      "US Immigration",
-      "European Immigration",
-    ],
+    Health: ["Vaccines", "Self Help"],
+    History: ["Wars", "The Holocaust", "Ancient Civilizations"],
+    Hobby: ["Crafts", "Musings", "How Things Work"],
+    Horror: ["Real Crime", "Disappearances"],
+    Immigration: ["US Immigration", "European Immigration"],
     International: [
       "CCP",
       "Russia",
@@ -121,19 +86,9 @@ const Tab3: React.FC = () => {
       "Australia",
       "Asia",
     ],
-    Love: [
-      "Love",
-      "Marriage",
-      "Relationships",
-    ],
-    TheMedia: [
-      "News",
-    ],
-    People: [
-      "Jeffrey Epstein",
-      "Bill Gates",
-      "The Clintons",
-    ],
+    Love: ["Love", "Marriage", "Relationships"],
+    TheMedia: ["News"],
+    People: ["Jeffrey Epstein", "Bill Gates", "The Clintons"],
     Religion: [
       "Christianity",
       "Islam",
@@ -153,39 +108,28 @@ const Tab3: React.FC = () => {
       "The Bilderberg Group",
       "The Club Of Rome",
     ],
-    Technology: [
-      "Artificial Intelligence",
-    ],
-    War: [
-      "Ukraine",
-      "Israel",
-    ],
-    Weather: [
-      "North Carolina",
-      "Lahaina",
-    ],
-    WorldOrganizations: [
-      "WHO",
-      "Club Of Rome",
-      "UN",
-    ],
-  }
+    Technology: ["Artificial Intelligence"],
+    War: ["Ukraine", "Israel"],
+    Weather: ["North Carolina", "Lahaina"],
+    WorldOrganizations: ["WHO", "Club Of Rome", "UN"],
+  };
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(categories || []);
-  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    categories || [],
+  );
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(
+    [],
+  );
   const [currentCategory, setCurrentCategory] = useState(categories[0]);
 
-  useIonViewWillLeave(() => {    
+  useIonViewWillLeave(() => {
     setToggle(false);
   });
-
 
   useIonViewWillEnter(() => {
     setToggle(true);
     setCurrentCategory(selectedCategories[0]);
   }, []);
-
-
 
   return (
     <>
@@ -197,7 +141,20 @@ const Tab3: React.FC = () => {
           transition: "opacity 0.2s ease-in-out",
         }}
       >
-        <HeaderAlien votes={0} setSelectedCategories={setSelectedCategories} setSelectedSubCategories={setSelectedSubCategories} selectedCategories={selectedCategories} selectedSubCategories={selectedSubCategories} category={currentCategory} allCategories={categories} subCategories={subCategories} next={false} title={'null'} content={''} backArrowToggle={false} />
+        <HeaderAlien
+          votes={0}
+          setSelectedCategories={setSelectedCategories}
+          setSelectedSubCategories={setSelectedSubCategories}
+          selectedCategories={selectedCategories}
+          selectedSubCategories={selectedSubCategories}
+          category={currentCategory}
+          allCategories={categories}
+          subCategories={subCategories}
+          next={false}
+          title={"null"}
+          content={""}
+          backArrowToggle={false}
+        />
         <IonContent>
           <Swiper
             autoHeight

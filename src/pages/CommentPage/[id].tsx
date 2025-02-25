@@ -2,7 +2,7 @@ import {
   IonContent,
   IonPage,
   IonCard,
-  IonIcon,  
+  IonIcon,
   useIonViewDidLeave,
   useIonViewWillLeave,
 } from "@ionic/react";
@@ -24,24 +24,26 @@ import { MyContext } from "../../providers/postProvider";
 
 const Comment = () => {
   const { myInfo } = useContext(UserContext);
-  const [comments, setComments] = useState<any | null>(null);
+  const { getBaseUrl } = useContext(MyContext);
+
   const { id } = useParams<{ id: string }>();
-  const {getBaseUrl} = useContext(MyContext)
   const { myVote } = useParams<{ myVote: string }>();
-  const [toggle, setToggle] = useState(true);
-  const [commentReplyId, setCommentReplyId] = useState(null);  
   const { postId } = useParams<{ postId: string }>();
-  const history = useHistory();
+
+  const [comments, setComments] = useState<any | null>(null);
+  const [toggle, setToggle] = useState(true);
+  const [commentReplyId, setCommentReplyId] = useState(null);
   const [replyingToUsername, setReplyingToUsername] = useState<string | null>(
     null,
   );
   const [isReplying, setIsReplying] = useState(false);
   const [replyComment, setReplyComment] = useState<string>("");
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);  
   const [replyToggle, setReplyToggle] = useState<{ [key: string]: boolean }>(
     {},
   );
+
+  const history = useHistory();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const fetchComments = async () => {
     try {
@@ -136,7 +138,6 @@ const Comment = () => {
     commentId: string | null,
     vote: string,
   ) => {
-
     try {
       const response = await fetch(
         `${getBaseUrl()}/api/comments/addComment?id=${id}`,
@@ -159,14 +160,14 @@ const Comment = () => {
       setReplyComment("");
       setComments(post.comment);
       fetchComments();
-      setCommentReplyId(null)
+      setCommentReplyId(null);
     } catch (error) {
       console.error("Error adding comment:", error);
     }
   };
 
   const getParentComment = (parentId: string | null, comments: any) => {
-    if (!parentId) {      
+    if (!parentId) {
       return null;
     }
 
@@ -188,16 +189,13 @@ const Comment = () => {
 
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
-      const response = await fetch(
-        `${getBaseUrl()}/comments/addCommentLike`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId, commentId }),
+      const response = await fetch(`${getBaseUrl()}/comments/addCommentLike`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ userId, commentId }),
+      });
 
       const updatedComment = await response.json();
       await fetchComments();
@@ -227,11 +225,11 @@ const Comment = () => {
   };
 
   const isLikedByUser = (likes: string[]): boolean => {
-    return likes.includes(myInfo?.id || '');
+    return likes.includes(myInfo?.id || "");
   };
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    return dislikes.includes(myInfo?.id || '');
+    return dislikes.includes(myInfo?.id || "");
   };
 
   const calculateNetScore = (likes: string[], dislikes: string[]): number => {
@@ -240,13 +238,14 @@ const Comment = () => {
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${
+        import.meta.env.VITE_APP_SUPABASE_URL
+      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
 
-  useIonViewWillLeave(() => {    
+  useIonViewWillLeave(() => {
     setToggle(false);
   });
 
@@ -308,7 +307,7 @@ const Comment = () => {
                     e.preventDefault();
                     setReplyingToUsername(reply?.username);
                     handleReplyClick();
-                    setCommentReplyId(reply.id)
+                    setCommentReplyId(reply.id);
                   }}
                 >
                   Reply
@@ -323,7 +322,9 @@ const Comment = () => {
                     }}
                   >
                     <IonIcon
-                      onClick={() => { if (myInfo) addCommentLike(myInfo.id, reply.id) }}
+                      onClick={() => {
+                        if (myInfo) addCommentLike(myInfo.id, reply.id);
+                      }}
                       icon={
                         isLikedByUser(reply?.likes)
                           ? arrowUpCircle
@@ -334,7 +335,9 @@ const Comment = () => {
                       {calculateNetScore(reply?.likes, reply?.dislikes)}
                     </div>
                     <IonIcon
-                      onClick={() => { if (myInfo) addCommentDisike(myInfo.id, reply.id) }}
+                      onClick={() => {
+                        if (myInfo) addCommentDisike(myInfo.id, reply.id);
+                      }}
                       icon={
                         isDislikedByUser(reply?.dislikes)
                           ? arrowDownCircle
@@ -400,10 +403,22 @@ const Comment = () => {
         transition: "opacity 0.3s ease-in-out",
       }}
     >
-      <HeaderAlien next={false} title={'null'} content={''} backArrowToggle={true} />
-      <IonContent >
+      <HeaderAlien
+        next={false}
+        title={"null"}
+        content={""}
+        backArrowToggle={true}
+      />
+      <IonContent>
         {comments && (
-          <div style={{ display: "flex", flexDirection: "column", height: "fit-content", paddingBottom: '150px' }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: "fit-content",
+              paddingBottom: "150px",
+            }}
+          >
             <div style={{ display: "flex" }}>
               <img
                 className="user-icon-small"
@@ -449,7 +464,9 @@ const Comment = () => {
                       </div>
                       <IonIcon
                         style={{ color: "black" }}
-                        onClick={() => { if (myInfo) addCommentLike(myInfo.id, comments.id) }}
+                        onClick={() => {
+                          if (myInfo) addCommentLike(myInfo.id, comments.id);
+                        }}
                         icon={
                           isLikedByUser(comments?.likes)
                             ? arrowUpCircle
@@ -461,7 +478,9 @@ const Comment = () => {
                       </div>
                       <IonIcon
                         style={{ color: "black" }}
-                        onClick={() => { if (myInfo) addCommentDisike(myInfo.id, comments.id) }}
+                        onClick={() => {
+                          if (myInfo) addCommentDisike(myInfo.id, comments.id);
+                        }}
                         icon={
                           isDislikedByUser(comments?.dislikes)
                             ? arrowDownCircle
@@ -519,12 +538,12 @@ const Comment = () => {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
-                  const value = (e.currentTarget as HTMLTextAreaElement).value
+                  const value = (e.currentTarget as HTMLTextAreaElement).value;
                   addComment(
                     value,
-                    myInfo?.username || '',
+                    myInfo?.username || "",
                     postId,
-                    myInfo?.id || '',
+                    myInfo?.id || "",
                     id,
                     myVote,
                   );
@@ -544,9 +563,9 @@ const Comment = () => {
               onClick={() => {
                 addComment(
                   replyComment,
-                  myInfo?.username || '',
+                  myInfo?.username || "",
                   postId,
-                  myInfo?.id || '',
+                  myInfo?.id || "",
                   id,
                   myVote,
                 );

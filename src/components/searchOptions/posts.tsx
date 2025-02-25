@@ -6,7 +6,7 @@ import { MyContext } from "../../providers/postProvider";
 const Posts = ({ search }: { search: string }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [toggle, setToggle] = useState<any>(true);
-  const {getBaseUrl} = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext);
   const [selectedCategory, setSelectedCategory] = useState<string>(""); // Category selection state
   const categories = [
     "Technology",
@@ -42,8 +42,6 @@ const Posts = ({ search }: { search: string }) => {
     }
   }, [search, selectedCategory]);
 
-  
-
   return (
     <div style={{ paddingBottom: "200px" }}>
       <>
@@ -64,7 +62,9 @@ const Posts = ({ search }: { search: string }) => {
 
       <IonList>
         {searchResults?.length > 0 ? (
-          searchResults.map((user, index) => <Post setToggle={setToggle} key={index} post={user} />)
+          searchResults.map((user, index) => (
+            <Post setToggle={setToggle} key={index} post={user} />
+          ))
         ) : (
           <div>
             <IonLabel>No Posts found</IonLabel>
@@ -76,4 +76,3 @@ const Posts = ({ search }: { search: string }) => {
 };
 
 export default Posts;
-

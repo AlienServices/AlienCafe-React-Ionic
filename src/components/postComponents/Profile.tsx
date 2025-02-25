@@ -14,8 +14,7 @@ interface Profile {
   };
 }
 
-const Profile: React.FC<Profile> = ({ profile }) => {  
-
+const Profile: React.FC<Profile> = ({ profile }) => {
   const profileImage = (id: string) => {
     if (id) {
       const newProfileImageUri = `${
@@ -27,9 +26,9 @@ const Profile: React.FC<Profile> = ({ profile }) => {
 
   return (
     <IonCard style={{ boxShadow: "none", margin: "10px" }}>
-      <div style={{width: '80%'}} className="row">
+      <div style={{ width: "80%" }} className="row">
         <img className="profile-photo" src={profileImage(profile.id)} alt="" />
-        <div className="profileBeginning" >
+        <div className="profileBeginning">
           <div className="username">{profile.username}</div>
           <div className="tag">{profile.username}</div>
         </div>

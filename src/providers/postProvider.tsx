@@ -11,10 +11,10 @@ import { supabase } from "../components/supaBase";
 import { UserContext } from "./userProvider";
 
 interface Post {
-  email: string;
+  id: string;
   content: string;
   likes: string[];
-  id: string;
+  email: string;
   date: Date;
 }
 
@@ -22,14 +22,14 @@ interface PostContext {
   posts: Post[];
   myPosts: Post[];
   userPosts: Post[];
-  setPosts: (post: Post[]) => void;
-  setUserPosts: (post: Post[]) => void;
-  setMyPosts: (post: Post[]) => void;
+  setPosts: (posts: Post[]) => void;
+  setMyPosts: (posts: Post[]) => void;
+  setUserPosts: (posts: Post[]) => void;
   updatePost: (post: Post) => void;
   deletePost: (id: string) => void;
   createPost: (
     title: string,
-    value: string,
+    content: string,
     links: string,
     thesis: string,
     yesAction: string,
@@ -38,160 +38,105 @@ interface PostContext {
     probablyYesAction: string,
     probablyNoAction: string,
     categories: string,
-    selectedSubOption: string,
+    subCategory: string
   ) => void;
   getMyPosts: () => void;
   getUserPosts: (email: string) => void;
-  setLoggedin: (value: boolean) => void;
   loggedIn: boolean;
-  addLike: (id: string) => void; // Add addLike
-  addDislike: (id: string) => void; // Add addDislike
+  setLoggedin: (loggedIn: boolean) => void;
+  addLike: (id: string) => void;
+  addDislike: (id: string) => void;
   addBookmark: (userId: string, postId: string) => void;
-  getBaseUrl: () => void;
+  getBaseUrl: () => string;
 }
 
 const MyContext = createContext<PostContext>({
   posts: [],
   myPosts: [],
-  setPosts: (posts) => { },
-  setMyPosts: (posts) => { },
-  updatePost: (post) => { },
-  addLike: (post) => { },
-  addDislike: (post) => { },
-  deletePost: (id) => { },
-  createPost: (value) => { },
-  getMyPosts: () => { },
-  setLoggedin: () => { },
-  loggedIn: false,
-  setUserPosts: () => { },
   userPosts: [],
-  getUserPosts: (email) => { },
-  addBookmark: (userId, postId) => { }, // Placeholder function
-  getBaseUrl: () => { },
+  setPosts: () => { },
+  setMyPosts: () => { },
+  setUserPosts: () => { },
+  updatePost: () => { },
+  deletePost: () => { },
+  createPost: () => { },
+  getMyPosts: () => { },
+  getUserPosts: () => { },
+  loggedIn: false,
+  setLoggedin: () => { },
+  addLike: () => { },
+  addDislike: () => { },
+  addBookmark: () => { },
+  getBaseUrl: () => "",
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
-  const [content, setContent] = useState<
-    {
-      id: string;
-      content: string;
-      likes: string[];
-      email: string;
-      date: Date;
-    }[]
-  >([]);
-  let realContent = content;
-  const [myPosts, setMyPosts] = useState<
-    {
-      id: string;
-      content: string;
-      likes: string[];
-      email: string;
-      date: Date;
-    }[]
-  >([]);
-  const [userPosts, setUserPosts] = useState<
-    {
-      id: string;
-      content: string;
-      likes: string[];
-      email: string;
-      date: Date;
-    }[]
-  >([]);
-
-  const { loggedIn, setLoggedIn } = useContext(UserContext);
-  const { myInfo } = useContext(UserContext);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [myPosts, setMyPosts] = useState<Post[]>([]);
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const { loggedIn, setLoggedIn, myInfo } = useContext(UserContext);
 
   useEffect(() => {
     getSession();
   }, [myInfo]);
 
-
-
+  const getBaseUrl = () => {
+    const platform = Capacitor.getPlatform();
+    return import.meta.env.VITE_APP_SERVER_BASE_URL;
+  };
 
   const addBookmark = async (userId: string, postId: string) => {
     try {
-      const result = await fetch(`${getBaseUrl()}/api/posts/addBookmark`, {
+      await fetch(`${getBaseUrl()}/api/posts/addBookmark`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          userId,
-          postId,
-        }),
+        body: JSON.stringify({ userId, postId }),
       });
-      const posts = await result.json();
     } catch (error) {
-      console.log(error, "this is the add bookmark error");
+      console.error("Error adding bookmark:", error);
     }
   };
 
-  // const getAllPosts = async () => {
-  //   try {
-  //     const result = await fetch(`getBaseUrl()/api/getPosts`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     const posts = await result.json();
-  //     setContent(
-  //       posts.Posts.map((post: any) => ({
-  //         ...post,
-  //         date: new Date(post.date),
-  //       })),
-  //     );
-  //   } catch (error) {
-  //     console.log(error, "this is the create user error");
-  //   }
-  // };
-
   const updatePost = async (updatedPost: Post) => {
     try {
-      // Send the updated post data to your backend
       const result = await post({
         url: `${getBaseUrl()}/api/posts/updatePost?id=${updatedPost.id}`,
         body: updatedPost,
       });
-
-      // Update the state with the updated post
-      setContent((prevContent) =>
-        prevContent.map((post) =>
-          post.id === updatedPost.id ? result.update : post,
-        ),
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === updatedPost.id ? result.update : post
+        )
       );
-      // getAllPosts(); // Optionally refresh myPosts
     } catch (error) {
-      console.log(error, "Error updating post");
+      console.error("Error updating post:", error);
     }
   };
 
   const addLike = async (id: string) => {
-    const updatedPost = await post({
-      url: `${getBaseUrl()}/api/posts/addPostLike?id=${id}`,
-      body: {
-        id: id,
-        userId: myInfo?.id,
-      },
-    });
-    getMyPosts();
-    setContent(
-      realContent.map((post) =>
-        post.id === updatedPost.update.id ? updatedPost.update : post,
-      ),
-    );
+    try {
+      const updatedPost = await post({
+        url: `${getBaseUrl()}/api/posts/addPostLike?id=${id}`,
+        body: { id, userId: myInfo?.id },
+      });
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === updatedPost.update.id ? updatedPost.update : post
+        )
+      );
+      getMyPosts();
+    } catch (error) {
+      console.error("Error adding like:", error);
+    }
   };
 
   const addDislike = async (id: string) => {
     try {
-      const dislikedPost = await post({
+      await post({
         url: `${getBaseUrl()}/api/posts/addPostDislike`,
-        body: {
-          id,
-          userId: myInfo?.id,
-        },
+        body: { id, userId: myInfo?.id },
       });
       getMyPosts();
     } catch (error) {
@@ -200,18 +145,15 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const deletePost = async (id: string) => {
-    const updatedPost = await post({
-      url: `${getBaseUrl()}/api/posts/updatePosts?id=${id}`,
-      body: {
-        content: content,
-      },
-    });
-    getMyPosts();
-    setContent(
-      realContent.map((post) =>
-        post.id === updatedPost.update.id ? updatedPost.update : post,
-      ),
-    );
+    try {
+      await post({
+        url: `${getBaseUrl()}/api/posts/updatePosts?id=${id}`,
+        body: { content: posts },
+      });
+      getMyPosts();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
   };
 
   const getMyPosts = async () => {
@@ -223,18 +165,16 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
-      const posts = await result.json();
-      setMyPosts(posts.Posts);
-      // getAllPosts();
+      const data = await result.json();
+      setMyPosts(data.Posts);
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.error("Error fetching my posts:", error);
     }
   };
 
   const getUserPosts = async (email: string) => {
-    console.log(email, "this is the email");
     try {
       const result = await fetch(
         `${getBaseUrl()}/posts/getMyPosts?email=${email}`,
@@ -243,35 +183,18 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
-      const posts = await result.json();
-      setUserPosts(posts.Posts);
+      const data = await result.json();
+      setUserPosts(data.Posts);
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.error("Error fetching user posts:", error);
     }
-  };
-
-  const getBaseUrl = () => {
-    const platform = Capacitor.getPlatform();
-    // if (platform === "web") {      
-    //   if (
-    //     window.location.hostname === "localhost" ||
-    //     window.location.hostname === "127.0.0.1"
-    //   ) {        
-    //     return import.meta.env.VITE_APP_LOCAL_SERVER_BASE_URL; 
-    //   } else {                
-    //     return import.meta.env.VITE_APP_SERVER_BASE_URL; 
-    //   }
-    // } else {      
-    //   return import.meta.env.VITE_APP_SERVER_BASE_URL; 
-    // }
-    return import.meta.env.VITE_APP_SERVER_BASE_URL;
   };
 
   const createPost = async (
     title: string,
-    value: string,
+    content: string,
     links: string,
     thesis: string,
     yesAction: string,
@@ -282,8 +205,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     categories: string,
     subCategory: string
   ) => {
-    try {      
-      const test = await fetch(`${getBaseUrl()}/api/posts/createPost`, {
+    try {
+      await fetch(`${getBaseUrl()}/api/posts/createPost`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -292,7 +215,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           title,
           thesis,
           links,
-          content: value,
+          content,
           email: localStorage.getItem("user"),
           owner: myInfo?.id,
           date: new Date(),
@@ -302,58 +225,50 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           probablyNoAction,
           maybeAction,
           categories,
-          subCategory
+          subCategory,
         }),
       });
-      // await getAllPosts();
-      await getMyPosts();
+      getMyPosts();
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.error("Error creating post:", error);
     }
   };
 
-
-  async function getSession() {
+  const getSession = async () => {
     try {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
-        console.log("Error fetching session:", error);
+        console.error("Error fetching session:", error);
         setLoggedIn(false);
         localStorage.removeItem("user");
-        return null;
+        return;
       }
       setLoggedIn(true);
-      if (data) {
-        // getUser();
-      }
-      return data;
     } catch (err) {
       console.error("Unexpected error:", err);
-      return null;
     }
-  }
-
+  };
 
   return (
     <MyContext.Provider
       value={{
-        posts: content,
-        myPosts: myPosts,
-        setPosts: setContent,
-        setMyPosts: setMyPosts,
-        updatePost: updatePost,
-        addLike: addLike,
-        addDislike: addDislike,
-        deletePost: deletePost,
-        createPost: createPost,
-        getMyPosts: getMyPosts,
+        posts,
+        myPosts,
+        userPosts,
+        setPosts,
+        setMyPosts,
+        setUserPosts,
+        updatePost,
+        deletePost,
+        createPost,
+        getMyPosts,
+        getUserPosts,
+        loggedIn,
         setLoggedin: setLoggedIn,
-        loggedIn: loggedIn,
-        userPosts: userPosts,
-        getUserPosts: getUserPosts,
-        setUserPosts: setUserPosts,
-        addBookmark: addBookmark,
-        getBaseUrl: getBaseUrl,
+        addLike,
+        addDislike,
+        addBookmark,
+        getBaseUrl,
       }}
     >
       {children}

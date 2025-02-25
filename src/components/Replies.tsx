@@ -61,27 +61,29 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     fetchComments();
   }, []);
 
-
   const addCommentLike = async (userId: string, commentId: string) => {
     try {
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.id === commentId
             ? {
-              ...comment,
-              likes: [...comment.likes, userId],
-              dislikes: comment.dislikes.filter((id) => id !== userId),
-            }
-            : comment
-        )
+                ...comment,
+                likes: [...comment.likes, userId],
+                dislikes: comment.dislikes.filter((id) => id !== userId),
+              }
+            : comment,
+        ),
       );
-      const response = await fetch(`${getBaseUrl()}/api/comments/addCommentLike`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${getBaseUrl()}/api/comments/addCommentLike`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, commentId }),
         },
-        body: JSON.stringify({ userId, commentId }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to add like");
@@ -93,11 +95,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         prevComments.map((comment) =>
           comment.id === commentId
             ? {
-              ...comment,
-              likes: comment.likes.filter((id) => id !== userId),
-            }
-            : comment
-        )
+                ...comment,
+                likes: comment.likes.filter((id) => id !== userId),
+              }
+            : comment,
+        ),
       );
     }
   };
@@ -109,42 +111,44 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         prevComments.map((comment) =>
           comment.id === commentId
             ? {
-              ...comment,
-              dislikes: [...comment.dislikes, userId], // Add the user's ID to dislikes
-              likes: comment.likes.filter((id) => id !== userId), // Remove the user's ID from likes (if present)
-            }
-            : comment
-        )
+                ...comment,
+                dislikes: [...comment.dislikes, userId], // Add the user's ID to dislikes
+                likes: comment.likes.filter((id) => id !== userId), // Remove the user's ID from likes (if present)
+              }
+            : comment,
+        ),
       );
 
       // Send the request to the server
-      const response = await fetch(`${getBaseUrl()}/api/comments/addCommentDislike`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${getBaseUrl()}/api/comments/addCommentDislike`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, commentId }),
         },
-        body: JSON.stringify({ userId, commentId }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to add dislike");
-      }      
+      }
       await fetchComments();
     } catch (error) {
-      console.error("Error adding dislike to comment:", error);      
+      console.error("Error adding dislike to comment:", error);
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.id === commentId
             ? {
-              ...comment,
-              dislikes: comment.dislikes.filter((id) => id !== userId), 
-            }
-            : comment
-        )
+                ...comment,
+                dislikes: comment.dislikes.filter((id) => id !== userId),
+              }
+            : comment,
+        ),
       );
     }
   };
-
 
   const fetchComments = async () => {
     try {
@@ -166,11 +170,11 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
   };
 
   const isLikedByUser = (likes: string[]): boolean => {
-    return likes.includes(myInfo?.id || '');
+    return likes.includes(myInfo?.id || "");
   };
 
   const isDislikedByUser = (dislikes: string[]): boolean => {
-    return dislikes.includes(myInfo?.id || '');
+    return dislikes.includes(myInfo?.id || "");
   };
 
   const addComment = async (
@@ -181,7 +185,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     commentId: string | null,
     vote: string,
   ) => {
-
     let myId = myInfo?.id;
     try {
       const response = await fetch(
@@ -208,7 +211,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       setComment("");
       setReplyingTo(null);
       setToastMessage("Comment successfully added!");
-      setToastVisible(true);      
+      setToastVisible(true);
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -240,7 +243,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
       console.error("Error deleting comment:", error);
     }
   };
-
 
   const handleReplyClick = (commentId: string) => {
     setIsReplying(true);
@@ -275,8 +277,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
   const profileImage = (id: string) => {
     if (id) {
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL
-        }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
+      const newProfileImageUri = `${
+        import.meta.env.VITE_APP_SUPABASE_URL
+      }/storage/v1/object/public/ProfilePhotos/${id}.jpg`;
       return newProfileImageUri;
     }
   };
@@ -315,7 +318,9 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                     <img
                       className="user-icon-small"
                       alt="User avatar"
-                      src={"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlQMBIgACEQEDEQH/xAAaAAEBAAMBAQAAAAAAAAAAAAAAAwECBAUH/8QAKxABAAICAAQEBgIDAAAAAAAAAAECAxEEEiFRMUFhgRQiMlJxkUKhEzOS/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAANbXiPWU5yT+AWEOae8m57guIRe0ebeMneAUGImJ8JZAAAAAAAAAAASveZ6R4GS2+keDQAAAAAACJ1PRal4np5ogOga0tzQ2AAAAAAAa3nUNkcs/N+AagANb2ild28Gzj4m/Nk5fKvQC/E3mfl+WP7a/5sn3ymKjqxcRzTFb6j1dDzXbw1+bH1ncx0RVQAZrOpXc61J3UGwAAAAACFvqldC31SDAADgy/7b/l3uLia8uWZ8rdQSAVB08H4X9nM7OFrrHMz5gsAiimLzTb4vGQVAAAAAARv9UrJ5Y8wTAAa5KRkrqfaexa1aRu06hG3FR/Gsz+ZBK+DJSfDcd4T5LT/ABn9L/FW+yP2fFW+yP2Bi4edxOSOnZ1OX4q32R+1MfEUt9XyyCwACuKOiXovWNRoGQAAAAAGJjcaZAQmNTpraYrWbT4RG1715o9XHxm644ifOQcuS85Lbn2js1BUAAAAdHDZZ3GO07jydTzonUxMPSpXm12RW2OvXcqsRGoZAAAAAAAAATzYa5a6t7T2UAeZl4bJj665q94Qe0nfDjv9VI33B5I9CeCxzO4m0e7HwNPuv/SjgZrWbTqsTM+j0a8HijxiZ/MrVrWsarWIj0hBx4OC3qc3/MO2IiI1DIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z"}
+                      src={
+                        "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlQMBIgACEQEDEQH/xAAaAAEBAAMBAQAAAAAAAAAAAAAAAwECBAUH/8QAKxABAAICAAQEBgIDAAAAAAAAAAECAxEEEiFRMUFhgRQiMlJxkUKhEzOS/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAANbXiPWU5yT+AWEOae8m57guIRe0ebeMneAUGImJ8JZAAAAAAAAAAASveZ6R4GS2+keDQAAAAAACJ1PRal4np5ogOga0tzQ2AAAAAAAa3nUNkcs/N+AagANb2ild28Gzj4m/Nk5fKvQC/E3mfl+WP7a/5sn3ymKjqxcRzTFb6j1dDzXbw1+bH1ncx0RVQAZrOpXc61J3UGwAAAAACFvqldC31SDAADgy/7b/l3uLia8uWZ8rdQSAVB08H4X9nM7OFrrHMz5gsAiimLzTb4vGQVAAAAAARv9UrJ5Y8wTAAa5KRkrqfaexa1aRu06hG3FR/Gsz+ZBK+DJSfDcd4T5LT/ABn9L/FW+yP2fFW+yP2Bi4edxOSOnZ1OX4q32R+1MfEUt9XyyCwACuKOiXovWNRoGQAAAAAGJjcaZAQmNTpraYrWbT4RG1715o9XHxm644ifOQcuS85Lbn2js1BUAAAAdHDZZ3GO07jydTzonUxMPSpXm12RW2OvXcqsRGoZAAAAAAAAATzYa5a6t7T2UAeZl4bJj665q94Qe0nfDjv9VI33B5I9CeCxzO4m0e7HwNPuv/SjgZrWbTqsTM+j0a8HijxiZ/MrVrWsarWIj0hBx4OC3qc3/MO2IiI1DIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z"
+                      }
                     />
                   </div>
 
@@ -414,8 +419,6 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
     return likes.length - dislikes.length;
   };
 
-
-
   return (
     <div>
       <IonToast
@@ -427,9 +430,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
         cssClass="custom-toast"
       />
       {commentsLoaded ? (
-        <div className="rowWide">
-          Loading
-        </div>
+        <div className="rowWide">Loading</div>
       ) : (
         <IonList style={{ height: "400px" }}>
           <IonItem
@@ -466,8 +467,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
 
       {comments
         ?.filter((comment) => comment?.parentId === null)
-        .map((comment) =>
-        (
+        .map((comment) => (
           <div className="column">
             <div className="imageRow" key={comment?.id}>
               <div className="bottomImage">
@@ -513,7 +513,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                       <div className="rowSmall">
                         <div className="arrowRowSmall">
                           <IonIcon
-                            style={{ fontSize: '18px' }}
+                            style={{ fontSize: "18px" }}
                             onClick={() => {
                               if (myInfo) addCommentLike(myInfo.id, comment.id);
                             }}
@@ -524,12 +524,16 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                             }
                           ></IonIcon>
                           <div className="small">
-                            {calculateNetScore(comment?.likes, comment?.dislikes)}
+                            {calculateNetScore(
+                              comment?.likes,
+                              comment?.dislikes,
+                            )}
                           </div>
                           <IonIcon
-                            style={{ fontSize: '18px' }}
+                            style={{ fontSize: "18px" }}
                             onClick={() => {
-                              if (myInfo) addCommentDislike(myInfo.id, comment.id);
+                              if (myInfo)
+                                addCommentDislike(myInfo.id, comment.id);
                             }}
                             icon={
                               isDislikedByUser(comment?.dislikes)
@@ -538,8 +542,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
                             }
                           ></IonIcon>
                         </div>
-                        <div>
-                        </div>
+                        <div></div>
                       </div>
                       <div>
                         {myInfo?.username === comment.username && (
@@ -588,7 +591,7 @@ const Replies: React.FC<RepliesProps> = ({ postId, myVote }) => {
             onBlur={() => {
               setIsReplying(false);
               setReplyingToUsername("");
-              setReplyCommentId(null)
+              setReplyCommentId(null);
               setReplyingTo(null);
             }}
             ref={inputRef}

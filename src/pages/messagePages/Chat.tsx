@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import {  RealtimeChannel } from "@supabase/supabase-js";
+import { RealtimeChannel } from "@supabase/supabase-js";
 import { sendOutline, returnUpBackOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 import {
@@ -11,7 +11,6 @@ import {
   IonButton,
   IonPage,
   IonToolbar,
-  IonTextarea,
 } from "@ionic/react";
 import { MessageContext } from "../../providers/messageProvider";
 import { post } from "../../utils/fetch";
@@ -27,10 +26,8 @@ type Message = {
 const Chat: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
-  const {getBaseUrl} = useContext(MyContext)
-  const channel = useRef<RealtimeChannel | null>(null);
-  const { myUsername, person, setPerson, getConvos, addMessage } =
-    useContext(MessageContext);
+  const { getBaseUrl } = useContext(MyContext);
+  const { myUsername } = useContext(MessageContext);
   const history = useHistory();
   const [recipient, setRecipient] = useState<string | undefined>();
   const [userName, setUserName] = useState<string | null>(

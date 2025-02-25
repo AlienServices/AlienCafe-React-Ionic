@@ -15,12 +15,7 @@ import "../../theme/Tab2.css";
 import MyPosts from "../../components/MyPosts";
 import Bookmarks from "../../components/Bookmarks";
 import Category from "../../components/Category";
-import {
-  useState,
-  useContext,
-  SetStateAction,
-  useMemo,
-} from "react";
+import { useState, useContext, SetStateAction, useMemo } from "react";
 import { MyContext } from "../../providers/postProvider";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import UserComments from "../../components/UserComments";
@@ -63,8 +58,7 @@ const Profile = ({
     }
   }, [myInfo?.id]);
 
-
-  const pickImage = async () => {    
+  const pickImage = async () => {
     try {
       const result = await Camera.getPhoto({
         quality: 0.1,
@@ -91,11 +85,17 @@ const Profile = ({
       }
       const blob = await response.blob();
       const formData = new FormData();
-      formData.append("image", new File([blob], `${myInfo?.id}.jpg`, { type: "image/jpeg" }));
-      const uploadResponse = await fetch(`${getBaseUrl()}/api/users/supabase-s3?id=${myInfo?.id}`, {
-        method: "POST",
-        body: formData,
-      });
+      formData.append(
+        "image",
+        new File([blob], `${myInfo?.id}.jpg`, { type: "image/jpeg" }),
+      );
+      const uploadResponse = await fetch(
+        `${getBaseUrl()}/api/users/supabase-s3?id=${myInfo?.id}`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       if (!uploadResponse.ok) {
         const errorText = await uploadResponse.text();
@@ -106,14 +106,17 @@ const Profile = ({
       const newProfileImageUrl = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo?.id}.jpg?${Date.now()}`;
       setProfileImage(newProfileImageUrl);
     } catch (error) {
-      console.error("Error uploading image:", error instanceof Error ? error.message : error);
+      console.error(
+        "Error uploading image:",
+        error instanceof Error ? error.message : error,
+      );
     }
   };
 
   useIonViewWillEnter(() => {
     if (myInfo?.id) {
       getMyPosts();
-      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}.jpg`;      
+      const newProfileImageUri = `${import.meta.env.VITE_APP_SUPABASE_URL}/storage/v1/object/public/ProfilePhotos/${myInfo.id}.jpg`;
       setProfileImage(newProfileImageUri); // Set the initial profile image
     }
   });
@@ -137,7 +140,11 @@ const Profile = ({
     >
       <div className="brownBetween" style={{ height: "130px" }}>
         <IonMenuButton
-          style={{ backgroundColor: "white", marginLeft: "4px", marginTop: '12px' }}
+          style={{
+            backgroundColor: "white",
+            marginLeft: "4px",
+            marginTop: "12px",
+          }}
           color={"primary"}
         />
         <div style={{ padding: "10px" }}>
@@ -176,16 +183,16 @@ const Profile = ({
             {!myInfo?.id ? (
               <img
                 className="profilePic"
-                src={"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlQMBIgACEQEDEQH/xAAaAAEBAAMBAQAAAAAAAAAAAAAAAwECBAUH/8QAKxABAAICAAQEBgIDAAAAAAAAAAECAxEEEiFRMUFhgRQiMlJxkUKhEzOS/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAANbXiPWU5yT+AWEOae8m57guIRe0ebeMneAUGImJ8JZAAAAAAAAAAASveZ6R4GS2+keDQAAAAAACJ1PRal4np5ogOga0tzQ2AAAAAAAa3nUNkcs/N+AagANb2ild28Gzj4m/Nk5fKvQC/E3mfl+WP7a/5sn3ymKjqxcRzTFb6j1dDzXbw1+bH1ncx0RVQAZrOpXc61J3UGwAAAAACFvqldC31SDAADgy/7b/l3uLia8uWZ8rdQSAVB08H4X9nM7OFrrHMz5gsAiimLzTb4vGQVAAAAAARv9UrJ5Y8wTAAa5KRkrqfaexa1aRu06hG3FR/Gsz+ZBK+DJSfDcd4T5LT/ABn9L/FW+yP2fFW+yP2Bi4edxOSOnZ1OX4q32R+1MfEUt9XyyCwACuKOiXovWNRoGQAAAAAGJjcaZAQmNTpraYrWbT4RG1715o9XHxm644ifOQcuS85Lbn2js1BUAAAAdHDZZ3GO07jydTzonUxMPSpXm12RW2OvXcqsRGoZAAAAAAAAATzYa5a6t7T2UAeZl4bJj665q94Qe0nfDjv9VI33B5I9CeCxzO4m0e7HwNPuv/SjgZrWbTqsTM+j0a8HijxiZ/MrVrWsarWIj0hBx4OC3qc3/MO2IiI1DIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z"}
+                src={
+                  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlQMBIgACEQEDEQH/xAAaAAEBAAMBAQAAAAAAAAAAAAAAAwECBAUH/8QAKxABAAICAAQEBgIDAAAAAAAAAAECAxEEEiFRMUFhgRQiMlJxkUKhEzOS/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAANbXiPWU5yT+AWEOae8m57guIRe0ebeMneAUGImJ8JZAAAAAAAAAAASveZ6R4GS2+keDQAAAAAACJ1PRal4np5ogOga0tzQ2AAAAAAAa3nUNkcs/N+AagANb2ild28Gzj4m/Nk5fKvQC/E3mfl+WP7a/5sn3ymKjqxcRzTFb6j1dDzXbw1+bH1ncx0RVQAZrOpXc61J3UGwAAAAACFvqldC31SDAADgy/7b/l3uLia8uWZ8rdQSAVB08H4X9nM7OFrrHMz5gsAiimLzTb4vGQVAAAAAARv9UrJ5Y8wTAAa5KRkrqfaexa1aRu06hG3FR/Gsz+ZBK+DJSfDcd4T5LT/ABn9L/FW+yP2fFW+yP2Bi4edxOSOnZ1OX4q32R+1MfEUt9XyyCwACuKOiXovWNRoGQAAAAAGJjcaZAQmNTpraYrWbT4RG1715o9XHxm644ifOQcuS85Lbn2js1BUAAAAdHDZZ3GO07jydTzonUxMPSpXm12RW2OvXcqsRGoZAAAAAAAAATzYa5a6t7T2UAeZl4bJj665q94Qe0nfDjv9VI33B5I9CeCxzO4m0e7HwNPuv/SjgZrWbTqsTM+j0a8HijxiZ/MrVrWsarWIj0hBx4OC3qc3/MO2IiI1DIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z"
+                }
                 alt="User icon"
                 aria-placeholder={blurhash}
               />
             ) : (
               <img
                 className="profilePic"
-                src={
-                  `${profileImageUri}`
-                }
+                src={`${profileImageUri}`}
                 alt="User icon"
                 aria-placeholder={blurhash}
               />

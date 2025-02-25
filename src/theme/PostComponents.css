@@ -1,5 +1,5 @@
 .row {
-  display: flex;  
+  display: flex;
   justify-content: flex-start;
 }
 
@@ -64,8 +64,7 @@
   padding: 10px;
 }
 
-.profileBeginning{
+.profileBeginning {
   display: flex;
   flex-direction: column;
-  
 }

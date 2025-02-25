@@ -1,13 +1,19 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import "react-quill/dist/quill.snow.css";
-import { IonCard, IonItem, IonList, useIonViewDidEnter, useIonViewWillEnter, IonSpinner } from "@ionic/react";
+import {
+  IonCard,
+  IonItem,
+  IonList,
+  useIonViewDidEnter,
+  useIonViewWillEnter,
+  IonSpinner,
+} from "@ionic/react";
 import "../theme/Tab3.css";
 import { MyContext } from "../providers/postProvider";
 import { UserContext } from "../providers/userProvider";
 
-
 const UserComments = () => {
-  const { getBaseUrl } = useContext(MyContext)
+  const { getBaseUrl } = useContext(MyContext);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { myInfo, setMyInfo } = useContext(UserContext);
@@ -16,7 +22,7 @@ const UserComments = () => {
     if (myInfo) {
       getUserComments();
     } else {
-      setLoading(false)
+      setLoading(false);
     }
   }, []);
 
@@ -32,7 +38,7 @@ const UserComments = () => {
         },
       );
       const post = await result.json();
-      setLoading(false)
+      setLoading(false);
       setComments([post.comments]);
     } catch (error) {
       console.log(error, "this is the create user error");
@@ -53,14 +59,13 @@ const UserComments = () => {
     } else if (hoursDiff < 24) {
       return `${hoursDiff} hours ago`;
     } else if (daysDiff === 1) {
-
       return "1 day ago";
     } else if (daysDiff === 2) {
       // Exactly 2 days ago
       return "2 days ago";
     } else {
       // More than 2 days ago, show Month Day format
-      const options = { month: "numeric", day: "numeric", year: '2-digit' };
+      const options = { month: "numeric", day: "numeric", year: "2-digit" };
       return date.toLocaleDateString("en-US", options);
     }
   }
@@ -83,34 +88,59 @@ const UserComments = () => {
     }
   }, [myInfo?.id]);
 
-
   return (
-    <div style={{ paddingTop: '20px' }}>
+    <div style={{ paddingTop: "20px" }}>
       <IonList>
-        {loading ? <div style={{ display: "flex", justifyContent: 'center', alignItems: "center", margin: '20px' }}><IonSpinner></IonSpinner></div> : <>{comments?.map((comment: any) => {
-          return (
-            <IonItem lines="none">
-              <div style={{display: 'flex', alignItems: 'flex-start', height: '55px', padding: '1px'}}>
-                <img
-                  style={{ width: '30px', borderRadius: '20px', height: '30px' }}
-                  alt="Silhouette of a person's head"
-                  src={`${profileImageUri}`}
-                />
-              </div>
-              <IonCard className="cardComment">
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div className="userName">{comment.username}</div>
-                    <div style={{ fontSize: '10px' }}>{formatRelativeDate(comment.date)}</div>
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "20px",
+            }}
+          >
+            <IonSpinner></IonSpinner>
+          </div>
+        ) : (
+          <>
+            {comments?.map((comment: any) => {
+              return (
+                <IonItem lines="none">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      height: "55px",
+                      padding: "1px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "30px",
+                        borderRadius: "20px",
+                        height: "30px",
+                      }}
+                      alt="Silhouette of a person's head"
+                      src={`${profileImageUri}`}
+                    />
                   </div>
-                  <div className="comment">{comment.comment}</div>
-                </div>
-              </IonCard>
-            </IonItem>
-          );
-        })}</>
-        }
-
+                  <IonCard className="cardComment">
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <div className="userName">{comment.username}</div>
+                        <div style={{ fontSize: "10px" }}>
+                          {formatRelativeDate(comment.date)}
+                        </div>
+                      </div>
+                      <div className="comment">{comment.comment}</div>
+                    </div>
+                  </IonCard>
+                </IonItem>
+              );
+            })}
+          </>
+        )}
       </IonList>
     </div>
   );

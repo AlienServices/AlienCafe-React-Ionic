@@ -8,111 +8,98 @@ import {
 import { UserContext } from "./userProvider";
 import { MyContext } from "./postProvider";
 
-interface Post {
-  email: string;
-  content: string;
-  likes: string[];
-  id: string;
-  date: Date;
+interface BookmarkContext {
+  bookmarkedPosts: any[];
+  addBookmark: (userId: string, postId: string) => void;
+  getAllBookmarks: (userId: string) => void;
 }
 
-interface PostContext {
-}
-
-const bookmarkContext = createContext<PostContext>({
+const bookmarkContext = createContext<BookmarkContext>({
+  bookmarkedPosts: [],
+  addBookmark: () => { },
+  getAllBookmarks: () => { },
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
-
-  const { getBaseUrl } = useContext(MyContext)
-  const { myInfo, setMyInfo } = useContext(UserContext);
-  const [bookmarkedPosts, setBookmarkedPosts] = useState([]);
+  const { getBaseUrl } = useContext(MyContext);
+  const { myInfo } = useContext(UserContext);
+  const [bookmarkedPosts, setBookmarkedPosts] = useState<any[]>([]);
 
   useEffect(() => {
-    if(myInfo) {
-      getAllBookmarks(myInfo.id)
+    if (myInfo?.id) {
+      getAllBookmarks(myInfo.id);
     }
-  }, [])
-
+  }, [myInfo]);
 
   const addBookmark = async (userId: string, postId: string) => {
     try {
-      const result = await fetch(`${getBaseUrl()}/api/posts/addBookmark`, {
+      await fetch(`${getBaseUrl()}/api/posts/addBookmark`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          userId,
-          postId,
-        }),
+        body: JSON.stringify({ userId, postId }),
       });
-      const posts = await result.json();
     } catch (error) {
-      console.log(error, "this is the create user error");
+      console.error("Error adding bookmark:", error);
     }
   };
-
 
   const getAllBookmarks = async (userId: string) => {
     try {
-      // 1️⃣ Fetch Bookmarked Post IDs First
-      const response = await fetch(`${getBaseUrl()}/api/posts/getBookmark?userId=${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${getBaseUrl()}/api/posts/getBookmark?userId=${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
+      );
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch bookmarks: ${response.status} ${response.statusText}`);
+        throw new Error(`Failed to fetch bookmarks: ${response.statusText}`);
       }
 
-      const bookmarkedIds = await response.json();      
-      const allBookmarks = [];
+      const bookmarkedIds = await response.json();
       const bookmarkDetails = await Promise.all(
-        bookmarkedIds.bookmarks?.map(async (post: any) => {
-          const bookmarkData = await getBookmarkData(post.postId);
-          allBookmarks.push(bookmarkData.Posts);
-          return bookmarkData;
+        bookmarkedIds.bookmarks?.map(async (bookmark: any) => {
+          const bookmarkData = await getBookmarkData(bookmark.postId);
+          return bookmarkData.Posts;
         })
-      );      
-      // setBookmarkedPosts(bookmarkDetails);
-      // console.log(allBookmarks, '📚 All Bookmark Details');
-    } catch (error) {
-      console.error("❌ Error fetching bookmarks:", error);
-    }
-  };
+      );
 
-  
-  const getBookmarkData = async (userId: string) => {
-    try {
-      const response = await fetch(`${getBaseUrl()}/api/posts/getSpecificPost?userId=${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch bookmarks: ${response.status} ${response.statusText}`); ``
-      }
-
-      const posts = await response.json();      
-      return posts
+      setBookmarkedPosts(bookmarkDetails.flat()); // Flatten the array of arrays
     } catch (error) {
       console.error("Error fetching bookmarks:", error);
     }
   };
 
+  const getBookmarkData = async (postId: string) => {
+    try {
+      const response = await fetch(
+        `${getBaseUrl()}/api/posts/getSpecificPost?postId=${postId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
+      if (!response.ok) {
+        throw new Error(`Failed to fetch bookmark data: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching bookmark data:", error);
+      throw error;
+    }
+  };
 
   return (
-    <bookmarkContext.Provider
-      value={{
-
-      }}
-    >
+    <bookmarkContext.Provider value={{ bookmarkedPosts, addBookmark, getAllBookmarks }}>
       {children}
     </bookmarkContext.Provider>
   );
